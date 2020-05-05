@@ -11,4 +11,5 @@ godot-tests:
     - wget https://downloads.tuxfamily.org/godotengine/3.2.1/Godot_v3.2.1-stable_linux_headless.64.zip
     - unzip Godot_v3.2.1-stable_linux_headless.64.zip
     - chmod +x Godot_v3.2.1-stable_linux_headless.64
+    - ls -l
     - Godot_v3.2.1-stable_linux_headless.64 -d -s --path ./Godot addons/gut/gut_cmdln.gd
