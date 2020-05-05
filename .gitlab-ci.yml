@@ -3,7 +3,7 @@ godot-tests:
   variables:
     GODOT_URL: "https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/$GODOT_ZIP"
     GODOT_ZIP: "$GODOT_BIN.zip"
-    GODOT_BIN: "Godot_v${GODOT_VERSION}-stable_linux_headless.64"
+    GODOT_BIN: "Godot_v$GODOT_VERSION-stable_linux_headless.64"
     GODOT_VERSION: "3.2.1"
   before_script:
     - apk add --update curl && rm -rf /var/cache/apk/*
