@@ -8,7 +8,7 @@ godot-tests:
   before_script:
     - apk add --update curl && rm -rf /var/cache/apk/*
   script:
-    - curl $GODOT_URL --output $GODOT_ZIP
-    - unzip $GODOT_ZIP
-    - chmod +x $GODOT_BIN
-    - ./$GODOT_BIN -d -s --path ./Godot addons/gut/gut_cmdln.gd
+    - curl https://downloads.tuxfamily.org/godotengine/3.2.1/Godot_v3.2.1-stable_linux_headless.64 --output Godot_v3.2.1-stable_linux_headless.64.zip
+    - unzip Godot_v3.2.1-stable_linux_headless.64.zip
+    - chmod +x Godot_v3.2.1-stable_linux_headless.64
+    - ./Godot_v3.2.1-stable_linux_headless.64 -d -s --path ./Godot addons/gut/gut_cmdln.gd
