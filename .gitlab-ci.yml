@@ -1,7 +1,15 @@
+variables:
+  GODOT_VERSION: 3.2.1
+  GODOT_BIN: Godot_v$GODOT_VERSION-stable_linux_headless.64
+  GODOT_ZIP: $GODOT_BIN.zip
+  GODOT_URL: https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/$GODOT_ZIP
+
 godot-tests:
   stage: test
   before_script:
     - apk add --update curl && rm -rf /var/cache/apk/*
   script:
-    - chmod +x run_godot_tests.sh
-    - sh run_godot_tests.sh
+    - curl $GODOT_URL --output $GODOT_ZIP
+    - unzip $GODOT_ZIP
+    - chmod +x $GODOT_BIN
+    - ./$GODOT_BIN -d -s --path ./Godot addons/gut/gut_cmdln.gd
