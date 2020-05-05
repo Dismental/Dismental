@@ -1,5 +1,5 @@
 godot-tests:
   stage: test
   script:
-    - chmod -x run_godot_tests.sh
-    - ./run_godot_tests.sh
+    - chmod +x run_godot_tests.sh
+    - sh run_godot_tests.sh
