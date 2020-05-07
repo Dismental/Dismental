@@ -1,15 +1,20 @@
+# godot-tests:
+#   stage: test
+#   variables:
+#     GODOT_URL: "https://downloads.tuxfamily.org/godotengine/3.2.1/Godot_v3.2.1-stable_linux_headless.64"
+#     GODOT_ZIP: "Godot_v3.2.1-stable_linux_headless.64.zip"
+#     GODOT_BIN: "Godot_v$GODOT_VERSION-stable_linux_headless.64"
+#     GODOT_VERSION: "3.2.1"
+#   before_script:
+#     - apk add --update curl && rm -rf /var/cache/apk/*
+#   script:
+#     - wget https://downloads.tuxfamily.org/godotengine/3.2.1/Godot_v3.2.1-stable_linux_headless.64.zip
+#     - unzip Godot_v3.2.1-stable_linux_headless.64.zip
+#     - chmod +x Godot_v3.2.1-stable_linux_headless.64
+#     - ls -l
+#     - Godot_v3.2.1-stable_linux_headless.64 -d -s --path ./Godot addons/gut/gut_cmdln.gd
 godot-tests:
   stage: test
-  variables:
-    GODOT_URL: "https://downloads.tuxfamily.org/godotengine/3.2.1/Godot_v3.2.1-stable_linux_headless.64"
-    GODOT_ZIP: "Godot_v3.2.1-stable_linux_headless.64.zip"
-    GODOT_BIN: "Godot_v$GODOT_VERSION-stable_linux_headless.64"
-    GODOT_VERSION: "3.2.1"
-  before_script:
-    - apk add --update curl && rm -rf /var/cache/apk/*
+  image: barichello/godot-ci:3.2.1
   script:
-    - wget https://downloads.tuxfamily.org/godotengine/3.2.1/Godot_v3.2.1-stable_linux_headless.64.zip
-    - unzip Godot_v3.2.1-stable_linux_headless.64.zip
-    - chmod +x Godot_v3.2.1-stable_linux_headless.64
-    - ls -l
-    - Godot_v3.2.1-stable_linux_headless.64 -d -s --path ./Godot addons/gut/gut_cmdln.gd
+    - godot -d -s --path ./Godot addons/gut/gut_cmdln.gd
