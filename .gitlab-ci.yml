@@ -1,0 +1,5 @@
+godot-tests:
+  stage: test
+  image: barichello/godot-ci:3.2.1
+  script:
+    - godot -d -s --path ./Godot addons/gut/gut_cmdln.gd
