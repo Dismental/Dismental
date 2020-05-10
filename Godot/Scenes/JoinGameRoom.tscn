@@ -1,0 +1,98 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
+[ext_resource path="res://Scripts/JoinGameSceneManager.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 100
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 40
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 39
+font_data = ExtResource( 1 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_left = -0.00199992
+anchor_top = -0.000416876
+anchor_right = 0.998
+anchor_bottom = 0.999583
+margin_left = 0.63855
+margin_top = 2.0
+margin_right = 0.63855
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinAGame" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -322.5
+margin_top = 200.0
+margin_right = 322.5
+margin_bottom = 126.0
+custom_fonts/font = SubResource( 1 )
+text = "Join a game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputGameID" type="TextEdit" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 15.0
+margin_top = -41.0
+margin_right = 337.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EnterGameID" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -349.0
+margin_top = -37.0
+margin_right = 18.0
+margin_bottom = 18.0
+custom_fonts/font = SubResource( 2 )
+text = "Enter Game ID:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -339.0
+margin_top = -300.0
+margin_right = 339.0
+margin_bottom = -200.0
+custom_fonts/font = SubResource( 3 )
+text = "Join game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Button" to="." method="_on_Join_Game_Button_pressed"]
