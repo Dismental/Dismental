@@ -24,11 +24,11 @@ outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 6 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 size = 39
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -71,7 +71,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 anchor_top = -0.000416876
 anchor_right = 1.0
 anchor_bottom = 0.999583
@@ -83,7 +83,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="JoinAGame" type="Label" parent="."]
+[node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -321.048
@@ -137,7 +137,7 @@ margin_left = -340.452
 margin_top = -300.0
 margin_right = 337.548
 margin_bottom = -200.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "Join game"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -148,8 +148,8 @@ margin_left = 40.0
 margin_top = 40.0
 margin_right = 1070.0
 margin_bottom = 1070.0
-rect_scale = Vector2( 0.149834, 0.151062 )
-custom_styles/hover = SubResource( 5 )
+rect_scale = Vector2( 0.12, 0.12 )
+custom_styles/hover = SubResource( 8 )
 custom_styles/pressed = SubResource( 6 )
 custom_styles/normal = SubResource( 7 )
 icon = ExtResource( 7 )

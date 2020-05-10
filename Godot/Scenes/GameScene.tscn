@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
-[ext_resource path="res://Textures/back-arrow.png" type="Texture" id=3]
-[ext_resource path="res://Scripts/GameRoomPlayerManager.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/GameSceneManager.gd" type="Script" id=2]
+[ext_resource path="res://Textures/example-bomb.jpg" type="Texture" id=3]
+[ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 size = 100
@@ -49,18 +49,15 @@ corner_radius_bottom_left = 100
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 4 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Background" type="TextureRect" parent="."]
-anchor_top = -0.000416876
-anchor_right = 1.0
-anchor_bottom = 0.999583
-margin_top = 0.450226
-margin_bottom = 0.450317
-texture = ExtResource( 2 )
+[node name="ExampleBomb" type="TextureRect" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+texture = ExtResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -69,21 +66,17 @@ __meta__ = {
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -512.5
-margin_top = 200.0
-margin_right = 512.5
-margin_bottom = 126.0
+margin_left = -331.0
+margin_top = 70.0
+margin_right = 331.0
+margin_bottom = 196.0
 custom_fonts/font = SubResource( 1 )
-text = "Game Room Player"
+text = "Game Scene"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BackButton" type="Button" parent="."]
-anchor_left = 1.98682e-09
-anchor_top = 3.53213e-09
-anchor_right = 0.00833333
-anchor_bottom = 0.0148148
 margin_left = 40.0
 margin_top = 40.0
 margin_right = 1070.0
@@ -92,7 +85,7 @@ rect_scale = Vector2( 0.12, 0.12 )
 custom_styles/hover = SubResource( 2 )
 custom_styles/pressed = SubResource( 3 )
 custom_styles/normal = SubResource( 4 )
-icon = ExtResource( 3 )
+icon = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
