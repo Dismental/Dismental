@@ -2,11 +2,13 @@
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
-[ext_resource path="res://Scripts/JoinGameSceneManager.gd" type="Script" id=3]
+[ext_resource path="res://Script/JoinGameSceneManager.gd" type="Script" id=3]
 [ext_resource path="res://Fonts/Roboto/Roboto-Regular.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://Scripts/TextEditGameID.gd" type="Script" id=5]
+[ext_resource path="res://Script/TextEditGameID.gd" type="Script" id=5]
 [ext_resource path="res://Fonts/Roboto/Roboto-Bold.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
+
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 100
@@ -24,11 +26,11 @@ outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 6 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=4]
 size = 39
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -137,7 +139,7 @@ margin_left = -340.452
 margin_top = -300.0
 margin_right = 337.548
 margin_bottom = -200.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 text = "Join game"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -149,7 +151,7 @@ margin_top = 40.0
 margin_right = 1070.0
 margin_bottom = 1070.0
 rect_scale = Vector2( 0.12, 0.12 )
-custom_styles/hover = SubResource( 8 )
+custom_styles/hover = SubResource( 5 )
 custom_styles/pressed = SubResource( 6 )
 custom_styles/normal = SubResource( 7 )
 icon = ExtResource( 7 )

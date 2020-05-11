@@ -2,9 +2,11 @@
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
-[ext_resource path="res://Scripts/CreateGameRoomManager.gd" type="Script" id=3]
+[ext_resource path="res://Script/CreateGameRoomManager.gd" type="Script" id=3]
 [ext_resource path="res://Fonts/Roboto/Roboto-Bold.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
+
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 100
