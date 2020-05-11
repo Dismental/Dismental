@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Script/GameSceneManager.gd" type="Script" id=2]
 [ext_resource path="res://Textures/example-bomb.jpg" type="Texture" id=3]
+[ext_resource path="res://Fonts/Roboto/Roboto-Light.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
-
-
 
 [sub_resource type="DynamicFont" id=1]
 size = 100
@@ -48,6 +47,14 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
+[sub_resource type="DynamicFont" id=5]
+size = 100
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 80
+font_data = ExtResource( 4 )
+
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -56,11 +63,44 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ExampleBomb" type="TextureRect" parent="."]
-margin_right = 1920.0
-margin_bottom = 1080.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1928.0
+margin_bottom = 900.0
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer"]
+margin_right = 300.0
+margin_bottom = 900.0
+rect_min_size = Vector2( 300, 900 )
+
+[node name="ExampleBomb" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+margin_left = 300.0
+margin_right = 1620.0
+margin_bottom = 900.0
+rect_min_size = Vector2( 1320, 900 )
 texture = ExtResource( 3 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="VBoxContainer/HBoxContainer"]
+margin_left = 1620.0
+margin_right = 1920.0
+margin_bottom = 900.0
+rect_min_size = Vector2( 300, 900 )
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 900.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+rect_min_size = Vector2( 1920, 180 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -69,7 +109,7 @@ __meta__ = {
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -331.0
-margin_top = 70.0
+margin_top = 40.0
 margin_right = 331.0
 margin_bottom = 196.0
 custom_fonts/font = SubResource( 1 )
@@ -88,6 +128,43 @@ custom_styles/hover = SubResource( 2 )
 custom_styles/pressed = SubResource( 3 )
 custom_styles/normal = SubResource( 4 )
 icon = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimeCounter" type="Label" parent="."]
+anchor_left = 0.999183
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -331.724
+margin_top = -154.972
+margin_right = -92.2937
+margin_bottom = -36.9724
+rect_pivot_offset = Vector2( 1, 0 )
+custom_fonts/font = SubResource( 5 )
+text = "03:46"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="PuzzlesLeft" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 53.2532
+margin_top = -152.025
+margin_right = 534.253
+margin_bottom = -34.0254
+rect_pivot_offset = Vector2( 1, 0 )
+custom_fonts/font = SubResource( 6 )
+text = "Puzzles left: 2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
