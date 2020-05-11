@@ -1,17 +1,14 @@
 extends Control
 
-
-
 func _on_JoinRoomButton_pressed():
-	if get_tree().change_scene("res://Scenes/JoinGameRoom.tscn") != OK:
-		print("Error loading JoinGameRoom")
-
+	change_scene("res://Scenes/JoinGameRoom.tscn")
 
 func _on_CreateRoomButton_pressed():
-	if get_tree().change_scene("res://Scenes/CreateGameRoom.tscn") != OK:
-		print("Error loading CreateGameRoom")
-
+	change_scene("res://Scenes/CreateGameRoom.tscn")
 
 func _on_SettingsButton_pressed():
-	if get_tree().change_scene("res://Scenes/SettingsScene.tscn") != OK:
-		print("Error loading SettingsScene")
+	change_scene("res://Scenes/SettingsScene.tscn")
+
+func change_scene(filename):
+	if get_tree().change_scene(filename) != OK:
+		print("Error loading " + str(filename))

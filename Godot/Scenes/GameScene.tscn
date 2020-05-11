@@ -80,8 +80,8 @@ margin_bottom = 900.0
 rect_min_size = Vector2( 300, 900 )
 
 [node name="ExampleBomb" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
-margin_left = 300.0
-margin_right = 1620.0
+margin_left = 304.0
+margin_right = 1624.0
 margin_bottom = 900.0
 rect_min_size = Vector2( 1320, 900 )
 texture = ExtResource( 3 )
@@ -91,15 +91,15 @@ __meta__ = {
 }
 
 [node name="Panel2" type="Panel" parent="VBoxContainer/HBoxContainer"]
-margin_left = 1620.0
-margin_right = 1920.0
+margin_left = 1628.0
+margin_right = 1928.0
 margin_bottom = 900.0
 rect_min_size = Vector2( 300, 900 )
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
-margin_top = 900.0
-margin_right = 1920.0
-margin_bottom = 1080.0
+margin_top = 904.0
+margin_right = 1928.0
+margin_bottom = 1084.0
 rect_min_size = Vector2( 1920, 180 )
 __meta__ = {
 "_edit_use_anchors_": false

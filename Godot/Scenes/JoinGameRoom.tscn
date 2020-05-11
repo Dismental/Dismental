@@ -128,15 +128,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="JoinAGameButton" type="Button" parent="."]
+[node name="JoinGameButton" type="Button" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -340.452
-margin_top = -300.0
-margin_right = 337.548
-margin_bottom = -200.0
+margin_left = -342.265
+margin_top = -298.187
+margin_right = 335.735
+margin_bottom = -198.187
 custom_fonts/font = SubResource( 4 )
 text = "Join game"
 __meta__ = {
@@ -145,9 +145,9 @@ __meta__ = {
 
 [node name="BackButton" type="Button" parent="."]
 margin_left = 40.0
-margin_top = 40.0
-margin_right = 1070.0
-margin_bottom = 1070.0
+margin_top = 41.8129
+margin_right = 1086.0
+margin_bottom = 1087.81
 rect_scale = Vector2( 0.12, 0.12 )
 custom_styles/hover = SubResource( 5 )
 custom_styles/pressed = SubResource( 6 )
@@ -157,5 +157,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="text_changed" from="InputGameID" to="InputGameID" method="_on_InputGameID_text_changed"]
-[connection signal="pressed" from="JoinAGameButton" to="." method="_on_Join_Game_Button_pressed"]
+[connection signal="pressed" from="JoinGameButton" to="." method="_on_JoinGameButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
