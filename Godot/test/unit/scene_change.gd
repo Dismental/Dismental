@@ -42,3 +42,14 @@ func test_create_game_room_scene_change():
 	stub(doubled, '_on_CreateRoomButton_pressed').to_call_super()
 	doubled._on_CreateRoomButton_pressed()
 	assert_called(doubled, 'change_scene', ["res://Scenes/GameRoomHost.tscn"])
+	
+
+func test_settings_scene_change():
+	var path = 'res://Script/SettingsSceneManager.gd'
+
+	var doubled = double(path).new()
+
+	stub(doubled, '_on_BackButton_pressed').to_call_super()
+	doubled._on_BackButton_pressed()
+	assert_called(doubled, 'change_scene', ["res://Scenes/MainMenu.tscn"])
+	
