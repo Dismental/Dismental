@@ -1,0 +1,99 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
+[ext_resource path="res://Textures/back-arrow.png" type="Texture" id=3]
+[ext_resource path="res://Script/GameRoomPlayerManager.gd" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 100
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 12
+border_width_bottom = 12
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 12
+border_width_bottom = 12
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id=4]
+border_width_left = 10
+border_width_top = 10
+border_width_right = 12
+border_width_bottom = 12
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="TextureRect" parent="."]
+anchor_top = -0.000416876
+anchor_right = 1.0
+anchor_bottom = 0.999583
+margin_top = 0.450226
+margin_bottom = 0.450317
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.5
+margin_top = 200.0
+margin_right = 512.5
+margin_bottom = 126.0
+custom_fonts/font = SubResource( 1 )
+text = "Game Room Player"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" type="Button" parent="."]
+anchor_left = 1.98682e-09
+anchor_top = 3.53213e-09
+anchor_right = 0.00833333
+anchor_bottom = 0.0148148
+margin_left = 40.0
+margin_top = 40.0
+margin_right = 1070.0
+margin_bottom = 1070.0
+rect_scale = Vector2( 0.12, 0.12 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
+icon = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
