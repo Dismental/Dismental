@@ -1,7 +1,7 @@
 extends "res://addons/gut/test.gd"
 
 func test_main_menu_scene_change():
-	var MainMenuPath = 'res://Script/MainMenuSceneManager.gd'
+	var MainMenuPath = 'res://Script/SceneManagers/MainMenuSceneManager.gd'
 
 	var doubled = double(MainMenuPath).new()
 
@@ -18,7 +18,7 @@ func test_main_menu_scene_change():
 	assert_called(doubled, 'change_scene', ["res://Scenes/SettingsScene.tscn"])
 
 func test_join_game_room_scene_change():
-	var path = 'res://Script/JoinGameSceneManager.gd'
+	var path = 'res://Script/SceneManagers/JoinGameSceneManager.gd'
 
 	var doubled = double(path).new()
 
@@ -31,7 +31,7 @@ func test_join_game_room_scene_change():
 	assert_called(doubled, 'change_scene', ["res://Scenes/GameRoomPlayer.tscn"])
 
 func test_create_game_room_scene_change():
-	var path = 'res://Script/CreateGameRoomManager.gd'
+	var path = 'res://Script/SceneManagers/CreateGameRoomManager.gd'
 
 	var doubled = double(path).new()
 
@@ -45,7 +45,7 @@ func test_create_game_room_scene_change():
 	
 
 func test_settings_scene_change():
-	var path = 'res://Script/SettingsSceneManager.gd'
+	var path = 'res://Script/SceneManagers/SettingsSceneManager.gd'
 
 	var doubled = double(path).new()
 

@@ -1,10 +1,11 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Script/GameSceneManager.gd" type="Script" id=2]
+[ext_resource path="res://Script/SceneManagers/GameSceneManager.gd" type="Script" id=2]
 [ext_resource path="res://Textures/example-bomb.jpg" type="Texture" id=3]
 [ext_resource path="res://Fonts/Roboto/Roboto-Light.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 100
