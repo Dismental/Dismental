@@ -63,3 +63,4 @@ margin_bottom = 59.5997
 custom_fonts/font = SubResource( 2 )
 text = "Press [Esc] to stop"
 [connection signal="confirmed" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
+[connection signal="popup_hide" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
