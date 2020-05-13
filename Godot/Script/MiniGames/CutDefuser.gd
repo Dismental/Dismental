@@ -13,10 +13,8 @@ var start_position
 
 func _ready():
 	start_dialog.popup()
-	start_position =  Vector2(40, get_viewport().size.y / 2)
-	
-	# Index of level, bool level visibility
-	_load_map(4, false)
+	start_position =  Vector2(get_viewport().size.x * 0.07 , get_viewport().size.y / 2)
+	_load_map(4, true)
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,7 +37,9 @@ func _draw():
 		draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
 		
 	# Draw Start Point
-	draw_circle(Vector2(80, 540), 50, Color(0, 0, 1))
+	var vp_rect = get_viewport_rect().size
+	var start_point = Vector2(vp_rect.x * 0.07, vp_rect.y/2)
+	draw_circle(start_point, 50, Color(0, 0, 1))
 	
 	if running:
 		# Draw current pointer
@@ -101,8 +101,8 @@ func _add_sprite_to_scene(sprite):
 
 func _is_mouse_on_viewport():
 	var mouse_pos = _get_mouse_pos()
-	if mouse_pos.x >= 0 and mouse_pos.x <= get_viewport().size.x:
-		if mouse_pos.y >= 0 and mouse_pos.y <= get_viewport().size.y:
+	if mouse_pos.x >= 0 and mouse_pos.x <= get_viewport_rect().size.x:
+		if mouse_pos.y >= 0 and mouse_pos.y <= get_viewport_rect().size.y:
 			return true
 	return false
 
