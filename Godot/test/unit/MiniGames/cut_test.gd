@@ -15,7 +15,7 @@ func test_is_mouse_on_track():
 
 func test_file_count_in_this_directory():
 	var script = load('res://Script/MiniGames/CutDefuser.gd').new()
-	assert(script._count_files_in_dir("res://test/unit/MiniGames/") > 0)
+	assert(script._count_files_in_dir("res://test/unit/MiniGames/") >= 1)
 
 func test_update_game_state_nothing():
 	var inst = double('res://Script/MiniGames/CutDefuser.gd').new()
