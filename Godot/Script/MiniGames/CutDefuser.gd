@@ -25,7 +25,7 @@ func _process(_delta):
 		# Updates the draw function
 		update()
 		_update_game_state()
-
+		
 
 func _draw():
 	var mouse_pos = _get_mouse_pos()
@@ -47,7 +47,12 @@ func _draw():
 			var rad = 25
 			var col = Color(0, 1, 0) if _is_mouse_on_track() else Color(1, 0, 0)
 			draw_circle(mouse_pos, rad, col)
-		
+
+
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_ESCAPE:
+			get_tree().quit()
 
 func _game_over():
 	_move_mouse_to_start()
@@ -55,7 +60,7 @@ func _game_over():
 	
 
 func _update_game_state():
-	if !_is_mouse_on_track():
+	if !_is_mouse_on_track() or _get_mouse_pos().x < 0:
 		_game_over()
 	elif _get_mouse_pos().x > x_value_completed:
 		_game_completed()
@@ -94,10 +99,19 @@ func _add_sprite_to_scene(sprite):
 	sprite.show_behind_parent = true
 	add_child(sprite)
 
+func _is_mouse_on_viewport():
+	var mouse_pos = _get_mouse_pos()
+	if mouse_pos.x >= 0 and mouse_pos.x <= get_viewport().size.x:
+		if mouse_pos.y >= 0 and mouse_pos.y <= get_viewport().size.y:
+			return true
+	return false
+
 
 func _is_mouse_on_track():
-	var pixelcolor = _get_mouse_pixel_color()
-	return pixelcolor != Color(1, 1, 1)
+	if _is_mouse_on_viewport():
+		var pixelcolor = _get_mouse_pixel_color()
+		return pixelcolor != Color(1, 1, 1)
+	return false
 
 func _get_mouse_pos():
 	return get_viewport().get_mouse_position()

@@ -3,6 +3,7 @@ extends "res://addons/gut/test.gd"
 
 func test_is_mouse_on_track():
 	var inst = partial_double('res://Script/MiniGames/CutDefuser.gd').new()
+	stub(inst, '_is_mouse_on_viewport').to_return(true)
 	
 	stub(inst, '_get_mouse_pixel_color').to_return(Color(0, 0, 0))
 	assert_true(inst._is_mouse_on_track())
