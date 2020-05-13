@@ -1,46 +1,51 @@
 extends Node2D
 
-onready var completed_dialog = $Control/WindowDialog
+onready var start_dialog = $Control/StartDialog
+onready var completed_dialog = $Control/CompletedDialog
 
+const Utils = preload("res://Script/Utils.gd")
+
+var x_value_completed = 1900
 var map_sprite
 var dots = []
-var finished = false
+var running = false
 var start_position
 
 func _ready():
+	start_dialog.popup()
 	start_position =  Vector2(40, get_viewport().size.y / 2)
-	_load_map(5, false)
-	_move_mouse_to_start()
+	_load_map()
+
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if !finished:
-		_update_game_state()
-		
+	if running:
 		# Updates the draw function
 		update()
+		_update_game_state()
 
 
 func _draw():
-	# Draw current pointer
-	var cen = _get_mouse_pos()
-	var rad = 25
-	var col = Color(0, 1, 0) if _is_mouse_on_track() else Color(1, 0, 0)
-	draw_circle(cen, rad, col)
+	var mouse_pos = _get_mouse_pos()
+	if running:
+		# Add mousepots to list of coordinates
+		if len (dots) == 0 or !dots[len(dots)-1] == mouse_pos:
+			dots.append(mouse_pos)
 	
 	# Draw line
-	if len (dots) == 0 or !dots[len(dots)-1] == cen:
-		dots.append(cen)
-	
-	# Remove first incorrect dot (unaccurate warp mouse position when moving)	
-	if len(dots) == 2:
-		dots[0] = dots[1]
-	
-	for i in range(len(dots) - 2):
+	for i in range(1, len(dots) - 2):
 		draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
 		
 	# Draw Start Point
-	draw_circle(Vector2(65, 540), 40, Color(0, 0, 1))
+	draw_circle(Vector2(80, 540), 50, Color(0, 0, 1))
+	
+	if running:
+		# Draw current pointer
+		if len (dots) >= 2:
+			var rad = 25
+			var col = Color(0, 1, 0) if _is_mouse_on_track() else Color(1, 0, 0)
+			draw_circle(mouse_pos, rad, col)
+		
 
 func _game_over():
 	_move_mouse_to_start()
@@ -50,12 +55,12 @@ func _game_over():
 func _update_game_state():
 	if !_is_mouse_on_track():
 		_game_over()
-	elif _get_mouse_pos().x > 1900:
+	elif _get_mouse_pos().x > x_value_completed:
 		_game_completed()
 
 func _game_completed():
 	completed_dialog.popup()
-	finished = true
+	running = false
 	print("COMPLETED!")
 
 func _move_mouse_to_start():
@@ -69,7 +74,7 @@ func _load_map(index=null, visible=true):
 	if !index:
 		var map_path = "res://Scenes/Mini Games/Cut/Maps/"
 		# divide by 2 because every map has an import file behind the scenes
-		var map_count = _count_files_in_dir(map_path) / 2
+		var map_count = Utils._count_files_in_dir(map_path) / 2
 		print(map_count)
 		index = randi() % map_count + 1
 
@@ -104,18 +109,8 @@ func _get_mouse_pixel_color():
 	map_tex.unlock()
 	return pixelcolor
 
-func _count_files_in_dir(path):
-	var count = 0
-	var dir = Directory.new()
-	dir.open(path)
-	dir.list_dir_begin()
 
-	while true:
-		var file = dir.get_next()
-		if file == "":
-			break
-		elif not file.begins_with("."):
-			count += 1
+func _on_StartDialog_confirmed():
+	running = true
+	_move_mouse_to_start()
 
-	dir.list_dir_end()
-	return count

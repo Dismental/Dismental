@@ -12,19 +12,39 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WindowDialog" type="WindowDialog" parent="Control"]
+[node name="StartDialog" type="AcceptDialog" parent="Control"]
 visible = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -62.5
-margin_top = -0.5
-margin_right = 62.5
-margin_bottom = 99.5
-rect_scale = Vector2( 2, 2 )
-window_title = "COMPLETED"
+anchor_left = 0.534
+anchor_top = 0.546
+anchor_right = 0.534
+anchor_bottom = 0.546
+margin_left = -290.61
+margin_top = -151.1
+margin_right = -140.61
+margin_bottom = -51.1002
+rect_scale = Vector2( 3, 3 )
+popup_exclusive = true
+window_title = "Hurry!"
+dialog_text = "Let's start"
 __meta__ = {
-"_edit_use_anchors_": false,
-"_editor_description_": ""
+"_edit_use_anchors_": false
 }
+
+[node name="CompletedDialog" type="AcceptDialog" parent="Control"]
+visible = true
+anchor_left = 0.534
+anchor_top = 0.546
+anchor_right = 0.534
+anchor_bottom = 0.546
+margin_left = -290.61
+margin_top = -151.1
+margin_right = -140.61
+margin_bottom = -51.1002
+rect_scale = Vector2( 3, 3 )
+popup_exclusive = true
+window_title = "Completed!"
+dialog_text = "Good Job!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="confirmed" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
