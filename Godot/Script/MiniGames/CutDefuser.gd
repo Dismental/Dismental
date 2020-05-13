@@ -14,7 +14,9 @@ var start_position
 func _ready():
 	start_dialog.popup()
 	start_position =  Vector2(40, get_viewport().size.y / 2)
-	_load_map()
+	
+	# Index of level, bool level visibility
+	_load_map(4, false)
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -73,7 +75,7 @@ func _load_map(index=null, visible=true):
 	randomize()
 	if !index:
 		var map_path = "res://Scenes/Mini Games/Cut/Maps/"
-		# divide by 2 because every map has an import file behind the scenes
+		# Divide by 2 because every map has an import file behind the scenes
 		var map_count = Utils._count_files_in_dir(map_path) / 2
 		print(map_count)
 		index = randi() % map_count + 1
