@@ -23,7 +23,7 @@ func _process(_delta):
 
 func _draw():
 	# Draw current pointer
-	var cen = get_viewport().get_mouse_position()
+	var cen = _get_mouse_pos()
 	var rad = 25
 	var col = Color(0, 1, 0) if _is_mouse_on_track() else Color(1, 0, 0)
 	draw_circle(cen, rad, col)
@@ -50,11 +50,13 @@ func _game_over():
 func _update_game_state():
 	if !_is_mouse_on_track():
 		_game_over()
-	elif get_viewport().get_mouse_position().x > 1900:
-		completed_dialog.popup()
-		finished = true
-		print("COMPLETED!")
+	elif _get_mouse_pos().x > 1900:
+		_game_completed()
 
+func _game_completed():
+	completed_dialog.popup()
+	finished = true
+	print("COMPLETED!")
 
 func _move_mouse_to_start():
 	Input.warp_mouse_position(start_position)
@@ -65,7 +67,9 @@ func _load_map(index=null, visible=true):
 	map_sprite = Sprite.new()
 	randomize()
 	if !index:
-		var map_count = _count_files_in_dir("res://Scenes/Mini Games/Cut/Maps/")
+		var map_path = "res://Scenes/Mini Games/Cut/Maps/"
+		# divide by 2 because every map has an import file behind the scenes
+		var map_count = _count_files_in_dir(map_path) / 2
 		print(map_count)
 		index = randi() % map_count + 1
 
@@ -88,10 +92,11 @@ func _is_mouse_on_track():
 	var pixelcolor = _get_mouse_pixel_color()
 	return pixelcolor != Color(1, 1, 1)
 
-
+func _get_mouse_pos():
+	return get_viewport().get_mouse_position()
+	
 func _get_mouse_pixel_color():
-
-	var vec = get_viewport().get_mouse_position()
+	var vec = _get_mouse_pos()
 	var map_tex = map_sprite.texture.get_data()
 	
 	map_tex.lock()
@@ -113,5 +118,4 @@ func _count_files_in_dir(path):
 			count += 1
 
 	dir.list_dir_end()
-	# divide by 2 because every map has an import file behind the scenes
-	return count / 2
+	return count
