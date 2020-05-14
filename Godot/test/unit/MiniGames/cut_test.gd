@@ -32,7 +32,6 @@ func test_update_game_state_game_over():
 	inst.dots = [1, 2, 3]
 	
 	stub(inst, '_update_game_state').to_call_super()
-	
 	stub(inst, '_is_mouse_on_track').to_return(false)
 	inst._update_game_state()
 	assert_call_count(inst, '_game_over', 1)
@@ -42,6 +41,7 @@ func test_update_game_state_game_over():
 func test_update_game_state_game_completed():
 	var inst = double('res://Script/MiniGames/CutDefuser.gd').new()
 	inst.dots = [1, 2, 3]
+	
 	stub(inst, '_update_game_state').to_call_super()
 	stub(inst, '_is_mouse_on_track').to_return(true)
 	stub(inst, '_get_mouse_pos').to_return(Vector2(inst.x_value_completed + 1, 200))

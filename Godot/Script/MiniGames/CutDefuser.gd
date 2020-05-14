@@ -28,7 +28,7 @@ func _process(_delta):
 		# Updates the draw function
 		update()
 		_update_game_state()
-		
+
 
 func _draw():
 	var mouse_pos = _get_mouse_pos()
