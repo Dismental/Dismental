@@ -57,6 +57,7 @@ func _draw():
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_ESCAPE:
+			# Quits the game
 			get_tree().quit()
 
 func _game_over():
@@ -68,8 +69,8 @@ func _update_game_state():
 	if len(dots) > 2:
 		if !_is_mouse_on_track() or _get_mouse_pos().x < 0:
 			_game_over()
-	elif _get_mouse_pos().x > x_value_completed:
-		_game_completed()
+		elif _get_mouse_pos().x > x_value_completed:
+			_game_completed()
 
 func _game_completed():
 	completed_dialog.popup()
@@ -143,4 +144,7 @@ func _restart_game():
 
 func _on_GameOverDialog_confirmed():
 	_restart_game()
-	
+
+
+func _on_CompletedDialog_confirmed():
+	get_tree().quit()

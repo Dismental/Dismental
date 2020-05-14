@@ -57,6 +57,7 @@ __meta__ = {
 }
 
 [node name="CompletedDialog" type="AcceptDialog" parent="Control"]
+visible = true
 anchor_left = 0.534
 anchor_top = 0.546
 anchor_right = 0.534
@@ -83,3 +84,5 @@ text = "Press [Esc] to stop"
 [connection signal="confirmed" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
 [connection signal="popup_hide" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
 [connection signal="confirmed" from="Control/GameOverDialog" to="." method="_on_GameOverDialog_confirmed"]
+[connection signal="confirmed" from="Control/CompletedDialog" to="." method="_on_CompletedDialog_confirmed"]
+[connection signal="popup_hide" from="Control/CompletedDialog" to="." method="_on_CompletedDialog_confirmed"]
