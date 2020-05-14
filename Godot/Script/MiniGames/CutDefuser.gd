@@ -14,7 +14,7 @@ var start_position
 func _ready():
 	start_dialog.popup()
 	start_position =  Vector2(get_viewport().size.x * 0.07 , get_viewport().size.y / 2)
-	_load_map(4, true)
+	_load_map(2, false)
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
