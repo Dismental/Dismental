@@ -21,7 +21,7 @@ func _ready():
 	
 	_load_map(2)
 
-	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if running:
@@ -132,7 +132,7 @@ func _get_mouse_pixel_color():
 	map_tex.unlock()
 	return pixelcolor
 
-
+### BUTTON FUNCTIONALITIES ###
 func _on_StartDialog_confirmed():
 	running = true
 	_move_mouse_to_start()

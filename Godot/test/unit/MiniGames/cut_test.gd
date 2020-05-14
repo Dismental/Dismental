@@ -20,10 +20,11 @@ func test_update_game_state_nothing():
 	inst.dots = [1, 2, 3]
 	
 	stub(inst, '_update_game_state').to_call_super()
-	
 	stub(inst, '_is_mouse_on_track').to_return(true)
 	stub(inst, '_get_mouse_pos').to_return(Vector2(200, 200))
+	
 	inst._update_game_state()
+	
 	assert_call_count(inst, '_game_over', 0)
 	assert_call_count(inst, '_game_completed', 0)
 
@@ -33,7 +34,9 @@ func test_update_game_state_game_over():
 	
 	stub(inst, '_update_game_state').to_call_super()
 	stub(inst, '_is_mouse_on_track').to_return(false)
+	
 	inst._update_game_state()
+	
 	assert_call_count(inst, '_game_over', 1)
 	assert_call_count(inst, '_game_completed', 0)
 	
@@ -45,7 +48,9 @@ func test_update_game_state_game_completed():
 	stub(inst, '_update_game_state').to_call_super()
 	stub(inst, '_is_mouse_on_track').to_return(true)
 	stub(inst, '_get_mouse_pos').to_return(Vector2(inst.x_value_completed + 1, 200))
+	
 	inst._update_game_state()
+	
 	assert_call_count(inst, '_game_over', 0)
 	assert_call_count(inst, '_game_completed', 1)
 	
