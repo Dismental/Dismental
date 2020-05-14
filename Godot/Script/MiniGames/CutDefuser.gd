@@ -24,6 +24,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	print(len(dots))
+	print(Performance.get_monitor(Performance.TIME_FPS))
 	if running:
 		# Updates the draw function
 		update()
@@ -34,8 +36,8 @@ func _draw():
 	var mouse_pos = _get_mouse_pos()
 
 	# Add mousepos to list of past mouse position
-	# if the previous mouse position wasn't the same
-	if len (dots) == 0 or !dots[len(dots)-1] == mouse_pos:
+	# If the previous mouse position wasn't close
+	if len (dots) == 0 or (dots[len(dots)-1].distance_to(mouse_pos) > 30):
 		dots.append(mouse_pos)
 	
 	# Draw line
