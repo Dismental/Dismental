@@ -88,7 +88,7 @@ func _calc_finish_line():
 		sp.x += 1
 	var max_x = sp.x
 	
-	var rect_height = 70
+	var rect_height = 80
 	finish_rect = Rect2(min_x, sp.y - rect_height/2, max_x - min_x, rect_height)
 
 
@@ -125,7 +125,6 @@ func _check_finish():
 				_game_completed()
 			else:
 				finish_state = 0
-	print(finish_state)
 
 
 func _game_completed():
