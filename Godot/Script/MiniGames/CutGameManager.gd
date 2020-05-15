@@ -28,7 +28,7 @@ func _ready():
 	_load_map(1)
 	_calc_finish_line()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(_delta):
 	if running:
 		_update_game_state()
@@ -38,6 +38,7 @@ func _process(_delta):
 
 
 func _draw():
+	# Draw finish rect
 	draw_rect(finish_rect, Color(0.5, 0.5, 0.5), 10)
 	
 	var mouse_pos = _get_mouse_pos()
@@ -52,17 +53,15 @@ func _draw():
 		draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
 		
 	# Draw Start Point
-#	var vp_rect = get_viewport_rect().size
-#	var start_point = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
-#	draw_circle(start_point, 50, Color(0, 0, 1))
+	#	var vp_rect = get_viewport_rect().size
+	#	var start_point = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
+	#	draw_circle(start_point, 50, Color(0, 0, 1))
 	
 	# Draw current pointer
 	if len (dots) > 2:
 		var rad = 25
 		var col = Color(0, 1, 0) if _is_mouse_on_track() else Color(1, 0, 0)
 		draw_circle(mouse_pos, rad, col)
-		
-	
 
 
 func _unhandled_input(event):
@@ -70,6 +69,7 @@ func _unhandled_input(event):
 		if event.pressed and event.scancode == KEY_ESCAPE:
 			# Quits the game
 			get_tree().quit()
+
 
 func _calc_finish_line():
 	var map_tex = map_sprite.texture
@@ -103,6 +103,7 @@ func _update_game_state():
 			_game_over()
 		else:
 			_check_finish()
+
 
 func _check_finish():
 	if finish_state == 0:
@@ -155,11 +156,13 @@ func _load_map(index=null, visible=true):
 		var metal_sprite = Sprite.new()
 		metal_sprite.texture = load("res://Textures/metal-background.jpg")
 		_add_sprite_to_scene(metal_sprite)
-		
+
+
 func _add_sprite_to_scene(sprite):
 	sprite.centered = false
 	sprite.show_behind_parent = true
 	add_child(sprite)
+
 
 func _is_mouse_on_viewport():
 	var mouse_pos = _get_mouse_pos()
@@ -175,9 +178,11 @@ func _is_mouse_on_track():
 		return pixelcolor != Color(1, 1, 1)
 	return false
 
+
 func _get_mouse_pos():
 	return get_viewport().get_mouse_position()
-	
+
+
 func _get_map_pixel_color(pos):
 	var vec = pos
 	var map_tex = map_sprite.texture.get_data()
@@ -187,15 +192,18 @@ func _get_map_pixel_color(pos):
 	map_tex.unlock()
 	return pixelcolor
 
+
 ### BUTTON FUNCTIONALITIES ###
 func _on_StartDialog_confirmed():
 	running = true
 	_move_mouse_to_start()
 
+
 func _restart_game():
 	_move_mouse_to_start()
 	dots.clear()
 	running = true
+
 
 func _on_GameOverDialog_confirmed():
 	_restart_game()
