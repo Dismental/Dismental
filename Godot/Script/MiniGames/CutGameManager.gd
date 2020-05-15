@@ -25,7 +25,7 @@ func _ready():
 	var vp_size = get_viewport().size
 	start_position_mouse =  Vector2(vp_size.x * start_x_ratio, vp_size.y / 2)
 	
-	_load_map(3)
+	_load_map(1)
 	_calc_finish_line()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
