@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Back_Arrow.png-92356a1e7846b61f1a73a920672f3b1b.stex"
+path="res://.import/Map1.jpeg-0490006343bb527a94e0ba1857d03104.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Back_Arrow.png"
-dest_files=[ "res://.import/Back_Arrow.png-92356a1e7846b61f1a73a920672f3b1b.stex" ]
+source_file="res://Scenes/Mini Games/Cut/Maps/Map1.jpeg"
+dest_files=[ "res://.import/Map1.jpeg-0490006343bb527a94e0ba1857d03104.stex" ]
 
 [params]
 
