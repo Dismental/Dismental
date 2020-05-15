@@ -16,7 +16,12 @@ _global_script_class_icons={
 [application]
 
 config/name="DefuseTheBomb"
+run/main_scene="res://P2p.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Lobby="*res://Lobby.gd"
 
 [editor_plugins]
 
