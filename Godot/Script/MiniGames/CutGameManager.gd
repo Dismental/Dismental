@@ -6,21 +6,27 @@ onready var completed_dialog = $Control/CompletedDialog
 
 const Utils = preload("res://Script/Utils.gd")
 
-var x_value_completed = 1900
-var start_x_ratio = 0.07
+
 var map_sprite
 var dots = []
 var running = false
-var start_position
+var start_position_mouse
+var start_x_ratio = 0.1
+var finish_rect
+
+# 0 is on finsishbox
+# 1 is clockwise
+# -1 is counterclockwise
+var finish_state = 0
 
 func _ready():
 	start_dialog.popup()
 	
 	var vp_size = get_viewport().size
-	start_position =  Vector2(vp_size.x * start_x_ratio, vp_size.y / 2)
+	start_position_mouse =  Vector2(vp_size.x * start_x_ratio, vp_size.y / 2)
 	
-	_load_map(2)
-
+	_load_map(3)
+	_calc_finish_line()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -31,6 +37,8 @@ func _process(_delta):
 
 
 func _draw():
+	draw_rect(finish_rect, Color(0.5, 0.5, 0.5), 10)
+	
 	var mouse_pos = _get_mouse_pos()
 
 	# Add mousepos to list of past mouse position
@@ -43,15 +51,17 @@ func _draw():
 		draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
 		
 	# Draw Start Point
-	var vp_rect = get_viewport_rect().size
-	var start_point = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
-	draw_circle(start_point, 50, Color(0, 0, 1))
+#	var vp_rect = get_viewport_rect().size
+#	var start_point = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
+#	draw_circle(start_point, 50, Color(0, 0, 1))
 	
 	# Draw current pointer
 	if len (dots) > 2:
 		var rad = 25
 		var col = Color(0, 1, 0) if _is_mouse_on_track() else Color(1, 0, 0)
 		draw_circle(mouse_pos, rad, col)
+		
+	
 
 
 func _unhandled_input(event):
@@ -59,6 +69,27 @@ func _unhandled_input(event):
 		if event.pressed and event.scancode == KEY_ESCAPE:
 			# Quits the game
 			get_tree().quit()
+
+func _calc_finish_line():
+	var map_tex = map_sprite.texture
+	var vp_rect = get_viewport_rect().size
+	var sp = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
+
+	# Find min x
+	while(_get_map_pixel_color(sp) != Color(1, 1, 1)):
+		sp.x -= 1
+	var min_x = sp.x
+	
+	sp.x  = vp_rect.x * start_x_ratio
+	
+	# Find max x
+	while(_get_map_pixel_color(sp) != Color(1, 1, 1)):
+		sp.x += 1
+	var max_x = sp.x
+	
+	var rect_height = 70
+	finish_rect = Rect2(min_x, sp.y - rect_height/2, max_x - min_x, rect_height)
+
 
 func _game_over():
 	running = false
@@ -69,8 +100,31 @@ func _update_game_state():
 	if len(dots) > 2:
 		if !_is_mouse_on_track() or _get_mouse_pos().x < 0:
 			_game_over()
-		elif _get_mouse_pos().x > x_value_completed:
-			_game_completed()
+		else:
+			_finish_logic()
+
+func _finish_logic():
+	if finish_state == 0:
+		if !finish_rect.has_point(_get_mouse_pos()):
+			if _get_mouse_pos().y < finish_rect.position.y:
+				finish_state = 1
+			else:
+				finish_state = -1
+	elif finish_state == 1:
+		if finish_rect.has_point(_get_mouse_pos()):
+			if dots[len(dots)-2].y >= finish_rect.end.y:
+				_game_completed()
+			else:
+				finish_state = 0
+		
+	elif finish_state == -1:
+		if finish_rect.has_point(_get_mouse_pos()):
+			if dots[len(dots)-2].y <= finish_rect.position.y:
+				_game_completed()
+			else:
+				finish_state = 0
+	print(finish_state)
+
 
 func _game_completed():
 	completed_dialog.popup()
@@ -78,7 +132,7 @@ func _game_completed():
 	print("COMPLETED!")
 
 func _move_mouse_to_start():
-	Input.warp_mouse_position(start_position)
+	Input.warp_mouse_position(start_position_mouse)
 
 
 func _load_map(index=null, visible=true):
@@ -116,15 +170,15 @@ func _is_mouse_on_viewport():
 
 func _is_mouse_on_track():
 	if _is_mouse_on_viewport():
-		var pixelcolor = _get_mouse_pixel_color()
+		var pixelcolor = _get_map_pixel_color(_get_mouse_pos())
 		return pixelcolor != Color(1, 1, 1)
 	return false
 
 func _get_mouse_pos():
 	return get_viewport().get_mouse_position()
 	
-func _get_mouse_pixel_color():
-	var vec = _get_mouse_pos()
+func _get_map_pixel_color(pos):
+	var vec = pos
 	var map_tex = map_sprite.texture.get_data()
 	
 	map_tex.lock()
