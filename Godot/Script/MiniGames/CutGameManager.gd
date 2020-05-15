@@ -31,9 +31,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if running:
+		_update_game_state()
+		
 		# Updates the draw function
 		update()
-		_update_game_state()
 
 
 func _draw():
@@ -98,28 +99,29 @@ func _game_over():
 
 func _update_game_state():
 	if len(dots) > 2:
-		if !_is_mouse_on_track() or _get_mouse_pos().x < 0:
+		if !_is_mouse_on_track():
 			_game_over()
 		else:
-			_finish_logic()
+			_check_finish()
 
-func _finish_logic():
+func _check_finish():
 	if finish_state == 0:
 		if !finish_rect.has_point(_get_mouse_pos()):
 			if _get_mouse_pos().y < finish_rect.position.y:
 				finish_state = 1
 			else:
 				finish_state = -1
+				
 	elif finish_state == 1:
 		if finish_rect.has_point(_get_mouse_pos()):
-			if dots[len(dots)-2].y >= finish_rect.end.y:
+			if dots[len(dots)-1].y > finish_rect.end.y:
 				_game_completed()
 			else:
 				finish_state = 0
 		
 	elif finish_state == -1:
 		if finish_rect.has_point(_get_mouse_pos()):
-			if dots[len(dots)-2].y <= finish_rect.position.y:
+			if dots[len(dots)-1].y <= finish_rect.position.y:
 				_game_completed()
 			else:
 				finish_state = 0
