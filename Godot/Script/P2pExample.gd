@@ -14,12 +14,12 @@ func _ready():
 #	pass
 
 func _on_create_server():
-	Lobby._on_create_server_pressed()
+	Lobby._create_server()
 
 
 func _on_create_client_pressed():
 	print(_input_ip)
-	Lobby._on_create_client_pressed(_input_ip)
+	Lobby._create_client(_input_ip)
 
 
 func _on_ip_changed(new_text):
