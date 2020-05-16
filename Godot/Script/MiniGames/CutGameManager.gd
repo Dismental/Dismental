@@ -10,7 +10,6 @@ var map_sprite
 var dots = []
 var running = false
 
-var start_position_mouse
 var finish_rect
 
 # 0 is on finsishbox
@@ -83,10 +82,10 @@ func _calc_start_point():
 	var offset_x = (OS.get_window_size().x - vp_size.x) / 2.0
 	var offset_y = (OS.get_window_size().y - vp_size.y) / 2.0
 	
-	var rect = center_rect * ratio
-	rect.x += offset_x
-	rect.y += offset_y
-	start_position_mouse = rect
+	var start_pos = center_rect * ratio
+	start_pos.x += offset_x
+	start_pos.y += offset_y
+	return start_pos
 
 
 func _calc_finish_line():
@@ -153,7 +152,7 @@ func _game_completed():
 	print("COMPLETED!")
 
 func _move_mouse_to_start():
-	_calc_start_point()
+	var start_position_mouse = _calc_start_point()
 	Input.warp_mouse_position(start_position_mouse)
 
 
