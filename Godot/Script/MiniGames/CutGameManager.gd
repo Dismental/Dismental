@@ -219,7 +219,8 @@ func _is_input_on_track():
 
 func _get_input_pos():
 		# TODO get head tracking position
-		return get_global_mouse_position()
+		print(get_node("HeadPos").position)
+		return get_node("HeadPos").position * 2
 
 
 func _get_map_pixel_color(pos):
