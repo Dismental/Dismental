@@ -22,7 +22,6 @@ func _ready():
 	
 	_load_map(1)
 	_calc_finish_line()
-	_calc_start_point()
 
 
 func _process(_delta):
