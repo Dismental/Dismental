@@ -1,19 +1,19 @@
 extends "res://addons/gut/test.gd"
 
 
-func test_is_mouse_on_track():
+func test_is_input_on_track():
 	var inst = partial_double('res://Script/MiniGames/CutGameManager.gd').new()
-	stub(inst, '_is_mouse_on_viewport').to_return(true)
-	stub(inst, '_get_mouse_pos').to_return(Vector2(10, 10))
+	stub(inst, '_is_input_on_viewport').to_return(true)
+	stub(inst, '_get_input_pos').to_return(Vector2(10, 10))
 	
 	stub(inst, '_get_map_pixel_color').to_return(Color(0, 0, 0))
-	assert_true(inst._is_mouse_on_track())
+	assert_true(inst._is_input_on_track())
 	
 	stub(inst, '_get_map_pixel_color').to_return(Color(0.5, 0.5, 0.5))
-	assert_true(inst._is_mouse_on_track())
+	assert_true(inst._is_input_on_track())
 	
 	stub(inst, '_get_map_pixel_color').to_return(Color(1, 1, 1))
-	assert_false(inst._is_mouse_on_track())
+	assert_false(inst._is_input_on_track())
 
 
 func test_update_game_state_nothing():
@@ -21,8 +21,8 @@ func test_update_game_state_nothing():
 	inst.dots = [1, 2, 3]
 	
 	stub(inst, '_update_game_state').to_call_super()
-	stub(inst, '_is_mouse_on_track').to_return(true)
-	stub(inst, '_get_mouse_pos').to_return(Vector2(200, 200))
+	stub(inst, '_is_input_on_track').to_return(true)
+	stub(inst, '_get_input_pos').to_return(Vector2(200, 200))
 	
 	inst._update_game_state()
 	
@@ -34,7 +34,7 @@ func test_update_game_state_game_over():
 	inst.dots = [1, 2, 3]
 	
 	stub(inst, '_update_game_state').to_call_super()
-	stub(inst, '_is_mouse_on_track').to_return(false)
+	stub(inst, '_is_input_on_track').to_return(false)
 	
 	inst._update_game_state()
 	
@@ -48,8 +48,8 @@ func test_update_game_state_game_completed_clockwise():
 	inst.finish_state = 1
 	inst.finish_rect = Rect2(0, 0, 2, 2)
 	
-	stub(inst, '_is_mouse_on_track').to_return(true)
-	stub(inst, '_get_mouse_pos').to_return(Vector2(1, 1))
+	stub(inst, '_is_input_on_track').to_return(true)
+	stub(inst, '_get_input_pos').to_return(Vector2(1, 1))
 	stub(inst, '_game_completed').to_do_nothing()
 	
 	inst._update_game_state()
@@ -63,8 +63,8 @@ func test_update_game_state_game_completed_counterclockwise():
 	inst.finish_state = -1
 	inst.finish_rect = Rect2(0, 0, 2, 2)
 	
-	stub(inst, '_is_mouse_on_track').to_return(true)
-	stub(inst, '_get_mouse_pos').to_return(Vector2(1, 1))
+	stub(inst, '_is_input_on_track').to_return(true)
+	stub(inst, '_get_input_pos').to_return(Vector2(1, 1))
 	stub(inst, '_game_completed').to_do_nothing()
 	
 	inst._update_game_state()
@@ -77,7 +77,7 @@ func test_update_game_state_finish_logic_clockwise():
 	inst.finish_state = 0
 	inst.finish_rect = Rect2(0, 0, 2, 2)
 	
-	stub(inst, '_get_mouse_pos').to_return(Vector2(0, -1))
+	stub(inst, '_get_input_pos').to_return(Vector2(0, -1))
 	
 	inst._check_finish()
 	
@@ -91,7 +91,7 @@ func test_update_game_state_finish_logic_counterclockwise():
 	inst.finish_state = 0
 	inst.finish_rect = Rect2(0, 0, 2, 2)
 	
-	stub(inst, '_get_mouse_pos').to_return(Vector2(0, 3))
+	stub(inst, '_get_input_pos').to_return(Vector2(0, 3))
 	
 	inst._check_finish()
 	
