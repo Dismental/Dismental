@@ -69,7 +69,7 @@ func _unhandled_input(event):
 			# Quits the game
 			get_tree().quit()
 
-func _calc_start_point():
+func _calc_start_position():
 	var center_x = finish_rect.position.x + (finish_rect.size.x * 0.5)
 	var center_y = finish_rect.position.y + (finish_rect.size.y * 0.5)
 	var center_rect = Vector2(center_x, center_y)
@@ -151,7 +151,7 @@ func _game_completed():
 	print("COMPLETED!")
 
 func _move_input_to_start():
-	var start_position_input = _calc_start_point()
+	var start_position_input = _calc_start_position()
 	Input.warp_mouse_position(start_position_input)
 
 
