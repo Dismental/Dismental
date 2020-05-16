@@ -87,16 +87,15 @@ void GDExample::_process(float delta) {
     rectangle(smallFrame, boundaries, Scalar(255,255,255), 4, 8, 0);
     imshow("", smallFrame);
 
-    float x = min(max(cursorPos.x - boundaries.x, 0) / boundaries.width, 1);
-    float y = min(max(cursorPos.y - boundaries.y, 0) / boundaries.height, 1);
+    // float x = min(max(cursorPos.x - boundaries.x, 0) / boundaries.width, 1);
+    // float y = min(max(cursorPos.y - boundaries.y, 0) / boundaries.height, 1);
 
     if(faces.size() == 0) return;
     if(waitKey(10) == 27) return;
 
 
-
-
     set_position(Vector2(cursorPos.x, cursorPos.y));
+    // set_position(Vector2(x, y));
 }
 
 void GDExample::set_speed(float p_speed) {

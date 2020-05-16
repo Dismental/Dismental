@@ -87,10 +87,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Position2D" type="Position2D" parent="."]
+[node name="HeadPos" type="Position2D" parent="."]
 script = ExtResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="Position2D"]
+[node name="Sprite" type="Sprite" parent="HeadPos"]
 position = Vector2( 139, 133 )
 scale = Vector2( 0.40625, 0.40625 )
 texture = ExtResource( 2 )
