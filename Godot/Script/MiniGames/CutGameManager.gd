@@ -22,11 +22,9 @@ var finish_state = 0
 func _ready():
 	start_dialog.popup()
 	
-	var vp_size = get_viewport().size
-	start_position_mouse =  Vector2(vp_size.x * start_x_ratio, vp_size.y / 2)
-	
 	_load_map(1)
 	_calc_finish_line()
+	_calc_start_point()
 
 
 func _process(_delta):
@@ -70,6 +68,16 @@ func _unhandled_input(event):
 			# Quits the game
 			get_tree().quit()
 
+func _calc_start_point():
+	var center_x = finish_rect.position.x + (finish_rect.size.x * 0.5)
+	var center_y = finish_rect.position.y + (finish_rect.size.y * 0.5)
+	var center_rect = Vector2(center_x, center_y)
+	
+	var vp_size = get_viewport().size
+	var vp_real_size = get_viewport_rect().size
+	var ratio = vp_size / vp_real_size
+	
+	start_position_mouse = center_rect * ratio
 
 func _calc_finish_line():
 	var map_tex = map_sprite.texture
