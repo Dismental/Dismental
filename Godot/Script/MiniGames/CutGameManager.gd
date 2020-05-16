@@ -6,12 +6,11 @@ onready var completed_dialog = $Control/CompletedDialog
 
 const Utils = preload("res://Script/Utils.gd")
 
-
 var map_sprite
 var dots = []
 var running = false
+
 var start_position_mouse
-var start_x_ratio = 0.1
 var finish_rect
 
 # 0 is on finsishbox
@@ -81,9 +80,17 @@ func _calc_start_point():
 	var vp_real_size = get_viewport_rect().size
 	var ratio = vp_size / vp_real_size
 	
-	start_position_mouse = center_rect * ratio
+	var offset_x = (OS.get_window_size().x - vp_size.x) / 2.0
+	var offset_y = (OS.get_window_size().y - vp_size.y) / 2.0
+	
+	var rect = center_rect * ratio
+	rect.x += offset_x
+	rect.y += offset_y
+	start_position_mouse = rect
+
 
 func _calc_finish_line():
+	var start_x_ratio = 0.1
 	var map_tex = map_sprite.texture
 	var vp_rect = get_viewport_rect().size
 	var sp = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
