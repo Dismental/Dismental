@@ -9,6 +9,8 @@ const Utils = preload("res://Script/Utils.gd")
 var map_sprite
 var dots = []
 var running = false
+var waitForStartingPosition = false
+var start_position_input
 
 var finish_rect
 
@@ -19,7 +21,6 @@ var finish_state = 0
 
 func _ready():
 	start_dialog.popup()
-	
 	_load_map(1)
 	_calc_finish_line()
 
@@ -45,8 +46,9 @@ func _draw():
 			dots.append(input_pos)
 	
 	# Draw line
-	for i in range(2, len(dots) - 1):
-		draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
+	if !waitForStartingPosition:
+		for i in range(2, len(dots) - 1):
+			draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
 		
 	# Draw Start Point
 	#	var vp_rect = get_viewport_rect().size
@@ -115,11 +117,29 @@ func _game_over():
 	
 
 func _update_game_state():
-	if len(dots) > 2:
-		if !_is_input_on_track():
-			_game_over()
-		else:
-			_check_finish()
+
+	if waitForStartingPosition:
+		start_position_input = _calc_start_position()
+		var distance_from_start = (start_position_input*2).distance_to(_get_input_pos())
+		
+		#print(_get_input_pos(), _calc_start_position(), distance_from_start)
+
+		if distance_from_start < 10:
+			waitForStartingPosition = false
+			dots.clear()
+		#print(typeof(start_position_input - _get_input_pos()))
+		#check if current position is near the starting position
+
+		# If the current position is near, check if a timer is running.
+			# if the timer is not running, start it. if is running, check threshold
+		
+		# if the position is not near, cancel the timer
+	if !waitForStartingPosition:
+		if len(dots) > 2:
+			if !_is_input_on_track():
+				_game_over()
+			else:
+				_check_finish()
 
 
 func _check_finish():
@@ -151,7 +171,7 @@ func _game_completed():
 	print("COMPLETED!")
 
 func _move_input_to_start():
-	var start_position_input = _calc_start_position()
+	start_position_input = _calc_start_position()
 	Input.warp_mouse_position(start_position_input)
 
 
@@ -198,7 +218,8 @@ func _is_input_on_track():
 
 
 func _get_input_pos():
-	return get_global_mouse_position()
+		# TODO get head tracking position
+		return get_global_mouse_position()
 
 
 func _get_map_pixel_color(pos):
@@ -214,11 +235,14 @@ func _get_map_pixel_color(pos):
 ### BUTTON FUNCTIONALITIES ###
 func _on_StartDialog_confirmed():
 	running = true
-	_move_input_to_start()
+	waitForStartingPosition = true
+	start_position_input = _calc_start_position()
+	
 
 
 func _restart_game():
-	_move_input_to_start()
+	waitForStartingPosition = true
+	start_position_input = _calc_start_position()
 	dots.clear()
 	running = true
 
