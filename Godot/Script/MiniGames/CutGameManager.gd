@@ -36,15 +36,16 @@ func _process(_delta):
 
 
 func _draw():
+	
 	# Draw finish rect
 	draw_rect(finish_rect, Color(0.5, 0.5, 0.5), 10)
+	if running:
+		var mouse_pos = _get_mouse_pos()
 	
-	var mouse_pos = _get_mouse_pos()
-
-	# Add mousepos to list of past mouse position
-	# If the previous mouse position wasn't close
-	if len (dots) == 0 or (dots[len(dots)-1].distance_to(mouse_pos) > 20):
-		dots.append(mouse_pos)
+		# Add mousepos to list of past mouse position
+		# If the previous mouse position wasn't close
+		if len (dots) == 0 or (dots[len(dots)-1].distance_to(mouse_pos) > 15):
+			dots.append(mouse_pos)
 	
 	# Draw line
 	for i in range(2, len(dots) - 1):
@@ -59,7 +60,10 @@ func _draw():
 	if len (dots) > 2:
 		var rad = 25
 		var col = Color(0, 1, 0) if _is_mouse_on_track() else Color(1, 0, 0)
-		draw_circle(mouse_pos, rad, col)
+		if running:
+			draw_circle(_get_mouse_pos(), rad, col)
+		else:
+			draw_circle(dots[len(dots)-1], rad, col)
 
 
 func _unhandled_input(event):
@@ -142,6 +146,7 @@ func _game_completed():
 	print("COMPLETED!")
 
 func _move_mouse_to_start():
+	_calc_start_point()
 	Input.warp_mouse_position(start_position_mouse)
 
 
