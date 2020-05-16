@@ -36,14 +36,14 @@ void GDExample::_init() {
 
     camera.open(0); //open camera
     camera.read(frame);
-    cursorPos = Point(frame.cols / 2, frame.rows / 2);
+    cursorPos = Point(frame.cols / 4, frame.rows / 4);
 
     // camera.set(3, 512);
     // camera.set(4, 288);
 
     // // TODO 
-    face_cascase.load("/Users/ggbrw/Downloads/opencv/data/haarcascades/haarcascade_frontalface_alt.xml");
-    if(!face_cascase.load("/Users/ggbrw/Downloads/opencv/data/haarcascades/haarcascade_frontalface_alt.xml")) {
+    face_cascase.load("/Users/ggbrw/Downloads/opencv/data/haarcascades/haarcascade_frontalface_default.xml");
+    if(!face_cascase.load("/Users/ggbrw/Downloads/opencv/data/haarcascades/haarcascade_frontalface_default.xml")) {
         cerr << "Error XML" << endl;
     }
 }
@@ -58,30 +58,45 @@ void GDExample::_process(float delta) {
     flip(frame,frame,1); // Beeld flippen zodat de user's rechts en links overeenkomt met beeld 
 
     vector<Rect> faces;
-    face_cascase.detectMultiScale(frame, faces, 1.1, 3, 0, Size(100,100), Size(3000,3000));
+    Mat gray, smallFrame;
+
+    cvtColor(frame, gray, COLOR_BGR2GRAY);
+    resize(gray, smallFrame, Size(), .5, .5, INTER_LINEAR);
+    // equalizeHist(smallFrame, smallFrame);
+    face_cascase.detectMultiScale(smallFrame, faces, 1.1, 4, 0|CASCADE_SCALE_IMAGE, Size(80,80));
     
     Vector2 movement(0,0);
 
     for(int i = 0; i < faces.size(); i++) {
         Point center(faces[i].x + faces[i].width * .5, faces[i].y + faces[i].height * .5);
-        ellipse(frame, center, Size(faces[i].width * .5, faces[i].height * .5), 0, 0, 360, Scalar(255,0,255), 4, 8, 0);
+        ellipse(smallFrame, center, Size(faces[i].width * .5, faces[i].height * .5), 0, 0, 360, Scalar(255,0,255), 4, 8, 0);
         
-        if(dist(center, Point(cursorPos.x,cursorPos.y)) < max(faces[i].width,faces[i].height) / 2) {
-            line(frame, cursorPos, center, Scalar(255,0,255), 4, 8);
+        // if(dist(center, Point(cursorPos.x,cursorPos.y)) < max(faces[i].width,faces[i].height) * 2) {
+            line(smallFrame, cursorPos, center, Scalar(255,0,255), 4, 8);
             movement = Vector2(movement.x + (center.x - cursorPos.x), movement.y + (center.y - cursorPos.y));
-        }
+        // }
     }
         
 
+    // Update cursor position
     cursorPos.x += movement.x / 4;
     cursorPos.y += movement.y / 4;
-    ellipse(frame, Point(cursorPos.x,cursorPos.y), Size(8,8), 0, 0, 360, Scalar(0,255,0), 4, 8, 0);
-    imshow("", frame);
+    ellipse(smallFrame, Point(cursorPos.x,cursorPos.y), Size(8,8), 0, 0, 360, Scalar(0,255,0), 4, 8, 0);
+
+    Rect boundaries(100,75,smallFrame.cols - 200,smallFrame.rows - 150);
+    rectangle(smallFrame, boundaries, Scalar(255,255,255), 4, 8, 0);
+    imshow("", smallFrame);
+
+    float x = min(max(cursorPos.x - boundaries.x, 0) / boundaries.width, 1);
+    float y = min(max(cursorPos.y - boundaries.y, 0) / boundaries.height, 1);
 
     if(faces.size() == 0) return;
     if(waitKey(10) == 27) return;
 
-    set_position(Vector2(cursorPos.x,cursorPos.y));
+
+
+
+    set_position(Vector2(cursorPos.x, cursorPos.y));
 }
 
 void GDExample::set_speed(float p_speed) {
