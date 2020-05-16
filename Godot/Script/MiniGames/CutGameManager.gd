@@ -38,12 +38,12 @@ func _draw():
 	# Draw finish rect
 	draw_rect(finish_rect, Color(0.5, 0.5, 0.5), 10)
 	if running:
-		var mouse_pos = _get_mouse_pos()
+		var input_pos = _get_input_pos()
 	
-		# Add mousepos to list of past mouse position
-		# If the previous mouse position wasn't close
-		if len (dots) == 0 or (dots[len(dots)-1].distance_to(mouse_pos) > 15):
-			dots.append(mouse_pos)
+		# Add input pos to list of past input position
+		# If the previous input position wasn't close
+		if len (dots) == 0 or (dots[len(dots)-1].distance_to(input_pos) > 15):
+			dots.append(input_pos)
 	
 	# Draw line
 	for i in range(2, len(dots) - 1):
@@ -57,9 +57,9 @@ func _draw():
 	# Draw current pointer
 	if len (dots) > 2:
 		var rad = 25
-		var col = Color(0, 1, 0) if _is_mouse_on_track() else Color(1, 0, 0)
+		var col = Color(0, 1, 0) if _is_input_on_track() else Color(1, 0, 0)
 		if running:
-			draw_circle(_get_mouse_pos(), rad, col)
+			draw_circle(_get_input_pos(), rad, col)
 		else:
 			draw_circle(dots[len(dots)-1], rad, col)
 
@@ -117,7 +117,7 @@ func _game_over():
 
 func _update_game_state():
 	if len(dots) > 2:
-		if !_is_mouse_on_track():
+		if !_is_input_on_track():
 			_game_over()
 		else:
 			_check_finish()
@@ -125,21 +125,21 @@ func _update_game_state():
 
 func _check_finish():
 	if finish_state == 0:
-		if !finish_rect.has_point(_get_mouse_pos()):
-			if _get_mouse_pos().y < finish_rect.position.y:
+		if !finish_rect.has_point(_get_input_pos()):
+			if _get_input_pos().y < finish_rect.position.y:
 				finish_state = 1
 			else:
 				finish_state = -1
 				
 	elif finish_state == 1:
-		if finish_rect.has_point(_get_mouse_pos()):
+		if finish_rect.has_point(_get_input_pos()):
 			if dots[len(dots)-1].y > finish_rect.end.y:
 				_game_completed()
 			else:
 				finish_state = 0
 		
 	elif finish_state == -1:
-		if finish_rect.has_point(_get_mouse_pos()):
+		if finish_rect.has_point(_get_input_pos()):
 			if dots[len(dots)-1].y <= finish_rect.position.y:
 				_game_completed()
 			else:
@@ -151,9 +151,9 @@ func _game_completed():
 	running = false
 	print("COMPLETED!")
 
-func _move_mouse_to_start():
-	var start_position_mouse = _calc_start_point()
-	Input.warp_mouse_position(start_position_mouse)
+func _move_input_to_start():
+	var start_position_input = _calc_start_point()
+	Input.warp_mouse_position(start_position_input)
 
 
 func _load_map(index=null, visible=true):
@@ -183,23 +183,23 @@ func _add_sprite_to_scene(sprite):
 	add_child(sprite)
 
 
-func _is_mouse_on_viewport():
-	var mouse_pos = _get_mouse_pos()
-	if mouse_pos.x >= 0 and mouse_pos.x <= get_viewport_rect().size.x:
-		if mouse_pos.y >= 0 and mouse_pos.y <= get_viewport_rect().size.y:
+func _is_input_on_viewport():
+	var input_pos = _get_input_pos()
+	if input_pos.x >= 0 and input_pos.x <= get_viewport_rect().size.x:
+		if input_pos.y >= 0 and input_pos.y <= get_viewport_rect().size.y:
 			return true
 	return false
 
 
-func _is_mouse_on_track():
-	if _is_mouse_on_viewport():
-		var pixelcolor = _get_map_pixel_color(_get_mouse_pos())
+func _is_input_on_track():
+	if _is_input_on_viewport():
+		var pixelcolor = _get_map_pixel_color(_get_input_pos())
 		return pixelcolor != Color(1, 1, 1)
 	return false
 
 
-func _get_mouse_pos():
-	return get_viewport().get_mouse_position()
+func _get_input_pos():
+	return get_global_mouse_position()
 
 
 func _get_map_pixel_color(pos):
@@ -215,11 +215,11 @@ func _get_map_pixel_color(pos):
 ### BUTTON FUNCTIONALITIES ###
 func _on_StartDialog_confirmed():
 	running = true
-	_move_mouse_to_start()
+	_move_input_to_start()
 
 
 func _restart_game():
-	_move_mouse_to_start()
+	_move_input_to_start()
 	dots.clear()
 	running = true
 
