@@ -1,17 +1,13 @@
 extends Control
 
 # Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 var _input_ip = ''
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Network.text_label = get_node("Label")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func _on_create_server():
 	Network._create_server()
