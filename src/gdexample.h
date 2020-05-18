@@ -6,6 +6,7 @@
 #include <opencv2/core/mat.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/objdetect.hpp>
+#include "VideoFaceDetector.h"
 
 
 namespace godot {
@@ -19,10 +20,12 @@ private:
     float amplitude;
     float speed;
     cv::Mat image;
-    cv::VideoCapture camera;
     cv::Mat frame;
+    cv::VideoCapture camera;
     cv::CascadeClassifier face_cascase;
     cv::Point cursorPos;
+
+    VideoFaceDetector detector;
 
 public:
     static void _register_methods();
