@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Script/P2pExample.gd" type="Script" id=1]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_left = 178.0
+margin_top = 16.0
+margin_right = 842.0
+margin_bottom = 174.0
+text = "Create Server"
+
+[node name="Button2" type="Button" parent="."]
+margin_left = 182.0
+margin_top = 294.743
+margin_right = 848.0
+margin_bottom = 466.743
+text = "Join server"
+
+[node name="Label" type="Label" parent="."]
+margin_left = 196.0
+margin_top = 504.0
+margin_right = 850.0
+margin_bottom = 602.0
+text = "Awaiting orders..."
+align = 1
+valign = 1
+
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_left = 355.054
+margin_top = 197.944
+margin_right = 669.054
+margin_bottom = 264.944
+[connection signal="pressed" from="Button" to="." method="_on_create_server"]
+[connection signal="pressed" from="Button2" to="." method="_on_create_client_pressed"]
+[connection signal="text_changed" from="LineEdit" to="." method="_on_ip_changed"]
