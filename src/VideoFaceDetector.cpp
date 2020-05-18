@@ -288,6 +288,7 @@ cv::Point VideoFaceDetector::getFrameAndDetect(cv::Mat &frame)
     else {
         detectFaceAroundRoi(resizedFrame); // Detect using cascades only in ROI
         if (m_templateMatchingRunning) {
+            rectangle(frame, cv::Rect(0,0,100,100), cv::Scalar(255,0,0), 4,8,0);
             detectFacesTemplateMatching(resizedFrame); // Detect using template matching
         }
     }
