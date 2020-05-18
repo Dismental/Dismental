@@ -4,23 +4,14 @@ const DEFAULT_IP = '127.0.0.1'
 const DEFAULT_PORT = 31400
 const MAX_PLAYERS = 2
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+# Declare member variables here.
 var text_label
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
 func _create_server(port = DEFAULT_PORT, players = MAX_PLAYERS):
-	var peer = NetworkedMultiplayerENet.new()
-	
 	# Trying to uPnP on the router if not successful the host will only be on
 	# the local network
 	var upnp = UPNP.new()
@@ -30,8 +21,9 @@ func _create_server(port = DEFAULT_PORT, players = MAX_PLAYERS):
 		print("We are accessible from the outside world!")
 	else:
 		print("We are only accessible from our own local network!")
+
+	var peer = NetworkedMultiplayerENet.new()
 	peer.create_server(port, players)
-	# peer.set_bind_ip("2a02:a455:2987:1:14b7:305d:21cc:f86")
 	get_tree().network_peer = peer
 	text_label.set_text("Network created on port: " + str(port))
 
