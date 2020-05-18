@@ -42,8 +42,8 @@ void GDExample::_init() {
     // camera.set(4, 288);
 
     // // TODO 
-    face_cascase.load("/Users/ggbrw/Downloads/opencv/data/haarcascades/haarcascade_frontalface_default.xml");
-    if(!face_cascase.load("/Users/ggbrw/Downloads/opencv/data/haarcascades/haarcascade_frontalface_default.xml")) {
+    face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
+    if(!face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml")) {
         cerr << "Error XML" << endl;
     }
 }

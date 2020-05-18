@@ -21,7 +21,7 @@ var finish_state = 0
 
 func _ready():
 	start_dialog.popup()
-	_load_map(1)
+	_load_map(1,false)
 	_calc_finish_line()
 
 
@@ -57,7 +57,7 @@ func _draw():
 	
 	# Draw current pointer
 	if len (dots) > 2:
-		var rad = 25
+		var rad = 15
 		var col = Color(0, 1, 0) if _is_input_on_track() else Color(1, 0, 0)
 		if running:
 			draw_circle(_get_input_pos(), rad, col)
@@ -218,9 +218,11 @@ func _is_input_on_track():
 
 
 func _get_input_pos():
-		# TODO get head tracking position
-		print(get_node("HeadPos").position)
-		return get_node("HeadPos").position * 2
+	# TODO get head tracking position
+	# print(get_node("HeadPos").position)
+	# var pos = get_node("HeadPos").position * 4
+	# return Vector2(pos.x - 250, pos.y - 250)
+	return get_global_mouse_position()
 
 
 func _get_map_pixel_color(pos):
