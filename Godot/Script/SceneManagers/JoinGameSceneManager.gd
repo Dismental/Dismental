@@ -1,6 +1,7 @@
 extends Control
 
 func _on_JoinGameButton_pressed():
+	Network._create_client($InputGameID.text)
 	change_scene("res://Scenes/GameRoomPlayer.tscn")
 
 func _on_BackButton_pressed():

@@ -4,6 +4,8 @@ onready var start_dialog = $Control/StartDialog
 onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
 
+puppet var puppet_mouse = Vector2()
+
 const Utils = preload("res://Script/Utils.gd")
 
 var map_sprite
@@ -115,6 +117,10 @@ func _game_over():
 	
 
 func _update_game_state():
+	if get_tree().is_network_server():
+		var mousepos = _get_input_pos()
+		print("SENDING MOUSE POS!")
+		Network._update_mouse_pos(mousepos)
 	if len(dots) > 2:
 		if !_is_input_on_track():
 			_game_over()
@@ -198,7 +204,13 @@ func _is_input_on_track():
 
 
 func _get_input_pos():
-	return get_global_mouse_position()
+	var mousepos
+	if get_tree().is_network_server():
+		mousepos = get_global_mouse_position()
+		rset("puppet_mouse", mousepos)
+	else:
+		mousepos = puppet_mouse
+	return mousepos
 
 
 func _get_map_pixel_color(pos):

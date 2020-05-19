@@ -8,7 +8,6 @@
 [ext_resource path="res://Fonts/Roboto/Roboto-Bold.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
 
-
 [sub_resource type="DynamicFont" id=1]
 size = 100
 outline_size = 4
@@ -112,7 +111,7 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-LIMIT = 15
+LIMIT = 30
 
 [node name="EnterGameID" type="Label" parent="."]
 anchor_left = 0.5
