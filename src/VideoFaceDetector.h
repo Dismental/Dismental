@@ -34,6 +34,7 @@ private:
     cv::CascadeClassifier*  m_faceCascade = NULL;
     std::vector<cv::Rect>   m_allFaces;
     cv::Rect                m_trackedFace;
+    cv::Rect                m_trackedFace_lastKnown;
     cv::Rect                m_faceRoi;
     cv::Mat                 m_faceTemplate;
     std::queue<cv::Mat>     m_faceTemplate_lastKnown_queue;
