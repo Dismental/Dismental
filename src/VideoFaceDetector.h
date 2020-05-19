@@ -50,5 +50,5 @@ private:
     cv::Mat     getFaceTemplate(const cv::Mat &frame, cv::Rect face);
     void        detectFaceAllSizes(const cv::Mat &frame);
     void        detectFaceAroundRoi(const cv::Mat &frame);
-    void        detectFacesTemplateMatching(const cv::Mat &frame);
+    void        detectFacesTemplateMatching(const cv::Mat &frame, const cv::Mat &orgFrame);
 };

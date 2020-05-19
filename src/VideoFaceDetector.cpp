@@ -218,7 +218,7 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
     m_facePosition = centerOfRect(m_trackedFace);
 }
 
-void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame)
+void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame, const cv::Mat &orgFrame)
 {
     // Calculate duration of template matching
     m_templateMatchingCurrentTime = cv::getTickCount();
