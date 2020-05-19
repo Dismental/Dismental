@@ -63,7 +63,10 @@ int dist(Point p1, Point p2) {
 void GDExample::_process(float delta) {
     detector >> frame;
     // flip(frame, frame, 1);
-
+    int frameWidth, frameHeigth;
+    frameWidth = frame.cols;
+    frameHeigth = frame.rows;
+    
     if(detector.isFaceFound()) {
         rectangle(frame, detector.face(), Scalar(255,0,0), 4,8,0);
         circle(frame, detector.facePosition(), 30, Scalar(0, 255, 0), 4,8,0);
@@ -81,13 +84,14 @@ void GDExample::_process(float delta) {
         spacingx += q_element.cols;
         frame_lastknown_queue.pop();
     }
-
-    imshow("", frame);
+    cv::Mat flipFrame;
+    flip(frame, flipFrame, 1);
+    imshow("", flipFrame);
 
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
     cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
 
-    set_position(Vector2(cursorPos.x, cursorPos.y));
+    set_position(Vector2(abs((float)cursorPos.x/(float)frameWidth-1), (float)cursorPos.y/(float)frameHeigth));
 }
 
 void GDExample::set_speed(float p_speed) {

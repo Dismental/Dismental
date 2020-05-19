@@ -218,11 +218,14 @@ func _is_input_on_track():
 
 
 func _get_input_pos():
-	# TODO get head tracking position
-	# print(get_node("HeadPos").position)
-	# var pos = get_node("HeadPos").position * 4
-	# return Vector2(pos.x - 250, pos.y - 250)
-	return get_global_mouse_position()
+	# The values for the headtracking position ranges from 0 to 1
+	var pos = get_node("HeadPos").position
+	# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
+	var margin = 0.4
+	var windowmarginx = OS.get_window_size().x*margin
+	var windowmarginy = OS.get_window_size().y*margin
+	return Vector2(pos.x*(OS.get_window_size().x+windowmarginx)-(windowmarginx/2), (pos.y*OS.get_window_size().y+windowmarginx)-(windowmarginx/2))
+	#return get_global_mouse_position()
 
 
 func _get_map_pixel_color(pos):
