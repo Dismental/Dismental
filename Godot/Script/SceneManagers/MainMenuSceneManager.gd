@@ -10,7 +10,7 @@ func _on_SettingsButton_pressed():
 	change_scene("res://Scenes/SettingsScene.tscn")
 
 func _on_ScoreBoardButton_pressed():
-	change_scene("res://Scenes/Scoreboard.tscn")
+	change_scene("res://Scenes/ScoreScenes/Scoreboard.tscn")
 
 func change_scene(filename):
 	if get_tree().change_scene(filename) != OK:
