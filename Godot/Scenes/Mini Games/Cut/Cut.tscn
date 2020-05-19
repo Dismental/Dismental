@@ -91,7 +91,8 @@ __meta__ = {
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="HeadPos"]
-position = Vector2( 139, 133 )
+visible = false
+position = Vector2( 1.59253, -1.17444 )
 scale = Vector2( 0.40625, 0.40625 )
 texture = ExtResource( 2 )
 [connection signal="confirmed" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
