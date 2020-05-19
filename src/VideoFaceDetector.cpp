@@ -266,11 +266,6 @@ void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame, const 
     double min, max;
     cv::Point minLoc, maxLoc;
     cv::minMaxLoc(m_matchingResult, &min, &max, &minLoc, &maxLoc);
-    int num = 35;
-//    cv::Size s = m_matchingResult_combined.size();
-    std::string standardString = std::to_string(num);
-    godot::String godotString = godot::String(standardString.c_str());
-    godot::Godot::print(godotString);
 
     // Add roi offset to face position
     minLoc.x += m_faceRoi.x;
