@@ -1,9 +1,44 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/ScorePanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=3]
 [ext_resource path="res://Script/Scoreboard.gd" type="Script" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 12
+border_width_bottom = 12
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 12
+border_width_bottom = 12
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id=3]
+border_width_left = 10
+border_width_top = 10
+border_width_right = 12
+border_width_bottom = 12
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
 
 [node name="Control" type="Control"]
 margin_right = 1920.0
@@ -95,13 +130,19 @@ margin_right = 300.0
 margin_bottom = 1100.0
 
 [node name="BackButton" type="Button" parent="."]
-margin_left = 11.4558
-margin_top = 14.3197
-margin_right = 1047.46
-margin_bottom = 1044.32
-rect_scale = Vector2( 0.1, 0.1 )
+anchor_left = 1.98682e-09
+anchor_top = 3.53213e-09
+anchor_right = 0.00833333
+anchor_bottom = 0.0148148
+margin_left = 40.0
+margin_top = 40.0
+margin_right = 1070.0
+margin_bottom = 1070.0
+rect_scale = Vector2( 0.12, 0.12 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 icon = ExtResource( 3 )
-flat = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
