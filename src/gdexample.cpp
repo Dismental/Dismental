@@ -9,6 +9,7 @@
 #include <sstream>
 #include <string>
 #include "VideoFaceDetector.h"
+#include <queue>
 
 using namespace godot;
 using namespace cv;
@@ -69,6 +70,18 @@ void GDExample::_process(float delta) {
     }
 
     if(waitKey(10) == 27) return;
+
+    // Get the queue of face template display them all in sequence in the frame (picture in picture style)
+    std::queue<cv::Mat> frame_lastknown_queue = detector.getLastKnownFaceTemplateQueue();
+    int spacingx = 0;
+    while (!frame_lastknown_queue.empty())
+    {
+        cv:Mat q_element = frame_lastknown_queue.front();
+        q_element.copyTo(frame(cv::Rect(spacingx,0,q_element.cols, q_element.rows)));
+        spacingx += q_element.cols;
+        frame_lastknown_queue.pop();
+    }
+
     imshow("", frame);
 
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;

@@ -3,6 +3,7 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/objdetect/objdetect.hpp>
+#include <queue>
 
 class VideoFaceDetector
 {
@@ -24,6 +25,7 @@ public:
     cv::Point               facePosition() const;
     void                    setTemplateMatchingMaxDuration(const double s);
     double                  templateMatchingMaxDuration() const;
+    std::queue<cv::Mat>     getLastKnownFaceTemplateQueue() const;
 
 private:
     static const double     TICK_FREQUENCY;
@@ -34,6 +36,7 @@ private:
     cv::Rect                m_trackedFace;
     cv::Rect                m_faceRoi;
     cv::Mat                 m_faceTemplate;
+    std::queue<cv::Mat>     m_faceTemplate_lastKnown_queue;
     cv::Mat                 m_matchingResult;
     bool                    m_templateMatchingRunning = false;
     int64                   m_templateMatchingStartTime = 0;
@@ -43,6 +46,7 @@ private:
     int                     m_resizedWidth = 320;
     cv::Point               m_facePosition;
     double                  m_templateMatchingMaxDuration = 3;
+    int                     m_maxBufferFaceTemplate = 5;
 
     cv::Rect    doubleRectSize(const cv::Rect &inputRect, const cv::Rect &frameSize) const;
     cv::Rect    biggestFace(std::vector<cv::Rect> &faces) const;

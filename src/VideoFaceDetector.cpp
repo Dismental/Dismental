@@ -1,6 +1,7 @@
 #include "VideoFaceDetector.h"
 #include <iostream>
 #include <opencv2/imgproc.hpp>
+#include <queue>
 
 const double VideoFaceDetector::TICK_FREQUENCY = cv::getTickFrequency();
 
@@ -42,6 +43,11 @@ void VideoFaceDetector::setFaceCascade(const std::string cascadeFilePath)
 cv::CascadeClassifier *VideoFaceDetector::faceCascade() const
 {
     return m_faceCascade;
+}
+
+std::queue<cv::Mat> VideoFaceDetector::getLastKnownFaceTemplateQueue() const
+{
+    return m_faceTemplate_lastKnown_queue;
 }
 
 void VideoFaceDetector::setResizedWidth(const int width)
@@ -197,6 +203,12 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
         return;
     }
 
+    // Add face template to the queue
+    m_faceTemplate_lastKnown_queue.push(getFaceTemplate(frame, m_trackedFace));
+
+    // If queue is larger than [maxQueueSize], pop oldest facetemplate
+    if (m_faceTemplate_lastKnown_queue.size() > m_maxBufferFaceTemplate) m_faceTemplate_lastKnown_queue.pop();
+   
     // Turn off template matching if running and reset timer
     m_templateMatchingRunning = false;
     m_templateMatchingCurrentTime = m_templateMatchingStartTime = 0;
