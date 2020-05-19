@@ -1,6 +1,7 @@
 #include "VideoFaceDetector.h"
 #include <iostream>
 #include <opencv2/imgproc.hpp>
+#include <GodotGlobal.hpp>
 #include <queue>
 
 const double VideoFaceDetector::TICK_FREQUENCY = cv::getTickFrequency();
@@ -306,7 +307,7 @@ cv::Point VideoFaceDetector::getFrameAndDetect(cv::Mat &frame)
         detectFaceAroundRoi(resizedFrame); // Detect using cascades only in ROI
         if (m_templateMatchingRunning) {
             rectangle(frame, cv::Rect(0,0,100,100), cv::Scalar(255,0,0), 4,8,0);
-            detectFacesTemplateMatching(resizedFrame); // Detect using template matching
+            detectFacesTemplateMatching(resizedFrame, frame); // Detect using template matching
         }
     }
 
