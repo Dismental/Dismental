@@ -50,7 +50,7 @@ func _connected_to_server():
 
 
 func _connect_fail():
-	text_label.set_text("FAILED TO CONNECT")
+	print("FAILED TO CONNECT")
 
 
 remote func hello_text(id):
@@ -64,7 +64,8 @@ remote func pre_configure_game():
 	var cut = load("res://Scenes/Mini Games/Cut/Cut.tscn").instance()
 	get_tree().get_root().add_child(cut)
 	
-	rpc_id(1, "done_pre_configuring", selfPeerID)
+	if not get_tree().is_network_server():
+		rpc_id(1, "done_pre_configuring", selfPeerID)
 
 
 remote func done_pre_configuring(who):
@@ -77,5 +78,14 @@ remote func done_pre_configuring(who):
 	if players_ready.size() == player_info.size():
 		rpc("begin_game")
 
-func begin_game():
+
+remotesync func begin_game():
 	get_tree().set_pause(false)
+
+
+func _begin_game_pressed():
+	assert(get_tree().is_network_server())
+	
+	for p in player_info:
+		rpc_id(p, "pre_configure_game")
+	pre_configure_game()
