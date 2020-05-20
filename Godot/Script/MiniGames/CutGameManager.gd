@@ -4,6 +4,8 @@ onready var start_dialog = $Control/StartDialog
 onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
 
+puppet var puppet_mouse = Vector2()
+
 const Utils = preload("res://Script/Utils.gd")
 
 var map_sprite
@@ -18,9 +20,11 @@ var finish_rect
 var finish_state = 0
 
 func _ready():
-	start_dialog.popup()
-	
-	_load_map(1)
+	if get_tree().is_network_server():
+		start_dialog.popup()
+		_load_map(1, false)
+	else:
+		_load_map(1)
 	_calc_finish_line()
 
 
@@ -33,7 +37,6 @@ func _process(_delta):
 
 
 func _draw():
-	
 	# Draw finish rect
 	draw_rect(finish_rect, Color(0.5, 0.5, 0.5), 10)
 	if running:
@@ -41,7 +44,7 @@ func _draw():
 	
 		# Add input pos to list of past input position
 		# If the previous input position wasn't close
-		if len (dots) == 0 or (dots[len(dots)-1].distance_to(input_pos) > 15):
+		if len(dots) == 0 or (dots[len(dots)-1].distance_to(input_pos) > 15):
 			dots.append(input_pos)
 	
 	# Draw line
@@ -54,7 +57,7 @@ func _draw():
 	#	draw_circle(start_point, 50, Color(0, 0, 1))
 	
 	# Draw current pointer
-	if len (dots) > 2:
+	if len(dots) > 2:
 		var rad = 25
 		var col = Color(0, 1, 0) if _is_input_on_track() else Color(1, 0, 0)
 		if running:
@@ -110,13 +113,14 @@ func _calc_finish_line():
 
 
 func _game_over():
-	running = false
-	game_over_dialog.popup()
+	rpc("_on_update_running", false)
+	if get_tree().is_network_server():
+		game_over_dialog.popup()
 	
 
 func _update_game_state():
 	if len(dots) > 2:
-		if !_is_input_on_track():
+		if not _is_input_on_track():
 			_game_over()
 		else:
 			_check_finish()
@@ -124,7 +128,7 @@ func _update_game_state():
 
 func _check_finish():
 	if finish_state == 0:
-		if !finish_rect.has_point(_get_input_pos()):
+		if not finish_rect.has_point(_get_input_pos()):
 			if _get_input_pos().y < finish_rect.position.y:
 				finish_state = 1
 			else:
@@ -146,20 +150,22 @@ func _check_finish():
 
 
 func _game_completed():
-	completed_dialog.popup()
-	running = false
-	print("COMPLETED!")
+	rpc("_on_update_running", false)
+	if get_tree().is_network_server():
+		completed_dialog.popup()
+	rpc("_on_game_completed")
 
 func _move_input_to_start():
 	var start_position_input = _calc_start_position()
-	Input.warp_mouse_position(start_position_input)
+	if get_tree().is_network_server():
+		Input.warp_mouse_position(start_position_input)
 
 
 func _load_map(index=null, visible=true):
 	# if no index is given -> generate an random index
 	map_sprite = Sprite.new()
 	randomize()
-	if !index:
+	if not index:
 		var map_path = "res://Scenes/Mini Games/Cut/Maps/"
 		# Divide by 2 because every map has an import file behind the scenes
 		var map_count = Utils._count_files_in_dir(map_path) / 2
@@ -198,7 +204,13 @@ func _is_input_on_track():
 
 
 func _get_input_pos():
-	return get_global_mouse_position()
+	var mousepos
+	if get_tree().is_network_server():
+		mousepos = get_global_mouse_position()
+		rset("puppet_mouse", mousepos)
+	else:
+		mousepos = puppet_mouse
+	return mousepos
 
 
 func _get_map_pixel_color(pos):
@@ -213,19 +225,27 @@ func _get_map_pixel_color(pos):
 
 ### BUTTON FUNCTIONALITIES ###
 func _on_StartDialog_confirmed():
-	running = true
+	rpc("_on_update_running", true)
 	_move_input_to_start()
 
 
-func _restart_game():
+sync func _restart_game():
+	rpc("_on_update_running", true)
 	_move_input_to_start()
 	dots.clear()
-	running = true
+	finish_state = 0
 
 
 func _on_GameOverDialog_confirmed():
-	_restart_game()
+	rpc("_restart_game")
 
 
 func _on_CompletedDialog_confirmed():
+	get_tree().quit()
+
+
+sync func _on_update_running(newValue):
+	running = newValue
+
+puppet func _on_game_completed():
 	get_tree().quit()

@@ -1,6 +1,7 @@
 extends Control
 
 func _on_CreateRoomButton_pressed():
+	Network._create_server()
 	change_scene("res://Scenes/GameRoomHost.tscn")
 
 func _on_BackButton_pressed():
