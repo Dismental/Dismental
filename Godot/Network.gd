@@ -5,9 +5,8 @@ const DEFAULT_PORT = 31400
 const MAX_PLAYERS = 2
 
 # Declare member variables here.
-var text_label
+var text_label # Can be removed when P2pExample.tscn is no longer needed
 var player_info = {}
-var mouseposition = Vector2()
 var players_ready = []
 
 # Called when the node enters the scene tree for the first time.
@@ -42,7 +41,7 @@ func _create_client(_server_ip, port = DEFAULT_PORT):
 
 func _player_connected(id):
 	print("We connected player with id: " + str(id))
-	player_info[id] = "test"
+	player_info[id] = "" # Empty details of the player for now
 
 
 func _connected_to_server():
