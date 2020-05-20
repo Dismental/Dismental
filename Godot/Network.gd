@@ -5,7 +5,6 @@ const DEFAULT_PORT = 31400
 const MAX_PLAYERS = 2
 
 # Declare member variables here.
-var text_label # Can be removed when P2pExample.tscn is no longer needed
 var player_info = {}
 var players_ready = []
 

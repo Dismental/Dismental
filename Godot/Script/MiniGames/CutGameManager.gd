@@ -136,7 +136,7 @@ func _check_finish():
 				
 	elif finish_state == 1:
 		if finish_rect.has_point(_get_input_pos()):
-			if dots[len(dots)-1].y > finish_rect.position.y:
+			if dots[len(dots)-1].y > finish_rect.end.y:
 				_game_completed()
 			else:
 				finish_state = 0
