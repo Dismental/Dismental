@@ -1,10 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Scenes/ScoreScenes/ScorePanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=3]
 [ext_resource path="res://Script/Scoreboard.gd" type="Script" id=4]
-
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
@@ -61,74 +59,16 @@ __meta__ = {
 margin_left = 560.0
 margin_top = 200.0
 margin_right = 1360.0
-margin_bottom = 1000.0
+margin_bottom = 1078.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
 margin_right = 300.0
-margin_bottom = 1100.0
+margin_bottom = 300.0
 rect_min_size = Vector2( 300, 300 )
 custom_constants/separation = 100
-
-[node name="ScorePanel" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_right = 300.0
-margin_bottom = 0.0
-
-[node name="ScorePanel6" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 100.0
-margin_right = 300.0
-
-[node name="ScorePanel10" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 200.0
-margin_right = 300.0
-margin_bottom = 200.0
-
-[node name="ScorePanel11" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 300.0
-margin_right = 300.0
-margin_bottom = 300.0
-
-[node name="ScorePanel12" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 400.0
-margin_right = 300.0
-margin_bottom = 400.0
-
-[node name="ScorePanel7" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 500.0
-margin_right = 300.0
-margin_bottom = 500.0
-
-[node name="ScorePanel8" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 600.0
-margin_right = 300.0
-margin_bottom = 600.0
-
-[node name="ScorePanel9" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 700.0
-margin_right = 300.0
-margin_bottom = 700.0
-
-[node name="ScorePanel2" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 800.0
-margin_right = 300.0
-margin_bottom = 800.0
-
-[node name="ScorePanel3" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 900.0
-margin_right = 300.0
-margin_bottom = 900.0
-
-[node name="ScorePanel4" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 1000.0
-margin_right = 300.0
-margin_bottom = 1000.0
-
-[node name="ScorePanel5" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 1100.0
-margin_right = 300.0
-margin_bottom = 1100.0
 
 [node name="BackButton" type="Button" parent="."]
 anchor_left = 1.98682e-09
