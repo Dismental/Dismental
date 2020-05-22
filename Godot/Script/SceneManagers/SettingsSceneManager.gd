@@ -2,7 +2,7 @@ extends Control
 
 
 func _on_BackButton_pressed():
-	change_scene("res://Scenes/MainMenu.tscn")
+	Utils._change_screen("res://Scenes/MainMenu.tscn", self)
 	
 func change_scene(filename):
 	if get_tree().change_scene(filename) != OK:

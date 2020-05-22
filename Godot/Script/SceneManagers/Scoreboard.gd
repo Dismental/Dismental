@@ -6,12 +6,13 @@ func _ready():
 	pass
 
 func _on_BackButton_pressed():
-	change_scene("res://Scenes/MainMenu.tscn")
+	Utils._change_screen("res://Scenes/MainMenu.tscn", self)
 
 func change_scene(filename):
 	if get_tree().change_scene(filename) != OK:
 		print("Error loading " + str(filename))
 
+# Makes ScorePanels based on the scores that currently exist within ScoreManager.
 func instance_panels():
 	var scores = get_parent().get_node("ScoreManager").get_scores()
 	var scorepanel = preload("res://Scenes/ScoreScenes/ScorePanel.tscn")
@@ -25,7 +26,8 @@ func instance_panels():
 		n_panel.get_node("HBoxContainer/Position").bbcode_text = "[center]Pos:\n" + str(pos) + "[/center]"
 		$ScrollContainer/VBoxContainer.add_child(n_panel)
 		pos += 1
-	# A last control node is added, as somehow the last node will not be shown. Seems like a bug in Godot.
+	# A last control node is added, as somehow the last node will not be shown. Tried to fix this, but seems like
+	# an intendend behavior(?) in Godot.
 	# The other extra control node allows the scrollcontainer to scroll a bit past the first element (design choice)
 	$ScrollContainer/VBoxContainer.add_child(Control.new())
 	$ScrollContainer/VBoxContainer.add_child(Control.new())
