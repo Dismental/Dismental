@@ -19,8 +19,10 @@ private:
     float time_emit;
     float amplitude;
     float speed;
+    bool waitingForSample;
     cv::Mat image;
     cv::Mat frame;
+    cv::Mat handSample;
     cv::VideoCapture camera;
     cv::CascadeClassifier face_cascase;
     cv::Point cursorPos;

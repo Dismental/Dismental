@@ -45,6 +45,8 @@ void GDExample::_init() {
     // camera.set(3, 512);
     // camera.set(4, 288);
 
+    waitingForSample = true;
+
     // // TODO 
     face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
     if(!face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml")) {
@@ -61,32 +63,30 @@ int dist(Point p1, Point p2) {
 }
 
 void GDExample::_process(float delta) {
-    detector >> frame;
-    // flip(frame, frame, 1);
+    camera >> frame;
 
-    if(detector.isFaceFound()) {
-        rectangle(frame, detector.face(), Scalar(255,0,0), 4,8,0);
-        circle(frame, detector.facePosition(), 30, Scalar(0, 255, 0), 4,8,0);
+    if(waitingForSample) {
+        rectangle(frame, Rect(200, frame.rows / 2 - 200, 300, 400), Scalar(0,0,255), 4, 8, 0);
+    } else {
+        // handSample.copyTo(frame(Rect(0,0,handSample.cols,handSample.rows)));
+
+        cv::Mat matchingResult;
+        cv::matchTemplate(frame, handSample, matchingResult, cv::TM_SQDIFF_NORMED);
+        cv::normalize(matchingResult, matchingResult, 0, 1, cv::NORM_MINMAX, -1, cv::Mat());
+        double min, max;
+        cv::Point minLoc, maxLoc;
+        cv::minMaxLoc(matchingResult, &min, &max, &minLoc, &maxLoc);
+
+        rectangle(frame, Rect(minLoc.x + 150, minLoc.y + 200, 10, 10), Scalar(0,0,255), 4, 8, 0);
     }
 
-    if(waitKey(10) == 27) return;
-
-    // Get the queue of face template display them all in sequence in the frame (picture in picture style)
-    std::queue<cv::Mat> frame_lastknown_queue = detector.getLastKnownFaceTemplateQueue();
-    int spacingx = 0;
-    while (!frame_lastknown_queue.empty())
-    {
-        cv:Mat q_element = frame_lastknown_queue.front();
-        q_element.copyTo(frame(cv::Rect(spacingx,0,q_element.cols, q_element.rows)));
-        spacingx += q_element.cols;
-        frame_lastknown_queue.pop();
+    if(waitKey(10) == 32) {
+        waitingForSample = false;
+        handSample = frame(Rect(200, frame.rows / 2 - 200, 300, 400)).clone();
     }
-
+    
+    flip(frame, frame, 1);
     imshow("", frame);
-
-    cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
-    cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
-
     set_position(Vector2(cursorPos.x, cursorPos.y));
 }
 
