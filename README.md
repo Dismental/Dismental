@@ -35,6 +35,15 @@ All below commands should be exectued with `/Godot/` at the root of your cli env
 $ python linter.py
 ```
 
+**To lint a single directory, non-recursively**
+```
+$ python linter.py [path-to-dir]
+```
+Example:
+```
+$ python linter.py Script/SceneManagers/
+```
+
 **To lint a specific file**
 ```
 $ python linter.py [path-to-file]
@@ -44,11 +53,11 @@ Example:
 $ python linter.py Script/SceneManagers/CreateGameRoomManager.gd 
 ```
 
-**To lint a single directory, non-recursively**
+**To lint specific files**
 ```
-$ python linter.py [path-to-dir]
+$ python linter.py [path-to-file]
 ```
 Example:
 ```
-$ python linter.py Script/SceneManagers/
+$ python linter.py Script/SceneManagers/CreateGameRoomManager.gd Script/SceneManagers/GameSceneManager.gd
 ```
