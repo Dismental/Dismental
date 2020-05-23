@@ -41,6 +41,7 @@ $ python linter.py
 ```
 
 **To lint a list of specific locations**
+
 When giving a list of locations, you can mix directories and files.
 * Directories will be looked through non-recursively, files in `.gdlintignore` will be ignored.
 * Files specified here will be looked at in any case, even if they are in `gdlintignore`.
