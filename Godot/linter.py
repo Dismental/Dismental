@@ -1,6 +1,9 @@
 import os, sys
 from pathlib import Path
 
+# Files listed in .gdlintignore will always be ignored
+# except if the "lint specific file(s)" command is used.
+
 # Parse files to ignore
 ignore = open("./.gdlintignore", "r")
 ignore_files = []
@@ -16,7 +19,8 @@ def gdlint(path):
 # Recursive lint all .gd files
 if len(sys.argv) == 1:
   for path in Path('./Script/').rglob('*.gd'):
-    gdlint(path)
+    if path.name not in ignore_files:
+      gdlint(path)
   exit()
 
 path = sys.argv[1]
@@ -25,6 +29,7 @@ if os.path.isfile(path) and path.endswith(".gd"):
 elif os.path.isdir(path):
   # Non recursive
   for file in Path(path).glob('*.gd'):
-    gdlint(file)
+    if file.name not in ignore_files:
+      gdlint(file)
 else:
   print("I could not find what you're looking for :(")
