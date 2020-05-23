@@ -22,7 +22,7 @@ Install above tool with `pip`
 pip install gdtoolkit
 ```
 
-The tool is a cli script that takes 1 file in at a time, since it's unconvenient to run such a command over and over again for each file there's an additional python script written that you should use instead. This script is named `linter.py` and can be found here `/Godot/linter.py`.
+The tool is a cli script that takes 1 file in at a time, since it's unconvenient to run such a command over and over again for each file there's an additional python script written that you should use instead. This script is named `linter.py` and can be found here: `/Godot/linter.py`.
 
 All below commands should be exectued with `/Godot/` at the root of your cli env. So `cd Godot/` if you're in the root of the project before executing any commands below.
 
