@@ -16,6 +16,13 @@ def gdlint(path):
   os.system(f'gdlint {path}')
   print("---")
 
+def validFile(path):
+  cond = os.path.isfile(path) and path.endswith(".gd")
+  if cond == False:
+    print("This path is invalid: " + path)
+    print("---")
+  return cond
+
 # Recursive lint all .gd files
 if len(sys.argv) == 1:
   for path in Path('./Script/').rglob('*.gd'):
@@ -23,13 +30,19 @@ if len(sys.argv) == 1:
       gdlint(path)
   exit()
 
-path = sys.argv[1]
-if os.path.isfile(path) and path.endswith(".gd"):
-    gdlint(path)
-elif os.path.isdir(path):
-  # Non recursive
-  for file in Path(path).glob('*.gd'):
-    if file.name not in ignore_files:
-      gdlint(file)
+paths = sys.argv[1:]
+if len(paths) == 1:
+  path = paths[0]
+  if validFile(path):
+      gdlint(path)
+  elif os.path.isdir(path):
+    # Non recursive
+    for file in Path(path).glob('*.gd'):
+      if file.name not in ignore_files:
+        gdlint(file)
+
+# If more paths are given to specific files
 else:
-  print("I could not find what you're looking for :(")
+  for path in paths:
+    if validFile(path):
+      gdlint(path)
