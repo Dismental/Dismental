@@ -30,7 +30,7 @@ The tool is a cli script that takes one file in at a time, since it's unconvenie
 
 All below commands should be exectued with `/Godot/` at the root of your cli environment. So `cd Godot/` if you're in the root of the project before executing any commands below.
 
-**To lint all files ending with `.gd` found at the root of `/Godot/` (non-recursively) and in `/Godot/Script/` (recursively) **
+**To lint all files ending with `.gd` found at the root of `/Godot/` (non-recursively) and in `/Godot/Script/` (recursively)**
 ```
 $ python linter.py
 ```
