@@ -1,6 +1,13 @@
 import os, sys
 from pathlib import Path
 
+# Parse files to ignore
+ignore = open("./.gdlintignore", "r")
+ignore_files = []
+for line in ignore:
+  if not line.startswith("#"):
+    ignore_files.append(line)
+
 def gdlint(path):
   print("Linting: " + str(path))
   os.system(f'gdlint {path}')
