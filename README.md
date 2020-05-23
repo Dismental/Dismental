@@ -14,7 +14,11 @@ Developer Team:
 - Jeroen Janssen, Lead Programmer 
 
 # Linting
-We're using the following tool to lint our `.gd` files: https://pypi.org/project/gdtoolkit/.
+Weirdly enough Godot does not have official support for a linter.
+So we have to rely on third party tools instead, after considering a few options we went with this one: https://pypi.org/project/gdtoolkit/.
+It's not perfect by any means, it doesn't include all rules denoted [here](https://docs.godotengine.org/en/stable/getting_started/scripting/gdscript/gdscript_styleguide.html).
+For example, it's missing the trailing comma & 2 blank lines rules, among others.
+But in any case this seems like a good starting point.
 
 ## Usage
 Install above tool with `pip`
