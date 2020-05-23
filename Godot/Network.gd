@@ -12,7 +12,7 @@ var players_ready = []
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 
-func _create_server(port = DEFAULT_PORT, players = MAX_PLAYERS):
+func create_server(port = DEFAULT_PORT, players = MAX_PLAYERS):
 	# Trying to uPnP on the router if not successful the host will only be on
 	# the local network
 	var upnp = UPNP.new()
@@ -29,7 +29,7 @@ func _create_server(port = DEFAULT_PORT, players = MAX_PLAYERS):
 	print("Network created on port: " + str(port))
 
 
-func _create_client(_server_ip, port = DEFAULT_PORT):
+func create_client(_server_ip, port = DEFAULT_PORT):
 	get_tree().connect('connected_to_server', self, '_connected_to_server')
 	get_tree().connect("connection_failed", self, "_connect_fail")
 	var peer = NetworkedMultiplayerENet.new()
@@ -81,7 +81,7 @@ remotesync func begin_game():
 	get_tree().set_pause(false)
 
 
-func _begin_game_pressed():
+func begin_game_pressed():
 	assert(get_tree().is_network_server())
 	
 	for p in player_info:
