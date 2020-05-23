@@ -52,27 +52,28 @@ func _connect_fail():
 
 
 remote func hello_text(id):
-	print("We got a hello message from id: " + str(id) + ", we are id: " + str(get_tree().get_network_unique_id()))
+	var self_id = get_tree().get_network_unique_id()
+	print("We got a hello message from id: " + str(id) + ", we are id: " + str(self_id))
 
 
 remote func pre_configure_game():
 	get_tree().set_pause(true)
-	var selfPeerID = get_tree().get_network_unique_id()
-	
+	var self_peer_id = get_tree().get_network_unique_id()
+
 	var cut = load("res://Scenes/Mini Games/Cut/Cut.tscn").instance()
 	get_tree().get_root().add_child(cut)
-	
+
 	if not get_tree().is_network_server():
-		rpc_id(1, "done_pre_configuring", selfPeerID)
+		rpc_id(1, "done_pre_configuring", self_peer_id)
 
 
 remote func done_pre_configuring(who):
 	assert(get_tree().is_network_server())
 	assert(who in player_info)
 	assert(not who in players_ready)
-	
+
 	players_ready.append(who)
-	
+
 	if players_ready.size() == player_info.size():
 		rpc("begin_game")
 
@@ -83,7 +84,7 @@ remotesync func begin_game():
 
 func begin_game_pressed():
 	assert(get_tree().is_network_server())
-	
+
 	for p in player_info:
 		rpc_id(p, "pre_configure_game")
 	pre_configure_game()
