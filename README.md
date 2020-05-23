@@ -63,5 +63,3 @@ $ python linter.py Script/SceneManagers/
 
 ## Ignore
 There's a `/Godot/.gdlintignore` file where you can include files that should be ignored by the linter when directories looked through.
-
-If given specific files to lint as cli arguments, the linter will not consider `.gdlintignore`.
