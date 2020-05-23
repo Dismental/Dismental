@@ -17,11 +17,7 @@ def gdlint(path):
   print("---")
 
 def validFile(path):
-  cond = os.path.isfile(path) and path.endswith(".gd")
-  if cond == False:
-    print("This path is invalid: " + path)
-    print("---")
-  return cond
+  return os.path.isfile(path) and path.endswith(".gd")
 
 # Recursive lint all .gd files
 if len(sys.argv) == 1:
