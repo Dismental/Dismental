@@ -55,7 +55,7 @@ $ python linter.py Script/SceneManagers/CreateGameRoomManager.gd
 
 **To lint specific files**
 ```
-$ python linter.py [path-to-file]
+$ python linter.py [path-to-file] [path-to-file2] ...
 ```
 Example:
 ```
