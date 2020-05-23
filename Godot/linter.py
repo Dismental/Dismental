@@ -19,9 +19,18 @@ def gdlint(path):
 def validFile(path):
   return os.path.isfile(path) and path.endswith(".gd")
 
-# Recursive lint all .gd files
+# Recursive lint all .gd files in ./Script/
+# and non-recursively lint all .gd files in ./
 if len(sys.argv) == 1:
+  files_to_lint = []
+
+  for path in Path('./').glob('*.gd'):
+    files_to_lint.append(path)
+  
   for path in Path('./Script/').rglob('*.gd'):
+    files_to_lint.append(path)
+
+  for path in files_to_lint:
     if path.name not in ignore_files:
       gdlint(path)
   exit()
