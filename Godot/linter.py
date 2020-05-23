@@ -27,7 +27,7 @@ if len(sys.argv) == 1:
 
   for path in Path('./').glob('*.gd'):
     files_to_lint.append(path)
-  
+
   for path in Path('./Script/').rglob('*.gd'):
     files_to_lint.append(path)
 
@@ -42,8 +42,9 @@ files_to_lint = []
 for path in paths:
   if os.path.isdir(path):
     for file in Path(path).glob('*.gd'):
-      files_to_lint.append(file)    
-
+      if file.name not in ignore_files:
+        files_to_lint.append(file)
+  
   if validFile(path):
     files_to_lint.append(path)
 
