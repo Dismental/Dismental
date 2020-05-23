@@ -30,36 +30,35 @@ The tool is a cli script that takes one file in at a time, since it's unconvenie
 
 All below commands should be exectued with `/Godot/` at the root of your cli environment. So `cd Godot/` if you're in the root of the project before executing any commands below.
 
-**To lint all files ending with `.gd` found at the root of `/Godot/` (non-recursively) and in `/Godot/Script/` (recursively)**
+**To lint all files**
+* The linter will look for files ending with `.gd` in the following locations:
+  * In `/Godot/`, non-recursively
+  * In `/Godot/Script/`, recursively
+* Files included in `.gdlintignore` will be ignored.
+
 ```
 $ python linter.py
 ```
 
-**To lint a single directory, non-recursively**
+**To lint a list of specific locations**
+When giving a list of locations, you can mix directories and files.
+* Directories will be looked through non-recursively, files in `.gdlintignore` will be ignored.
+* Files specified here will be looked at in any case, even if they are in `gdlintignore`.
+
 ```
-$ python linter.py [path-to-dir]
+$ python linter.py [path-to-location] [path-to-location2] ...
 ```
-Example:
+Examples:
+```
+$ python linter.py Script/SceneManagers/ Script/Scoreboard.gd 
+```
+
+```
+$ python linter.py Network.gd 
+```
+
 ```
 $ python linter.py Script/SceneManagers/
-```
-
-**To lint a specific file**
-```
-$ python linter.py [path-to-file]
-```
-Example:
-```
-$ python linter.py Script/SceneManagers/CreateGameRoomManager.gd 
-```
-
-**To lint specific files**
-```
-$ python linter.py [path-to-file] [path-to-file2] ...
-```
-Example:
-```
-$ python linter.py Script/SceneManagers/CreateGameRoomManager.gd Script/SceneManagers/GameSceneManager.gd
 ```
 
 ## Ignore
