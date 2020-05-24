@@ -222,9 +222,10 @@ func _get_input_pos():
 	var pos = get_node("HeadPos").position
 	# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
 	var margin = 0.4
-	var windowmarginx = OS.get_window_size().x*margin
-	var windowmarginy = OS.get_window_size().y*margin
-	return Vector2(pos.x*(OS.get_window_size().x+windowmarginx)-(windowmarginx/2), (pos.y*OS.get_window_size().y+windowmarginx)-(windowmarginx/2))
+	var windowmarginx = (OS.get_window_size().x)*margin
+	var windowmarginy = (OS.get_window_size().y)*margin
+	return Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
+				pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
 	#return get_global_mouse_position()
 
 
