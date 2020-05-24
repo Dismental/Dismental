@@ -53,6 +53,7 @@ private:
     cv::Rect    biggestFace(std::vector<cv::Rect> &faces) const;
     cv::Point   centerOfRect(const cv::Rect &rect) const;
     cv::Mat     getFaceTemplate(const cv::Mat &frame, cv::Rect face);
+    void        stopTemplateMatching();
     void        detectFaceAllSizes(const cv::Mat &frame);
     void        detectFaceAroundRoi(const cv::Mat &frame);
     void        detectFacesTemplateMatching(const cv::Mat &frame, const cv::Mat &orgFrame);

@@ -232,6 +232,15 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
     m_facePosition = centerOfRect(m_trackedFace);
 }
 
+void VideoFaceDetector::stopTemplateMatching()
+{
+    m_foundFace = false;
+    m_templateMatchingRunning = false;
+    m_templateMatchingStartTime = m_templateMatchingCurrentTime = 0;
+    m_facePosition.x = m_facePosition.y = 0;
+    m_trackedFace.x = m_trackedFace.y = m_trackedFace.width = m_trackedFace.height = 0;
+}
+
 void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame, const cv::Mat &orgFrame)
 {
     // Calculate duration of template matching
@@ -241,21 +250,13 @@ void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame, const 
     // If template matching lasts for more than 2 seconds face is possibly lost
     // so disable it and redetect using cascades
     if (duration > m_templateMatchingMaxDuration) {
-        m_foundFace = false;
-        m_templateMatchingRunning = false;
-        m_templateMatchingStartTime = m_templateMatchingCurrentTime = 0;
-		m_facePosition.x = m_facePosition.y = 0;
-		m_trackedFace.x = m_trackedFace.y = m_trackedFace.width = m_trackedFace.height = 0;
+        stopTemplateMatching();
 		return;
     }
 
 	// Edge case when face exits frame while 
 	if (m_faceTemplate.rows * m_faceTemplate.cols == 0 || m_faceTemplate.rows <= 1 || m_faceTemplate.cols <= 1) {
-		m_foundFace = false;
-		m_templateMatchingRunning = false;
-		m_templateMatchingStartTime = m_templateMatchingCurrentTime = 0;
-		m_facePosition.x = m_facePosition.y = 0;
-		m_trackedFace.x = m_trackedFace.y = m_trackedFace.width = m_trackedFace.height = 0;
+		stopTemplateMatching();
 		return;
 	}
 
