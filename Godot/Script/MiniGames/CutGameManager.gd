@@ -11,8 +11,6 @@ const Utils = preload("res://Script/Utils.gd")
 var map_sprite
 var dots = []
 var running = false
-var waitForStartingPosition = false
-var start_position_input
 
 var finish_rect
 
@@ -50,9 +48,8 @@ func _draw():
 			dots.append(input_pos)
 	
 	# Draw line
-	if !waitForStartingPosition:
-		for i in range(2, len(dots) - 1):
-			draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
+	for i in range(2, len(dots) - 1):
+		draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
 		
 	# Draw Start Point
 	#	var vp_rect = get_viewport_rect().size
@@ -127,29 +124,6 @@ func _update_game_state():
 			_game_over()
 		else:
 			_check_finish()
-
-	if waitForStartingPosition:
-		start_position_input = _calc_start_position()
-		var distance_from_start = (start_position_input*2).distance_to(_get_input_pos())
-		
-		#print(_get_input_pos(), _calc_start_position(), distance_from_start)
-
-		if distance_from_start < 10:
-			waitForStartingPosition = false
-			dots.clear()
-		#print(typeof(start_position_input - _get_input_pos()))
-		#check if current position is near the starting position
-
-		# If the current position is near, check if a timer is running.
-			# if the timer is not running, start it. if is running, check threshold
-		
-		# if the position is not near, cancel the timer
-	if !waitForStartingPosition:
-		if len(dots) > 2:
-			if !_is_input_on_track():
-				_game_over()
-			else:
-				_check_finish()
 
 
 func _check_finish():
@@ -236,18 +210,7 @@ func _get_input_pos():
 		rset("puppet_mouse", mousepos)
 	else:
 		mousepos = puppet_mouse
-        
-    # The values for the headtracking position ranges from 0 to 1
-	#var pos = get_node("HeadPos").position
-	# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
-	#var margin = 0.4
-	#var windowmarginx = (OS.get_window_size().x)*margin
-	#var windowmarginy = (OS.get_window_size().y)*margin
-	#return Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
-	#			pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
-
 	return mousepos
-	
 
 
 func _get_map_pixel_color(pos):
@@ -263,15 +226,12 @@ func _get_map_pixel_color(pos):
 ### BUTTON FUNCTIONALITIES ###
 func _on_StartDialog_confirmed():
 	rpc("_on_update_running", true)
-	running = true
-	waitForStartingPosition = true
-	start_position_input = _calc_start_position()
+	_move_input_to_start()
 
 
 sync func _restart_game():
 	rpc("_on_update_running", true)
-	waitForStartingPosition = true
-	start_position_input = _calc_start_position()
+	_move_input_to_start()
 	dots.clear()
 	finish_state = 0
 
