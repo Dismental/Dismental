@@ -4,6 +4,8 @@ onready var start_dialog = $Control/StartDialog
 onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
 
+puppet var puppet_mouse = Vector2()
+
 const Utils = preload("res://Script/Utils.gd")
 
 var map_sprite
@@ -20,8 +22,11 @@ var finish_rect
 var finish_state = 0
 
 func _ready():
-	start_dialog.popup()
-	_load_map(1,false)
+	if get_tree().is_network_server():
+		start_dialog.popup()
+		_load_map(1, false)
+	else:
+		_load_map(1)
 	_calc_finish_line()
 
 
@@ -34,7 +39,6 @@ func _process(_delta):
 
 
 func _draw():
-	
 	# Draw finish rect
 	draw_rect(finish_rect, Color(0.5, 0.5, 0.5), 10)
 	if running:
@@ -42,7 +46,7 @@ func _draw():
 	
 		# Add input pos to list of past input position
 		# If the previous input position wasn't close
-		if len (dots) == 0 or (dots[len(dots)-1].distance_to(input_pos) > 15):
+		if len(dots) == 0 or (dots[len(dots)-1].distance_to(input_pos) > 15):
 			dots.append(input_pos)
 	
 	# Draw line
@@ -56,8 +60,8 @@ func _draw():
 	#	draw_circle(start_point, 50, Color(0, 0, 1))
 	
 	# Draw current pointer
-	if len (dots) > 2:
-		var rad = 15
+	if len(dots) > 2:
+		var rad = 25
 		var col = Color(0, 1, 0) if _is_input_on_track() else Color(1, 0, 0)
 		if running:
 			draw_circle(_get_input_pos(), rad, col)
@@ -72,8 +76,8 @@ func _unhandled_input(event):
 			get_tree().quit()
 
 func _calc_start_position():
-	var center_x = finish_rect.position.x + (finish_rect.size.x * 0.5)
-	var center_y = finish_rect.position.y + (finish_rect.size.y * 0.5)
+	var center_x = finish_rect.position.x + (finish_rect.size.x / 2.0)
+	var center_y = finish_rect.position.y + (finish_rect.size.y / 2.0)
 	var center_rect = Vector2(center_x, center_y)
 	
 	var vp_size = get_viewport().size
@@ -91,7 +95,7 @@ func _calc_start_position():
 
 func _calc_finish_line():
 	var start_x_ratio = 0.1
-	var map_tex = map_sprite.texture
+	
 	var vp_rect = get_viewport_rect().size
 	var sp = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
 
@@ -112,11 +116,17 @@ func _calc_finish_line():
 
 
 func _game_over():
-	running = false
-	game_over_dialog.popup()
+	rpc("_on_update_running", false)
+	if get_tree().is_network_server():
+		game_over_dialog.popup()
 	
 
 func _update_game_state():
+	if len(dots) > 2:
+		if not _is_input_on_track():
+			_game_over()
+		else:
+			_check_finish()
 
 	if waitForStartingPosition:
 		start_position_input = _calc_start_position()
@@ -144,7 +154,7 @@ func _update_game_state():
 
 func _check_finish():
 	if finish_state == 0:
-		if !finish_rect.has_point(_get_input_pos()):
+		if not finish_rect.has_point(_get_input_pos()):
 			if _get_input_pos().y < finish_rect.position.y:
 				finish_state = 1
 			else:
@@ -166,20 +176,22 @@ func _check_finish():
 
 
 func _game_completed():
-	completed_dialog.popup()
-	running = false
-	print("COMPLETED!")
+	rpc("_on_update_running", false)
+	if get_tree().is_network_server():
+		completed_dialog.popup()
+	rpc("_on_game_completed")
 
 func _move_input_to_start():
-	start_position_input = _calc_start_position()
-	Input.warp_mouse_position(start_position_input)
+	var start_position_input = _calc_start_position()
+	if get_tree().is_network_server():
+		Input.warp_mouse_position(start_position_input)
 
 
 func _load_map(index=null, visible=true):
 	# if no index is given -> generate an random index
 	map_sprite = Sprite.new()
 	randomize()
-	if !index:
+	if not index:
 		var map_path = "res://Scenes/Mini Games/Cut/Maps/"
 		# Divide by 2 because every map has an import file behind the scenes
 		var map_count = Utils._count_files_in_dir(map_path) / 2
@@ -218,15 +230,24 @@ func _is_input_on_track():
 
 
 func _get_input_pos():
-	# The values for the headtracking position ranges from 0 to 1
-	var pos = get_node("HeadPos").position
+	var mousepos
+	if get_tree().is_network_server():
+		mousepos = get_global_mouse_position()
+		rset("puppet_mouse", mousepos)
+	else:
+		mousepos = puppet_mouse
+        
+    # The values for the headtracking position ranges from 0 to 1
+	#var pos = get_node("HeadPos").position
 	# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
-	var margin = 0.4
-	var windowmarginx = (OS.get_window_size().x)*margin
-	var windowmarginy = (OS.get_window_size().y)*margin
-	return Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
-				pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
-	#return get_global_mouse_position()
+	#var margin = 0.4
+	#var windowmarginx = (OS.get_window_size().x)*margin
+	#var windowmarginy = (OS.get_window_size().y)*margin
+	#return Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
+	#			pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
+
+	return mousepos
+	
 
 
 func _get_map_pixel_color(pos):
@@ -241,22 +262,32 @@ func _get_map_pixel_color(pos):
 
 ### BUTTON FUNCTIONALITIES ###
 func _on_StartDialog_confirmed():
+	rpc("_on_update_running", true)
 	running = true
 	waitForStartingPosition = true
 	start_position_input = _calc_start_position()
-	
 
 
-func _restart_game():
+sync func _restart_game():
+	rpc("_on_update_running", true)
 	waitForStartingPosition = true
 	start_position_input = _calc_start_position()
 	dots.clear()
-	running = true
+	finish_state = 0
 
 
 func _on_GameOverDialog_confirmed():
-	_restart_game()
+	rpc("_restart_game")
 
 
 func _on_CompletedDialog_confirmed():
-	get_tree().quit()
+	get_parent().remove_child(self)
+
+
+sync func _on_update_running(newValue):
+	running = newValue
+
+
+puppet func _on_game_completed():
+	get_parent().remove_child(self)
+

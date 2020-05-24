@@ -5,16 +5,13 @@
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=3]
 [ext_resource path="res://Script/SceneManagers/SettingsSceneManager.gd" type="Script" id=4]
 
-
-
-
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=4]
 size = 100
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -26,7 +23,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -38,7 +35,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=3]
 border_width_left = 10
 border_width_top = 10
 border_width_right = 12
@@ -76,7 +73,7 @@ margin_left = -227.0
 margin_top = 200.0
 margin_right = 227.0
 margin_bottom = 126.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 4 )
 text = "Settings"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -92,9 +89,9 @@ margin_top = 40.0
 margin_right = 1070.0
 margin_bottom = 1070.0
 rect_scale = Vector2( 0.12, 0.12 )
-custom_styles/hover = SubResource( 2 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 icon = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false

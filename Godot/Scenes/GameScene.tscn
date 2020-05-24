@@ -1,19 +1,14 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Script/SceneManagers/GameSceneManager.gd" type="Script" id=2]
 [ext_resource path="res://Textures/example-bomb.jpg" type="Texture" id=3]
 [ext_resource path="res://Fonts/Roboto/Roboto-Light.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Fonts/digital-7/digital-7 (mono).ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Script/BombManager.gd" type="Script" id=6]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
 
-
-[sub_resource type="DynamicFont" id=1]
-size = 100
-outline_size = 4
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 1 )
-
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -25,7 +20,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -37,7 +32,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=3]
 border_width_left = 10
 border_width_top = 10
 border_width_right = 12
@@ -48,15 +43,26 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=4]
 size = 100
-font_data = ExtResource( 4 )
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=5]
 size = 80
 font_data = ExtResource( 4 )
 
-[node name="Control" type="Control"]
+[sub_resource type="DynamicFont" id=6]
+size = 140
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[node name="Node" type="Node"]
+script = ExtResource( 6 )
+
+[node name="Control" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
@@ -64,23 +70,37 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
 margin_right = 1928.0
 margin_bottom = 900.0
 
-[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer"]
+[node name="Panel" type="Panel" parent="Control/VBoxContainer/HBoxContainer"]
 margin_right = 300.0
 margin_bottom = 900.0
 rect_min_size = Vector2( 300, 900 )
 
-[node name="ExampleBomb" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+[node name="BackButton" type="Button" parent="Control/VBoxContainer/HBoxContainer/Panel"]
+margin_left = 40.0
+margin_top = 40.0
+margin_right = 1086.0
+margin_bottom = 1086.0
+rect_scale = Vector2( 0.12, 0.12 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+icon = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExampleBomb" type="TextureRect" parent="Control/VBoxContainer/HBoxContainer"]
 margin_left = 304.0
 margin_right = 1624.0
 margin_bottom = 900.0
@@ -91,82 +111,60 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel2" type="Panel" parent="VBoxContainer/HBoxContainer"]
-margin_left = 1628.0
-margin_right = 1928.0
-margin_bottom = 900.0
-rect_min_size = Vector2( 300, 900 )
-
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
-margin_top = 904.0
-margin_right = 1928.0
-margin_bottom = 1084.0
-rect_min_size = Vector2( 1920, 180 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="Control/VBoxContainer/HBoxContainer/ExampleBomb"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -331.0
+margin_left = -335.0
 margin_top = 40.0
-margin_right = 331.0
+margin_right = 327.0
 margin_bottom = 196.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 4 )
 text = "Game Scene"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BackButton" type="Button" parent="."]
-margin_left = 40.0
-margin_top = 40.0
-margin_right = 1070.0
-margin_bottom = 1070.0
-rect_scale = Vector2( 0.12, 0.12 )
-custom_styles/hover = SubResource( 2 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
-icon = ExtResource( 7 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Panel2" type="Panel" parent="Control/VBoxContainer/HBoxContainer"]
+margin_left = 1628.0
+margin_right = 1928.0
+margin_bottom = 900.0
+rect_min_size = Vector2( 300, 900 )
 
-[node name="TimeCounter" type="Label" parent="."]
-anchor_left = 0.999183
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -331.724
-margin_top = -154.972
-margin_right = -92.2937
-margin_bottom = -36.9724
+[node name="PanelContainer" type="Control" parent="Control/VBoxContainer"]
+margin_top = 904.0
+margin_right = 1928.0
+margin_bottom = 1084.0
+rect_min_size = Vector2( 1920, 180 )
+
+[node name="PuzzlesLeft" type="Label" parent="Control/VBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 42.0
+margin_right = 1921.0
+margin_bottom = 137.0
 rect_pivot_offset = Vector2( 1, 0 )
 custom_fonts/font = SubResource( 5 )
-text = "03:46"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="PuzzlesLeft" type="Label" parent="."]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 53.2532
-margin_top = -152.025
-margin_right = 534.253
-margin_bottom = -34.0254
-rect_pivot_offset = Vector2( 1, 0 )
-custom_fonts/font = SubResource( 6 )
 text = "Puzzles left: 2"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 20
+
+[node name="TimeCounter" type="Label" parent="CanvasLayer"]
+modulate = Color( 1, 0, 0, 1 )
+anchor_left = 0.999183
+anchor_top = 1.00255
+anchor_right = 1.04115
+anchor_bottom = 1.00255
+margin_left = -331.724
+margin_top = -154.972
+margin_right = -92.2926
+margin_bottom = -36.9719
+rect_pivot_offset = Vector2( 1, 0 )
+custom_fonts/font = SubResource( 6 )
+text = "03:46"
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
-[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/Panel/BackButton" to="Control" method="_on_BackButton_pressed"]
