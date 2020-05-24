@@ -122,12 +122,6 @@ func _game_over():
 	
 
 func _update_game_state():
-	if len(dots) > 2:
-		if not _is_input_on_track():
-			_game_over()
-		else:
-			_check_finish()
-
 	if waitForStartingPosition:
 		start_position_input = _calc_start_position()
 		var distance_from_start = (start_position_input*2).distance_to(_get_input_pos())
@@ -236,8 +230,8 @@ func _get_input_pos():
 		rset("puppet_mouse", mousepos)
 	else:
 		mousepos = puppet_mouse
-        
-    # The values for the headtracking position ranges from 0 to 1
+		
+	# The values for the headtracking position ranges from 0 to 1
 	#var pos = get_node("HeadPos").position
 	# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
 	#var margin = 0.4
