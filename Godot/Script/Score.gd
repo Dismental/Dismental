@@ -12,9 +12,6 @@ func _init(team_name: String, level_name: String, completed_time: String, comple
 	time = completed_time
 	date = completed_date
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
 func _save():
 	var save_dict = {
@@ -24,8 +21,3 @@ func _save():
 		"date" : date,
 	}
 	return save_dict
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

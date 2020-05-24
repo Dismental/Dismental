@@ -3,7 +3,6 @@ extends Control
 
 func _ready():
 	instance_panels()
-	pass
 
 func _on_BackButton_pressed():
 	Utils._change_screen("res://Scenes/MainMenu.tscn", self)
