@@ -13,4 +13,4 @@ func change_scene(filename):
 
 
 func _create_client():
-	Network._create_client($InputGameID.text)
+	Network.create_client($InputGameID.text)
