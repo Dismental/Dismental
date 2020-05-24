@@ -14,7 +14,7 @@ func change_scene(filename):
 
 # Makes ScorePanels based on the scores that currently exist within ScoreManager.
 func instance_panels():
-	var scores = get_parent().get_node("ScoreManager").get_scores()
+	var scores = ScoreManager.get_scores()	
 	var scorepanel = preload("res://Scenes/ScoreScenes/ScorePanel.tscn")
 	var pos = 1
 	for score in scores:

@@ -28,6 +28,7 @@ config/icon="res://icon.png"
 
 Network="*res://Network.gd"
 Utils="*res://Script/Utils.gd"
+ScoreManager="*res://Script/ScoreManager.gd"
 
 [display]
 
