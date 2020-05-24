@@ -11,7 +11,7 @@ const Utils = preload("res://Script/Utils.gd")
 var map_sprite
 var dots = []
 var running = false
-var waitForStartingPosition = false
+puppetsync var waitForStartingPosition = true
 var start_position_input
 
 var finish_rect
@@ -62,11 +62,10 @@ func _draw():
 	# Draw current pointer
 	if len(dots) > 2:
 		var rad = 25
-		var col = Color(0, 1, 0) if _is_input_on_track() else Color(1, 0, 0)
-		if running:
-			draw_circle(_get_input_pos(), rad, col)
-		else:
-			draw_circle(dots[len(dots)-1], rad, col)
+		var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(0, 1, 0)
+
+		draw_circle(_get_input_pos(), rad, col)
+
 
 
 func _unhandled_input(event):
@@ -116,6 +115,7 @@ func _calc_finish_line():
 
 
 func _game_over():
+	print("gameover")
 	rpc("_on_update_running", false)
 	if get_tree().is_network_server():
 		game_over_dialog.popup()
@@ -125,24 +125,18 @@ func _update_game_state():
 	if waitForStartingPosition:
 		start_position_input = _calc_start_position()
 		var distance_from_start = (start_position_input*2).distance_to(_get_input_pos())
-		
-		#print(_get_input_pos(), _calc_start_position(), distance_from_start)
-
 		if distance_from_start < 10:
-			waitForStartingPosition = false
+			print("start")
+			rset("waitForStartingPosition", false)
 			dots.clear()
-		#print(typeof(start_position_input - _get_input_pos()))
-		#check if current position is near the starting position
-
-		# If the current position is near, check if a timer is running.
-			# if the timer is not running, start it. if is running, check threshold
-		
-		# if the position is not near, cancel the timer
-	if !waitForStartingPosition:
+	else:
+		print("playing")
 		if len(dots) > 2:
-			if !_is_input_on_track():
+			if not _is_input_on_track():
+				print("game over")
 				_game_over()
 			else:
+				print("checking finish")
 				_check_finish()
 
 
@@ -170,6 +164,7 @@ func _check_finish():
 
 
 func _game_completed():
+	print("game completed")
 	rpc("_on_update_running", false)
 	if get_tree().is_network_server():
 		completed_dialog.popup()
@@ -209,6 +204,7 @@ func _add_sprite_to_scene(sprite):
 
 
 func _is_input_on_viewport():
+	print("checking viewport")
 	var input_pos = _get_input_pos()
 	if input_pos.x >= 0 and input_pos.x <= get_viewport_rect().size.x:
 		if input_pos.y >= 0 and input_pos.y <= get_viewport_rect().size.y:
@@ -217,30 +213,32 @@ func _is_input_on_viewport():
 
 
 func _is_input_on_track():
+	print("checking on track")
 	if _is_input_on_viewport():
 		var pixelcolor = _get_map_pixel_color(_get_input_pos())
 		return pixelcolor != Color(1, 1, 1)
+	print("return 'off' track")
 	return false
 
 
 func _get_input_pos():
-	var mousepos
+	var cursorpos
 	if get_tree().is_network_server():
-		mousepos = get_global_mouse_position()
-		rset("puppet_mouse", mousepos)
+			# The values for the headtracking position ranges from 0 to 1
+		if true:
+			var pos = get_node("HeadPos").position
+			# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
+			var margin = 0.4
+			var windowmarginx = (OS.get_window_size().x)*margin
+			var windowmarginy = (OS.get_window_size().y)*margin
+			cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
+					pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
+		else:
+			cursorpos = get_global_mouse_position()
+		rset("puppet_mouse", cursorpos)
 	else:
-		mousepos = puppet_mouse
-		
-	# The values for the headtracking position ranges from 0 to 1
-	#var pos = get_node("HeadPos").position
-	# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
-	#var margin = 0.4
-	#var windowmarginx = (OS.get_window_size().x)*margin
-	#var windowmarginy = (OS.get_window_size().y)*margin
-	#return Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
-	#			pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
-
-	return mousepos
+		cursorpos = puppet_mouse
+	return cursorpos
 	
 
 
@@ -258,13 +256,12 @@ func _get_map_pixel_color(pos):
 func _on_StartDialog_confirmed():
 	rpc("_on_update_running", true)
 	running = true
-	waitForStartingPosition = true
 	start_position_input = _calc_start_position()
 
 
 sync func _restart_game():
 	rpc("_on_update_running", true)
-	waitForStartingPosition = true
+	rset("waitForStartingPosition", true)
 	start_position_input = _calc_start_position()
 	dots.clear()
 	finish_state = 0
