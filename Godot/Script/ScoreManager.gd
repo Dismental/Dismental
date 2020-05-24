@@ -13,6 +13,9 @@ func _ready():
 func get_scores():
 	return scores
 
+func add_score(score: Score):
+	scores.append(score)
+
 func save_scores():
 	var save_file = File.new()
 	save_file.open("user://scoresave.save", File.WRITE)
