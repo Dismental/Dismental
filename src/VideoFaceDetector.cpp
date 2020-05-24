@@ -206,6 +206,9 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
         if (!m_allFaces_lastSeen.empty()) {
             m_faceRoi = m_faceRoi_lastSeen;
             m_allFaces = m_allFaces_lastSeen;
+
+            cv::Rect m_trackedFace_lastSeen = biggestFace(m_allFaces_lastSeen);
+            printToFrameQueue.push(m_trackedFace_lastSeen);
         }
     }
 
