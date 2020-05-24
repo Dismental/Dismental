@@ -31,3 +31,4 @@ func _change_screen(path: String, s_node : Node):
 		return true
 	else:
 		push_error("can't delete" + str(s_node))
+		return false
