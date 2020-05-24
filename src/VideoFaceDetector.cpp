@@ -358,6 +358,13 @@ cv::Point VideoFaceDetector::getFrameAndDetect(cv::Mat &frame)
         }
     }
 
+    // Display debug rectangle frame the frame
+    while (!printToFrameQueue.empty())
+    {
+        rectangle(frame, printToFrameQueue.front(), cv::Scalar(0,0,255), 4,8,0);
+        printToFrameQueue.pop();
+    }
+
     return m_facePosition;
 }
 

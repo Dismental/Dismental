@@ -49,6 +49,7 @@ private:
     double                  m_templateMatchingMaxDuration = 3;
     int                     m_maxBufferFaceTemplate = 5;
 
+    std::queue<cv::Rect>    printToFrameQueue;
     cv::Rect    doubleRectSize(const cv::Rect &inputRect, const cv::Rect &frameSize) const;
     cv::Rect    biggestFace(std::vector<cv::Rect> &faces) const;
     cv::Point   centerOfRect(const cv::Rect &rect) const;
