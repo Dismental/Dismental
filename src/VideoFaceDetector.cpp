@@ -193,7 +193,7 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
     // Detect faces sized +/-20% off biggest face in previous search
     m_faceCascade->detectMultiScale(frame(m_faceRoi), m_allFaces, 1.1, 3, 0,
         cv::Size(m_trackedFace.width * 8 / 10, m_trackedFace.height * 8 / 10),
-        cv::Size(m_trackedFace.width * 12 / 10, m_trackedFace.width * 12 / 10));
+        cv::Size(m_trackedFace.width * 12 / 10, m_trackedFace.height * 12 / 10));
 
     if (m_allFaces.empty())
     {
