@@ -5,6 +5,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/objdetect.hpp>
+#include <opencv2/tracking.hpp>
+
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -48,6 +50,29 @@ void GDExample::_init() {
 
     waitingForSample = true;
 
+    string trackerTypes[8] = {"BOOSTING", "MIL", "KCF", "TLD","MEDIANFLOW", "GOTURN", "MOSSE", "CSRT"};
+    string trackerType = trackerTypes[7];
+
+    if (trackerType == "BOOSTING")
+        tracker = TrackerBoosting::create();
+    if (trackerType == "MIL")
+        tracker = TrackerMIL::create();
+    if (trackerType == "KCF")
+        tracker = TrackerKCF::create();
+    if (trackerType == "TLD")
+        tracker = TrackerTLD::create();
+    if (trackerType == "MEDIANFLOW")
+        tracker = TrackerMedianFlow::create();
+    if (trackerType == "GOTURN")
+        tracker = TrackerGOTURN::create();
+    if (trackerType == "MOSSE")
+        tracker = TrackerMOSSE::create();
+    if (trackerType == "CSRT")
+        tracker = TrackerCSRT::create();
+
+    bbox = Rect2d(100,200,200,300);
+
+
     // // TODO 
     face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
     if(!face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml")) {
@@ -68,50 +93,20 @@ void GDExample::_process(float delta) {
 
     Mat skinMask;
     if(waitingForSample) {
-        rectangle(frame, Rect(200, frame.rows / 2 - 200, 200, 300), Scalar(0,0,255), 4, 8, 0);
-        flip(frame, frame, 1);
-        imshow("", frame);
+        rectangle(frame, bbox, Scalar(0,0,255), 4, 8, 0);
     } else {
-        // handSample.copyTo(frame(Rect(0,0,handSample.cols,handSample.rows)));
-
-        // cv::Mat matchingResult;
-        // cv::matchTemplate(frame, handSample, matchingResult, cv::TM_SQDIFF_NORMED);
-        // cv::normalize(matchingResult, matchingResult, 0, 1, cv::NORM_MINMAX, -1, cv::Mat());
-        // double min, max;
-        // cv::Point minLoc, maxLoc;
-        // cv::minMaxLoc(matchingResult, &min, &max, &minLoc, &maxLoc);
-        // rectangle(frame, Rect(minLoc.x + 150, minLoc.y + 200, 10, 10), Scalar(0,0,255), 4, 8, 0);
-
-        Mat hsvInput;
-        cvtColor(frame, hsvInput, COLOR_BGR2HSV);
-        Scalar hsvMeanSample = mean(handSample);
-
-        int hLow = hsvMeanSample[0] - 80;
-        int hHigh = hsvMeanSample[0] + 30;
-        int sLow = hsvMeanSample[1] - 80;
-        int sHigh = hsvMeanSample[1] + 30;
-
-        inRange(
-            hsvInput,
-            Scalar(hLow, sLow, 0),
-            Scalar(hHigh, sHigh, 255),
-            skinMask
-        );
-
-        Mat structuringElement = getStructuringElement(MORPH_ELLIPSE, { 3, 3 });
-        morphologyEx(skinMask, skinMask, MORPH_OPEN, structuringElement);
-        dilate(skinMask, skinMask, Mat(), Point(-1, -1), 3);
-
-        // flip(frame, frame, 1);
-        imshow("", skinMask);
+        tracker->update(frame, bbox);
+        rectangle(frame, bbox, Scalar(0,0,255), 4, 8, 0);
     }
 
     if(waitKey(10) == 32) {
         waitingForSample = false;
-        handSample = frame(Rect(200, frame.rows / 2 - 200, 200, 300)).clone();
-        cvtColor(handSample, handSample, COLOR_BGR2HSV);
+        handSample = frame(bbox).clone();
+        tracker->init(frame,bbox);
     }
     
+    flip(frame, frame, 1);
+    imshow("", frame);
     set_position(Vector2(cursorPos.x, cursorPos.y));
 }
 
