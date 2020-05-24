@@ -10,6 +10,7 @@
 #include <string>
 #include "VideoFaceDetector.h"
 #include <queue>
+#include <math.h>
 
 using namespace godot;
 using namespace cv;
@@ -65,28 +66,52 @@ int dist(Point p1, Point p2) {
 void GDExample::_process(float delta) {
     camera >> frame;
 
+    Mat skinMask;
     if(waitingForSample) {
-        rectangle(frame, Rect(200, frame.rows / 2 - 200, 300, 400), Scalar(0,0,255), 4, 8, 0);
+        rectangle(frame, Rect(200, frame.rows / 2 - 200, 200, 300), Scalar(0,0,255), 4, 8, 0);
+        flip(frame, frame, 1);
+        imshow("", frame);
     } else {
         // handSample.copyTo(frame(Rect(0,0,handSample.cols,handSample.rows)));
 
-        cv::Mat matchingResult;
-        cv::matchTemplate(frame, handSample, matchingResult, cv::TM_SQDIFF_NORMED);
-        cv::normalize(matchingResult, matchingResult, 0, 1, cv::NORM_MINMAX, -1, cv::Mat());
-        double min, max;
-        cv::Point minLoc, maxLoc;
-        cv::minMaxLoc(matchingResult, &min, &max, &minLoc, &maxLoc);
+        // cv::Mat matchingResult;
+        // cv::matchTemplate(frame, handSample, matchingResult, cv::TM_SQDIFF_NORMED);
+        // cv::normalize(matchingResult, matchingResult, 0, 1, cv::NORM_MINMAX, -1, cv::Mat());
+        // double min, max;
+        // cv::Point minLoc, maxLoc;
+        // cv::minMaxLoc(matchingResult, &min, &max, &minLoc, &maxLoc);
+        // rectangle(frame, Rect(minLoc.x + 150, minLoc.y + 200, 10, 10), Scalar(0,0,255), 4, 8, 0);
 
-        rectangle(frame, Rect(minLoc.x + 150, minLoc.y + 200, 10, 10), Scalar(0,0,255), 4, 8, 0);
+        Mat hsvInput;
+        cvtColor(frame, hsvInput, COLOR_BGR2HSV);
+        Scalar hsvMeanSample = mean(handSample);
+
+        int hLow = hsvMeanSample[0] - 80;
+        int hHigh = hsvMeanSample[0] + 30;
+        int sLow = hsvMeanSample[1] - 80;
+        int sHigh = hsvMeanSample[1] + 30;
+
+        inRange(
+            hsvInput,
+            Scalar(hLow, sLow, 0),
+            Scalar(hHigh, sHigh, 255),
+            skinMask
+        );
+
+        Mat structuringElement = getStructuringElement(MORPH_ELLIPSE, { 3, 3 });
+        morphologyEx(skinMask, skinMask, MORPH_OPEN, structuringElement);
+        dilate(skinMask, skinMask, Mat(), Point(-1, -1), 3);
+
+        // flip(frame, frame, 1);
+        imshow("", skinMask);
     }
 
     if(waitKey(10) == 32) {
         waitingForSample = false;
-        handSample = frame(Rect(200, frame.rows / 2 - 200, 300, 400)).clone();
+        handSample = frame(Rect(200, frame.rows / 2 - 200, 200, 300)).clone();
+        cvtColor(handSample, handSample, COLOR_BGR2HSV);
     }
     
-    flip(frame, frame, 1);
-    imshow("", frame);
     set_position(Vector2(cursorPos.x, cursorPos.y));
 }
 
