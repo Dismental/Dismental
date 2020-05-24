@@ -10,17 +10,17 @@ var next_scene
 
 func _ready():
 	last_label_update = wait_time
-	
+
 	timer_label = get_node("CanvasLayer/TimeCounter")
-	
+
 	timer = Timer.new()
 	timer.one_shot = true
 
-	timer.connect("timeout",self,"_on_timer_timeout") 
+	timer.connect("timeout",self,"_on_timer_timeout")
 	add_child(timer)
 	timer.set_wait_time(wait_time)
 	_set_timer_label(wait_time)
-	
+
 	running = true
 	timer.start()
 
@@ -35,23 +35,23 @@ func _process(_delta):
 
 func _set_timer_label(sec):
 	var minutes = 0
-	
+
 	while sec >= 60:
 		minutes += 1
 		sec -= 60
-	
+
 	if minutes < 10:
 		minutes = "0" + str(minutes)
 	else:
 		minutes = str(minutes)
-	
+
 	if sec < 10:
 		sec = "0" + str(sec)
 	else:
 		sec = str(sec)
-	
+
 	timer_label.text = minutes + ":" + sec
-	
+
 
 func _on_timer_timeout():
 	print("TIME'S UP")
