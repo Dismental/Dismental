@@ -46,9 +46,9 @@ cv::CascadeClassifier *VideoFaceDetector::faceCascade() const
     return m_faceCascade;
 }
 
-std::queue<cv::Mat> VideoFaceDetector::getLastKnownFaceTemplateQueue() const
+std::queue<cv::Mat> VideoFaceDetector::getLastSeenFaceTemplateQueue() const
 {
-    return m_faceTemplate_lastKnown_queue;
+    return m_faceTemplate_lastSeen_queue;
 }
 
 void VideoFaceDetector::setResizedWidth(const int width)
@@ -198,7 +198,7 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
     if (m_allFaces.empty())
     {
         // Activate template matching if not already started and start timer
-        if (!m_templateMatchingRunning) m_trackedFace_lastKnown = m_trackedFace;
+        if (!m_templateMatchingRunning) m_trackedFace_lastSeen = m_trackedFace;
         m_templateMatchingRunning = true;
         if (m_templateMatchingStartTime == 0)
             m_templateMatchingStartTime = cv::getTickCount();
@@ -206,10 +206,10 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
     }
 
     // Add face template to the queue
-    m_faceTemplate_lastKnown_queue.push(getFaceTemplate(frame, m_trackedFace));
+    m_faceTemplate_lastSeen_queue.push(getFaceTemplate(frame, m_trackedFace));
 
     // If queue is larger than [maxQueueSize], pop oldest facetemplate
-    if (m_faceTemplate_lastKnown_queue.size() > m_maxBufferFaceTemplate) m_faceTemplate_lastKnown_queue.pop();
+    if (m_faceTemplate_lastSeen_queue.size() > m_maxBufferFaceTemplate) m_faceTemplate_lastSeen_queue.pop();
    
     // Turn off template matching if running and reset timer
     m_templateMatchingRunning = false;

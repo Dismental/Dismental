@@ -25,7 +25,7 @@ public:
     cv::Point               facePosition() const;
     void                    setTemplateMatchingMaxDuration(const double s);
     double                  templateMatchingMaxDuration() const;
-    std::queue<cv::Mat>     getLastKnownFaceTemplateQueue() const;
+    std::queue<cv::Mat>     getLastSeenFaceTemplateQueue() const;
 
 private:
     static const double     TICK_FREQUENCY;
@@ -34,10 +34,10 @@ private:
     cv::CascadeClassifier*  m_faceCascade = NULL;
     std::vector<cv::Rect>   m_allFaces;
     cv::Rect                m_trackedFace;
-    cv::Rect                m_trackedFace_lastKnown;
+    cv::Rect                m_trackedFace_lastSeen;
     cv::Rect                m_faceRoi;
     cv::Mat                 m_faceTemplate;
-    std::queue<cv::Mat>     m_faceTemplate_lastKnown_queue;
+    std::queue<cv::Mat>     m_faceTemplate_lastSeen_queue;
     cv::Mat                 m_matchingResult;
     bool                    m_templateMatchingRunning = false;
     int64                   m_templateMatchingStartTime = 0;
