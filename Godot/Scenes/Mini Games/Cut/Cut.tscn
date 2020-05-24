@@ -81,6 +81,9 @@ margin_right = 372.9
 margin_bottom = 59.5997
 custom_fonts/font = SubResource( 2 )
 text = "Press [Esc] to stop"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="confirmed" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
 [connection signal="popup_hide" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
 [connection signal="confirmed" from="Control/GameOverDialog" to="." method="_on_GameOverDialog_confirmed"]
