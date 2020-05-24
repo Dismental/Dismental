@@ -1,7 +1,7 @@
 extends Control
 
 func _on_BackButton_pressed():
-	Utils._change_screen("res://Scenes/JoinGameRoom.tscn", self)
+	return Utils._change_screen("res://Scenes/JoinGameRoom.tscn", self)
 		
 func change_scene(filename):
 	if get_tree().change_scene(filename) != OK:
