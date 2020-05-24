@@ -73,8 +73,8 @@ func _unhandled_input(event):
 			get_tree().quit()
 
 func _calc_start_position():
-	var center_x = finish_rect.position.x + (finish_rect.size.x * 0.5)
-	var center_y = finish_rect.position.y + (finish_rect.size.y * 0.5)
+	var center_x = finish_rect.position.x + (finish_rect.size.x / 2.0)
+	var center_y = finish_rect.position.y + (finish_rect.size.y / 2.0)
 	var center_rect = Vector2(center_x, center_y)
 	
 	var vp_size = get_viewport().size
@@ -92,7 +92,7 @@ func _calc_start_position():
 
 func _calc_finish_line():
 	var start_x_ratio = 0.1
-	var map_tex = map_sprite.texture
+	
 	var vp_rect = get_viewport_rect().size
 	var sp = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
 
@@ -241,11 +241,13 @@ func _on_GameOverDialog_confirmed():
 
 
 func _on_CompletedDialog_confirmed():
-	get_tree().quit()
+	get_parent().remove_child(self)
 
 
 sync func _on_update_running(newValue):
 	running = newValue
 
+
 puppet func _on_game_completed():
-	get_tree().quit()
+	get_parent().remove_child(self)
+
