@@ -302,42 +302,6 @@ void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame, const 
 
     // Update face position
     m_facePosition = centerOfRect(m_trackedFace);
-
-    // ------------------------------------------------------ modified for last known and debugging
-
-    // Template matching with last known face 
-    cv::Rect m_faceRoi_lastKnown = doubleRectSize(m_trackedFace_lastKnown, cv::Rect(0, 0, frame.cols, frame.rows));
-    cv::Mat m_matchingResult_lastKnown;
-    cv::matchTemplate(frame(m_faceRoi_lastKnown), m_faceTemplate_lastKnown_queue.front(), m_matchingResult_lastKnown, cv::TM_SQDIFF_NORMED);
-
-    cv::normalize(m_matchingResult_lastKnown, m_matchingResult_lastKnown, 0, 1, cv::NORM_MINMAX, -1, cv::Mat());
-    
-    double min_last, max_last;
-    cv::Point minLoc_last, maxLoc_last;
-    
-    cv::minMaxLoc(m_matchingResult_lastKnown, &min_last, &max_last, &minLoc_last, &maxLoc_last);
-
-    minLoc_last.x += m_faceRoi_lastKnown.x;
-    minLoc_last.y += m_faceRoi_lastKnown.y;
-
-    // Display the 'last known from template' red dot
-    cv::Rect  m_trackedFace_debug = cv::Rect(minLoc_last.x, minLoc_last.y, m_faceTemplate.cols, m_faceTemplate.rows);
-    std::string standardString_lastKnown= std::to_string(minLoc_last.x) + ":" + std::to_string(minLoc_last.y);
-    m_trackedFace_debug = doubleRectSize(m_trackedFace_debug, cv::Rect(0, 0, frame.cols, frame.rows));
-
-    // Get new face template
-    cv::Mat m_faceTemplate_debug = getFaceTemplate(frame, m_trackedFace_debug);
-
-    // Calculate face roi
-    cv::Rect m_faceRoi_debug = doubleRectSize(m_trackedFace_debug, cv::Rect(0, 0, frame.cols, frame.rows));
-
-    // Update face position
-    cv::Point m_facePosition_debug = centerOfRect(m_trackedFace_debug);
-
-    cv::Point facePos_debug;
-    facePos_debug.x = (int)(m_facePosition_debug.x / m_scale);
-    facePos_debug.y = (int)(m_facePosition_debug.y / m_scale);
-    rectangle(orgFrame, cv::Rect(facePos_debug.x,facePos_debug.y,5,5), cv::Scalar(0,0,255), 4,8,0);
 }
 
 cv::Point VideoFaceDetector::getFrameAndDetect(cv::Mat &frame)
