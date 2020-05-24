@@ -86,7 +86,7 @@ void GDExample::_process(float delta) {
     }
     cv::Mat flipFrame;
     flip(frame, flipFrame, 1);
-    imshow("", flipFrame);
+    // imshow("", flipFrame);
 
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
     cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
