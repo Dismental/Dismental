@@ -195,6 +195,20 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
         cv::Size(m_trackedFace.width * 8 / 10, m_trackedFace.height * 8 / 10),
         cv::Size(m_trackedFace.width * 12 / 10, m_trackedFace.height * 12 / 10));
 
+    if (m_allFaces.empty()) {
+        std::vector<cv::Rect>   m_allFaces_lastSeen;
+        cv::Rect m_faceRoi_lastSeen = doubleRectSize(m_trackedFace_lastSeen, cv::Rect(0, 0, frame.cols, frame.rows));
+
+        m_faceCascade->detectMultiScale(frame(m_faceRoi_lastSeen), m_allFaces_lastSeen, 1.1, 3, 0,
+            cv::Size(m_trackedFace.width * 8 / 10, m_trackedFace.height * 8 / 10),
+            cv::Size(m_trackedFace.width * 12 / 10, m_trackedFace.height * 12 / 10));
+
+        if (!m_allFaces_lastSeen.empty()) {
+            m_faceRoi = m_faceRoi_lastSeen;
+            m_allFaces = m_allFaces_lastSeen;
+        }
+    }
+
     if (m_allFaces.empty())
     {
         // Activate template matching if not already started and start timer
