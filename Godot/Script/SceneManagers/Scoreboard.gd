@@ -7,10 +7,6 @@ func _ready():
 func _on_BackButton_pressed():
 	Utils._change_screen("res://Scenes/MainMenu.tscn", self)
 
-func change_scene(filename):
-	if get_tree().change_scene(filename) != OK:
-		print("Error loading " + str(filename))
-
 # Makes ScorePanels based on the scores that currently exist within ScoreManager.
 func instance_panels():
 	var scores = ScoreManager.get_scores()	
