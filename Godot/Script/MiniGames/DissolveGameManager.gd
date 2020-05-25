@@ -44,9 +44,7 @@ func _process(delta):
 	var input_y = get_viewport().get_mouse_position().y
 	
 	# Update matrix based on mouse position
-	print(input_x)
-	print(input_y)
-	
+	print(_get_sector(input_x, input_y))
 	
 	# Updated matrix, 2D array
 	
@@ -86,5 +84,9 @@ func _init_heatmap_sprite():
 # Give x and y, get sector of matrix the x and y is found in
 # Returns [row, column]
 func _get_sector(input_x, input_y):
-	var vp = get_viewport_rect() / columns
-	pass
+	var vp = get_viewport_rect()
+	var column_width = vp.size.x / columns
+	var row_height = vp.size.y / rows
+	var column = floor(input_x / column_width)
+	var row = floor(input_y / row_height)
+	return [row, column]
