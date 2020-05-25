@@ -8,6 +8,7 @@ extends Node2D
 var matrix = []
 var columns = 12
 var rows = 6
+var heatmap_sprite = _init_heatmap_sprite()
 
 # Entry of matrix is range 0..2
 
@@ -28,7 +29,8 @@ func _ready():
 		for _j in range(columns):
 			row.append(0)
 		matrix.append(row)
-
+	
+	
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -49,8 +51,10 @@ func _process(delta):
 	# Updated matrix, 2D array
 	
 	# Matrix -> image -> texture -> frame
+	
 	var imageTexture = ImageTexture.new()
 	var dynImage = Image.new()
+	
 	dynImage.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
 	dynImage.fill(Color(0, 1, 1, 1))
 	dynImage.lock()
@@ -58,20 +62,29 @@ func _process(delta):
 		for j in range(vp.size.y / 2, vp.size.y / 2 + 10):
 			dynImage.set_pixel(i, j, Color(1, 0, 0, 1))
 	dynImage.unlock()
-	imageTexture.create_from_image(dynImage)
 	
 	imageTexture.resource_name = "heatmap"
+	imageTexture.create_from_image(dynImage)
+	heatmap_sprite.set_texture(imageTexture)
+
+
+func _init_heatmap_sprite():
+	var imageTexture = ImageTexture.new()
+	var dynImage = Image.new()
+	var vp = get_viewport_rect()
+	dynImage.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
+	dynImage.fill(Color(0, 1, 1, 1))
+	imageTexture.resource_name = "heatmap"
+	imageTexture.create_from_image(dynImage)
 	var s = Sprite.new()
 	s.centered = false
 	s.set_texture(imageTexture)
-#	s.Texture = imageTexture
 	add_child(s)
-	print(s.get_texture())
-	
-	pass
+	return s
+
 
 # Give x and y, get sector of matrix the x and y is found in
 # Returns [row, column]
-func _get_sector(x, y):
-	
+func _get_sector(input_x, input_y):
+	var vp = get_viewport_rect() / columns
 	pass
