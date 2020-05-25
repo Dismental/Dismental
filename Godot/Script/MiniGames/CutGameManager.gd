@@ -11,6 +11,8 @@ const Utils = preload("res://Script/Utils.gd")
 var map_sprite
 var dots = []
 var running = false
+puppetsync var waitForStartingPosition = true
+var start_position_input
 
 var finish_rect
 
@@ -48,8 +50,9 @@ func _draw():
 			dots.append(input_pos)
 	
 	# Draw line
-	for i in range(2, len(dots) - 1):
-		draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
+	if !waitForStartingPosition:
+		for i in range(2, len(dots) - 1):
+			draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
 		
 	# Draw Start Point
 	#	var vp_rect = get_viewport_rect().size
@@ -59,11 +62,10 @@ func _draw():
 	# Draw current pointer
 	if len(dots) > 2:
 		var rad = 25
-		var col = Color(0, 1, 0) if _is_input_on_track() else Color(1, 0, 0)
-		if running:
-			draw_circle(_get_input_pos(), rad, col)
-		else:
-			draw_circle(dots[len(dots)-1], rad, col)
+		var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(0, 1, 0)
+
+		draw_circle(_get_input_pos(), rad, col)
+
 
 
 func _unhandled_input(event):
@@ -119,11 +121,18 @@ func _game_over():
 	
 
 func _update_game_state():
-	if len(dots) > 2:
-		if not _is_input_on_track():
-			_game_over()
-		else:
-			_check_finish()
+	if waitForStartingPosition:
+		start_position_input = _calc_start_position()
+		var distance_from_start = (start_position_input*2).distance_to(_get_input_pos())
+		if distance_from_start < 10:
+			rset("waitForStartingPosition", false)
+			dots.clear()
+	else:
+		if len(dots) > 2:
+			if not _is_input_on_track():
+				_game_over()
+			else:
+				_check_finish()
 
 
 func _check_finish():
@@ -204,13 +213,24 @@ func _is_input_on_track():
 
 
 func _get_input_pos():
-	var mousepos
+	var cursorpos
 	if get_tree().is_network_server():
-		mousepos = get_global_mouse_position()
-		rset("puppet_mouse", mousepos)
+			# The values for the headtracking position ranges from 0 to 1
+		if true:
+			var pos = get_node("HeadPos").position
+			# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
+			var margin = 0.4
+			var windowmarginx = (OS.get_window_size().x)*margin
+			var windowmarginy = (OS.get_window_size().y)*margin
+			cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
+					pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
+		else:
+			cursorpos = get_global_mouse_position()
+		rset("puppet_mouse", cursorpos)
 	else:
-		mousepos = puppet_mouse
-	return mousepos
+		cursorpos = puppet_mouse
+	return cursorpos
+	
 
 
 func _get_map_pixel_color(pos):
@@ -226,12 +246,14 @@ func _get_map_pixel_color(pos):
 ### BUTTON FUNCTIONALITIES ###
 func _on_StartDialog_confirmed():
 	rpc("_on_update_running", true)
-	_move_input_to_start()
+	running = true
+	start_position_input = _calc_start_position()
 
 
 sync func _restart_game():
 	rpc("_on_update_running", true)
-	_move_input_to_start()
+	rset("waitForStartingPosition", true)
+	start_position_input = _calc_start_position()
 	dots.clear()
 	finish_state = 0
 
