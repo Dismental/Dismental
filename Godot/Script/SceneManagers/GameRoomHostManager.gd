@@ -5,7 +5,7 @@ func _on_BackButton_pressed():
 
 
 func _on_StartGameButton_pressed():
-	Network._begin_game_pressed()
+	Network.begin_game_pressed()
 
 
 func change_scene(filename):
