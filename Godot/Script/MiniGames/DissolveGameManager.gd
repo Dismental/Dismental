@@ -52,8 +52,8 @@ func _process(delta):
 	for r in range(rows):
 		for c in range(columns):
 			if matrix[r][c] > 50:
-				_draw_sector(c, r, dynImage)
-	dynImage.unlock()
+				_draw_sector(c, r, dyn_image)
+	dyn_image.unlock()
 	
 	imageTexture.resource_name = "heatmap"
 	imageTexture.create_from_image(dyn_image)
@@ -64,8 +64,8 @@ func _draw_sector(row, column, dyn_image):
 	var vp = get_viewport_rect()
 	var row_height = vp.size.x / rows
 	var column_width = vp.size.y / columns
-	var start_pixel_x = column_width * x
-	var start_pixel_y = row_height * y
+	var start_pixel_x = column_width * row
+	var start_pixel_y = row_height * column
 	for i in range(start_pixel_x, start_pixel_x + column_width):
 		for j in range(start_pixel_y, start_pixel_y + row_height):
 			dyn_image.set_pixel(i, j, Color(1, 0, 0, 1))
@@ -77,13 +77,8 @@ func _init_heatmap_sprite():
 	var vp = get_viewport_rect()
 	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
 	dyn_image.fill(Color(0, 1, 1, 1))
-	dyn_image.lock()
-	for i in range(1, vp.size.x):
-		for j in range(1, vp.size.y):
-			dyn_image.set_pixel(i, j, Color(0, 0, 0, 1))
-	dyn_image.unlock()
-	imageTexture.resource_name = "heatmap"
 	imageTexture.create_from_image(dyn_image)
+	imageTexture.resource_name = "heatmap"
 	var s = Sprite.new()
 	s.centered = false
 	s.set_texture(imageTexture)
