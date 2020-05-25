@@ -6,8 +6,8 @@ extends Node2D
 # var b = "text"
 
 var matrix = []
-var columns = 12
-var rows = 6
+var columns = 100
+var rows = 100
 var heatmap_sprite = _init_heatmap_sprite()
 
 # Entry of matrix is range 0..2
@@ -22,8 +22,8 @@ var colors = [
 func _ready():
 	var x = get_viewport().size.x
 	var y = get_viewport().size.y
-	var column_width = x / columns
-	var row_width = y / rows
+	var column_width = x / float(columns)
+	var row_width = y / float(rows)
 	for _i in range(rows):
 		var row = []
 		for _j in range(columns):
@@ -34,15 +34,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var vp = get_viewport_rect()
-	var input_x = get_viewport().get_mouse_position().x
-	var input_y = get_viewport().get_mouse_position().y
+	var input = get_viewport().get_mouse_position()
 	
 	# Update matrix based on mouse position
-	var sector = _get_sector(input_x, input_y)
+	var sector = _get_sector(input.x, input.y)
 	var row = sector.get("row")
 	var column = sector.get("column")
-	
-	matrix[row][column] += 1 if matrix[row][column] < 100 else 0
+	print(column, " " ,row)
+	matrix[column][row] += 1 if matrix[column][row] < 100 else 0
 	
 	var imageTexture = ImageTexture.new()
 	var dynImage = Image.new()
@@ -53,7 +52,7 @@ func _process(delta):
 	for r in range(rows):
 		for c in range(columns):
 			if matrix[r][c] > 50:
-				_draw_sector(r, c, dynImage)
+				_draw_sector(c, r, dynImage)
 	dynImage.unlock()
 	
 	imageTexture.resource_name = "heatmap"
@@ -62,8 +61,8 @@ func _process(delta):
 
 func _draw_sector(x, y, dyn_image):
 	var vp = get_viewport_rect()
-	var row_height = vp.size.x / 12
-	var column_width = vp.size.x / 12
+	var row_height = vp.size.x / rows
+	var column_width = vp.size.y / columns
 	var start_pixel_x = column_width * x
 	var start_pixel_y = row_height * y
 	for i in range(start_pixel_x, start_pixel_x + column_width):
