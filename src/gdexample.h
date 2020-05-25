@@ -1,5 +1,5 @@
-#ifndef CURSOR_H
-#define CURSOR_H
+#ifndef GDEXAMPLE_H
+#define GDEXAMPLE_H
 
 #include <Godot.hpp>
 #include <Position2D.hpp>
@@ -10,8 +10,8 @@
 
 namespace godot {
 
-    class Cursor : public Position2D {
-        GODOT_CLASS(Cursor, Position2D)
+    class GDExample : public Position2D {
+        GODOT_CLASS(GDExample, Position2D)
 
 private:
     float time_passed;
@@ -29,8 +29,8 @@ private:
 public:
     static void _register_methods();
 
-        Cursor();
-        ~Cursor();
+        GDExample();
+        ~GDExample();
 
         void _init(); // our initializer called by Godot
 
