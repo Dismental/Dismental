@@ -115,7 +115,6 @@ func _calc_finish_line():
 
 
 func _game_over():
-	print("gameover")
 	rpc("_on_update_running", false)
 	if get_tree().is_network_server():
 		game_over_dialog.popup()
@@ -126,17 +125,13 @@ func _update_game_state():
 		start_position_input = _calc_start_position()
 		var distance_from_start = (start_position_input*2).distance_to(_get_input_pos())
 		if distance_from_start < 10:
-			print("start")
 			rset("waitForStartingPosition", false)
 			dots.clear()
 	else:
-		print("playing")
 		if len(dots) > 2:
 			if not _is_input_on_track():
-				print("game over")
 				_game_over()
 			else:
-				print("checking finish")
 				_check_finish()
 
 
@@ -164,7 +159,6 @@ func _check_finish():
 
 
 func _game_completed():
-	print("game completed")
 	rpc("_on_update_running", false)
 	if get_tree().is_network_server():
 		completed_dialog.popup()
@@ -204,7 +198,6 @@ func _add_sprite_to_scene(sprite):
 
 
 func _is_input_on_viewport():
-	print("checking viewport")
 	var input_pos = _get_input_pos()
 	if input_pos.x >= 0 and input_pos.x <= get_viewport_rect().size.x:
 		if input_pos.y >= 0 and input_pos.y <= get_viewport_rect().size.y:
@@ -213,11 +206,9 @@ func _is_input_on_viewport():
 
 
 func _is_input_on_track():
-	print("checking on track")
 	if _is_input_on_viewport():
 		var pixelcolor = _get_map_pixel_color(_get_input_pos())
 		return pixelcolor != Color(1, 1, 1)
-	print("return 'off' track")
 	return false
 
 
