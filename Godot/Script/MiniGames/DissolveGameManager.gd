@@ -52,8 +52,8 @@ func _process(delta):
 	for r in range(rows):
 		for c in range(columns):
 			if matrix[r][c] > 0:
-				_draw_sector(c, r, dynImage)
-	dynImage.unlock()
+				_draw_sector(c, r, dyn_image)
+	dyn_image.unlock()
 	
 	imageTexture.resource_name = "heatmap"
 	imageTexture.create_from_image(dyn_image)
@@ -64,8 +64,8 @@ func _draw_sector(row, column, dyn_image):
 	var vp = get_viewport_rect()
 	var row_height = vp.size.y / rows
 	var column_width = vp.size.x / columns
-	var start_pixel_x = column_width * x
-	var start_pixel_y = row_height * y
+	var start_pixel_x = column_width * row
+	var start_pixel_y = row_height * column
 	for i in range(start_pixel_x, start_pixel_x + column_width):
 		for j in range(start_pixel_y, start_pixel_y + row_height):
 			dyn_image.set_pixel(i, j, Color(1, 0, 0, 1))
