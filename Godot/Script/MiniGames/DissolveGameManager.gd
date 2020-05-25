@@ -29,26 +29,20 @@ func _ready():
 		for _j in range(columns):
 			row.append(0)
 		matrix.append(row)
-	
-	
-	pass # Replace with function body.
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	# cursor position
 	var vp = get_viewport_rect()
-	
-	
-	# map -> matrix
 	var input_x = get_viewport().get_mouse_position().x
 	var input_y = get_viewport().get_mouse_position().y
 	
 	# Update matrix based on mouse position
-	print(_get_sector(input_x, input_y))
+	var sector = _get_sector(input_x, input_y)
+	var row = sector.get("row")
+	var column = sector.get("column")
 	
-	# Updated matrix, 2D array
-	
-	# Matrix -> image -> texture -> frame
+	matrix[row][column] += 1 if matrix[row][column] < 100 else 0
 	
 	var imageTexture = ImageTexture.new()
 	var dynImage = Image.new()
@@ -56,14 +50,25 @@ func _process(delta):
 	dynImage.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
 	dynImage.fill(Color(0, 1, 1, 1))
 	dynImage.lock()
-	for i in range(vp.size.x / 2, vp.size.x / 2 + 10):
-		for j in range(vp.size.y / 2, vp.size.y / 2 + 10):
-			dynImage.set_pixel(i, j, Color(1, 0, 0, 1))
+	for r in range(rows):
+		for c in range(columns):
+			if matrix[r][c] > 50:
+				_draw_sector(r, c, dynImage)
 	dynImage.unlock()
 	
 	imageTexture.resource_name = "heatmap"
 	imageTexture.create_from_image(dynImage)
 	heatmap_sprite.set_texture(imageTexture)
+
+func _draw_sector(x, y, dyn_image):
+	var vp = get_viewport_rect()
+	var row_height = vp.size.x / 12
+	var column_width = vp.size.x / 12
+	var start_pixel_x = column_width * x
+	var start_pixel_y = row_height * y
+	for i in range(start_pixel_x, start_pixel_x + column_width):
+		for j in range(start_pixel_y, start_pixel_y + row_height):
+			dyn_image.set_pixel(j, i, Color(1, 0, 0, 1))
 
 
 func _init_heatmap_sprite():
@@ -85,8 +90,8 @@ func _init_heatmap_sprite():
 # Returns [row, column]
 func _get_sector(input_x, input_y):
 	var vp = get_viewport_rect()
-	var column_width = vp.size.x / columns
 	var row_height = vp.size.y / rows
-	var column = floor(input_x / column_width)
+	var column_width = vp.size.x / columns
 	var row = floor(input_y / row_height)
-	return [row, column]
+	var column = floor(input_x / column_width)
+	return { "row": row, "column": column }
