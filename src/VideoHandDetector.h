@@ -3,6 +3,10 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/objdetect/objdetect.hpp>
+#include <opencv2/core/mat.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/objdetect.hpp>
+#include <opencv2/tracking.hpp>
 #include <queue>
 
 class VideoHandDetector
@@ -10,23 +14,16 @@ class VideoHandDetector
 public:
     // VideoHandDetector(const std::string cascadeFilePath, cv::VideoCapture &videoCapture);
     VideoHandDetector();
-    ~VideoHandDetector();
+    // ~VideoHandDetector();
 
-    cv::Point               getFrameAndDetect(cv::Mat &frame);
-    cv::Point               operator>>(cv::Mat &frame);
-    void                    setVideoCapture(cv::VideoCapture &videoCapture);
-    cv::VideoCapture*       videoCapture() const;
-    void                    setFaceCascade(const std::string cascadeFilePath);
-    cv::CascadeClassifier*  faceCascade() const;
-    void                    setResizedWidth(const int width);
-    int                     resizedWidth() const;
-	bool					isFaceFound() const;
-    cv::Rect                face() const;
-    cv::Point               facePosition() const;
-    void                    setTemplateMatchingMaxDuration(const double s);
-    double                  templateMatchingMaxDuration() const;
-    std::queue<cv::Mat>     getLastKnownFaceTemplateQueue() const;
+    void startTracking(cv::Mat &frame, cv::Rect2d &bbox);
+    cv::Rect2d update(cv::Mat &frame, cv::Rect2d &bbox);
+    void stopTracking();
+    void toggleTracking(cv::Mat &frame, cv::Rect2d &bbox);
+    bool isTracking();
 
 private:
-    bool isTracking;
+    bool trackingState;
+    cv::Ptr<cv::Tracker> tracker;
+    cv::Rect2d bbox;
 };

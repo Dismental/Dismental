@@ -11,6 +11,7 @@
 #include <sstream>
 #include <string>
 #include "VideoFaceDetector.h"
+#include "VideoHandDetector.h"
 #include <queue>
 #include <math.h>
 
@@ -50,28 +51,7 @@ void GDExample::_init() {
 
     waitingForSample = true;
 
-    string trackerTypes[8] = {"BOOSTING", "MIL", "KCF", "TLD","MEDIANFLOW", "GOTURN", "MOSSE", "CSRT"};
-    string trackerType = trackerTypes[7];
-
-    if (trackerType == "BOOSTING")
-        tracker = TrackerBoosting::create();
-    if (trackerType == "MIL")
-        tracker = TrackerMIL::create();
-    if (trackerType == "KCF")
-        tracker = TrackerKCF::create();
-    if (trackerType == "TLD")
-        tracker = TrackerTLD::create();
-    if (trackerType == "MEDIANFLOW")
-        tracker = TrackerMedianFlow::create();
-    if (trackerType == "GOTURN")
-        tracker = TrackerGOTURN::create();
-    if (trackerType == "MOSSE")
-        tracker = TrackerMOSSE::create();
-    if (trackerType == "CSRT")
-        tracker = TrackerCSRT::create();
-
     bbox = Rect2d(100,200,200,300);
-
 
     // // TODO 
     face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
@@ -91,30 +71,11 @@ int dist(Point p1, Point p2) {
 void GDExample::_process(float delta) {
     camera >> frame;
 
-    Mat skinMask;
-    if(waitingForSample) {
-        rectangle(frame, bbox, Scalar(0,0,255), 4, 8, 0);
-
-        flip(frame, frame, 1);
-        putText(frame,
-            "Place your hand inside the red rectangle.",
-            cv::Point(50, 50),
-            cv::FONT_HERSHEY_TRIPLEX,
-            0.75,
-            CV_RGB(255, 255, 255),
-            2
-        );
-        flip(frame, frame, 1);
-
-    } else {
-        tracker->update(frame, bbox);
-        rectangle(frame, bbox, Scalar(0,255,0), 4, 8, 0);
-    }
+    handTracker.update(frame, bbox);
 
     if(waitKey(10) == 32) {
-        waitingForSample = !waitingForSample;
-        handSample = frame(bbox).clone();
-        tracker->init(frame,bbox);
+        // tracker->init(frame,bbox);
+        handTracker.toggleTracking(frame, bbox);
     }
     
     flip(frame, frame, 1);

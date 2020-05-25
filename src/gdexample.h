@@ -8,6 +8,7 @@
 #include <opencv2/objdetect.hpp>
 #include <opencv2/tracking.hpp>
 #include "VideoFaceDetector.h"
+#include "VideoHandDetector.h"
 
 
 namespace godot {
@@ -33,6 +34,7 @@ private:
     cv::Mat handSample;
 
     VideoFaceDetector detector;
+    VideoHandDetector handTracker;
 
 public:
     static void _register_methods();
