@@ -12,8 +12,8 @@
 
 namespace godot {
 
-    class GDExample : public Sprite {
-        GODOT_CLASS(GDExample, Sprite)
+    class GDExample : public Position2D {
+        GODOT_CLASS(GDExample, Position2D)
 
 private:
     float time_passed;
