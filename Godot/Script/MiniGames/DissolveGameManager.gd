@@ -6,9 +6,10 @@ extends Node2D
 # var b = "text"
 
 var matrix = []
-var columns = 90
+var columns = 160
 var rows = 90
 var heatmap_sprite = _init_heatmap_sprite()
+
 
 # Entry of matrix is range 0..2
 
@@ -35,9 +36,11 @@ func _ready():
 func _process(delta):
 	var vp = get_viewport_rect()
 	var input = get_viewport().get_mouse_position()
+	var input_x = clamp(input.x, 0, vp.size.x - 1)
+	var input_y = clamp(input.y, 0, vp.size.y - 1)
 	
 	# Update matrix based on mouse position
-	var sector = _get_sector(input.x, input.y)
+	var sector = _get_sector(input_x, input_y)
 	var row = sector.get("row")
 	var column = sector.get("column")
 	print(column, " " ,row)
