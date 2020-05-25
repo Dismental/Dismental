@@ -94,13 +94,25 @@ void GDExample::_process(float delta) {
     Mat skinMask;
     if(waitingForSample) {
         rectangle(frame, bbox, Scalar(0,0,255), 4, 8, 0);
+
+        flip(frame, frame, 1);
+        putText(frame,
+            "Place your hand inside the red rectangle.",
+            cv::Point(50, 50),
+            cv::FONT_HERSHEY_TRIPLEX,
+            0.75,
+            CV_RGB(255, 255, 255),
+            2
+        );
+        flip(frame, frame, 1);
+
     } else {
         tracker->update(frame, bbox);
-        rectangle(frame, bbox, Scalar(0,0,255), 4, 8, 0);
+        rectangle(frame, bbox, Scalar(0,255,0), 4, 8, 0);
     }
 
     if(waitKey(10) == 32) {
-        waitingForSample = false;
+        waitingForSample = !waitingForSample;
         handSample = frame(bbox).clone();
         tracker->init(frame,bbox);
     }

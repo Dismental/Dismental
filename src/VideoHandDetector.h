@@ -28,32 +28,5 @@ public:
     std::queue<cv::Mat>     getLastKnownFaceTemplateQueue() const;
 
 private:
-    static const double     TICK_FREQUENCY;
-
-    cv::VideoCapture*       m_videoCapture = NULL;
-    cv::CascadeClassifier*  m_faceCascade = NULL;
-    std::vector<cv::Rect>   m_allFaces;
-    cv::Rect                m_trackedFace;
-    cv::Rect                m_trackedFace_lastKnown;
-    cv::Rect                m_faceRoi;
-    cv::Mat                 m_faceTemplate;
-    std::queue<cv::Mat>     m_faceTemplate_lastKnown_queue;
-    cv::Mat                 m_matchingResult;
-    bool                    m_templateMatchingRunning = false;
-    int64                   m_templateMatchingStartTime = 0;
-    int64                   m_templateMatchingCurrentTime = 0;
-    bool                    m_foundFace = false;
-    double                  m_scale;
-    int                     m_resizedWidth = 320;
-    cv::Point               m_facePosition;
-    double                  m_templateMatchingMaxDuration = 3;
-    int                     m_maxBufferFaceTemplate = 5;
-
-    cv::Rect    doubleRectSize(const cv::Rect &inputRect, const cv::Rect &frameSize) const;
-    cv::Rect    biggestFace(std::vector<cv::Rect> &faces) const;
-    cv::Point   centerOfRect(const cv::Rect &rect) const;
-    cv::Mat     getFaceTemplate(const cv::Mat &frame, cv::Rect face);
-    void        detectFaceAllSizes(const cv::Mat &frame);
-    void        detectFaceAroundRoi(const cv::Mat &frame);
-    void        detectFacesTemplateMatching(const cv::Mat &frame, const cv::Mat &orgFrame);
+    bool isTracking;
 };
