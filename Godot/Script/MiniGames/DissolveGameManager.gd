@@ -6,8 +6,8 @@ extends Node2D
 # var b = "text"
 
 var matrix = []
-var columns = 12
-var rows = 12
+var columns = 90
+var rows = 90
 var heatmap_sprite = _init_heatmap_sprite()
 
 # Entry of matrix is range 0..2
@@ -41,7 +41,7 @@ func _process(delta):
 	var row = sector.get("row")
 	var column = sector.get("column")
 	print(column, " " ,row)
-	matrix[column][row] += 1 if matrix[column][row] < 100 else 0
+	matrix[row][column] += 1 if matrix[row][column] < 100 else 0
 	
 	var imageTexture = ImageTexture.new()
 	var dyn_image = Image.new()
@@ -51,9 +51,9 @@ func _process(delta):
 	dyn_image.lock()
 	for r in range(rows):
 		for c in range(columns):
-			if matrix[r][c] > 50:
-				_draw_sector(c, r, dyn_image)
-	dyn_image.unlock()
+			if matrix[r][c] > 0:
+				_draw_sector(c, r, dynImage)
+	dynImage.unlock()
 	
 	imageTexture.resource_name = "heatmap"
 	imageTexture.create_from_image(dyn_image)
@@ -62,10 +62,10 @@ func _process(delta):
 
 func _draw_sector(row, column, dyn_image):
 	var vp = get_viewport_rect()
-	var row_height = vp.size.x / rows
-	var column_width = vp.size.y / columns
-	var start_pixel_x = column_width * row
-	var start_pixel_y = row_height * column
+	var row_height = vp.size.y / rows
+	var column_width = vp.size.x / columns
+	var start_pixel_x = column_width * x
+	var start_pixel_y = row_height * y
 	for i in range(start_pixel_x, start_pixel_x + column_width):
 		for j in range(start_pixel_y, start_pixel_y + row_height):
 			dyn_image.set_pixel(i, j, Color(1, 0, 0, 1))
