@@ -10,8 +10,10 @@ var columns = 10
 var rows = 10
 var heatmap_sprite = _init_heatmap_sprite()
 
-var increase_factor = 20
-var decrease_factor = 0.1
+var increase_factor = 5
+var decrease_factor = 1
+
+var radius = 5
 
 # Entry of matrix is range 0..2
 
@@ -39,6 +41,15 @@ func _process(delta):
 	_refresh_heatmap()
 	_decrease_heat(delta)
 
+func _draw_sector(row, column, dyn_image):
+	var vp = get_viewport_rect()
+	var row_height = vp.size.y / rows
+	var column_width = vp.size.x / columns
+	var start_pixel_x = column_width * row
+	var start_pixel_y = row_height * column
+	for i in range(start_pixel_x, start_pixel_x + column_width):
+		for j in range(start_pixel_y, start_pixel_y + row_height):
+			dyn_image.set_pixel(i, j, Color(matrix[column][row]/100, 0, 0, 1))
 
 func _refresh_heatmap():
 	var imageTexture = ImageTexture.new()
@@ -90,10 +101,15 @@ func _increase_matrix_input(delta):
 	var sector = _get_sector(input_x, input_y)
 	var row = sector.get("row")
 	var column = sector.get("column")
-	print(matrix[row][column])
-	if matrix[row][column] < 100:
-		matrix[row][column] += increase_factor * delta
 
+	for y in range(column - radius, column + radius):
+		for x in range(row - radius, row + radius):
+			if Vector2(row, column).distance_to(Vector2(x, y)) < radius:
+				var dis = Vector2(row, column).distance_squared_to(Vector2(x, y))
+				var ratio = pow(radius, 2) - dis
+				matrix[x][y] += increase_factor * delta * ratio
+				if matrix[x][y] > 100:
+					matrix[x][y] = 100
 
 func _init_heatmap_sprite():
 	var imageTexture = ImageTexture.new()
