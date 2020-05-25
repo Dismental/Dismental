@@ -10,6 +10,8 @@ var columns = 160
 var rows = 90
 var heatmap_sprite = _init_heatmap_sprite()
 
+var increase_factor = 5
+var decrease_factor = 0.1
 
 # Entry of matrix is range 0..2
 
@@ -33,11 +35,25 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	_increase_matrix_input()
+	_increase_matrix_input(delta)
+	_refresh_heatmap()
+	_decrease_heat(delta)
+
+func _draw_sector(row, column, dyn_image):
 	var vp = get_viewport_rect()
-	
+	var row_height = vp.size.y / rows
+	var column_width = vp.size.x / columns
+	var start_pixel_x = column_width * row
+	var start_pixel_y = row_height * column
+	for i in range(start_pixel_x, start_pixel_x + column_width):
+		for j in range(start_pixel_y, start_pixel_y + row_height):
+			dyn_image.set_pixel(i, j, Color(1, 0, 0, 1))
+
+
+func _refresh_heatmap():
 	var imageTexture = ImageTexture.new()
 	var dyn_image = Image.new()
+	var vp = get_viewport_rect()
 	
 	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
 	dyn_image.fill(Color(0, 1, 1, 1))
@@ -51,6 +67,12 @@ func _process(delta):
 	imageTexture.create_from_image(dyn_image)
 	heatmap_sprite.set_texture(imageTexture)
 
+func _decrease_heat(delta):
+	for r in range(rows):
+		for c in range(columns):
+			matrix[r][c] -= decrease_factor * delta
+			if matrix[r][c] < 0:
+				matrix[r][c] = 0
 
 func _draw_sector(row, column, temperature, dyn_image):
 	var vp = get_viewport_rect()
@@ -65,7 +87,7 @@ func _draw_sector(row, column, temperature, dyn_image):
 			dyn_image.set_pixel(i, j, Color(1, 0, 0, 1))
 
 
-func _increase_matrix_input():
+func _increase_matrix_input(delta):
 	var vp = get_viewport_rect()
 	var input = get_viewport().get_mouse_position()
 	var input_x = clamp(input.x, 0, vp.size.x - 1)
@@ -76,7 +98,9 @@ func _increase_matrix_input():
 	var row = sector.get("row")
 	var column = sector.get("column")
 	print(column, " " ,row)
-	matrix[row][column] += 1 if matrix[row][column] < 100 else 0
+	if matrix[row][column] < 100:
+		matrix[row][column] += increase_factor * delta
+
 
 func _init_heatmap_sprite():
 	var imageTexture = ImageTexture.new()
