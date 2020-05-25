@@ -1,4 +1,4 @@
-#include "gdexample.h"
+#include "cursor.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
@@ -19,23 +19,23 @@ using namespace godot;
 
 const cv::String CASCADE_FILE("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
 
-void GDExample::_register_methods() {
-    register_method("_process", &GDExample::_process);
-    register_property<GDExample, float>("amplitude", &GDExample::amplitude, 10.0);
+void Cursor::_register_methods() {
+    register_method("_process", &Cursor::_process);
+    register_property<Cursor, float>("amplitude", &Cursor::amplitude, 10.0);
 
     // First is name of signal
     // After that you have pairs of values that specify parameter name and type of each parameter we send to signal
-    register_signal<GDExample>((char*)"position_changed", "node", GODOT_VARIANT_TYPE_OBJECT, "new_pos", GODOT_VARIANT_TYPE_VECTOR2);
+    register_signal<Cursor>((char*)"position_changed", "node", GODOT_VARIANT_TYPE_OBJECT, "new_pos", GODOT_VARIANT_TYPE_VECTOR2);
 }
 
-GDExample::GDExample() {
+Cursor::Cursor() {
 }
 
-GDExample::~GDExample() {
+Cursor::~Cursor() {
     // add your cleanup here
 }
 
-void GDExample::_init() {
+void Cursor::_init() {
     // initialize any variables here
     time_passed = 0.0;
     time_emit = 0.0;
@@ -63,7 +63,7 @@ void GDExample::_init() {
     detector.setFaceCascade(CASCADE_FILE);
 }
 
-void GDExample::_process(float delta) {
+void Cursor::_process(float delta) {
     detector >> frame;
     // flip(frame, frame, 1);
     int frameWidth, frameHeigth;
