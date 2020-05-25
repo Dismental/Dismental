@@ -34,17 +34,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	_increase_matrix_input()
 	var vp = get_viewport_rect()
-	var input = get_viewport().get_mouse_position()
-	var input_x = clamp(input.x, 0, vp.size.x - 1)
-	var input_y = clamp(input.y, 0, vp.size.y - 1)
-	
-	# Update matrix based on mouse position
-	var sector = _get_sector(input_x, input_y)
-	var row = sector.get("row")
-	var column = sector.get("column")
-	print(column, " " ,row)
-	matrix[row][column] += 1 if matrix[row][column] < 100 else 0
 	
 	var imageTexture = ImageTexture.new()
 	var dyn_image = Image.new()
@@ -58,10 +49,8 @@ func _process(delta):
 				_draw_sector(c, r, dyn_image)
 	dyn_image.unlock()
 	
-	imageTexture.resource_name = "heatmap"
 	imageTexture.create_from_image(dyn_image)
 	heatmap_sprite.set_texture(imageTexture)
-
 
 func _draw_sector(row, column, dyn_image):
 	var vp = get_viewport_rect()
@@ -73,6 +62,19 @@ func _draw_sector(row, column, dyn_image):
 		for j in range(start_pixel_y, start_pixel_y + row_height):
 			dyn_image.set_pixel(i, j, Color(1, 0, 0, 1))
 
+
+func _increase_matrix_input():
+	var vp = get_viewport_rect()
+	var input = get_viewport().get_mouse_position()
+	var input_x = clamp(input.x, 0, vp.size.x - 1)
+	var input_y = clamp(input.y, 0, vp.size.y - 1)
+	
+	# Update matrix based on mouse position
+	var sector = _get_sector(input_x, input_y)
+	var row = sector.get("row")
+	var column = sector.get("column")
+	print(column, " " ,row)
+	matrix[row][column] += 1 if matrix[row][column] < 100 else 0
 
 func _init_heatmap_sprite():
 	var imageTexture = ImageTexture.new()
