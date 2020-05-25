@@ -8,20 +8,27 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Object",
+"class": "Score",
+"language": "GDScript",
+"path": "res://Script/Score.gd"
+} ]
 _global_script_class_icons={
-
+"Score": ""
 }
 
 [application]
 
 config/name="DefuseTheBomb"
-run/main_scene="res://Scenes/MainMenu.tscn"
+run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 Network="*res://Network.gd"
+Utils="*res://Script/Utils.gd"
+ScoreManager="*res://Script/ScoreManager.gd"
 
 [display]
 
