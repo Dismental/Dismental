@@ -74,7 +74,6 @@ void GDExample::_process(float delta) {
     handTracker.update(frame, bbox);
 
     if(waitKey(10) == 32) {
-        // tracker->init(frame,bbox);
         handTracker.toggleTracking(frame, bbox);
     }
     
