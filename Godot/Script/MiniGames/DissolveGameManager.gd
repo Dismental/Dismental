@@ -6,8 +6,8 @@ extends Node2D
 # var b = "text"
 
 var matrix = []
-var columns = 100
-var rows = 100
+var columns = 12
+var rows = 12
 var heatmap_sprite = _init_heatmap_sprite()
 
 # Entry of matrix is range 0..2
@@ -44,11 +44,11 @@ func _process(delta):
 	matrix[column][row] += 1 if matrix[column][row] < 100 else 0
 	
 	var imageTexture = ImageTexture.new()
-	var dynImage = Image.new()
+	var dyn_image = Image.new()
 	
-	dynImage.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
-	dynImage.fill(Color(0, 1, 1, 1))
-	dynImage.lock()
+	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
+	dyn_image.fill(Color(0, 1, 1, 1))
+	dyn_image.lock()
 	for r in range(rows):
 		for c in range(columns):
 			if matrix[r][c] > 50:
@@ -56,10 +56,11 @@ func _process(delta):
 	dynImage.unlock()
 	
 	imageTexture.resource_name = "heatmap"
-	imageTexture.create_from_image(dynImage)
+	imageTexture.create_from_image(dyn_image)
 	heatmap_sprite.set_texture(imageTexture)
 
-func _draw_sector(x, y, dyn_image):
+
+func _draw_sector(row, column, dyn_image):
 	var vp = get_viewport_rect()
 	var row_height = vp.size.x / rows
 	var column_width = vp.size.y / columns
@@ -67,17 +68,22 @@ func _draw_sector(x, y, dyn_image):
 	var start_pixel_y = row_height * y
 	for i in range(start_pixel_x, start_pixel_x + column_width):
 		for j in range(start_pixel_y, start_pixel_y + row_height):
-			dyn_image.set_pixel(j, i, Color(1, 0, 0, 1))
+			dyn_image.set_pixel(i, j, Color(1, 0, 0, 1))
 
 
 func _init_heatmap_sprite():
 	var imageTexture = ImageTexture.new()
-	var dynImage = Image.new()
+	var dyn_image = Image.new()
 	var vp = get_viewport_rect()
-	dynImage.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
-	dynImage.fill(Color(0, 1, 1, 1))
+	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
+	dyn_image.fill(Color(0, 1, 1, 1))
+	dyn_image.lock()
+	for i in range(1, vp.size.x):
+		for j in range(1, vp.size.y):
+			dyn_image.set_pixel(i, j, Color(0, 0, 0, 1))
+	dyn_image.unlock()
 	imageTexture.resource_name = "heatmap"
-	imageTexture.create_from_image(dynImage)
+	imageTexture.create_from_image(dyn_image)
 	var s = Sprite.new()
 	s.centered = false
 	s.set_texture(imageTexture)
