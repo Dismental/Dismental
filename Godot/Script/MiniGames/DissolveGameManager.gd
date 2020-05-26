@@ -4,21 +4,18 @@ var matrix = []
 var columns = 128
 var rows = 72
 var heatmap_sprite
+var radius = 7
 
 var increase_factor = 2
 var decrease_factor = 6
 
-var radius = 7
-
 var background_color = Color(0, 0, 1, 1)
-
 var soldering_iron_on = true 
 var iron_label
 
 
 func _ready():
 	iron_label = get_node("SolderingIronLabel")
-	
 	heatmap_sprite = _init_heatmap_sprite()
 	
 	for _i in range(rows):
@@ -28,27 +25,27 @@ func _ready():
 		matrix.append(row)
 
 
-
 func _process(delta):
 	print(Engine.get_frames_per_second())
 	if soldering_iron_on:
 		_increase_matrix_input(delta)
 	_refresh_heatmap(delta)
 
+
 func _input(ev):
 	if ev.is_action_pressed("space"):
 		soldering_iron_on = not soldering_iron_on
 		iron_label.text = "ON" if soldering_iron_on else "OFF"
 
-func _refresh_heatmap(delta):
 
+func _refresh_heatmap(delta):
 	var dyn_image = Image.new()
 	var vp = get_viewport_rect()
 	
 	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
 	dyn_image.fill(background_color)
-	dyn_image.lock()
 	
+	dyn_image.lock()
 	var row_height = vp.size.y / rows
 	var column_width = vp.size.x / columns
 	
@@ -69,14 +66,9 @@ func _refresh_heatmap(delta):
 						var red = temp_scale * 255.0
 						var blue =  255.0 - (temp_scale * 255.0)
 						dyn_image.set_pixel(i, j, Color(red / 100.0, 0, blue / 100.0, 1))
-
-
+	
 	dyn_image.unlock()
 	heatmap_sprite.texture.create_from_image(dyn_image)
-
-
-
-
 
 
 func _increase_matrix_input(delta):
@@ -100,6 +92,7 @@ func _increase_matrix_input(delta):
 					matrix[x][y] += increase_factor * delta * ratio
 					if matrix[x][y] > 100:
 						matrix[x][y] = 100
+
 
 func _init_heatmap_sprite():
 	var imageTexture = ImageTexture.new()
