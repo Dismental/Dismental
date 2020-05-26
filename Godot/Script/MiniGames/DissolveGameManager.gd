@@ -10,24 +10,17 @@ var columns = 160
 var rows = 90
 var heatmap_sprite
 
-var increase_factor = 0.5
+var increase_factor = 1
 var decrease_factor = 5
 
-var radius = 10
+var radius = 9
 
-# Entry of matrix is range 0..2
+var background_color = Color(0, 0, 1, 1)
 
-var colors = [
-	[0,0,255], # Blue
-	[255,0,0], # Red
-]
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	heatmap_sprite = _init_heatmap_sprite()
 	
-	var x = get_viewport().size.x
-	var y = get_viewport().size.y
 	for _i in range(rows):
 		var row = []
 		for _j in range(columns):
@@ -35,7 +28,7 @@ func _ready():
 		matrix.append(row)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta):
 	print(Engine.get_frames_per_second())
 	_increase_matrix_input(delta)
@@ -48,7 +41,7 @@ func _refresh_heatmap(delta):
 	var vp = get_viewport_rect()
 	
 	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
-	dyn_image.fill(Color(0, 1, 1, 1))
+	dyn_image.fill(background_color)
 	dyn_image.lock()
 	for r in range(rows):
 		for c in range(columns):
@@ -59,7 +52,7 @@ func _refresh_heatmap(delta):
 				matrix[r][c] = 0
 			
 			var temperature = matrix[r][c]
-			if temperature > 0:
+			if temperature > 15:
 				_draw_sector(c, r, temperature, dyn_image)
 	dyn_image.unlock()
 	
@@ -108,7 +101,7 @@ func _init_heatmap_sprite():
 	var dyn_image = Image.new()
 	var vp = get_viewport_rect()
 	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
-	dyn_image.fill(Color(0, 1, 1, 1))
+	dyn_image.fill(background_color)
 	imageTexture.create_from_image(dyn_image)
 	imageTexture.resource_name = "heatmap"
 	var s = Sprite.new()
