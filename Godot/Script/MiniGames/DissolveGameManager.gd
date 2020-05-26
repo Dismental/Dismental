@@ -6,8 +6,8 @@ extends Node2D
 # var b = "text"
 
 var matrix = []
-var columns = 80
-var rows = 45
+var columns = 160
+var rows = 90
 var heatmap_sprite
 
 var increase_factor = 0.5
@@ -57,10 +57,10 @@ func _refresh_heatmap(delta):
 			matrix[r][c] -= decrease_factor * delta
 			if matrix[r][c] < 0:
 				matrix[r][c] = 0
-				
+			
 			var temperature = matrix[r][c]
-
-			_draw_sector(c, r, temperature, dyn_image)
+			if temperature > 0:
+				_draw_sector(c, r, temperature, dyn_image)
 	dyn_image.unlock()
 	
 	imageTexture.create_from_image(dyn_image)
