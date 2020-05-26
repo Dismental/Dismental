@@ -6,14 +6,14 @@ extends Node2D
 # var b = "text"
 
 var matrix = []
-var columns = 160
-var rows = 90
+var columns = 128
+var rows = 72
 var heatmap_sprite
 
-var increase_factor = 1
-var decrease_factor = 5
+var increase_factor = 2
+var decrease_factor = 6
 
-var radius = 9
+var radius = 7
 
 var background_color = Color(0, 0, 1, 1)
 
