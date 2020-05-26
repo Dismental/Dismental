@@ -6,14 +6,14 @@ extends Node2D
 # var b = "text"
 
 var matrix = []
-var columns = 640
-var rows = 360
+var columns = 320
+var rows = 180
 var heatmap_sprite = _init_heatmap_sprite()
 
-var increase_factor = 0.8
-var decrease_factor = 15
+var increase_factor = 0.5
+var decrease_factor = 5
 
-var radius = 20
+var radius = 15
 
 # Entry of matrix is range 0..2
 
@@ -38,6 +38,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	print(Engine.get_frames_per_second())
 	_increase_matrix_input(delta)
 	_refresh_heatmap()
 	_decrease_heat(delta)
