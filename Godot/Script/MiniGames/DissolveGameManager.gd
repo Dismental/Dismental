@@ -41,16 +41,6 @@ func _process(delta):
 	_refresh_heatmap()
 	_decrease_heat(delta)
 
-func _draw_sector(row, column, dyn_image):
-	var vp = get_viewport_rect()
-	var row_height = vp.size.y / rows
-	var column_width = vp.size.x / columns
-	var start_pixel_x = column_width * row
-	var start_pixel_y = row_height * column
-	for i in range(start_pixel_x, start_pixel_x + column_width):
-		for j in range(start_pixel_y, start_pixel_y + row_height):
-			dyn_image.set_pixel(i, j, Color(matrix[column][row]/100, 0, 0, 1))
-
 func _refresh_heatmap():
 	var imageTexture = ImageTexture.new()
 	var dyn_image = Image.new()
