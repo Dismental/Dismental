@@ -98,10 +98,6 @@ func _refresh_heatmap(delta):
 			if temperature > 5:
 				for i in range(start_pixel_x, start_pixel_x + column_width):
 					for j in range(start_pixel_y, start_pixel_y + row_height):
-#						var temp_scale = temperature / 100.0
-#						var red = temp_scale * 255.0
-#						var blue =  255.0 - (temp_scale * 255.0)
-#						dyn_image.set_pixel(i, j, Color(red / 100.0, 0, blue / 100.0, 1))
 						dyn_image.set_pixel(i, j, _pick_color(temperature))
 	
 	dyn_image.unlock()
