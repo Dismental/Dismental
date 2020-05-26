@@ -15,7 +15,6 @@ for line in ignore:
 def gdlint(path):
   print(f"Linting: {path}")
   output = subprocess.run(f"gdlint {path}", shell=True)
-  # os.system(f'gdlint {path}')
   return output.returncode
 
 def validFile(path):
