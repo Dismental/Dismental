@@ -1,10 +1,5 @@
 extends Node2D
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 var matrix = []
 var columns = 128
 var rows = 72
