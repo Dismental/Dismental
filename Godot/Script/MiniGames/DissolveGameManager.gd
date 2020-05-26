@@ -9,14 +9,35 @@ var radius = 7
 var increase_factor = 2
 var decrease_factor = 6
 
-var background_color = Color(0, 0, 1, 1)
 var soldering_iron_on = true 
 var iron_label
 
+# https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
+# HSV / HSB colors
+var colors = [
+	[236.0, 90.0, 27.0],
+	[297.0, 84.0, 68.0],
+	[342.0, 79.0, 85.0],
+	[52.0, 75.0, 97.0],
+	[70.0, 2.0, 100.0],
+]
+
+var h_low = colors[0][0]
+var h_high = 360.0 + colors[colors.size() - 1][0] # Should be conditional
+var h_range = abs(h_high - h_low)
+var s_low = colors[0][1]
+var s_high = colors[colors.size() - 1][1]
+var s_range = abs(s_high - s_low)
+var b_low = colors[0][2]
+var b_high = colors[colors.size() - 1][2]
+var b_range = abs(b_high - b_low)
+
+var background_color = Color.from_hsv(((colors[0][0] * 100.0) / 360.0) / 100.0, colors[0][1] / 100.0, colors[0][2] / 100.0)
 
 func _ready():
 	iron_label = get_node("SolderingIronLabel")
 	heatmap_sprite = _init_heatmap_sprite()
+	pass
 	
 	for _i in range(rows):
 		var row = []
@@ -62,10 +83,11 @@ func _refresh_heatmap(delta):
 			if temperature > 5:
 				for i in range(start_pixel_x, start_pixel_x + column_width):
 					for j in range(start_pixel_y, start_pixel_y + row_height):
-						var temp_scale = temperature / 100.0
-						var red = temp_scale * 255.0
-						var blue =  255.0 - (temp_scale * 255.0)
-						dyn_image.set_pixel(i, j, Color(red / 100.0, 0, blue / 100.0, 1))
+#						var temp_scale = temperature / 100.0
+#						var red = temp_scale * 255.0
+#						var blue =  255.0 - (temp_scale * 255.0)
+#						dyn_image.set_pixel(i, j, Color(red / 100.0, 0, blue / 100.0, 1))
+						dyn_image.set_pixel(i, j, _pick_color(temperature))
 	
 	dyn_image.unlock()
 	heatmap_sprite.texture.create_from_image(dyn_image)
@@ -92,6 +114,15 @@ func _increase_matrix_input(delta):
 					matrix[x][y] += increase_factor * delta * ratio
 					if matrix[x][y] > 100:
 						matrix[x][y] = 100
+
+
+# Give percentage in the range of 100%, returns the right color
+func _pick_color(percentage):
+	percentage = percentage / 100.0
+	var h = ((fmod((h_low + percentage * h_range), 360.0) * 100.0) / 360.0) / 100.0
+	var s = (s_low - percentage * s_range) / 100.0
+	var b = (b_low + percentage * b_range) / 100.0
+	return Color.from_hsv(h, s, b)
 
 
 func _init_heatmap_sprite():
