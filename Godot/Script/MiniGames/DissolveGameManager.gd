@@ -6,14 +6,14 @@ extends Node2D
 # var b = "text"
 
 var matrix = []
-var columns = 320
-var rows = 180
-var heatmap_sprite = _init_heatmap_sprite()
+var columns = 80
+var rows = 45
+var heatmap_sprite
 
 var increase_factor = 0.5
 var decrease_factor = 5
 
-var radius = 15
+var radius = 10
 
 # Entry of matrix is range 0..2
 
@@ -24,10 +24,10 @@ var colors = [
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	heatmap_sprite = _init_heatmap_sprite()
+	
 	var x = get_viewport().size.x
 	var y = get_viewport().size.y
-	var column_width = x / float(columns)
-	var row_width = y / float(rows)
 	for _i in range(rows):
 		var row = []
 		for _j in range(columns):
@@ -39,10 +39,10 @@ func _ready():
 func _process(delta):
 	print(Engine.get_frames_per_second())
 	_increase_matrix_input(delta)
-	_refresh_heatmap()
-	_decrease_heat(delta)
+	_refresh_heatmap(delta)
 
-func _refresh_heatmap():
+
+func _refresh_heatmap(delta):
 	var imageTexture = ImageTexture.new()
 	var dyn_image = Image.new()
 	var vp = get_viewport_rect()
@@ -52,19 +52,20 @@ func _refresh_heatmap():
 	dyn_image.lock()
 	for r in range(rows):
 		for c in range(columns):
+			
+			# Decrease temp
+			matrix[r][c] -= decrease_factor * delta
+			if matrix[r][c] < 0:
+				matrix[r][c] = 0
+				
 			var temperature = matrix[r][c]
+
 			_draw_sector(c, r, temperature, dyn_image)
 	dyn_image.unlock()
 	
 	imageTexture.create_from_image(dyn_image)
 	heatmap_sprite.set_texture(imageTexture)
 
-func _decrease_heat(delta):
-	for r in range(rows):
-		for c in range(columns):
-			matrix[r][c] -= decrease_factor * delta
-			if matrix[r][c] < 0:
-				matrix[r][c] = 0
 
 
 func _draw_sector(row, column, temperature, dyn_image):
@@ -75,8 +76,7 @@ func _draw_sector(row, column, temperature, dyn_image):
 	var start_pixel_y = row_height * column
 	for i in range(start_pixel_x, start_pixel_x + column_width):
 		for j in range(start_pixel_y, start_pixel_y + row_height):
-			var temp_scale = float(temperature) / 100.0
-			
+			var temp_scale = temperature / 100.0
 			var red = temp_scale * 255.0
 			var blue =  255.0 - (temp_scale * 255.0)
 			dyn_image.set_pixel(i, j, Color(red / 100.0, 0, blue / 100.0, 1))
