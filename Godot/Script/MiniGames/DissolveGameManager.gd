@@ -6,14 +6,14 @@ extends Node2D
 # var b = "text"
 
 var matrix = []
-var columns = 160
-var rows = 90
+var columns = 640
+var rows = 360
 var heatmap_sprite = _init_heatmap_sprite()
 
-var increase_factor = 5
-var decrease_factor = 1
+var increase_factor = 0.8
+var decrease_factor = 15
 
-var radius = 5
+var radius = 20
 
 # Entry of matrix is range 0..2
 
@@ -94,9 +94,10 @@ func _increase_matrix_input(delta):
 			if Vector2(row, column).distance_to(Vector2(x, y)) < radius:
 				var dis = Vector2(row, column).distance_squared_to(Vector2(x, y))
 				var ratio = pow(radius, 2) - dis
-				matrix[x][y] += increase_factor * delta * ratio
-				if matrix[x][y] > 100:
-					matrix[x][y] = 100
+				if x >= 0 and x < rows and y >= 0 and y < columns:
+					matrix[x][y] += increase_factor * delta * ratio
+					if matrix[x][y] > 100:
+						matrix[x][y] = 100
 
 func _init_heatmap_sprite():
 	var imageTexture = ImageTexture.new()
