@@ -13,7 +13,7 @@ var soldering_iron_on = true
 var iron_label
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
-# HSV / HSB colors
+# HSB / HSV colors
 var colors = [
 	[236.0, 90.0, 27.0],
 	[297.0, 84.0, 68.0],
@@ -22,22 +22,37 @@ var colors = [
 	[70.0, 2.0, 100.0],
 ]
 
-var h_low = colors[0][0]
-var h_high = 360.0 + colors[colors.size() - 1][0] # Should be conditional
-var h_range = abs(h_high - h_low)
-var s_low = colors[0][1]
-var s_high = colors[colors.size() - 1][1]
-var s_range = abs(s_high - s_low)
-var b_low = colors[0][2]
-var b_high = colors[colors.size() - 1][2]
-var b_range = abs(b_high - b_low)
-
-var background_color = Color.from_hsv(((colors[0][0] * 100.0) / 360.0) / 100.0, colors[0][1] / 100.0, colors[0][2] / 100.0)
+var h_low = 0
+var h_range = 0
+var s_low = 0
+var s_range = 0
+var b_low = 0
+var b_range = 0
+var background_color = Color.from_hsv(0, 0, 0)
 
 func _ready():
 	iron_label = get_node("SolderingIronLabel")
 	heatmap_sprite = _init_heatmap_sprite()
-	pass
+	
+	# Convert H to percentage
+	for i in range(colors.size()):
+		colors[i][0] = ((colors[i][0] * 100.0) / 360.0) / 100.0
+	
+	# Divide S & B by 100.0
+	for i in range(colors.size()):
+		for j in range(1, 3):
+			colors[i][j] = colors[i][j] / 100.0
+	
+	var last_color_i = colors.size() - 1
+	h_low = colors[0][0]
+	h_range = 1.0 + colors[last_color_i][0]
+	s_low = colors[0][1]
+	s_range = abs(colors[last_color_i][1] - s_low)
+	b_low = colors[0][2]
+	b_range = abs(colors[last_color_i][2] - b_low)
+	background_color = Color.from_hsv(colors[0][0], colors[0][1], colors[0][2])
+	
+	print(background_color)
 	
 	for _i in range(rows):
 		var row = []
@@ -119,9 +134,9 @@ func _increase_matrix_input(delta):
 # Give percentage in the range of 100%, returns the right color
 func _pick_color(percentage):
 	percentage = percentage / 100.0
-	var h = ((fmod((h_low + percentage * h_range), 360.0) * 100.0) / 360.0) / 100.0
-	var s = (s_low - percentage * s_range) / 100.0
-	var b = (b_low + percentage * b_range) / 100.0
+	var h = fmod((h_low + percentage * h_range), 1.0)
+	var s = s_low - percentage * s_range
+	var b = b_low + percentage * b_range
 	return Color.from_hsv(h, s, b)
 
 
