@@ -17,8 +17,12 @@ var radius = 9
 
 var background_color = Color(0, 0, 1, 1)
 
+var soldering_iron_on = true 
+var iron_label
 
 func _ready():
+	iron_label = get_node("SolderingIronLabel")
+	
 	heatmap_sprite = _init_heatmap_sprite()
 	
 	for _i in range(rows):
@@ -31,9 +35,14 @@ func _ready():
 
 func _process(delta):
 	print(Engine.get_frames_per_second())
-	_increase_matrix_input(delta)
+	if soldering_iron_on:
+		_increase_matrix_input(delta)
 	_refresh_heatmap(delta)
 
+func _input(ev):
+	if ev.is_action_pressed("space"):
+		soldering_iron_on = not soldering_iron_on
+		iron_label.text = "ON" if soldering_iron_on else "OFF"
 
 func _refresh_heatmap(delta):
 	var imageTexture = ImageTexture.new()
@@ -106,6 +115,7 @@ func _init_heatmap_sprite():
 	imageTexture.resource_name = "heatmap"
 	var s = Sprite.new()
 	s.centered = false
+	s.show_behind_parent = true
 	s.set_texture(imageTexture)
 	add_child(s)
 	return s
