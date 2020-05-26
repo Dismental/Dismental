@@ -7,9 +7,9 @@ reloadable=false
 
 [entry]
 
-X11.64="res://bin/x11/libgdexample.so"
-Windows.64="res://bin/win64/libgdexample.dll"
-OSX.64="res://bin/osx/libgdexample.dylib"
+X11.64="res://bin/x11/libcursor.so"
+Windows.64="res://bin/win64/libcursor.dll"
+OSX.64="res://bin/osx/libcursor.dylib"
 
 [dependencies]
 
