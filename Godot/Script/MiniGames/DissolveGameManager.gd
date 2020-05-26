@@ -15,6 +15,7 @@ var background_color = Color(0, 0, 1, 1)
 var soldering_iron_on = true 
 var iron_label
 
+
 func _ready():
 	iron_label = get_node("SolderingIronLabel")
 	
@@ -40,43 +41,42 @@ func _input(ev):
 		iron_label.text = "ON" if soldering_iron_on else "OFF"
 
 func _refresh_heatmap(delta):
-	var imageTexture = ImageTexture.new()
+
 	var dyn_image = Image.new()
 	var vp = get_viewport_rect()
 	
 	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
 	dyn_image.fill(background_color)
 	dyn_image.lock()
+	
+	var row_height = vp.size.y / rows
+	var column_width = vp.size.x / columns
+	
 	for r in range(rows):
+		var start_pixel_y = row_height * r
 		for c in range(columns):
-			
+			var start_pixel_x = column_width * c
 			# Decrease temp
 			matrix[r][c] -= decrease_factor * delta
 			if matrix[r][c] < 0:
 				matrix[r][c] = 0
 			
 			var temperature = matrix[r][c]
-			if temperature > 15:
-				_draw_sector(c, r, temperature, dyn_image)
+			if temperature > 5:
+				for i in range(start_pixel_x, start_pixel_x + column_width):
+					for j in range(start_pixel_y, start_pixel_y + row_height):
+						var temp_scale = temperature / 100.0
+						var red = temp_scale * 255.0
+						var blue =  255.0 - (temp_scale * 255.0)
+						dyn_image.set_pixel(i, j, Color(red / 100.0, 0, blue / 100.0, 1))
+
+
 	dyn_image.unlock()
-	
-	imageTexture.create_from_image(dyn_image)
-	heatmap_sprite.set_texture(imageTexture)
+	heatmap_sprite.texture.create_from_image(dyn_image)
 
 
 
-func _draw_sector(row, column, temperature, dyn_image):
-	var vp = get_viewport_rect()
-	var row_height = vp.size.y / rows
-	var column_width = vp.size.x / columns
-	var start_pixel_x = column_width * row
-	var start_pixel_y = row_height * column
-	for i in range(start_pixel_x, start_pixel_x + column_width):
-		for j in range(start_pixel_y, start_pixel_y + row_height):
-			var temp_scale = temperature / 100.0
-			var red = temp_scale * 255.0
-			var blue =  255.0 - (temp_scale * 255.0)
-			dyn_image.set_pixel(i, j, Color(red / 100.0, 0, blue / 100.0, 1))
+
 
 
 func _increase_matrix_input(delta):
@@ -94,8 +94,9 @@ func _increase_matrix_input(delta):
 		for x in range(row - radius, row + radius):
 			if Vector2(row, column).distance_to(Vector2(x, y)) < radius:
 				var dis = Vector2(row, column).distance_squared_to(Vector2(x, y))
-				var ratio = pow(radius, 2) - dis
+				
 				if x >= 0 and x < rows and y >= 0 and y < columns:
+					var ratio = pow(radius, 2) - dis
 					matrix[x][y] += increase_factor * delta * ratio
 					if matrix[x][y] > 100:
 						matrix[x][y] = 100
@@ -103,6 +104,7 @@ func _increase_matrix_input(delta):
 func _init_heatmap_sprite():
 	var imageTexture = ImageTexture.new()
 	var dyn_image = Image.new()
+	
 	var vp = get_viewport_rect()
 	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
 	dyn_image.fill(background_color)
