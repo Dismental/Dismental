@@ -14,16 +14,16 @@ func instance_panels():
 	var pos = 1
 	for score in scores:
 		var n_panel = Scorepanel.instance()
-		n_panel.get_node("HBoxContainer/Date").bbcode_text = "[center]Date:\n" \
-				+ score.date + "[/center]"
-		n_panel.get_node("HBoxContainer/TeamName").bbcode_text = "[center]Team:\n" \
-				+ score.team + "[/center]"
-		n_panel.get_node("HBoxContainer/Time").bbcode_text = "[center]Time:\n" \
-				+ score.time + "[/center]"
-		n_panel.get_node("HBoxContainer/Level").bbcode_text = "[center]Level:\n" \
-				+ score.level + "[/center]"
-		n_panel.get_node("HBoxContainer/Position").bbcode_text = "[center]Pos:\n" \
-				+ str(pos) + "[/center]"
+		n_panel.get_node("HBoxContainer/Date").bbcode_text \
+				= "[center]Date:\n" + score.date + "[/center]"
+		n_panel.get_node("HBoxContainer/TeamName").bbcode_text \
+				= "[center]Team:\n" + score.team + "[/center]"
+		n_panel.get_node("HBoxContainer/Time").bbcode_text \
+				= "[center]Time:\n" + score.time + "[/center]"
+		n_panel.get_node("HBoxContainer/Level").bbcode_text \
+				= "[center]Level:\n" + score.level + "[/center]"
+		n_panel.get_node("HBoxContainer/Position").bbcode_text \
+				= "[center]Pos:\n" + str(pos) + "[/center]"
 		$ScrollContainer/VBoxContainer.add_child(n_panel)
 		pos += 1
 	# A last control node is added, as somehow the last node will not be shown.
