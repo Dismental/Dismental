@@ -1,4 +1,5 @@
 import os, sys
+import subprocess
 from pathlib import Path
 
 # Files listed in .gdlintignore will always be ignored
@@ -13,8 +14,8 @@ for line in ignore:
 
 def gdlint(path):
   print(f"Linting: {path}")
-  os.system(f'gdlint {path}')
-  print("---")
+  output = subprocess.run(f"gdlint {path}", shell=True)
+  return output.returncode
 
 def validFile(path):
   return os.path.isfile(path) and path.endswith(".gd")
@@ -22,6 +23,7 @@ def validFile(path):
 # If no additional arguments are given
 # Recursive lint all .gd files in ./Script/
 # and non-recursively lint all .gd files in ./
+lint_succeeded = True
 if len(sys.argv) == 1:
   files_to_lint = []
 
@@ -33,8 +35,10 @@ if len(sys.argv) == 1:
 
   for path in files_to_lint:
     if path.name not in ignore_files:
-      gdlint(path)
-  exit()
+      if gdlint(path) != 0:
+        lint_succeeded = False
+  print("--- Finished linting all files")
+  exit(0 if lint_succeeded else 1)
 
 # If it's a list of paths
 paths = sys.argv[1:]
