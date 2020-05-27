@@ -1,7 +1,7 @@
-extends Object
 class_name Score
+extends Object
 
-var team : String 
+var team : String
 var level : String
 var time : String
 var date : String
@@ -13,7 +13,7 @@ func _init(team_name: String, level_name: String, completed_time: String, comple
 	date = completed_date
 
 
-func _save():
+func save():
 	var save_dict = {
 		"team" : team,
 		"level" : level,
