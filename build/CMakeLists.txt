@@ -21,7 +21,7 @@ link_libraries("../godot-cpp/bin/libgodot-cpp.windows.debug.64")
 
 # create the .dll
 #file(GLOB source_list "src/*.h" "src/*.cpp")
-add_library(libgdexample SHARED "../src/gdexample.cpp" "../src/gdlibrary.cpp")
+add_library(libcursor SHARED "../src/cursor.cpp" "../src/gdlibrary.cpp")
 
 include_directories(
   "../godot-cpp/godot_headers/"
