@@ -12,8 +12,6 @@ using namespace cv;
 using namespace std;
 using namespace godot;
 
-const cv::String CASCADE_FILE("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
-
 void GDExample::_register_methods() {
     register_method("_process", &GDExample::_process);
     register_property<GDExample, float>("amplitude", &GDExample::amplitude, 10.0);
@@ -30,6 +28,16 @@ GDExample::~GDExample() {
     // add your cleanup here
 }
 
+string get_env_var( std::string const & key ) {                                 
+    char * val;
+    val = getenv( key.c_str() );
+    std::string retval = "";
+    if (val != NULL) {
+        retval = val;
+    }
+    return retval;
+}
+
 void GDExample::_init() {
     // initialize any variables here
     time_passed = 0.0;
@@ -41,17 +49,17 @@ void GDExample::_init() {
     cursorPos = Point(frame.cols / 4, frame.rows / 4);
 
     // camera.set(3, 512);
-    // camera.set(4, 288);
-
-    // // TODO 
-    face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
-    if(!face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml")) {
+    // TODO get .xml from res:// instead of a hardcoded path
+    std::string path = "../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml";
+    if(!face_cascase.load(path)) {
+        path = get_env_var("HOME") + "/Applications/DefuseTheBomb.app/Contents/Resources/haarcascade_frontalface_default.xml";
+        std::cout << path << std::endl;
         cerr << "Error XML" << endl;
     }
 
     // detector = VideoFaceDetector::VideoFaceDetector();
     detector.setVideoCapture(camera);
-    detector.setFaceCascade(CASCADE_FILE);
+    detector.setFaceCascade(path);
 }
 
 void GDExample::_process(float delta) {
