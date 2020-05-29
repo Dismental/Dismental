@@ -48,7 +48,7 @@ void GDExample::_init() {
     camera.read(frame);
     cursorPos = Point(frame.cols / 4, frame.rows / 4);
 
-    // camera.set(3, 512);
+
     // TODO get .xml from res:// instead of a hardcoded path
     std::string path = "../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml";
     if(!face_cascase.load(path)) {
@@ -56,8 +56,7 @@ void GDExample::_init() {
         std::cout << path << std::endl;
         cerr << "Error XML" << endl;
     }
-
-    // detector = VideoFaceDetector::VideoFaceDetector();
+    
     detector.setVideoCapture(camera);
     detector.setFaceCascade(path);
 }
