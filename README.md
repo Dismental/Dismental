@@ -253,3 +253,9 @@ $ python linter.py Script/SceneManagers/
 
 ## Ignore
 There's a `/Godot/.gdlintignore` file where you can include files that should be ignored by the linter when directories looked through.
+
+# Scripts
+There are some scripts included to automate certain workflows. Run these scripts using `sh ./<script-name>.sh`.
+
+* gdnative_compile_run
+This will compile the gdnative source files & directly run the main scene, easy for quick debugging when developing.
