@@ -275,3 +275,4 @@ Follow these steps when exporting the game:
 - Navigate to the Resources folder (DefuseTheBomb.app/Contents/Resources/). A .app can be opened with 'show package contents' (available with right-click)
 - Get the haarcascade_frontalface_default.xml file from the repository (src/opencv_data/haarcascade)
 - Copy the .xml file to the Resources folder
+- Now you can run the game
