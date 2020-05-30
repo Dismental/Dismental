@@ -253,3 +253,15 @@ $ python linter.py Script/SceneManagers/
 
 ## Ignore
 There's a `/Godot/.gdlintignore` file where you can include files that should be ignored by the linter when directories looked through.
+
+##Exporting to MacOS
+
+The game can now be exported to a .dmg. Accessing the resources (res://) was not yet successful, thus a reference to a .xml file for face tracking is hardcoded for now. This also requires additional steps to get the .xml file at the right location.
+
+Follow these steps when exporting the game:
+
+- When exporting use the 'Export all' button together with export mode 'Export all resources in the project'
+- Move the DefuseTheBomb.app in the .dmg file to your user applications folder (~/Applications)
+- Navigate to the Resources folder (DefuseTheBomb.app/Contents/Resources/). A .app can be opened with 'show package contents' (available with right-click)
+- Get the haarcascade_frontalface_default.xml file from the repository (src/opencv_data/haarcascade)
+- Copy the .xml file to the Resources folder
