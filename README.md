@@ -2,6 +2,9 @@
 * Game engine: Godot
 * Object recognition: OpenCV
 
+# Table of contents
+[[_TOC_]]
+
 # Getting up and running
 This section will cover cloning this repository, as well as the submodules, and how to get up and running with the project.
 
@@ -134,6 +137,7 @@ OPENCV_DIR=/usr/local/opt/opencv@4
 If these the steps were not sufficient, additional installation steps can be found [here](https://medium.com/@jaskaranvirdi/setting-up-opencv-and-c-development-environment-in-xcode-b6027728003).
 
 ### Visual Studio
+
 On Windows, you will need to install Visual Studio so that you have access to `cl.exe`, which you need when building C++.
 Check out this [part](https://docs.godotengine.org/en/stable/development/compiling/compiling_for_windows.html#installing-visual-studio-caveats) of Godots documentation on VS.
 
@@ -194,14 +198,6 @@ If it's not working, you'll get errors. If you have no errors, it's working. :su
 ## More information
 * [Godot's tutorial on GDNative C++](https://docs.godotengine.org/en/stable/tutorials/plugins/gdnative/gdnative-cpp-example.html).
 
-**Developer Team:**
-- Kevin van der Werff, Producer & Communication 
-- Onno Gieling, Lead Playtesting
-- Jonas Duifs, Interaction Designer 
-- Pepijn Klop, Lead Designer
-- Gees Brouwers, Lead Artist & SFX Designer 
-- Jeroen Janssen, Lead Programmer 
-
 # Linting
 Weirdly enough Godot does not have official support for a linter.
 So we have to rely on third party tools instead, after considering a few options we went with this one: https://pypi.org/project/gdtoolkit/.
@@ -255,7 +251,18 @@ $ python linter.py Script/SceneManagers/
 There's a `/Godot/.gdlintignore` file where you can include files that should be ignored by the linter when directories looked through.
 
 # Scripts
-There are some scripts included to automate certain workflows. Run these scripts using `sh ./<script-name>.sh`.
+There are some scripts included to automate certain workflows.
 
-* gdnative_compile_run
+Run these scripts using `sh ./<script-name>.sh` when at the root of the repository.
+
+**gdnative_compile_run**
+
 This will compile the gdnative source files & directly run the main scene, easy for quick debugging when developing.
+
+# Developer Team
+- Kevin van der Werff, Producer & Communication 
+- Onno Gieling, Lead Playtesting
+- Jonas Duifs, Interaction Designer 
+- Pepijn Klop, Lead Designer
+- Gees Brouwers, Lead Artist & SFX Designer 
+- Jeroen Janssen, Lead Programmer 
