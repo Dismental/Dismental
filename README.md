@@ -256,6 +256,7 @@ There's a `/Godot/.gdlintignore` file where you can include files that should be
 
 # Exporting to MacOS
 
+## Set up export template
 The export preset has been included in the repo, but you need to install the export template as well before being able to export.
 
 Open Project > Export..., select the preset "MacOSX (Runnable)". You should see an error on the bottom saying there's no export template found.
@@ -266,8 +267,15 @@ When that's downloaded, change the extension of the file from `.tpz` to `.zip` a
 
 The extracted directory contains the file that the export preset was looking for as shown in the error, move the file to the path indicated by the error.
 
+## Exporting the game
 The game can now be exported to a .dmg. Accessing the resources (res://) was not yet successful, thus a reference to a .xml file for face tracking is hardcoded for now. This also requires additional steps to get the .xml file at the right location.
 
+### Using the script
+A script has been written to automate this process, which is `/export.sh`. It will perform the steps described below.
+To run the script go to the root of the repo in your terminal and run `sh ./export.sh`.
+It will ask for your password at some point, since `sudo` has been used to perform the `cp` (copy) command (it wouldn't work without it for me, so that's why I included it ~ @ksavanderwerff).
+
+### Manually
 Follow these steps when exporting the game:
 
 - When exporting use the 'Export all' button together with export mode 'Export all resources in the project'

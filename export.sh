@@ -1,5 +1,5 @@
 # This script should be run from the root of the repository
-# cp wouldn't work for me unless using sudo ~ @ksavanderwerff
+# cp wouldn't work for me unless using sudo, so that's why it asks for your password ~ @ksavanderwerff
 cd Godot/
 godot --export "MacOSX" ./bin/DefuseTheBomb.dmg
 cd - # Return to your last position
