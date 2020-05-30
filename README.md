@@ -254,7 +254,17 @@ $ python linter.py Script/SceneManagers/
 ## Ignore
 There's a `/Godot/.gdlintignore` file where you can include files that should be ignored by the linter when directories looked through.
 
-##Exporting to MacOS
+# Exporting to MacOS
+
+The export preset has been included in the repo, but you need to install the export template as well before being able to export.
+
+Open Project > Export..., select the preset "MacOSX (Runnable)". You should see an error on the bottom saying there's no export template found.
+
+Click on the link next to "Export templates for this platform are missing:", a popup will be shown that asks you to download a template, do this.
+
+When that's downloaded, change the extension of the file from `.tpz` to `.zip` and extract it.
+
+The extracted directory contains the file that the export preset was looking for as shown in the error, move the file to the path indicated by the error.
 
 The game can now be exported to a .dmg. Accessing the resources (res://) was not yet successful, thus a reference to a .xml file for face tracking is hardcoded for now. This also requires additional steps to get the .xml file at the right location.
 
