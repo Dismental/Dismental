@@ -20,3 +20,30 @@ text = "ON"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SolderingIron" type="ColorRect" parent="."]
+margin_left = 64.0
+margin_top = 192.0
+margin_right = 256.0
+margin_bottom = 832.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MotherBoard" type="ColorRect" parent="."]
+margin_left = 320.0
+margin_right = 1600.0
+margin_bottom = 1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Vacuum" type="ColorRect" parent="."]
+margin_left = 1664.0
+margin_top = 192.0
+margin_right = 1856.0
+margin_bottom = 832.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="mouse_entered" from="SolderingIron" to="." method="_on_SolderingIron_mouse_entered"]

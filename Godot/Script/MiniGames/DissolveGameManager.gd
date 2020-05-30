@@ -149,6 +149,8 @@ func _init_heatmap_sprite():
 	s.centered = false
 	s.show_behind_parent = true
 	s.set_texture(imageTexture)
+	s.z_index = 100;
+	s.modulate.a = 0.75;
 	add_child(s)
 	return s
 
@@ -162,3 +164,7 @@ func _get_sector(input_x, input_y):
 	var row = floor(input_y / row_height)
 	var column = floor(input_x / column_width)
 	return { "row": row, "column": column }
+
+
+func _on_SolderingIron_mouse_entered():
+	print("Mouse has entered soldering Iron")
