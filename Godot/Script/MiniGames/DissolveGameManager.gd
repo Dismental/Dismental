@@ -30,29 +30,34 @@ var b_low = 0
 var b_range = 0
 var background_color = Color.from_hsv(0, 0, 0)
 
+enum Role {DEFUSER, SUPERVISOR, OBSERVER}
+var player_role
+
 func _ready():
 	iron_label = get_node("SolderingIronLabel")
-	heatmap_sprite = _init_heatmap_sprite()
+	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 	
-	# Convert H to percentage
-	for i in range(colors.size()):
-		colors[i][0] = ((colors[i][0] * 100.0) / 360.0) / 100.0
-	
-	# Divide S & B by 100.0
-	for i in range(colors.size()):
-		for j in range(1, 3):
-			colors[i][j] = colors[i][j] / 100.0
-	
-	var last_color_i = colors.size() - 1
-	h_low = colors[0][0]
-	h_range = 1.0 + colors[last_color_i][0]
-	s_low = colors[0][1]
-	s_range = abs(colors[last_color_i][1] - s_low)
-	b_low = colors[0][2]
-	b_range = abs(colors[last_color_i][2] - b_low)
-	background_color = Color.from_hsv(colors[0][0], colors[0][1], colors[0][2])
-	
-	print(background_color)
+	# Generate the heatmap for the supervisor only
+	if player_role == Role.SUPERVISOR:
+		heatmap_sprite = _init_heatmap_sprite()
+		
+		# Convert H to percentage
+		for i in range(colors.size()):
+			colors[i][0] = ((colors[i][0] * 100.0) / 360.0) / 100.0
+		
+		# Divide S & B by 100.0
+		for i in range(colors.size()):
+			for j in range(1, 3):
+				colors[i][j] = colors[i][j] / 100.0
+		
+		var last_color_i = colors.size() - 1
+		h_low = colors[0][0]
+		h_range = 1.0 + colors[last_color_i][0]
+		s_low = colors[0][1]
+		s_range = abs(colors[last_color_i][1] - s_low)
+		b_low = colors[0][2]
+		b_range = abs(colors[last_color_i][2] - b_low)
+		background_color = Color.from_hsv(colors[0][0], colors[0][1], colors[0][2])
 	
 	for _i in range(rows):
 		var row = []
@@ -62,10 +67,11 @@ func _ready():
 
 
 func _process(delta):
-	print(Engine.get_frames_per_second())
+#	print(Engine.get_frames_per_second())
 	if soldering_iron_on:
 		_increase_matrix_input(delta)
-	_refresh_heatmap(delta)
+	if player_role == Role.SUPERVISOR:
+		_refresh_heatmap(delta)
 
 
 func _input(ev):
@@ -167,4 +173,5 @@ func _get_sector(input_x, input_y):
 
 
 func _on_SolderingIron_mouse_entered():
+	
 	print("Mouse has entered soldering Iron")
