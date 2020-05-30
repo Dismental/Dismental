@@ -1,5 +1,7 @@
 extends Node2D
 
+const Role = preload("res://Script/Role.gd")
+
 var matrix = []
 var columns = 128
 var rows = 72
@@ -30,7 +32,6 @@ var b_low = 0
 var b_range = 0
 var background_color = Color.from_hsv(0, 0, 0)
 
-enum Role {DEFUSER, SUPERVISOR, OBSERVER}
 var player_role
 
 func _ready():
@@ -67,7 +68,7 @@ func _ready():
 
 
 func _process(delta):
-#	print(Engine.get_frames_per_second())
+	print(Engine.get_frames_per_second())
 	if soldering_iron_on:
 		_increase_matrix_input(delta)
 	if player_role == Role.SUPERVISOR:
