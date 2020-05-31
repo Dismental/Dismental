@@ -69,23 +69,41 @@ int dist(Point p1, Point p2) {
 }
 
 void GDExample::_process(float delta) {
-    camera >> frame;
+    detector >> frame;
+    // flip(frame, frame, 1);
+    int frameWidth, frameHeigth;
+    frameWidth = frame.cols;
+    frameHeigth = frame.rows;
+    
+    if(detector.isFaceFound()) {
+        rectangle(frame, detector.face(), Scalar(255,0,0), 4,8,0);
+        circle(frame, detector.facePosition(), 30, Scalar(0, 255, 0), 4,8,0);
+    }
+    handTracker.update(frame, bbox);
 
     handTracker.update(frame, bbox);
 
     if(waitKey(10) == 32) {
+        // tracker->init(frame,bbox);
         handTracker.toggleTracking(frame, bbox);
     }
+
+    // Get the queue of face template display them all in sequence in the frame (picture in picture style)
+    std::queue<cv::Mat> frame_lastSeen_queue = detector.getLastSeenFaceTemplateQueue();
+    int spacingx = 0;
+    while (!frame_lastSeen_queue.empty())
+    {
+        cv:Mat q_element = frame_lastSeen_queue.front();
+        q_element.copyTo(frame(cv::Rect(spacingx,0,q_element.cols, q_element.rows)));
+        spacingx += q_element.cols;
+        frame_lastSeen_queue.pop();
+    }
+    
     
     flip(frame, frame, 1);
     imshow("", frame);
-    set_position(Vector2(cursorPos.x, cursorPos.y));
-}
-
-void GDExample::set_speed(float p_speed) {
-    speed = p_speed;
-}
-
-float GDExample::get_speed() {
-    return speed;
+    
+    cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
+    cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
+    set_position(Vector2(abs((float)cursorPos.x/(float)frameWidth-1), (float)cursorPos.y/(float)frameHeigth));
 }
