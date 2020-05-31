@@ -59,11 +59,14 @@ void GDExample::_process(float delta) {
         circle(frame, detector.facePosition(), 30, Scalar(0, 255, 0), 4,8,0);
     }
 
+    // Create the 'joystick' effect by restraining the movement of cursorPos. CursorPos 'follows' facePosition and is not mapped 1on1.
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
     cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
 
+    // Set the position of the linked node (should be a Position2D node) with the tracked position
     set_position(Vector2(abs((float)cursorPos.x/(float)frame.cols-1), (float)cursorPos.y/(float)frame.rows));
-    
+
+    // flip the frame to make the webcam look like a mirror.
     cv::Mat flipFrame;
     flip(frame, flipFrame, 1);
     // imshow("", flipFrame);
