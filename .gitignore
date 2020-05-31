@@ -10,7 +10,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
@@ -369,6 +368,8 @@ pip-selfcheck.json
 Godot/[Bb]in/*
 !Godot/[Bb]in/*.gdnlib
 !Godot/[Bb]in/*.gdns
+build/*
+!build/CMakeLists.txt
 api.json
 
 ## Generated during cpp builds (I think at least) ~ Kevin

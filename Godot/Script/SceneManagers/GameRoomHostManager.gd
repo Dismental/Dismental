@@ -1,11 +1,10 @@
 extends Control
 
 func _on_BackButton_pressed():
-	change_scene("res://Scenes/CreateGameRoom.tscn")
+	return Utils.change_screen("res://Scenes/CreateGameRoom.tscn",self)
+
 
 func _on_StartGameButton_pressed():
-	change_scene("res://Scenes/GameScene.tscn")
+	Network.begin_game_pressed()
+	return Utils.change_screen("res://Scenes/GameScene.tscn", self)
 
-func change_scene(filename):
-	if get_tree().change_scene(filename) != OK:
-		print("Error loading " + str(filename))
