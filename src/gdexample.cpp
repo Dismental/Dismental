@@ -73,7 +73,7 @@ void GDExample::_process(float delta) {
             circle(frame, detector.facePosition(), 30, Scalar(0, 255, 0), 4,8,0);
         }
         
-        // flip the frame to make the webcam look like a mirror.
+        // Flip the frame to make the webcam look like a mirror.
         cv::Mat flipFrame;
         flip(frame, flipFrame, 1);
         imshow("", flipFrame); // Uncomment this line to show the webcam frames in a seperate window
