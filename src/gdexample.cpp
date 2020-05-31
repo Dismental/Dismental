@@ -31,10 +31,10 @@ GDExample::~GDExample() {
 
 void GDExample::_init() {
     // initialize any variables here
+    cursorPos = Point(frame.cols / 4, frame.rows / 4);
 
     camera.open(0); //open camera
     camera.read(frame);
-    cursorPos = Point(frame.cols / 4, frame.rows / 4);
 
     // camera.set(3, 512);
     // camera.set(4, 288);
@@ -74,12 +74,13 @@ void GDExample::_process(float delta) {
         spacingx += q_element.cols;
         frame_lastSeen_queue.pop();
     }
-    cv::Mat flipFrame;
-    flip(frame, flipFrame, 1);
-    // imshow("", flipFrame);
 
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
     cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
 
     set_position(Vector2(abs((float)cursorPos.x/(float)frameWidth-1), (float)cursorPos.y/(float)frameHeigth));
+    
+    cv::Mat flipFrame;
+    flip(frame, flipFrame, 1);
+    // imshow("", flipFrame);
 }
