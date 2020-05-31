@@ -14,10 +14,6 @@ namespace godot {
         GODOT_CLASS(GDExample, Position2D)
 
 private:
-    float time_passed;
-    float time_emit;
-    float amplitude;
-    float speed;
     cv::Mat image;
     cv::Mat frame;
     cv::VideoCapture camera;

@@ -16,7 +16,6 @@ const cv::String CASCADE_FILE("../src/opencv_data/haarcascades/haarcascade_front
 
 void GDExample::_register_methods() {
     register_method("_process", &GDExample::_process);
-    register_property<GDExample, float>("amplitude", &GDExample::amplitude, 10.0);
 
     // First is name of signal
     // After that you have pairs of values that specify parameter name and type of each parameter we send to signal
@@ -32,9 +31,6 @@ GDExample::~GDExample() {
 
 void GDExample::_init() {
     // initialize any variables here
-    time_passed = 0.0;
-    time_emit = 0.0;
-    amplitude = 10.0;
 
     camera.open(0); //open camera
     camera.read(frame);
