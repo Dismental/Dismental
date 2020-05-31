@@ -53,9 +53,6 @@ void GDExample::_init() {
 void GDExample::_process(float delta) {
     detector >> frame;
     // flip(frame, frame, 1);
-    int frameWidth, frameHeigth;
-    frameWidth = frame.cols;
-    frameHeigth = frame.rows;
     
     if(detector.isFaceFound()) {
         rectangle(frame, detector.face(), Scalar(255,0,0), 4,8,0);
@@ -67,7 +64,7 @@ void GDExample::_process(float delta) {
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
     cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
 
-    set_position(Vector2(abs((float)cursorPos.x/(float)frameWidth-1), (float)cursorPos.y/(float)frameHeigth));
+    set_position(Vector2(abs((float)cursorPos.x/(float)frame.cols-1), (float)cursorPos.y/(float)frame.rows));
     
     cv::Mat flipFrame;
     flip(frame, flipFrame, 1);
