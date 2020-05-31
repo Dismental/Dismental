@@ -45,15 +45,18 @@ void GDExample::_init() {
 
     camera.open(0); //open camera
     camera.read(frame);
+
+    // Set the handtracking Detector with the camera
     // detector = VideoFaceDetector::VideoFaceDetector();
     detector.setVideoCapture(camera);
+    // Set the haarcascade classifier for the tracking method.
     detector.setFaceCascade(CASCADE_FILE);
 }
 
 void GDExample::_process(float delta) {
     detector >> frame;
-    // flip(frame, frame, 1);
     
+    // Display debug information of the tracking in the webcam frame
     if(detector.isFaceFound()) {
         rectangle(frame, detector.face(), Scalar(255,0,0), 4,8,0);
         circle(frame, detector.facePosition(), 30, Scalar(0, 255, 0), 4,8,0);
@@ -69,5 +72,5 @@ void GDExample::_process(float delta) {
     // flip the frame to make the webcam look like a mirror.
     cv::Mat flipFrame;
     flip(frame, flipFrame, 1);
-    // imshow("", flipFrame);
+    // imshow("", flipFrame); // Uncomment this line to show the webcam frames in a seperate window
 }
