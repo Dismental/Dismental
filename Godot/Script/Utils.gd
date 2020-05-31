@@ -17,14 +17,14 @@ static func _count_files_in_dir(path):
 	return count
 
 # Changes the node from s_node with one made from the scene resource given in path
-func _change_screen(path: String, s_node : Node):
-	var node = load(path)
+func change_screen(path: String, s_node : Node):
+	var NewNode = load(path)
 	var parent = s_node.get_parent()
-	node = node.instance()
+	NewNode = NewNode.instance()
 	if is_instance_valid(parent):
-		parent.add_child(node)
+		parent.add_child(NewNode)
 		parent.remove_child(s_node)
-	else: 
+	else:
 		print("node has no parent, so is connected to root!")
 	s_node.queue_free()
 	if s_node.is_queued_for_deletion():
