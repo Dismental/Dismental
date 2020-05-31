@@ -14,7 +14,7 @@ func _process(_delta):
 func _draw():
 	# Get cursor position
 	var input_pos = _get_input_pos()
-	
+
 	# Draw current pointer at cursor position
 	var rad = 25
 	var col = Color(0, 1, 0)
