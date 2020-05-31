@@ -14,11 +14,11 @@ func _process(_delta):
 func _draw():
 	# Get cursor position
 	var input_pos = _get_input_pos()
-
+	
 	# Draw current pointer at cursor position
 	var rad = 25
 	var col = Color(0, 1, 0)
-	draw_circle(_get_input_pos(), rad, col)
+	draw_circle(input_pos, rad, col)
 
 func _unhandled_input(event):
 	# Quit the game when escape is pressed
