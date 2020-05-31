@@ -46,11 +46,6 @@ cv::CascadeClassifier *VideoFaceDetector::faceCascade() const
     return m_faceCascade;
 }
 
-std::queue<cv::Mat> VideoFaceDetector::getLastSeenFaceTemplateQueue() const
-{
-    return m_faceTemplate_lastSeen_queue;
-}
-
 void VideoFaceDetector::setResizedWidth(const int width)
 {
     m_resizedWidth = std::max(width, 1);
@@ -221,12 +216,6 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
             m_templateMatchingStartTime = cv::getTickCount();
         return;
     }
-
-    // Add face template to the queue
-    m_faceTemplate_lastSeen_queue.push(getFaceTemplate(frame, m_trackedFace));
-
-    // If queue is larger than [maxQueueSize], pop oldest facetemplate
-    if (m_faceTemplate_lastSeen_queue.size() > m_maxBufferFaceTemplate) m_faceTemplate_lastSeen_queue.pop();
    
     // Turn off template matching if running and reset timer
     m_templateMatchingRunning = false;

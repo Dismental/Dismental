@@ -64,17 +64,6 @@ void GDExample::_process(float delta) {
 
     if(waitKey(10) == 27) return;
 
-    // Get the queue of face template display them all in sequence in the frame (picture in picture style)
-    std::queue<cv::Mat> frame_lastSeen_queue = detector.getLastSeenFaceTemplateQueue();
-    int spacingx = 0;
-    while (!frame_lastSeen_queue.empty())
-    {
-        cv:Mat q_element = frame_lastSeen_queue.front();
-        q_element.copyTo(frame(cv::Rect(spacingx,0,q_element.cols, q_element.rows)));
-        spacingx += q_element.cols;
-        frame_lastSeen_queue.pop();
-    }
-
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
     cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
 
