@@ -33,8 +33,6 @@ void GDExample::_init() {
     // initialize any variables here
     cursorPos = Point(frame.cols / 4, frame.rows / 4);
 
-    camera.open(0); //open camera
-    camera.read(frame);
 
     // camera.set(3, 512);
     // camera.set(4, 288);
@@ -45,6 +43,8 @@ void GDExample::_init() {
         cerr << "Error XML" << endl;
     }
 
+    camera.open(0); //open camera
+    camera.read(frame);
     // detector = VideoFaceDetector::VideoFaceDetector();
     detector.setVideoCapture(camera);
     detector.setFaceCascade(CASCADE_FILE);
