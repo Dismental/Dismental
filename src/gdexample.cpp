@@ -59,8 +59,6 @@ void GDExample::_process(float delta) {
         circle(frame, detector.facePosition(), 30, Scalar(0, 255, 0), 4,8,0);
     }
 
-    if(waitKey(10) == 27) return;
-
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
     cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
 
