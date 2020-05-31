@@ -32,7 +32,7 @@ func _get_input_pos():
 	# The values for the headtracking position ranges from 0 to 1
 	if true:
 		var pos = get_node("HeadPos").position
-		# Add a margin/multiplier so the user's movement is amplified. 
+		# Add a margin/multiplier so the user's movement is amplified.
 		# The makes it easy for the user to reach the edges of the game screen with the pointer
 		var margin = 0.4
 		var windowmarginx = (OS.get_window_size().x)*margin
