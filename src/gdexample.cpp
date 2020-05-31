@@ -56,8 +56,6 @@ void GDExample::_init() {
 
 void GDExample::_process(float delta) {
     detector >> frame;
-    
-
 
     // Create the 'joystick' effect by restraining the movement of cursorPos. CursorPos 'follows' facePosition and is not mapped 1on1.
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;

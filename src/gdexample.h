@@ -19,7 +19,6 @@ private:
     cv::VideoCapture camera;
     cv::CascadeClassifier face_cascase;
     cv::Point cursorPos;
-
     VideoFaceDetector detector;
 
 public:
@@ -32,7 +31,6 @@ public:
 
         void _process(float delta);
     };
-
 }
 
 #endif
