@@ -2,6 +2,9 @@
 * Game engine: Godot
 * Object recognition: OpenCV
 
+# Table of contents
+[[_TOC_]]
+
 # Getting up and running
 This section will cover cloning this repository, as well as the submodules, and how to get up and running with the project.
 
@@ -76,9 +79,6 @@ Copyright (c) 2001 - 2019 The SCons Foundation
 Do not proceed until this works.
 
 ### OpenCV
-#### Windows
-@TODO when we have something working on windows (I do not want to declare a dependency already). ~ @ksavanderwerff
-
 #### MacOS
 Installing OpenCV 4 for MacOS requires Xcode and homebrew.
 
@@ -194,14 +194,6 @@ If it's not working, you'll get errors. If you have no errors, it's working. :su
 ## More information
 * [Godot's tutorial on GDNative C++](https://docs.godotengine.org/en/stable/tutorials/plugins/gdnative/gdnative-cpp-example.html).
 
-**Developer Team:**
-- Kevin van der Werff, Producer & Communication 
-- Onno Gieling, Lead Playtesting
-- Jonas Duifs, Interaction Designer 
-- Pepijn Klop, Lead Designer
-- Gees Brouwers, Lead Artist & SFX Designer 
-- Jeroen Janssen, Lead Programmer 
-
 # Linting
 Weirdly enough Godot does not have official support for a linter.
 So we have to rely on third party tools instead, after considering a few options we went with this one: https://pypi.org/project/gdtoolkit/.
@@ -254,6 +246,14 @@ $ python linter.py Script/SceneManagers/
 ## Ignore
 There's a `/Godot/.gdlintignore` file where you can include files that should be ignored by the linter when directories looked through.
 
+# Scripts
+There are some scripts included to automate certain workflows.
+
+Run these scripts using `sh ./<script-name>.sh` when at the root of the repository.
+
+**gdnative_compile_run**
+
+This will compile the gdnative source files & directly run the main scene, easy for quick debugging when developing.
 # Exporting to MacOS
 
 ## Set up export template
@@ -284,3 +284,11 @@ Follow these steps when exporting the game:
 - Get the haarcascade_frontalface_default.xml file from the repository (src/opencv_data/haarcascades/)
 - Copy the .xml file to the Resources folder
 - Now you can run the game
+
+# Developer Team
+- Kevin van der Werff, Producer & Communication 
+- Onno Gieling, Lead Playtesting
+- Jonas Duifs, Interaction Designer 
+- Pepijn Klop, Lead Designer
+- Gees Brouwers, Lead Artist & SFX Designer 
+- Jeroen Janssen, Lead Programmer 
