@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=3]
 [ext_resource path="res://Script/SceneManagers/SettingsSceneManager.gd" type="Script" id=4]
+[ext_resource path="res://Fonts/SettingsFont.tres" type="DynamicFont" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 100
@@ -96,4 +97,16 @@ icon = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TrackingScene" type="Button" parent="."]
+margin_left = 777.746
+margin_top = 392.968
+margin_right = 1150.75
+margin_bottom = 506.968
+custom_fonts/font = ExtResource( 5 )
+text = "Start debug tracking scene"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="TrackingScene" to="." method="_on_TrackingScene_pressed"]
