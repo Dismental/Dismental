@@ -23,7 +23,7 @@ func _ready():
 
 	running = true
 	timer.start()
-	
+
 	if not get_tree().is_network_server():
 		get_node("Control/VBoxContainer/PanelContainer/Button").hide()
 

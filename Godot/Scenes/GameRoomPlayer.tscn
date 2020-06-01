@@ -108,9 +108,8 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="Players"]
 margin_left = 127.0
-margin_top = 24.0
-margin_right = 425.0
-margin_bottom = 43.0
+margin_right = 472.0
+margin_bottom = 60.0
 text = "Awaiting Players ..."
 __meta__ = {
 "_edit_use_anchors_": false

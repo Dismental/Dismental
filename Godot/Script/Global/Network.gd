@@ -1,5 +1,7 @@
 extends Node
 
+signal player_list_changed()
+
 const DEFAULT_IP = '127.0.0.1'
 const DEFAULT_PORT = 31400
 const MAX_PLAYERS = 2
@@ -8,8 +10,6 @@ const MAX_PLAYERS = 2
 var player_name = ""
 var player_info = {}
 var players_ready = []
-
-signal player_list_changed()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -97,14 +97,14 @@ remote func pre_configure_minigame(minigame):
 	print("res://Scenes/Mini Games/%s/%s.tscn" % [minigame, minigame])
 	var game = load("res://Scenes/Mini Games/%s/%s.tscn" % [minigame, minigame]).instance()
 	get_tree().get_root().add_child(game)
-	
+
 	if not get_tree().is_network_server():
 		var self_peer_id = get_tree().get_network_unique_id()
 		rpc_id(1, "done_pre_configuring_minigame", self_peer_id)
 
 func start_minigame(minigame):
 	assert(get_tree().is_network_server())
-	
+
 	for p in player_info:
 		rpc_id(p, "pre_configure_minigame", minigame)
 	pre_configure_minigame(minigame)
@@ -114,7 +114,7 @@ remote func done_pre_configuring_minigame(who):
 	assert(get_tree().is_network_server())
 	assert(who in player_info)
 	assert(not who in players_ready)
-	
+
 	players_ready.append(who)
 	if players_ready.size() == player_info.size():
 		players_ready.clear()
