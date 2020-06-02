@@ -3,10 +3,17 @@ extends Node2D
 onready var start_dialog = $Control/StartDialog
 onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
+onready var SupervisorVision = $"Control/X-rayVision"
 
 puppet var puppet_mouse = Vector2()
 
 const Utils = preload("res://Script/Utils.gd")
+
+# Constants for the properties of the x-ray vision texture
+const supervisor_shadow_width = 800
+const supervisor_shadow_height = 600
+const supervisor_shadow_scalex = 5
+const supervisor_shadow_scaley = supervisor_shadow_scalex
 
 var map_sprite
 var dots = []
@@ -23,6 +30,7 @@ var finish_rect
 var finish_state = 0
 
 func _ready():
+	SupervisorVision.visible = true
 	if get_tree().is_network_server():
 		start_dialog.popup()
 		_load_map(1, false)
@@ -32,8 +40,15 @@ func _ready():
 		var headTracking = HeadTrackingScene.instance()
 		self.add_child(headTracking)
 		tracking_node = headTracking.get_node("Position2D")
+		
+		# Turn the x-ray vision OFF for the operator
+		SupervisorVision.visible = false
 	else:
 		_load_map(1)
+		# Turn the x-ray vision ON for the operator
+		SupervisorVision.visible = true
+		# Center the x-ray vision
+		_supervisor_vision_update(Vector2(OS.get_window_size().x, OS.get_window_size().y))
 	_calc_finish_line()
 
 
@@ -74,12 +89,34 @@ func _draw():
 		draw_circle(_get_input_pos(), rad, col)
 
 
+func _supervisor_vision_update(pos):
+	# Position the center of x-ray shadow texture at the 'pos' input location
+	# Handle edge cases if pos is outside the screen
+	var ShadowPos = Vector2(0,0)
+
+	if pos.x < 0: 
+		ShadowPos.x = 0 - (supervisor_shadow_width * supervisor_shadow_scalex) / 2
+	elif pos.x > get_viewport_rect().size.x:
+		ShadowPos.x = get_viewport_rect().size.x - (supervisor_shadow_width * supervisor_shadow_scalex) / 2
+	else:
+		ShadowPos.x = pos.x - (supervisor_shadow_width * supervisor_shadow_scalex) / 2
+
+	if pos.y < 0: 
+		ShadowPos.y = 0 - (supervisor_shadow_height * supervisor_shadow_scaley) / 2
+	elif pos.y > get_viewport_rect().size.y:
+		ShadowPos.y = get_viewport_rect().size.y - (supervisor_shadow_height * supervisor_shadow_scaley) / 2
+	else: 
+		ShadowPos.y = pos.y - (supervisor_shadow_height * supervisor_shadow_scaley) / 2
+
+	SupervisorVision.set_position(ShadowPos)
+
 
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_ESCAPE:
 			# Quits the game
 			get_tree().quit()
+
 
 func _calc_start_position():
 	var center_x = finish_rect.position.x + (finish_rect.size.x / 2.0)
@@ -125,7 +162,7 @@ func _game_over():
 	rpc("_on_update_running", false)
 	if get_tree().is_network_server():
 		game_over_dialog.popup()
-	
+
 
 func _update_game_state():
 	if waitForStartingPosition:
@@ -259,7 +296,6 @@ func _on_StartDialog_confirmed():
 	rpc("_on_update_running", true)
 	running = true
 	start_position_input = _calc_start_position()
-
 
 sync func _restart_game():
 	rpc("_on_update_running", true)
