@@ -6,7 +6,9 @@
 #include <opencv2/core/mat.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/objdetect.hpp>
+#include <opencv2/tracking.hpp>
 #include "VideoFaceDetector.h"
+#include "VideoHandDetector.h"
 
 namespace godot {
 
@@ -14,12 +16,20 @@ namespace godot {
         GODOT_CLASS(GDExample, Position2D)
 
 private:
+    bool waitingForSample;
     cv::Mat image;
     cv::Mat frame;
     cv::VideoCapture camera;
     cv::CascadeClassifier face_cascase;
     cv::Point cursorPos;
+
+    // Hand tracking
+    cv::Ptr<cv::Tracker> tracker;
+    cv::Rect2d bbox;
+    cv::Mat handSample;
+
     VideoFaceDetector detector;
+    VideoHandDetector handTracker;
 
 public:
     static void _register_methods();

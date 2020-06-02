@@ -2,11 +2,16 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/objdetect.hpp>
+#include <opencv2/tracking.hpp>
+
 #include <iostream>
 #include <sstream>
 #include <string>
 #include "VideoFaceDetector.h"
+#include "VideoHandDetector.h"
 #include <queue>
+#include <math.h>
 
 using namespace cv;
 using namespace std;
@@ -38,6 +43,10 @@ void GDExample::_init() {
     // camera.set(3, 512);
     // camera.set(4, 288);
 
+    waitingForSample = true;
+
+    bbox = Rect2d(100,200,200,300);
+
     // // TODO 
     face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
     if(!face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml")) {
@@ -55,7 +64,17 @@ void GDExample::_init() {
 }
 
 void GDExample::_process(float delta) {
+    if(detector.isFaceFound()) {
+    }
+    
     detector >> frame;
+
+    handTracker.update(frame, bbox);
+
+    if(waitKey(10) == 32) {
+        // tracker->init(frame,bbox);
+        handTracker.toggleTracking(frame, bbox);
+    }
 
     // Create the 'joystick' effect by restraining the movement of cursorPos. CursorPos 'follows' facePosition and is not mapped 1on1.
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
