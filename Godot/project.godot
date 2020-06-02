@@ -51,6 +51,10 @@ space={
  ]
 }
 
+[gdnative]
+
+singletons=[ "res://webrtc/webrtc.tres" ]
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
