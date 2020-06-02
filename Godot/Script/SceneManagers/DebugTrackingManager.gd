@@ -30,13 +30,13 @@ func _unhandled_input(event):
 func _get_input_pos():
 	var cursorpos
 	# The values for the headtracking position ranges from 0 to 1
-		var pos = get_node("HeadPos").position
-		# Add a margin/multiplier so the user's movement is amplified.
-		# The makes it easy for the user to reach the edges of the game screen with the pointer
-		var margin = 0.4
-		var windowmarginx = (OS.get_window_size().x)*margin
-		var windowmarginy = (OS.get_window_size().y)*margin
-		# Set the pointer position with the modified tracking position
-		cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2),
-				pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
+	var pos = get_node("HeadPos").position
+	# Add a margin/multiplier so the user's movement is amplified.
+	# The makes it easy for the user to reach the edges of the game screen with the pointer
+	var margin = 0.4
+	var windowmarginx = (get_viewport_rect().size.x)*margin
+	var windowmarginy = (get_viewport_rect().size.y)*margin
+	# Set the pointer position with the modified tracking position
+	cursorpos = Vector2(pos.x*((get_viewport_rect().size.x) + windowmarginx)-(windowmarginx/2),
+			pos.y*((get_viewport_rect().size.y)+windowmarginy)-(windowmarginy/2))
 	return cursorpos
