@@ -13,6 +13,7 @@ var dots = []
 var running = false
 puppetsync var waitForStartingPosition = true
 var start_position_input
+var tracking_node
 
 var finish_rect
 
@@ -25,6 +26,12 @@ func _ready():
 	if get_tree().is_network_server():
 		start_dialog.popup()
 		_load_map(1, false)
+		
+		# Initialize the HeadTracking scene for this user
+		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
+		var headTracking = HeadTrackingScene.instance()
+		self.add_child(headTracking)
+		tracking_node = headTracking.get_node("Position2D")
 	else:
 		_load_map(1)
 	_calc_finish_line()
@@ -133,6 +140,10 @@ func _update_game_state():
 				_game_over()
 			else:
 				_check_finish()
+		# Move the 'vision' of the Supervisor
+	if running and not get_tree().is_network_server():
+		_supervisor_vision_update(get_global_mouse_position())
+				
 
 
 func _check_finish():
@@ -217,7 +228,7 @@ func _get_input_pos():
 	if get_tree().is_network_server():
 			# The values for the headtracking position ranges from 0 to 1
 		if true:
-			var pos = get_node("HeadPos").position
+			var pos = tracking_node.position
 			# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
 			var margin = 0.4
 			var windowmarginx = (OS.get_window_size().x)*margin
