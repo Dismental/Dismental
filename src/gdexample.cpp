@@ -2,11 +2,16 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/objdetect.hpp>
+#include <opencv2/tracking.hpp>
+
 #include <iostream>
 #include <sstream>
 #include <string>
 #include "VideoFaceDetector.h"
+#include "VideoHandDetector.h"
 #include <queue>
+#include <math.h>
 
 using namespace cv;
 using namespace std;
@@ -43,6 +48,10 @@ void GDExample::_init() {
     // camera.set(3, 512);
     // camera.set(4, 288);
 
+    waitingForSample = true;
+
+    bbox = Rect2d(100,200,200,300);
+
     // // TODO 
     face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
     if(!face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml")) {
@@ -55,6 +64,9 @@ void GDExample::_init() {
 }
 
 void GDExample::_process(float delta) {
+    if(detector.isFaceFound()) {
+    }
+    
     detector >> frame;
     // flip(frame, frame, 1);
     int frameWidth, frameHeigth;
@@ -66,7 +78,12 @@ void GDExample::_process(float delta) {
         circle(frame, detector.facePosition(), 30, Scalar(0, 255, 0), 4,8,0);
     }
 
-    if(waitKey(10) == 27) return;
+    handTracker.update(frame, bbox);
+
+    if(waitKey(10) == 32) {
+        // tracker->init(frame,bbox);
+        handTracker.toggleTracking(frame, bbox);
+    }
 
     // Get the queue of face template display them all in sequence in the frame (picture in picture style)
     std::queue<cv::Mat> frame_lastSeen_queue = detector.getLastSeenFaceTemplateQueue();
@@ -78,12 +95,12 @@ void GDExample::_process(float delta) {
         spacingx += q_element.cols;
         frame_lastSeen_queue.pop();
     }
-    cv::Mat flipFrame;
-    flip(frame, flipFrame, 1);
-    // imshow("", flipFrame);
-
+    
+    
+    flip(frame, frame, 1);
+    imshow("", frame);
+    
     cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
     cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
-
     set_position(Vector2(abs((float)cursorPos.x/(float)frameWidth-1), (float)cursorPos.y/(float)frameHeigth));
 }
