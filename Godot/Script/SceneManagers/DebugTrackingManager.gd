@@ -1,7 +1,5 @@
 extends Node2D
 
-const Utils = preload("res://Script/Utils.gd")
-
 var map_sprite
 var tracking_node
 
@@ -46,4 +44,5 @@ func _get_input_pos():
 	# Set the pointer position with the modified tracking position
 	cursorpos = Vector2(pos.x*((get_viewport_rect().size.x) + windowmarginx)-(windowmarginx/2),
 			pos.y*((get_viewport_rect().size.y)+windowmarginy)-(windowmarginy/2))
+
 	return cursorpos
