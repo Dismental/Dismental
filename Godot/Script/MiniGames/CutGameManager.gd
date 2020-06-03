@@ -7,8 +7,6 @@ onready var SupervisorVision = $"Control/X-rayVision"
 
 puppet var puppet_mouse = Vector2()
 
-const Utils = preload("res://Script/Utils.gd")
-
 # Constants for the properties of the x-ray vision texture
 const supervisor_shadow_width = 800
 const supervisor_shadow_height = 600
@@ -18,7 +16,7 @@ const supervisor_shadow_scaley = supervisor_shadow_scalex
 var map_sprite
 var dots = []
 var running = false
-puppetsync var waitForStartingPosition = true
+var waitForStartingPosition = true
 var start_position_input
 var tracking_node
 
@@ -63,30 +61,28 @@ func _process(_delta):
 func _draw():
 	# Draw finish rect
 	draw_rect(finish_rect, Color(0.5, 0.5, 0.5), 10)
-	if running:
+	if running and not waitForStartingPosition:
 		var input_pos = _get_input_pos()
-	
+
 		# Add input pos to list of past input position
 		# If the previous input position wasn't close
 		if len(dots) == 0 or (dots[len(dots)-1].distance_to(input_pos) > 15):
 			dots.append(input_pos)
-	
-	# Draw line
-	if !waitForStartingPosition:
+
+		# Draw line
 		for i in range(2, len(dots) - 1):
 			draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
-		
+
 	# Draw Start Point
 	#	var vp_rect = get_viewport_rect().size
 	#	var start_point = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
 	#	draw_circle(start_point, 50, Color(0, 0, 1))
 	
 	# Draw current pointer
-	if len(dots) > 2:
-		var rad = 25
-		var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(0, 1, 0)
+	var rad = 25
+	var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(0, 1, 0)
 
-		draw_circle(_get_input_pos(), rad, col)
+	draw_circle(_get_input_pos(), rad, col)
 
 
 func _supervisor_vision_update(pos):
@@ -169,7 +165,7 @@ func _update_game_state():
 		start_position_input = _calc_start_position()
 		var distance_from_start = (start_position_input*2).distance_to(_get_input_pos())
 		if distance_from_start < 10:
-			rset("waitForStartingPosition", false)
+			waitForStartingPosition = false
 			dots.clear()
 	else:
 		if len(dots) > 2:
@@ -208,8 +204,6 @@ func _check_finish():
 
 func _game_completed():
 	rpc("_on_update_running", false)
-	if get_tree().is_network_server():
-		completed_dialog.popup()
 	rpc("_on_game_completed")
 
 func _move_input_to_start():
@@ -263,17 +257,15 @@ func _is_input_on_track():
 func _get_input_pos():
 	var cursorpos
 	if get_tree().is_network_server():
-			# The values for the headtracking position ranges from 0 to 1
-		if true:
-			var pos = tracking_node.position
-			# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
-			var margin = 0.4
-			var windowmarginx = (OS.get_window_size().x)*margin
-			var windowmarginy = (OS.get_window_size().y)*margin
-			cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
-					pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
-		else:
-			cursorpos = get_global_mouse_position()
+		# The values for the headtracking position ranges from 0 to 1
+		var pos = tracking_node.position
+		# Scale position to screne and amplify movement from the center to easily reach the edges
+		# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
+		var margin = 0.4
+		var windowmarginx = (OS.get_window_size().x)*margin
+		var windowmarginy = (OS.get_window_size().y)*margin
+		cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
+				pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
 		rset("puppet_mouse", cursorpos)
 	else:
 		cursorpos = puppet_mouse
@@ -294,12 +286,11 @@ func _get_map_pixel_color(pos):
 ### BUTTON FUNCTIONALITIES ###
 func _on_StartDialog_confirmed():
 	rpc("_on_update_running", true)
-	running = true
 	start_position_input = _calc_start_position()
 
 sync func _restart_game():
 	rpc("_on_update_running", true)
-	rset("waitForStartingPosition", true)
+	waitForStartingPosition = true
 	start_position_input = _calc_start_position()
 	dots.clear()
 	finish_state = 0
@@ -310,13 +301,13 @@ func _on_GameOverDialog_confirmed():
 
 
 func _on_CompletedDialog_confirmed():
-	get_parent().remove_child(self)
+	pass
 
 
 sync func _on_update_running(newValue):
 	running = newValue
 
 
-puppet func _on_game_completed():
+remotesync func _on_game_completed():
 	get_parent().remove_child(self)
 

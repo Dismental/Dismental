@@ -24,6 +24,9 @@ func _ready():
 	running = true
 	timer.start()
 
+	if not get_tree().is_network_server():
+		get_node("Control/VBoxContainer/PanelContainer/Button").hide()
+
 
 func _process(_delta):
 	if running:
@@ -57,3 +60,7 @@ func _on_timer_timeout():
 	print("TIME'S UP")
 	print("BOOOOOOM")
 	print("Bomb exploded...")
+
+
+func _on_start_minigame_pressed():
+	Network.start_minigame("Cut")

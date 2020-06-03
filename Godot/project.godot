@@ -26,9 +26,9 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Network="*res://Network.gd"
-Utils="*res://Script/Utils.gd"
-ScoreManager="*res://Script/ScoreManager.gd"
+Network="*res://Script/Global/Network.gd"
+Utils="*res://Script/Global/Utils.gd"
+ScoreManager="*res://Script/Global/ScoreManager.gd"
 
 [display]
 
@@ -42,6 +42,14 @@ window/stretch/aspect="keep"
 [editor_plugins]
 
 enabled=PoolStringArray( "gut" )
+
+[input]
+
+space={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [rendering]
 
