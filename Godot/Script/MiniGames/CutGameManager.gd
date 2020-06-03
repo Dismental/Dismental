@@ -165,10 +165,9 @@ func _update_game_state():
 				_game_over()
 			else:
 				_check_finish()
-		# Move the 'vision' of the Supervisor
+	# Move the 'vision' of the Supervisor
 	if running and not get_tree().is_network_server():
 		_supervisor_vision_update(get_global_mouse_position())
-				
 
 
 func _check_finish():
@@ -185,7 +184,7 @@ func _check_finish():
 				_game_completed()
 			else:
 				finish_state = 0
-		
+
 	elif finish_state == -1:
 		if finish_rect.has_point(_get_input_pos()):
 			if dots[len(dots)-1].y <= finish_rect.position.y:
@@ -262,7 +261,6 @@ func _get_input_pos():
 	else:
 		cursorpos = puppet_mouse
 	return cursorpos
-	
 
 
 func _get_map_pixel_color(pos):
