@@ -15,6 +15,7 @@ var iron_label
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
+# Colors of the heatmap in HSV format
 var colors = [
 	[236.0, 90.0, 27.0],
 	[297.0, 84.0, 68.0],
@@ -53,7 +54,6 @@ func _ready():
 	b_range = abs(colors[last_color_i][2] - b_low)
 	background_color = Color.from_hsv(colors[0][0], colors[0][1], colors[0][2])
 	
-	print(background_color)
 	
 	for _i in range(rows):
 		var row = []
@@ -63,18 +63,19 @@ func _ready():
 
 
 func _process(delta):
-	print(Engine.get_frames_per_second())
 	if soldering_iron_on:
 		_increase_matrix_input(delta)
 	_refresh_heatmap(delta)
 
 
 func _input(ev):
+	# Turn the soldering iron on and off with the space bar
 	if ev.is_action_pressed("space"):
 		soldering_iron_on = not soldering_iron_on
 		iron_label.text = "ON" if soldering_iron_on else "OFF"
 
 
+# Decreases the matrix temperatures and creates a new image afterwards
 func _refresh_heatmap(delta):
 	var dyn_image = Image.new()
 	var vp = get_viewport_rect()
@@ -104,7 +105,7 @@ func _refresh_heatmap(delta):
 	dyn_image.unlock()
 	heatmap_sprite.texture.create_from_image(dyn_image)
 
-
+# Increases matrix temperature values based on the input
 func _increase_matrix_input(delta):
 	var vp = get_viewport_rect()
 	var input = get_viewport().get_mouse_position()
@@ -136,7 +137,7 @@ func _pick_color(percentage):
 	var b = b_low + percentage * b_range
 	return Color.from_hsv(h, s, b)
 
-
+# Create the heatmap sprite and add it to the scene
 func _init_heatmap_sprite():
 	var imageTexture = ImageTexture.new()
 	var dyn_image = Image.new()
