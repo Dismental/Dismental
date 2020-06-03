@@ -33,6 +33,7 @@ onready var vacuum_indicator = get_node("Vacuum")
 onready var vacuum_label = get_node("Vacuum/VacuumLabel")
 
 onready var motherboard = get_node("MotherBoard")
+onready var completion_label = get_node("CanvasLayer/CompletionLabel")
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
@@ -169,6 +170,8 @@ func _check_vacuum():
 					var node = item[0]
 					motherboard.remove_child(node)
 					component_positions.remove(id)
+					if len(component_positions) == 0:
+						completion_label.text = "Completed"
 				break
 		id += 1
 
