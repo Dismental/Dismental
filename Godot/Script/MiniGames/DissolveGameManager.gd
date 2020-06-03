@@ -2,21 +2,37 @@ extends Node2D
 
 const Role = preload("res://Script/Role.gd")
 
+enum defuser_state {
+	OFF,
+	SOLDERING_IRON,
+	VACUUM
+}
+
 var matrix = []
 var columns = 90
 var rows = 72
 var heatmap_sprite
 var radius = 7
+var state = defuser_state.OFF
 
 # Increase/decrease factor of temperature
 var increase_factor = 14
 var decrease_factor = 6
 
-var soldering_iron_on = true
-var iron_label
+var component_size = 40
+var num_of_components = 6
+var component_positions = []
+
+var vacuum_remove_threshold = 60
 
 var parent_node_heatmap
-var motherboard
+onready var soldering_iron_indicator = get_node("SolderingIron")
+onready var iron_label = get_node("SolderingIron/SolderingIronLabel")
+
+onready var vacuum_indicator = get_node("Vacuum")
+onready var vacuum_label = get_node("Vacuum/VacuumLabel")
+
+onready var motherboard = get_node("MotherBoard")
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
@@ -39,15 +55,13 @@ var background_color = Color.from_hsv(0, 0, 0)
 
 var player_role
 
-func _ready():
-	iron_label = get_node("SolderingIronLabel")
-	motherboard = get_node("MotherBoard")
-	
+func _ready():	
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 	
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
 		heatmap_sprite = _init_heatmap_sprite()
+		_generate_components()
 		
 		# Convert H to percentage
 		for i in range(colors.size()):
@@ -75,21 +89,13 @@ func _ready():
 
 
 func _process(delta):
-	if soldering_iron_on:
+	if state == defuser_state.SOLDERING_IRON:
 		_increase_matrix_input(delta)
+	elif state == defuser_state.VACUUM:
+		_check_vacuum()
+		
 	if player_role == Role.SUPERVISOR:
 		_refresh_heatmap(delta)
-
-
-func _input(ev):
-	# Turn the soldering iron on and off with the space bar
-	if ev.is_action_pressed("space"):
-		_flip_soldering_iron()
-
-func _flip_soldering_iron():
-	soldering_iron_on = not soldering_iron_on
-	iron_label.text = "ON" if soldering_iron_on else "OFF"
-
 
 # Decreases the matrix temperatures and creates a new image afterwards
 func _refresh_heatmap(delta):
@@ -132,7 +138,8 @@ func _increase_matrix_input(delta):
 		if input.y - mb_position.y > 0 and input.y < mb_size.y - 1 + mb_position.y:
 
 			# Update matrix based on mouse position
-			var sector = _get_sector(input.x - mb_position.x, input.y - mb_position.y)
+			var sector = _get_sector(input.x, input.y)
+
 			var row = sector.get("row")
 			var column = sector.get("column")
 		
@@ -147,6 +154,23 @@ func _increase_matrix_input(delta):
 							if matrix[x][y] > 100:
 								matrix[x][y] = 100
 
+func _check_vacuum():
+	var input_sector_range = 2
+	var input = get_viewport().get_mouse_position()
+	var input_sector = _get_sector(input.x, input.y)
+	var id = 0
+	for item in component_positions:
+		var com_pos = item[1]
+		var input_col = input_sector["column"]
+		var input_row = input_sector["row"]
+		if input_col >= com_pos["column"] - input_sector_range and input_col <= com_pos["column"] + input_sector_range:
+			if input_row >= com_pos["row"] - input_sector_range and input_row <= com_pos["row"] + input_sector_range:
+				if matrix[input_row][input_col] > vacuum_remove_threshold:
+					var node = item[0]
+					motherboard.remove_child(node)
+					component_positions.remove(id)
+				break
+		id += 1
 
 # Give percentage in the range of 100%, returns the right color
 func _pick_color(percentage):
@@ -170,7 +194,8 @@ func _init_heatmap_sprite():
 
 	s.centered = false
 	s.set_texture(image_texture)
-	s.modulate.a = 0.8
+	s.modulate.a = 0.7
+	s.z_index = 10
 	motherboard.add_child(s)
 
 	return s
@@ -179,22 +204,56 @@ func _init_heatmap_sprite():
 # Give x and y, get sector of matrix the x and y is found in
 # Returns [row, column]
 func _get_sector(input_x, input_y):
-	var mb = motherboard.rect_size
-	var row_height = mb.y / rows
-	var column_width = mb.x / columns
-	var row = floor(input_y / row_height)
-	var column = floor(input_x / column_width)
+	var mb_position = motherboard.rect_position
+	var mb_size = motherboard.rect_size
+	
+	var row_height = mb_size.y / rows
+	var column_width = mb_size.x / columns
+	var row = floor((input_y - mb_position.y) / row_height)
+	var column = floor((input_x - mb_position.x) / column_width)
 	return { "row": row, "column": column }
 
 
 func _generate_components():
-	var motherboard = get_node("MotherBoard")
-	
-	var num_rects = 3
-	for i in range(num_rects):
-		pass
+	randomize()
+	for i in range(num_of_components):
+		var rec = ColorRect.new()
+		rec.color = Color(0, 0, 0)
+		var randx = randi() % int(motherboard.rect_size.x - component_size)
+		var randy = randi() % int(motherboard.rect_size.y - component_size)
+
+		rec.set_begin(Vector2(randx, randy))
+		rec.set_end(Vector2(randx + component_size, randy + component_size))
 		
+		var global_x_center = randx + component_size / 2 + motherboard.rect_position.x
+		var global_y_center = randy + component_size / 2 + motherboard.rect_position.y
+		component_positions.append([rec, _get_sector(global_x_center, global_y_center)])
+		motherboard.add_child(rec)
+	print(component_positions)
 
 func _on_SolderingIron_mouse_entered():
-	_flip_soldering_iron()
-	print("Mouse has entered soldering Iron")
+	if state == defuser_state.SOLDERING_IRON:
+		state = defuser_state.OFF
+		soldering_iron_indicator.color = Color(1, 0, 0)
+	else:
+		if state == defuser_state.VACUUM:
+			_on_Vacuum_mouse_entered()
+			
+		state = defuser_state.SOLDERING_IRON
+		soldering_iron_indicator.color = Color(0, 1, 0)
+		
+	iron_label.text = "ON" if state == defuser_state.SOLDERING_IRON else "OFF"
+
+
+
+func _on_Vacuum_mouse_entered():
+	if state == defuser_state.VACUUM:
+		state = defuser_state.OFF
+		vacuum_indicator.color = Color(1, 0, 0)
+	else:
+		if state == defuser_state.SOLDERING_IRON:
+			_on_SolderingIron_mouse_entered()
+			
+		state = defuser_state.VACUUM
+		vacuum_indicator.color = Color(0, 1, 0)
+	vacuum_label.text = "ON" if state == defuser_state.VACUUM else "OFF"
