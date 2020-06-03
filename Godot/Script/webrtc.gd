@@ -1,12 +1,5 @@
 extends Node
 
-export var autojoin = true
-export var lobby = "" # Will create a new lobby if empty.
-
-var client: WebSocketClient = WebSocketClient.new()
-var code = 1000
-var reason = "Unknown"
-
 signal lobby_joined(lobby)
 signal connected(id)
 signal disconnected()
@@ -16,6 +9,13 @@ signal offer_received(id, offer)
 signal answer_received(id, answer)
 signal candidate_received(id, mid, index, sdp)
 signal lobby_sealed()
+
+export var autojoin = true
+export var lobby = "" # Will create a new lobby if empty.
+
+var client: WebSocketClient = WebSocketClient.new()
+var code = 1000
+var reason = "Unknown"
 
 func _init():
 	client.connect("data_received", self, "_parse_msg")
@@ -125,5 +125,6 @@ func _send_msg(type, id, data) -> int:
 
 func _process(delta):
 	var status : int = client.get_connection_status()
-	if status == WebSocketClient.CONNECTION_CONNECTING or status == WebSocketClient.CONNECTION_CONNECTED:
+	if status == WebSocketClient.CONNECTION_CONNECTING or\
+			status == WebSocketClient.CONNECTION_CONNECTED:
 		client.poll()

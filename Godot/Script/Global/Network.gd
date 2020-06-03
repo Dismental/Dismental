@@ -11,7 +11,7 @@ const DEFAULT_SERVER = 'wss://signaling-server-bomb.herokuapp.com/'
 var player_name = ""
 var player_info = {}
 var players_ready = []
-var webRTC : WebRTCMultiplayer = WebRTCMultiplayer.new()
+var web_rtc : WebRTCMultiplayer = WebRTCMultiplayer.new()
 
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -39,8 +39,12 @@ func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 
 
-func create_server(url = DEFAULT_SERVER, port = DEFAULT_PORT, players = MAX_PLAYERS):
+func create_server(url = DEFAULT_SERVER):
 	start(url)
+
+
+func create_client(lobby, _server_ip = DEFAULT_SERVER):
+	start(_server_ip, lobby)
 
 
 func start(url, lobby = ''):
@@ -48,21 +52,20 @@ func start(url, lobby = ''):
 	self.lobby = lobby
 	connect_to_url(url)
 
+
 func stop():
-	webRTC.close()
+	web_rtc.close()
 	close()
+
 
 func lobby_joined(lobby):
 	print(lobby)
 	print(str(get_tree().is_network_server()))
 
-func create_client(lobby, _server_ip = DEFAULT_SERVER, port = DEFAULT_PORT):
-	start(_server_ip, lobby)
-
 func connected(id):
 	print("Connected %d" % id)
-	webRTC.initialize(id, true)
-	get_tree().set_network_peer(webRTC)
+	web_rtc.initialize(id, true)
+	get_tree().set_network_peer(web_rtc)
 
 func peer_connected(id):
 	print("Peer connected %d" % id)
@@ -83,8 +86,8 @@ func _create_peer(id):
 	})
 	peer.connect("session_description_created", self, "_offer_created", [id])
 	peer.connect("ice_candidate_created", self, "_new_ice_candidate", [id])
-	webRTC.add_peer(peer, id)
-	if id > webRTC.get_unique_id():
+	web_rtc.add_peer(peer, id)
+	if id > web_rtc.get_unique_id():
 		peer.create_offer()
 	return peer
 
@@ -94,10 +97,10 @@ func _new_ice_candidate(mid_name, index_name, sdp_name, id):
 
 
 func _offer_created(type, data, id):
-	if not webRTC.has_peer(id):
+	if not web_rtc.has_peer(id):
 		return
 	print("created", type)
-	webRTC.get_peer(id).connection.set_local_description(type, data)
+	web_rtc.get_peer(id).connection.set_local_description(type, data)
 	if type == "offer": send_offer(id, data)
 	else: send_answer(id, data)
 
@@ -110,19 +113,19 @@ func _connect_fail():
 
 func offer_received(id, offer):
 	print("Got offer: %d" % id)
-	if webRTC.has_peer(id):
-		webRTC.get_peer(id).connection.set_remote_description("offer", offer)
+	if web_rtc.has_peer(id):
+		web_rtc.get_peer(id).connection.set_remote_description("offer", offer)
 
 
 func answer_received(id, answer):
 	print("Got answer: %d" % id)
-	if webRTC.has_peer(id):
-		webRTC.get_peer(id).connection.set_remote_description("answer", answer)
+	if web_rtc.has_peer(id):
+		web_rtc.get_peer(id).connection.set_remote_description("answer", answer)
 
 
 func candidate_received(id, mid, index, sdp):
-	if webRTC.has_peer(id):
-		webRTC.get_peer(id).connection.add_ice_candidate(mid, index, sdp)
+	if web_rtc.has_peer(id):
+		web_rtc.get_peer(id).connection.add_ice_candidate(mid, index, sdp)
 
 #### STARTING A GAME
 
