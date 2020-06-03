@@ -21,12 +21,14 @@ _global_script_class_icons={
 [application]
 
 config/name="DefuseTheBomb"
-run/main_scene="res://Scenes/MainMenu.tscn"
+run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Network="*res://Network.gd"
+Network="*res://Script/Global/Network.gd"
+Utils="*res://Script/Global/Utils.gd"
+ScoreManager="*res://Script/Global/ScoreManager.gd"
 
 [display]
 
