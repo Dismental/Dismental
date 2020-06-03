@@ -1,7 +1,5 @@
 extends Node2D
 
-const Utils = preload("res://Script/Utils.gd")
-
 var map_sprite
 
 func _ready():
