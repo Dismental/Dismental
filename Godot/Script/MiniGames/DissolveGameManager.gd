@@ -228,7 +228,7 @@ func _generate_components():
 	for i in range(num_of_components):
 		var rec = ColorRect.new()
 		rec.color = Color(0, 0, 0)
-		
+
 		var randx = randi() % int(motherboard.rect_size.x - component_size)
 		var randy = randi() % int(motherboard.rect_size.y - component_size)
 
@@ -238,7 +238,7 @@ func _generate_components():
 		var global_x_center = randx + component_size / 2 + motherboard.rect_position.x
 		var global_y_center = randy + component_size / 2 + motherboard.rect_position.y
 		components.append([rec, _get_sector(global_x_center, global_y_center)])
-		
+
 		motherboard.add_child(rec)
 
 
@@ -246,12 +246,12 @@ func _on_SolderingIron_mouse_entered():
 	if defuse_state == DefuserState.SOLDERING_IRON:
 		defuse_state = DefuserState.OFF
 		soldering_iron_indicator.color = Color(1, 0, 0)
-		iron_label.text = "OFF" 
+		iron_label.text = "OFF"
 	else:
 		if defuse_state == DefuserState.VACUUM:
 			_on_Vacuum_mouse_entered()
 
-		iron_label.text = "ON" 
+		iron_label.text = "ON"
 		defuse_state = DefuserState.SOLDERING_IRON
 		soldering_iron_indicator.color = Color(0, 1, 0)
 
@@ -269,4 +269,3 @@ func _on_Vacuum_mouse_entered():
 		defuse_state = DefuserState.VACUUM
 		vacuum_indicator.color = Color(0, 1, 0)
 		vacuum_label.text = "ON"
-
