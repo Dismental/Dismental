@@ -57,9 +57,9 @@ var background_color = Color.from_hsv(0, 0, 0)
 
 var player_role
 
-func _ready():	
+func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
-	
+
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
 		heatmap_sprite = _init_heatmap_sprite()
@@ -165,15 +165,17 @@ func _check_vacuum():
 		var com_pos = item[1]
 		var input_col = input_sector["column"]
 		var input_row = input_sector["row"]
-		if input_col >= com_pos["column"] - input_sector_range and input_col <= com_pos["column"] + input_sector_range:
-			if input_row >= com_pos["row"] - input_sector_range and input_row <= com_pos["row"] + input_sector_range:
-				if matrix[input_row][input_col] > vacuum_remove_threshold:
-					var node = item[0]
-					motherboard.remove_child(node)
-					components.remove(id)
-					if len(components) == 0:
-						completion_label.text = "Completed"
-				break
+		if input_col >= com_pos["column"] - input_sector_range:
+			if input_col <= com_pos["column"] + input_sector_range:
+				if input_row >= com_pos["row"] - input_sector_range:
+					if input_row <= com_pos["row"] + input_sector_range:
+						if matrix[input_row][input_col] > vacuum_remove_threshold:
+							var node = item[0]
+							motherboard.remove_child(node)
+							components.remove(id)
+							if len(components) == 0:
+								completion_label.text = "Completed"
+						break
 		id += 1
 
 # Give percentage in the range of 100%, returns the right color
