@@ -6,7 +6,8 @@ var rows = 72
 var heatmap_sprite
 var radius = 7
 
-var increase_factor = 2
+# Increase/decrease factor of temperature
+var increase_factor = 12
 var decrease_factor = 6
 
 var soldering_iron_on = true 
@@ -122,7 +123,7 @@ func _increase_matrix_input(delta):
 				
 				if x >= 0 and x < rows and y >= 0 and y < columns:
 					var ratio = pow(radius, 2) - dis
-					matrix[x][y] += increase_factor * delta * ratio
+					matrix[x][y] += (increase_factor / radius) * delta * ratio
 					if matrix[x][y] > 100:
 						matrix[x][y] = 100
 
