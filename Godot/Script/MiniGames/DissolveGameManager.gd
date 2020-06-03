@@ -14,6 +14,8 @@ var decrease_factor = 6
 var soldering_iron_on = true 
 var iron_label
 
+var parent_node_heatmap
+
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
 var colors = [
@@ -36,6 +38,8 @@ var player_role
 
 func _ready():
 	iron_label = get_node("SolderingIronLabel")
+	parent_node_heatmap = get_node("Heatmap")
+	
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 	
 	# Generate the heatmap for the supervisor only
@@ -154,11 +158,9 @@ func _init_heatmap_sprite():
 	imageTexture.resource_name = "heatmap"
 	var s = Sprite.new()
 	s.centered = false
-	s.show_behind_parent = true
 	s.set_texture(imageTexture)
-	s.z_index = 100;
 	s.modulate.a = 0.75;
-	add_child(s)
+	parent_node_heatmap.add_child(s)
 	return s
 
 
