@@ -3,19 +3,20 @@ extends Node2D
 const Role = preload("res://Script/Role.gd")
 
 var matrix = []
-var columns = 128
+var columns = 90
 var rows = 72
 var heatmap_sprite
 var radius = 7
 
 # Increase/decrease factor of temperature
-var increase_factor = 12
+var increase_factor = 14
 var decrease_factor = 6
 
 var soldering_iron_on = true
 var iron_label
 
 var parent_node_heatmap
+var motherboard
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
@@ -40,7 +41,7 @@ var player_role
 
 func _ready():
 	iron_label = get_node("SolderingIronLabel")
-	parent_node_heatmap = get_node("Heatmap")
+	motherboard = get_node("MotherBoard")
 	
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 	
@@ -83,21 +84,24 @@ func _process(delta):
 func _input(ev):
 	# Turn the soldering iron on and off with the space bar
 	if ev.is_action_pressed("space"):
-		soldering_iron_on = not soldering_iron_on
-		iron_label.text = "ON" if soldering_iron_on else "OFF"
+		_flip_soldering_iron()
+
+func _flip_soldering_iron():
+	soldering_iron_on = not soldering_iron_on
+	iron_label.text = "ON" if soldering_iron_on else "OFF"
 
 
 # Decreases the matrix temperatures and creates a new image afterwards
 func _refresh_heatmap(delta):
 	var dyn_image = Image.new()
-	var vp = get_viewport_rect()
+	var mb = motherboard.rect_size
 
-	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
+	dyn_image.create(mb.x, mb.y, false, Image.FORMAT_RGB8)
 	dyn_image.fill(background_color)
 
 	dyn_image.lock()
-	var row_height = vp.size.y / rows
-	var column_width = vp.size.x / columns
+	var row_height = mb.y / rows
+	var column_width = mb.x / columns
 
 	for r in range(rows):
 		var start_pixel_y = row_height * r
@@ -119,26 +123,29 @@ func _refresh_heatmap(delta):
 
 # Increases matrix temperature values based on the input
 func _increase_matrix_input(delta):
-	var vp = get_viewport_rect()
+	var mb_position = motherboard.rect_position
+	var mb_size = motherboard.rect_size
+	
 	var input = get_viewport().get_mouse_position()
-	var input_x = clamp(input.x, 0, vp.size.x - 1)
-	var input_y = clamp(input.y, 0, vp.size.y - 1)
 
-	# Update matrix based on mouse position
-	var sector = _get_sector(input_x, input_y)
-	var row = sector.get("row")
-	var column = sector.get("column")
+	if input.x - mb_position.x > 0 and input.x < mb_size.x - 1 + mb_position.x:
+		if input.y - mb_position.y > 0 and input.y < mb_size.y - 1 + mb_position.y:
 
-	for y in range(column - radius, column + radius):
-		for x in range(row - radius, row + radius):
-			if Vector2(row, column).distance_to(Vector2(x, y)) < radius:
-				var dis = Vector2(row, column).distance_squared_to(Vector2(x, y))
-
-				if x >= 0 and x < rows and y >= 0 and y < columns:
-					var ratio = pow(radius, 2) - dis
-					matrix[x][y] += (increase_factor / radius) * delta * ratio
-					if matrix[x][y] > 100:
-						matrix[x][y] = 100
+			# Update matrix based on mouse position
+			var sector = _get_sector(input.x - mb_position.x, input.y - mb_position.y)
+			var row = sector.get("row")
+			var column = sector.get("column")
+		
+			for y in range(column - radius, column + radius):
+				for x in range(row - radius, row + radius):
+					if Vector2(row, column).distance_to(Vector2(x, y)) < radius:
+						var dis = Vector2(row, column).distance_squared_to(Vector2(x, y))
+		
+						if x >= 0 and x < rows and y >= 0 and y < columns:
+							var ratio = pow(radius, 2) - dis
+							matrix[x][y] += (increase_factor / radius) * delta * ratio
+							if matrix[x][y] > 100:
+								matrix[x][y] = 100
 
 
 # Give percentage in the range of 100%, returns the right color
@@ -154,8 +161,8 @@ func _init_heatmap_sprite():
 	var image_texture = ImageTexture.new()
 	var dyn_image = Image.new()
 
-	var vp = get_viewport_rect()
-	dyn_image.create(vp.size.x, vp.size.y, false, Image.FORMAT_RGB8)
+	var mb = motherboard.rect_size
+	dyn_image.create(mb.x, mb.y, false, Image.FORMAT_RGB8)
 	dyn_image.fill(background_color)
 	image_texture.create_from_image(dyn_image)
 	image_texture.resource_name = "heatmap"
@@ -163,7 +170,8 @@ func _init_heatmap_sprite():
 
 	s.centered = false
 	s.set_texture(image_texture)
-	parent_node_heatmap.add_child(s)
+	s.modulate.a = 0.8
+	motherboard.add_child(s)
 
 	return s
 
@@ -171,13 +179,22 @@ func _init_heatmap_sprite():
 # Give x and y, get sector of matrix the x and y is found in
 # Returns [row, column]
 func _get_sector(input_x, input_y):
-	var vp = get_viewport_rect()
-	var row_height = vp.size.y / rows
-	var column_width = vp.size.x / columns
+	var mb = motherboard.rect_size
+	var row_height = mb.y / rows
+	var column_width = mb.x / columns
 	var row = floor(input_y / row_height)
 	var column = floor(input_x / column_width)
 	return { "row": row, "column": column }
 
 
+func _generate_components():
+	var motherboard = get_node("MotherBoard")
+	
+	var num_rects = 3
+	for i in range(num_rects):
+		pass
+		
+
 func _on_SolderingIron_mouse_entered():
+	_flip_soldering_iron()
 	print("Mouse has entered soldering Iron")

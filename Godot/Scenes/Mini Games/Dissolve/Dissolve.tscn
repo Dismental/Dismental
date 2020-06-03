@@ -11,17 +11,9 @@ font_data = ExtResource( 2 )
 script = ExtResource( 1 )
 
 [node name="MotherBoard" type="ColorRect" parent="."]
-margin_left = 320.0
-margin_right = 1600.0
+margin_left = 321.517
+margin_right = 1601.52
 margin_bottom = 1080.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Heatmap" type="Panel" parent="."]
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="SolderingIronLabel" type="Label" parent="."]
 margin_left = 30.0

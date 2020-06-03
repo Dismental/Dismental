@@ -52,8 +52,8 @@ func _draw():
 			draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
 
 	# Draw Start Point
-	#	var vp_rect = get_viewport_rect().size
-	#	var start_point = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
+	#	var mb_rect = get_viewport_rect().size
+	#	var start_point = Vector2(mb_rect.x * start_x_ratio, mb_rect.y/2)
 	#	draw_circle(start_point, 50, Color(0, 0, 1))
 	
 	# Draw current pointer
@@ -75,12 +75,12 @@ func _calc_start_position():
 	var center_y = finish_rect.position.y + (finish_rect.size.y / 2.0)
 	var center_rect = Vector2(center_x, center_y)
 	
-	var vp_size = get_viewport().size
-	var vp_real_size = get_viewport_rect().size
-	var ratio = vp_size / vp_real_size
+	var mb_size = get_viewport().size
+	var mb_real_size = get_viewport_rect().size
+	var ratio = mb_size / mb_real_size
 	
-	var offset_x = (OS.get_window_size().x - vp_size.x) / 2.0
-	var offset_y = (OS.get_window_size().y - vp_size.y) / 2.0
+	var offset_x = (OS.get_window_size().x - mb_size.x) / 2.0
+	var offset_y = (OS.get_window_size().y - mb_size.y) / 2.0
 	
 	var start_pos = center_rect * ratio
 	start_pos.x += offset_x
@@ -91,15 +91,15 @@ func _calc_start_position():
 func _calc_finish_line():
 	var start_x_ratio = 0.1
 	
-	var vp_rect = get_viewport_rect().size
-	var sp = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
+	var mb_rect = get_viewport_rect().size
+	var sp = Vector2(mb_rect.x * start_x_ratio, mb_rect.y/2)
 
 	# Find min x
 	while(_get_map_pixel_color(sp) != Color(1, 1, 1)):
 		sp.x -= 1
 	var min_x = sp.x
 	
-	sp.x  = vp_rect.x * start_x_ratio
+	sp.x  = mb_rect.x * start_x_ratio
 	
 	# Find max x
 	while(_get_map_pixel_color(sp) != Color(1, 1, 1)):
