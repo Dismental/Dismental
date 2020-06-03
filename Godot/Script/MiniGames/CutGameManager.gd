@@ -137,9 +137,6 @@ func _update_game_state():
 			else:
 				_check_finish()
 		# Move the 'vision' of the Supervisor
-	if running and not get_tree().is_network_server():
-		_supervisor_vision_update(get_global_mouse_position())
-				
 
 
 func _check_finish():
