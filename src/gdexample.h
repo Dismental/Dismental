@@ -16,10 +16,6 @@ namespace godot {
         GODOT_CLASS(GDExample, Position2D)
 
 private:
-    float time_passed;
-    float time_emit;
-    float amplitude;
-    float speed;
     bool waitingForSample;
     cv::Mat image;
     cv::Mat frame;
@@ -45,7 +41,6 @@ public:
 
         void _process(float delta);
     };
-
 }
 
 #endif
