@@ -157,6 +157,8 @@ func _increase_matrix_input(delta):
 							if matrix[x][y] > 100:
 								matrix[x][y] = 100
 
+# Checks if the mouse cursor is in range of destroyable components
+# Removes a component when the temperature is above the threshold
 func _check_vacuum():
 	var input_sector_range = 2
 	var input = get_viewport().get_mouse_position()
@@ -220,12 +222,13 @@ func _get_sector(input_x, input_y):
 	var column = floor((input_x - mb_position.x) / column_width)
 	return { "row": row, "column": column }
 
-
+# Generate destroyable components
 func _generate_components():
 	randomize()
 	for i in range(num_of_components):
 		var rec = ColorRect.new()
 		rec.color = Color(0, 0, 0)
+		
 		var randx = randi() % int(motherboard.rect_size.x - component_size)
 		var randy = randi() % int(motherboard.rect_size.y - component_size)
 
@@ -235,31 +238,35 @@ func _generate_components():
 		var global_x_center = randx + component_size / 2 + motherboard.rect_position.x
 		var global_y_center = randy + component_size / 2 + motherboard.rect_position.y
 		components.append([rec, _get_sector(global_x_center, global_y_center)])
+		
 		motherboard.add_child(rec)
-	print(components)
+
 
 func _on_SolderingIron_mouse_entered():
 	if defuse_state == DefuserState.SOLDERING_IRON:
 		defuse_state = DefuserState.OFF
 		soldering_iron_indicator.color = Color(1, 0, 0)
+		iron_label.text = "OFF" 
 	else:
 		if defuse_state == DefuserState.VACUUM:
 			_on_Vacuum_mouse_entered()
 
+		iron_label.text = "ON" 
 		defuse_state = DefuserState.SOLDERING_IRON
 		soldering_iron_indicator.color = Color(0, 1, 0)
 
-	iron_label.text = "ON" if defuse_state == DefuserState.SOLDERING_IRON else "OFF"
 
 
 func _on_Vacuum_mouse_entered():
 	if defuse_state == DefuserState.VACUUM:
 		defuse_state = DefuserState.OFF
 		vacuum_indicator.color = Color(1, 0, 0)
+		vacuum_label.text = "OFF"
 	else:
 		if defuse_state == DefuserState.SOLDERING_IRON:
 			_on_SolderingIron_mouse_entered()
 
 		defuse_state = DefuserState.VACUUM
 		vacuum_indicator.color = Color(0, 1, 0)
-	vacuum_label.text = "ON" if defuse_state == DefuserState.VACUUM else "OFF"
+		vacuum_label.text = "ON"
+
