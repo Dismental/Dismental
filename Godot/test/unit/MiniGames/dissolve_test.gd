@@ -8,7 +8,9 @@ func test_turning_soldering_iron_on_off():
 	
 	var event = double(InputEventAction).new()
 	stub(event, 'is_action_pressed').to_return(true)
+
 	inst._input(event)
 	assert_true(soldering_iron_on != inst.soldering_iron_on )
+
 	inst._input(event)
 	assert_true(soldering_iron_on == inst.soldering_iron_on )
