@@ -13,7 +13,7 @@ func _init():
 
 	connect("lobby_joined", self, "lobby_joined")
 	connect("lobby_sealed", self, "lobby_sealed")
-	
+	connect("peer_connected", self, "peer_connected")
 	connect("peer_disconnected", self, "peer_disconnected")
 
 
