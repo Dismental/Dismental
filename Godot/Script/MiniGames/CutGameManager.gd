@@ -156,8 +156,6 @@ func _check_finish():
 
 func _game_completed():
 	rpc("_on_update_running", false)
-#	if get_tree().is_network_server():
-#		completed_dialog.popup()
 	rpc("_on_game_completed")
 
 func _move_input_to_start():
@@ -257,7 +255,6 @@ func _on_GameOverDialog_confirmed():
 
 func _on_CompletedDialog_confirmed():
 	pass
-#	get_parent().remove_child(self)
 
 
 sync func _on_update_running(newValue):
