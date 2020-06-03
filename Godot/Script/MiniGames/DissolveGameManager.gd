@@ -1,12 +1,12 @@
 extends Node2D
 
-const Role = preload("res://Script/Role.gd")
-
 enum DefuserState {
 	OFF,
 	SOLDERING_IRON,
 	VACUUM
 }
+
+const Role = preload("res://Script/Role.gd")
 
 var matrix = []
 var columns = 90
@@ -25,15 +25,7 @@ var components = []
 
 var vacuum_remove_threshold = 60
 
-var parent_node_heatmap
-onready var soldering_iron_indicator = get_node("SolderingIron")
-onready var iron_label = get_node("SolderingIron/SolderingIronLabel")
-
-onready var vacuum_indicator = get_node("Vacuum")
-onready var vacuum_label = get_node("Vacuum/VacuumLabel")
-
-onready var motherboard = get_node("MotherBoard")
-onready var completion_label = get_node("CanvasLayer/CompletionLabel")
+var parent_node_heatma
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
@@ -56,6 +48,15 @@ var b_range = 0
 var background_color = Color.from_hsv(0, 0, 0)
 
 var player_role
+
+onready var soldering_iron_indicator = get_node("SolderingIron")
+onready var iron_label = get_node("SolderingIron/SolderingIronLabel")
+
+onready var vacuum_indicator = get_node("Vacuum")
+onready var vacuum_label = get_node("Vacuum/VacuumLabel")
+
+onready var motherboard = get_node("MotherBoard")
+onready var completion_label = get_node("CanvasLayer/CompletionLabel")
 
 func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
