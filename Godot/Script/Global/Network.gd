@@ -16,31 +16,30 @@ var webRTC : WebRTCMultiplayer = WebRTCMultiplayer.new()
 # Called when the node enters the scene tree for the first time.
 func _init():
 	#get_tree().connect("network_peer_connected", self, "_player_connected")
-	connect("lobby_joined", self, "lobby_joined")
+#	connect("lobby_joined", self, "lobby_joined")
+#	connect("connected", self, "connected")
+#	connect("peer_connected", self, "_player_connected")
+#
+#	connect("offer_received", self, "offer_received")
+#	connect("answer_received", self, "answer_received")
+#	connect("candidate_received", self, "candidate_received")
 	connect("connected", self, "connected")
-	connect("peer_connected", self, "_player_connected")
-	
+	connect("disconnected", self, "disconnected")
+
 	connect("offer_received", self, "offer_received")
 	connect("answer_received", self, "answer_received")
 	connect("candidate_received", self, "candidate_received")
 
+	connect("lobby_joined", self, "lobby_joined")
+	connect("lobby_sealed", self, "lobby_sealed")
+	connect("peer_connected", self, "peer_connected")
+	connect("peer_disconnected", self, "peer_disconnected")
+
+func _ready():
+	get_tree().connect("network_peer_connected", self, "_player_connected")
+
 
 func create_server(url = DEFAULT_SERVER, port = DEFAULT_PORT, players = MAX_PLAYERS):
-	# Trying to uPnP on the router if not successful the host will only be on
-	# the local network
-#	var upnp = UPNP.new()
-#	upnp.discover(2000, 2, "InternetGatewayDevice")
-#	var result = upnp.add_port_mapping(port)
-#	if (result == 0):
-#		print("We are accessible from the outside world!")
-#	else:
-#		print("We are only accessible from our own local network!")
-#
-#	var peer = NetworkedMultiplayerENet.new()
-#	peer.create_server(port, players)
-#	get_tree().network_peer = peer
-#	player_name = "1"
-#	print("Network created on port: " + str(port))
 	start(url)
 
 
@@ -57,28 +56,23 @@ func lobby_joined(lobby):
 	print(lobby)
 	print(str(get_tree().is_network_server()))
 
-func connected(id):
-	webRTC.initialize(id, true)
-	print("Connected %d" % id)
-	get_tree().network_peer = webRTC
-
 func create_client(lobby, _server_ip = DEFAULT_SERVER, port = DEFAULT_PORT):
-#	get_tree().connect('connected_to_server', self, '_connected_to_server')
-#	get_tree().connect("connection_failed", self, "_connect_fail")
-#	var peer = NetworkedMultiplayerENet.new()
-#	print("Trying to connect to: " + str(_server_ip))
-#	peer.create_client(_server_ip, port)
-#	get_tree().network_peer = peer
 	start(_server_ip, lobby)
 
+func connected(id):
+	print("Connected %d" % id)
+	webRTC.initialize(id, true)
+	get_tree().set_network_peer(webRTC)
+
+func peer_connected(id):
+	print("Peer connected %d" % id)
+	_create_peer(id)
+	player_info[id] = str(id)
 
 func _player_connected(id):
 	print("We connected player with id: " + str(id))
 	player_info[id] = str(id)
-	_create_peer(id)
 	print(get_tree().get_network_connected_peers())
-	print(webRTC.get_peers())
-	print(webRTC.get_connection_status())
 	rpc_id(id, "register_player")
 
 
