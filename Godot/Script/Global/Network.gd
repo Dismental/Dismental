@@ -1,52 +1,111 @@
-extends Node
+extends "../webrtc.gd"
 
 signal player_list_changed()
 
 const DEFAULT_IP = '127.0.0.1'
 const DEFAULT_PORT = 31400
 const MAX_PLAYERS = 2
+const DEFAULT_SERVER = 'wss://signaling-server-bomb.herokuapp.com/'
 
 # Declare member variables here.
 var player_name = ""
 var player_info = {}
 var players_ready = []
+var webRTC : WebRTCMultiplayer = WebRTCMultiplayer.new()
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	get_tree().connect("network_peer_connected", self, "_player_connected")
+func _init():
+	#get_tree().connect("network_peer_connected", self, "_player_connected")
+	connect("lobby_joined", self, "lobby_joined")
+	connect("connected", self, "connected")
+	connect("peer_connected", self, "_player_connected")
+	
+	connect("offer_received", self, "offer_received")
+	connect("answer_received", self, "answer_received")
+	connect("candidate_received", self, "candidate_received")
 
-func create_server(port = DEFAULT_PORT, players = MAX_PLAYERS):
+
+func create_server(url = DEFAULT_SERVER, port = DEFAULT_PORT, players = MAX_PLAYERS):
 	# Trying to uPnP on the router if not successful the host will only be on
 	# the local network
-	var upnp = UPNP.new()
-	upnp.discover(2000, 2, "InternetGatewayDevice")
-	var result = upnp.add_port_mapping(port)
-	if (result == 0):
-		print("We are accessible from the outside world!")
-	else:
-		print("We are only accessible from our own local network!")
+#	var upnp = UPNP.new()
+#	upnp.discover(2000, 2, "InternetGatewayDevice")
+#	var result = upnp.add_port_mapping(port)
+#	if (result == 0):
+#		print("We are accessible from the outside world!")
+#	else:
+#		print("We are only accessible from our own local network!")
+#
+#	var peer = NetworkedMultiplayerENet.new()
+#	peer.create_server(port, players)
+#	get_tree().network_peer = peer
+#	player_name = "1"
+#	print("Network created on port: " + str(port))
+	start(url)
 
-	var peer = NetworkedMultiplayerENet.new()
-	peer.create_server(port, players)
-	get_tree().network_peer = peer
-	player_name = "1"
-	print("Network created on port: " + str(port))
 
+func start(url, lobby = ''):
+	stop()
+	self.lobby = lobby
+	connect_to_url(url)
 
-func create_client(_server_ip, port = DEFAULT_PORT):
-	get_tree().connect('connected_to_server', self, '_connected_to_server')
-	get_tree().connect("connection_failed", self, "_connect_fail")
-	var peer = NetworkedMultiplayerENet.new()
-	print("Trying to connect to: " + str(_server_ip))
-	peer.create_client(_server_ip, port)
-	get_tree().network_peer = peer
+func stop():
+	webRTC.close()
+	close()
+
+func lobby_joined(lobby):
+	print(lobby)
+	print(str(get_tree().is_network_server()))
+
+func connected(id):
+	webRTC.initialize(id, true)
+	print("Connected %d" % id)
+	get_tree().network_peer = webRTC
+
+func create_client(lobby, _server_ip = DEFAULT_SERVER, port = DEFAULT_PORT):
+#	get_tree().connect('connected_to_server', self, '_connected_to_server')
+#	get_tree().connect("connection_failed", self, "_connect_fail")
+#	var peer = NetworkedMultiplayerENet.new()
+#	print("Trying to connect to: " + str(_server_ip))
+#	peer.create_client(_server_ip, port)
+#	get_tree().network_peer = peer
+	start(_server_ip, lobby)
 
 
 func _player_connected(id):
 	print("We connected player with id: " + str(id))
 	player_info[id] = str(id)
+	_create_peer(id)
+	print(get_tree().get_network_connected_peers())
+	print(webRTC.get_peers())
+	print(webRTC.get_connection_status())
 	rpc_id(id, "register_player")
 
+
+func _create_peer(id):
+	var peer : WebRTCPeerConnection = WebRTCPeerConnection.new()
+	peer.initialize({
+		"iceServers": [ { "urls": ["stun:stun.l.google.com:19302"] } ]
+	})
+	peer.connect("session_description_created", self, "_offer_created", [id])
+	peer.connect("ice_candidate_created", self, "_new_ice_candidate", [id])
+	webRTC.add_peer(peer, id)
+	if id > webRTC.get_unique_id():
+		peer.create_offer()
+	return peer
+
+
+func _new_ice_candidate(mid_name, index_name, sdp_name, id):
+	send_candidate(id, mid_name, index_name, sdp_name)
+
+
+func _offer_created(type, data, id):
+	if not webRTC.has_peer(id):
+		return
+	print("created", type)
+	webRTC.get_peer(id).connection.set_local_description(type, data)
+	if type == "offer": send_offer(id, data)
+	else: send_answer(id, data)
 
 func _connected_to_server():
 	player_name = str(get_tree().get_network_unique_id())
@@ -55,6 +114,23 @@ func _connected_to_server():
 func _connect_fail():
 	print("FAILED TO CONNECT")
 
+func offer_received(id, offer):
+	print("Got offer: %d" % id)
+	if webRTC.has_peer(id):
+		webRTC.get_peer(id).connection.set_remote_description("offer", offer)
+
+
+func answer_received(id, answer):
+	print("Got answer: %d" % id)
+	if webRTC.has_peer(id):
+		webRTC.get_peer(id).connection.set_remote_description("answer", answer)
+
+
+func candidate_received(id, mid, index, sdp):
+	if webRTC.has_peer(id):
+		webRTC.get_peer(id).connection.add_ice_candidate(mid, index, sdp)
+
+#### STARTING A GAME
 
 remote func pre_configure_game():
 	get_tree().set_pause(true)

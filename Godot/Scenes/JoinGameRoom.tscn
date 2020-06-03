@@ -111,7 +111,7 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-LIMIT = 39
+limit = 16
 
 [node name="EnterGameID" type="Label" parent="."]
 anchor_left = 0.5
