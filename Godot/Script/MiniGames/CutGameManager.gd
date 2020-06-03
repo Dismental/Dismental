@@ -86,23 +86,15 @@ func _draw():
 
 
 func _supervisor_vision_update(pos):
-	# Position the center of x-ray shadow texture at the 'pos' input location
-	# Handle edge cases if pos is outside the screen
 	var ShadowPos = Vector2(0,0)
 
-	if pos.x < 0: 
-		ShadowPos.x = 0 - (supervisor_shadow_width * supervisor_shadow_scalex) / 2
-	elif pos.x > get_viewport_rect().size.x:
-		ShadowPos.x = get_viewport_rect().size.x - (supervisor_shadow_width * supervisor_shadow_scalex) / 2
-	else:
-		ShadowPos.x = pos.x - (supervisor_shadow_width * supervisor_shadow_scalex) / 2
-
-	if pos.y < 0: 
-		ShadowPos.y = 0 - (supervisor_shadow_height * supervisor_shadow_scaley) / 2
-	elif pos.y > get_viewport_rect().size.y:
-		ShadowPos.y = get_viewport_rect().size.y - (supervisor_shadow_height * supervisor_shadow_scaley) / 2
-	else: 
-		ShadowPos.y = pos.y - (supervisor_shadow_height * supervisor_shadow_scaley) / 2
+	# Handle edge cases if pos is outside the screen
+	var x = clamp(pos.x, 0, get_viewport_rect().size.x)
+	var y = clamp(pos.y, 0, get_viewport_rect().size.y)
+	
+	# Position the center of x-ray shadow texture at the 'pos' input location
+	ShadowPos.x = x - supervisor_shadow_width * supervisor_shadow_scalex / 2
+	ShadowPos.y = y - supervisor_shadow_height * supervisor_shadow_scaley / 2
 
 	SupervisorVision.set_position(ShadowPos)
 
