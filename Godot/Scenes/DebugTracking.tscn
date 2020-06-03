@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://Script/SceneManagers/DebugTrackingManager.gd" type="Script" id=1]
-[ext_resource path="res://bin/gdexample.gdns" type="Script" id=2]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -12,6 +11,3 @@ margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="HeadPos" type="Position2D" parent="."]
-script = ExtResource( 2 )
