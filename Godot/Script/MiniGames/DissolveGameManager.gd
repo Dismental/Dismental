@@ -95,7 +95,7 @@ func _refresh_heatmap(delta):
 			matrix[r][c] -= decrease_factor * delta
 			if matrix[r][c] < 0:
 				matrix[r][c] = 0
-			
+
 			var temperature = matrix[r][c]
 			if temperature > 5:
 				for i in range(start_pixel_x, start_pixel_x + column_width):
