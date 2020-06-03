@@ -46,7 +46,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[node name="Control" type="Control"]
+[node name="GameRoomPlayer" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
@@ -96,4 +96,38 @@ icon = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Players" type="Panel" parent="."]
+margin_left = 659.724
+margin_top = 326.0
+margin_right = 1237.72
+margin_bottom = 895.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Players"]
+margin_left = 127.0
+margin_right = 472.0
+margin_bottom = 60.0
+text = "Awaiting Players ..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="List" type="ItemList" parent="Players"]
+margin_left = 127.0
+margin_top = 60.0
+margin_right = 472.0
+margin_bottom = 473.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Players"]
+margin_left = 127.0
+margin_top = 493.0
+margin_right = 472.0
+margin_bottom = 536.0
+text = "Wait for the host to start the game"
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
