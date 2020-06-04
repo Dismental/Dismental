@@ -194,7 +194,7 @@ func _increase_matrix_input(delta):
 	if input.x - mb_position.x > 0 and input.x < mb_size.x - 1 + mb_position.x:
 		if input.y - mb_position.y > 0 and input.y < mb_size.y - 1 + mb_position.y:
 
-			# Update matrix based on mouse position
+			# Update matrix based on input position
 			var sector = _get_sector(input.x, input.y)
 
 			var row = sector.get("row")
@@ -215,7 +215,7 @@ func _increase_matrix_input(delta):
 								matrix[x][y] = 100
 								title_label.text = "Failed"
 
-# Checks if the mouse cursor is in range of destroyable components
+# Checks if the input cursor is in range of destroyable components
 # Removes a component when the temperature is above the threshold
 func _check_vacuum():
 	var input_sector_range = 2
@@ -323,7 +323,24 @@ func _generate_components():
 		yi += 1
 
 
-func _on_SolderingIron_mouse_entered():
+func _set_input_pos():
+	var cursorpos = get_viewport().get_mouse_position()
+#	# The values for the headtracking position ranges from 0 to 1
+#	var pos = tracking_node.position
+#	# Scale position to screne and amplify movement from the center to easily reach the edges
+#	# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
+#	var margin = 0.4
+#	var windowmarginx = (OS.get_window_size().x)*margin
+#	var windowmarginy = (OS.get_window_size().y)*margin
+#
+#	var cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
+#			pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
+	rset("puppet_mouse", cursorpos)
+
+func _get_input_pos():
+	return puppet_mouse
+	
+remotesync func _soldering_entered():
 	if defuse_state == DefuserState.SOLDERING_IRON:
 		defuse_state = DefuserState.OFF
 		soldering_iron_indicator.color = Color(1, 0, 0)
@@ -336,9 +353,7 @@ func _on_SolderingIron_mouse_entered():
 		defuse_state = DefuserState.SOLDERING_IRON
 		soldering_iron_indicator.color = Color(0, 1, 0)
 
-
-
-func _on_Vacuum_mouse_entered():
+remotesync func _vacuum_entered():
 	if defuse_state == DefuserState.VACUUM:
 		defuse_state = DefuserState.OFF
 		vacuum_indicator.color = Color(1, 0, 0)
@@ -351,18 +366,14 @@ func _on_Vacuum_mouse_entered():
 		vacuum_indicator.color = Color(0, 1, 0)
 		vacuum_label.text = "ON"
 
-func _set_input_pos():
-	# The values for the headtracking position ranges from 0 to 1
-	var pos = tracking_node.position
-	# Scale position to screne and amplify movement from the center to easily reach the edges
-	# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
-	var margin = 0.4
-	var windowmarginx = (OS.get_window_size().x)*margin
-	var windowmarginy = (OS.get_window_size().y)*margin
 
-	var cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
-			pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
-	rset("puppet_mouse", cursorpos)
+func _on_SolderingIron_mouse_entered():
+	print("Soldering_iron entered")
+	if player_role == Role.DEFUSER:
+		print("Soldering entered")
+		rpc("_soldering_entered")
 
-func _get_input_pos():
-	return puppet_mouse
+func _on_Vacuum_mouse_entered():
+	if player_role == Role.DEFUSER:
+		print("Vacuum entered")
+		rpc("_vacuum_entered")

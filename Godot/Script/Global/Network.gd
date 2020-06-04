@@ -59,7 +59,6 @@ func _connect_fail():
 remote func pre_configure_game():
 	get_tree().set_pause(true)
 
-	var cut = load("res://Scenes/Mini Games/Cut/Cut.tscn").instance()
 	var bombscene = load("res://Scenes/GameScene.tscn").instance()
 	get_tree().get_root().add_child(bombscene)
 
