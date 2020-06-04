@@ -30,6 +30,8 @@ var lost_tracking
 
 var free_movement_zone_radius = 100
 var throttle_zone_radius = 400
+var free_movement_zone_warp = 1
+var throttle_zone_warp = 1
 
 var delta_angle = 0
 var delta_distance = 0
@@ -49,7 +51,9 @@ func _process(_delta):
 		
 		delta_angle = atan2(tracking_pos_new.y - tracking_pos.y, tracking_pos_new.x - tracking_pos.x)
 		delta_distance = tracking_pos.distance_to(tracking_pos_new)
-		movement_speed = max(1, (delta_distance) / 200)
+		
+		free_movement_zone_warp = max(1, (delta_distance) / 50)
+		throttle_zone_warp = max(1, (delta_distance) / 200)
 
 		if (distance_new < 1):
 			distance_new = 1
@@ -107,7 +111,7 @@ func _process(_delta):
 func _within_free_movement_zone(pos, pos_new):
 	var distance = (pos.distance_to(pos_new))
 	
-	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, free_movement_zone_radius, movement_speed)
+	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
 	
 	print(distance_from_origin(ellipse_point))
 	if (distance < distance_from_origin(ellipse_point)):
@@ -118,7 +122,7 @@ func _within_free_movement_zone(pos, pos_new):
 func _within_throttled_zone(pos, pos_new):
 	var distance = (pos.distance_to(pos_new))
 	
-	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, throttle_zone_radius, movement_speed)
+	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, throttle_zone_radius, throttle_zone_warp)
 	
 	if (distance < distance_from_origin(ellipse_point)):
 		return true
@@ -186,7 +190,7 @@ func _draw():
 	# draw throttle_movement_zone region
 	for i in range(64):
 		var theta = 2*PI/64*i
-		var point_ellipse = point_on_ellipse(theta, delta_angle, throttle_zone_radius, movement_speed)
+		var point_ellipse = point_on_ellipse(theta, delta_angle, throttle_zone_radius, throttle_zone_warp)
 		
 		draw_line(
 			Vector2(tracking_pos.x, tracking_pos.y),
@@ -202,7 +206,7 @@ func _draw():
 	# draw free_movement_zone region
 	for i in range(64):
 		var theta = 2*PI/64*i
-		var point_ellipse = point_on_ellipse(theta, delta_angle, free_movement_zone_radius, movement_speed)
+		var point_ellipse = point_on_ellipse(theta, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
 		
 		draw_line(
 			Vector2(tracking_pos.x, tracking_pos.y),
