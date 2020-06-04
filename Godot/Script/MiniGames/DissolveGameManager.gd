@@ -10,7 +10,7 @@ puppet var puppet_mouse = Vector2()
 
 const Role = preload("res://Script/Role.gd")
 
-var matrix = []
+var matrix
 var columns = 90
 var rows = 72
 var heatmap_sprite
@@ -55,11 +55,11 @@ var background_color
 
 var player_role
 
-onready var soldering_iron_indicator = $SolderingIron
-onready var iron_label = $SolderingIron/SolderingIronLabel
+onready var soldering_iron_indicator = $SolderingBackground/SolderingIron
+onready var iron_label = $SolderingBackground/SolderingIron/SolderingIronLabel
 
-onready var vacuum_indicator = $Vacuum
-onready var vacuum_label = $Vacuum/VacuumLabel
+onready var vacuum_indicator = $VacuumBackground/Vacuum
+onready var vacuum_label = $VacuumBackground/Vacuum/VacuumLabel
 
 onready var motherboard = $MotherBoard
 onready var title_label = $CanvasLayer/Title
@@ -78,10 +78,10 @@ func _ready():
 
 	elif player_role == Role.DEFUSER:
 		# Initialize the HeadTracking scene for this user
-		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
-		var headTracking = HeadTrackingScene.instance()
-		self.add_child(headTracking)
-		tracking_node = headTracking.get_node("Position2D")
+#		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
+#		var headTracking = HeadTrackingScene.instance()
+#		self.add_child(headTracking)
+#		tracking_node = headTracking.get_node("Position2D")
 		_generate_components()
 
 
@@ -97,6 +97,7 @@ func _process(delta):
 
 
 func _init_matrix():
+	matrix = []
 	for _i in range(rows):
 		var row = []
 		for _j in range(columns):
@@ -232,8 +233,9 @@ func _check_vacuum():
 					if input_row <= com_pos["row"] + input_sector_range:
 						if matrix[input_row][input_col] > vacuum_remove_threshold:
 							var node = item[0]
-							motherboard.remove_child(node)
-							components.remove(id)
+							print("Remove component" + str(id))
+							_destroy_component(id)
+							rpc_id(1, "_destroy_component", id)
 							if len(components) == 0:
 								rpc("_game_completed")
 						break
@@ -318,6 +320,14 @@ func _generate_components():
 		motherboard.add_child(rec)
 		yi += 1
 
+remotesync func _destroy_component(id):
+	motherboard.remove_child(components[id][0])
+	components.remove(id)
+	
+func _destroy_components():
+	components = []
+	for x in components:
+		motherboard.remove_child(x[0])
 
 func _set_input_pos():
 	var cursorpos = get_viewport().get_mouse_position()
@@ -336,18 +346,15 @@ func _set_input_pos():
 func _get_input_pos():
 	return puppet_mouse
 
-
-
 remotesync func _game_completed():
-	title_label.text = "Completed"
-	rpc("_on_game_completed")
+	rpc_id(1, "_on_game_completed")
+	_on_game_completed()
 
 
 remotesync func _game_over():
-	title_label.text = "Failed"
-	rpc("_on_game_over")
-
-
+	# Not sure if needed to caal two times
+	rpc_id(1, "_on_game_over")
+	_on_game_over()
 
 remotesync func _soldering_entered():
 	if defuse_state == DefuserState.SOLDERING_IRON:
@@ -356,7 +363,8 @@ remotesync func _soldering_entered():
 		iron_label.text = "OFF"
 	else:
 		if defuse_state == DefuserState.VACUUM:
-			_on_Vacuum_mouse_entered()
+			vacuum_indicator.color = Color(1, 0, 0)
+			vacuum_label.text = "OFF"
 
 		iron_label.text = "ON"
 		defuse_state = DefuserState.SOLDERING_IRON
@@ -369,7 +377,8 @@ remotesync func _vacuum_entered():
 		vacuum_label.text = "OFF"
 	else:
 		if defuse_state == DefuserState.SOLDERING_IRON:
-			_on_SolderingIron_mouse_entered()
+			soldering_iron_indicator.color = Color(1, 0, 0)
+			iron_label.text = "OFF"
 
 		defuse_state = DefuserState.VACUUM
 		vacuum_indicator.color = Color(0, 1, 0)
@@ -377,7 +386,6 @@ remotesync func _vacuum_entered():
 
 
 func _on_SolderingIron_mouse_entered():
-	print("Soldering_iron entered")
 	if player_role == Role.DEFUSER:
 		print("Soldering entered")
 		rpc("_soldering_entered")
@@ -391,5 +399,9 @@ remotesync func _on_game_completed():
 	get_parent().remove_child(self)
 	
 remotesync func _on_game_over():
-	get_tree().reload_current_scene()
-
+	if player_role == Role.SUPERVISOR:
+		_init_matrix()
+	_destroy_components()
+	_generate_components()
+	print(components)
+	assert(len(components) == num_of_components)

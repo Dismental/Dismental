@@ -1,7 +1,7 @@
 extends Node
 
 var timer
-var wait_time = 100
+var wait_time = 180
 
 var timer_label
 var running = false
@@ -12,6 +12,7 @@ var minigame_index = 0
 var minigames = ["Cut", "Dissolve"]
 
 onready var puzzle_label = $Control/VBoxContainer/PanelContainer/PuzzlesLeft
+onready var bottom_button = $Control/VBoxContainer/PanelContainer/Button
 
 func _ready():
 	puzzle_label.text = "Minigames remaining: " + str(len(minigames))
@@ -66,9 +67,23 @@ func _on_timer_timeout():
 	print("TIME'S UP")
 	print("BOOOOOOM")
 	print("Bomb exploded...")
+	
 
 
 func _on_start_minigame_pressed():
-	Network.start_minigame(minigames[minigame_index])
-	minigame_index += 1
-	puzzle_label.text = "Minigames remaining: " + str(len(minigames - minigame_index))
+	if len(minigames) - minigame_index > 0:
+		Network.start_minigame(minigames[minigame_index])
+		minigame_index += 1
+		rpc("_update_minigames_remaing_text", str(len(minigames) - minigame_index))
+		if len(minigames) - minigame_index == 0:
+			bottom_button.text = "Defuse Bomb"
+	else:
+		rpc("_on_defuse")
+
+remotesync func _update_minigames_remaing_text(num):
+	puzzle_label.text = "Minigames remaining: " + num
+	
+remotesync func _on_defuse():
+	running = false
+	timer.stop()
+	$Control/VBoxContainer/HBoxContainer/ExampleBomb/Title.text = "Defused"
