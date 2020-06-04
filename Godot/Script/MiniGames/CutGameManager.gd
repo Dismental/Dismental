@@ -1,9 +1,5 @@
 extends Node2D
 
-onready var start_dialog = $Control/StartDialog
-onready var game_over_dialog = $Control/GameOverDialog
-onready var completed_dialog = $Control/CompletedDialog
-
 puppet var puppet_mouse = Vector2()
 
 var map_sprite
@@ -19,6 +15,10 @@ var finish_rect
 # 1 is clockwise
 # -1 is counterclockwise
 var finish_state = 0
+
+onready var start_dialog = $Control/StartDialog
+onready var game_over_dialog = $Control/GameOverDialog
+onready var completed_dialog = $Control/CompletedDialog
 
 func _ready():
 	if get_tree().is_network_server():
