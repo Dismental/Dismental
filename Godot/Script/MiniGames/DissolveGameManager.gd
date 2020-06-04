@@ -340,10 +340,12 @@ func _get_input_pos():
 
 remotesync func _game_completed():
 	title_label.text = "Completed"
+	rpc("_on_game_completed")
 
 
 remotesync func _game_over():
 	title_label.text = "Failed"
+	rpc("_on_game_over")
 
 
 
@@ -384,3 +386,10 @@ func _on_Vacuum_mouse_entered():
 	if player_role == Role.DEFUSER:
 		print("Vacuum entered")
 		rpc("_vacuum_entered")
+
+remotesync func _on_game_completed():
+	get_parent().remove_child(self)
+	
+remotesync func _on_game_over():
+	get_tree().reload_current_scene()
+

@@ -8,7 +8,13 @@ var running = false
 var last_label_update
 var next_scene
 
+var minigame_index = 0
+var minigames = ["Cut", "Dissolve"]
+
+onready var puzzle_label = $Control/VBoxContainer/PanelContainer/PuzzlesLeft
+
 func _ready():
+	puzzle_label.text = "Minigames remaining: " + str(len(minigames))
 	last_label_update = wait_time
 
 	timer_label = get_node("CanvasLayer/TimeCounter")
@@ -63,4 +69,6 @@ func _on_timer_timeout():
 
 
 func _on_start_minigame_pressed():
-	Network.start_minigame("Dissolve")
+	Network.start_minigame(minigames[minigame_index])
+	minigame_index += 1
+	puzzle_label.text = "Minigames remaining: " + str(len(minigames - minigame_index))
