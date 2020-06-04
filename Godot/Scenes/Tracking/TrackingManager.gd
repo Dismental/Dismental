@@ -31,6 +31,9 @@ var lost_tracking
 var free_movement_zone_radius = 100
 var throttle_zone_radius = 400
 
+var delta_angle = 0
+var delta_distance = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pointer_node = get_node("Pointer")
@@ -42,9 +45,13 @@ func _process(_delta):
 		
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
 		var distance_new = (tracking_pos_new.distance_to(tracking_pos))
+		
+		delta_angle = atan2(tracking_pos_new.y - tracking_pos.y, tracking_pos_new.x - tracking_pos.x)
+		delta_distance = tracking_pos.distance_to(tracking_pos_new)
 
 		if (distance_new < 1):
 			distance_new = 1
+			
 
 		if _within_free_movement_zone(tracking_pos, tracking_pos_new):
 			if (lost_tracking): 
@@ -53,12 +60,12 @@ func _process(_delta):
 				throttle_zone_radius = 400
 				
 			var position_offset = tracking_pos_new - tracking_pos
-			print(position_offset)
+#			print(position_offset)
 			
 			tracking_pos = tracking_pos + (position_offset/6)
 			pointer_node.position = tracking_pos
 		elif _within_throttled_zone(tracking_pos, tracking_pos_new):
-			print("Throttled")
+#			print("Throttled")
 			var distance_outside_free_zone = distance_new - free_movement_zone_radius
 			
 			if (distance_outside_free_zone <= 0): distance_outside_free_zone = 1
@@ -79,7 +86,7 @@ func _process(_delta):
 			pointer_node.position = tracking_pos
 		else:
 			if not (lost_tracking): 
-				print("Lost")
+#				print("Lost")
 				lost_tracking = true
 				free_movement_zone_radius = 25
 				throttle_zone_radius = 200
@@ -91,10 +98,13 @@ func _process(_delta):
 	elif (role == ROLE.mouseController):
 		pointer_node.position = get_global_mouse_position()
 		print(pointer_node.position)
+	
+	update()
 
 
 func _within_free_movement_zone(pos, pos_new):
 	var distance = (pos.distance_to(pos_new))
+	var angle = pos.angle_to(pos_new)
 	
 	if (distance < free_movement_zone_radius):
 		return true
@@ -149,3 +159,66 @@ func _map_tracking_position(track_pos):
 	
 func _on_Sprite_draw():
 	print ("draw sprite")
+	
+func point_on_ellipse(angle, rotation, radius, warp):
+	return Vector2(
+		cos(rotation) * cos(angle) * (radius * warp) - sin(rotation) * sin(angle) * (radius),
+		cos(rotation) * sin(angle) * (radius) + sin(rotation) * cos(angle) * (radius * warp)
+	)
+	
+	
+	
+func _draw():
+#	draw_circle(tracking_pos, throttle_zone_radius, Color(1, 1, 0))
+#	draw_circle(tracking_pos, free_movement_zone_radius, Color(0, 1, 0))
+	
+	var warp_level = max(1, min((delta_distance - 100) / 100, 2))
+	print(delta_distance, warp_level)
+	# draw throttle_movement_zone region
+	for i in range(64):
+		var theta = 2*PI/64*i
+		var point_ellipse = point_on_ellipse(theta, delta_angle, throttle_zone_radius, warp_level)
+		
+		draw_line(
+			Vector2(tracking_pos.x, tracking_pos.y),
+#			Vector2(tracking_pos.x - cos(theta + delta_angle) * radiusX, tracking_pos.y - sin(theta + delta_angle) * radiusY),
+			Vector2(
+				tracking_pos.x + point_ellipse.x,
+				tracking_pos.y + point_ellipse.y
+			),
+			Color(255,255,0),
+			4
+		)
+	
+	# draw free_movement_zone region
+	for i in range(64):
+		var theta = 2*PI/64*i
+		var point_ellipse = point_on_ellipse(theta, delta_angle, free_movement_zone_radius, warp_level)
+		
+		draw_line(
+			Vector2(tracking_pos.x, tracking_pos.y),
+#			Vector2(tracking_pos.x - cos(theta + delta_angle) * radiusX, tracking_pos.y - sin(theta + delta_angle) * radiusY),
+			Vector2(
+				tracking_pos.x + point_ellipse.x,
+				tracking_pos.y + point_ellipse.y
+			),
+			Color(0,255,0),
+			4
+		)
+		
+	draw_circle(_map_tracking_position(tracking_node.position), 10, Color(255, 0, 0))
+	draw_line(
+		_map_tracking_position(tracking_node.position),
+		tracking_pos,
+		Color(255,0,0),
+		4
+	)
+	
+	
+	
+#	draw_line(
+#		Vector2(tracking_pos.x - cos(PI/2 + delta_angle) * 100, tracking_pos.y - sin(PI/2 + delta_angle) * 100),
+#		Vector2(tracking_pos.x + cos(PI/2 + delta_angle) * 100, tracking_pos.y + sin(PI/2 + delta_angle) * 100),
+#		Color(0,255,0),
+#		4
+#	)
