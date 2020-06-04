@@ -2,9 +2,6 @@ extends "../webrtc.gd"
 
 signal player_list_changed()
 
-const DEFAULT_IP = '127.0.0.1'
-const DEFAULT_PORT = 31400
-const MAX_PLAYERS = 2
 const DEFAULT_SERVER = 'wss://signaling-server-bomb.herokuapp.com/'
 
 # Declare member variables here.
@@ -16,14 +13,6 @@ var sealed = false
 
 # Called when the node enters the scene tree for the first time.
 func _init():
-	#get_tree().connect("network_peer_connected", self, "_player_connected")
-#	connect("lobby_joined", self, "lobby_joined")
-#	connect("connected", self, "connected")
-#	connect("peer_connected", self, "_player_connected")
-#
-#	connect("offer_received", self, "offer_received")
-#	connect("answer_received", self, "answer_received")
-#	connect("candidate_received", self, "candidate_received")
 	connect("connected", self, "connected")
 	connect("disconnected", self, "disconnected")
 
@@ -63,16 +52,18 @@ func stop():
 
 func lobby_joined(lobby):
 	print(lobby)
-	print(str(get_tree().is_network_server()))
+
 
 func lobby_sealed():
 	print("lobby was sealed")
 	sealed = true
 
+
 func connected(id):
 	print("Connected %d" % id)
 	web_rtc.initialize(id, true)
 	get_tree().set_network_peer(web_rtc)
+
 
 func disconnected():
 	print("Disconnected: %d: %s" % [code, reason])
@@ -84,10 +75,12 @@ func disconnected():
 	elif not sealed:
 		stop() #Unexpected disconnect
 
+
 func peer_connected(id):
 	print("Peer connected %d" % id)
 	_create_peer(id)
 	player_info[id] = str(id)
+
 
 func peer_disconnected(id):
 	var test = web_rtc.get_peers()
@@ -95,9 +88,7 @@ func peer_disconnected(id):
 		print("removing peer")
 		web_rtc.remove_peer(id)
 	deregister_player(id)
-#	for player in player_info:
-#		if(player != id):
-#			rpc_id(player, "deregister player")
+
 
 func _player_connected(id):
 	print("We connected player with id: " + str(id))
@@ -132,12 +123,14 @@ func _offer_created(type, data, id):
 	if type == "offer": send_offer(id, data)
 	else: send_answer(id, data)
 
+
 func _connected_to_server():
 	player_name = str(get_tree().get_network_unique_id())
 
 
 func _connect_fail():
 	print("FAILED TO CONNECT")
+
 
 func offer_received(id, offer):
 	print("Got offer: %d" % id)
@@ -232,10 +225,12 @@ remote func register_player():
 	player_info[id] = str(id)
 	emit_signal("player_list_changed")
 
+
 func deregister_player(id):
 	player_info.erase(id)
 	print("removing player: " + str(id))
 	emit_signal("player_list_changed")
+
 
 func get_players():
 	return player_info
