@@ -33,6 +33,7 @@ var throttle_zone_radius = 400
 
 var delta_angle = 0
 var delta_distance = 0
+var movement_speed = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -48,6 +49,7 @@ func _process(_delta):
 		
 		delta_angle = atan2(tracking_pos_new.y - tracking_pos.y, tracking_pos_new.x - tracking_pos.x)
 		delta_distance = tracking_pos.distance_to(tracking_pos_new)
+		movement_speed = max(1, (delta_distance) / 200)
 
 		if (distance_new < 1):
 			distance_new = 1
@@ -104,9 +106,11 @@ func _process(_delta):
 
 func _within_free_movement_zone(pos, pos_new):
 	var distance = (pos.distance_to(pos_new))
-	var angle = pos.angle_to(pos_new)
 	
-	if (distance < free_movement_zone_radius):
+	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, free_movement_zone_radius, movement_speed)
+	
+	print(distance_from_origin(ellipse_point))
+	if (distance < distance_from_origin(ellipse_point)):
 		return true
 	return false
 
@@ -114,7 +118,9 @@ func _within_free_movement_zone(pos, pos_new):
 func _within_throttled_zone(pos, pos_new):
 	var distance = (pos.distance_to(pos_new))
 	
-	if distance < throttle_zone_radius:
+	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, throttle_zone_radius, movement_speed)
+	
+	if (distance < distance_from_origin(ellipse_point)):
 		return true
 	return false
 
@@ -160,11 +166,15 @@ func _map_tracking_position(track_pos):
 func _on_Sprite_draw():
 	print ("draw sprite")
 	
+
 func point_on_ellipse(angle, rotation, radius, warp):
 	return Vector2(
 		cos(rotation) * cos(angle) * (radius * warp) - sin(rotation) * sin(angle) * (radius),
 		cos(rotation) * sin(angle) * (radius) + sin(rotation) * cos(angle) * (radius * warp)
 	)
+	
+func distance_from_origin(point):
+	return point.distance_to(Vector2(0,0))
 	
 	
 	
@@ -172,12 +182,11 @@ func _draw():
 #	draw_circle(tracking_pos, throttle_zone_radius, Color(1, 1, 0))
 #	draw_circle(tracking_pos, free_movement_zone_radius, Color(0, 1, 0))
 	
-	var warp_level = max(1, min((delta_distance - 100) / 100, 2))
-	print(delta_distance, warp_level)
+#	print(delta_distance, warp_level)
 	# draw throttle_movement_zone region
 	for i in range(64):
 		var theta = 2*PI/64*i
-		var point_ellipse = point_on_ellipse(theta, delta_angle, throttle_zone_radius, warp_level)
+		var point_ellipse = point_on_ellipse(theta, delta_angle, throttle_zone_radius, movement_speed)
 		
 		draw_line(
 			Vector2(tracking_pos.x, tracking_pos.y),
@@ -193,7 +202,7 @@ func _draw():
 	# draw free_movement_zone region
 	for i in range(64):
 		var theta = 2*PI/64*i
-		var point_ellipse = point_on_ellipse(theta, delta_angle, free_movement_zone_radius, warp_level)
+		var point_ellipse = point_on_ellipse(theta, delta_angle, free_movement_zone_radius, movement_speed)
 		
 		draw_line(
 			Vector2(tracking_pos.x, tracking_pos.y),
