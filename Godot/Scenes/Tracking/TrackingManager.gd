@@ -29,13 +29,13 @@ var distance_from_free_zone
 var lost_tracking
 
 var free_movement_zone_radius = 100
-var throttle_zone_radius = 400
+var throttle_zone_radius = 200
 var free_movement_zone_warp = 1
 var throttle_zone_warp = 1
 
 var delta_angle = 0
 var delta_distance = 0
-var movement_speed = 1
+var movement_speed = Vector2(0,0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -52,9 +52,12 @@ func _process(_delta):
 		delta_angle = atan2(tracking_pos_new.y - tracking_pos.y, tracking_pos_new.x - tracking_pos.x)
 		delta_distance = tracking_pos.distance_to(tracking_pos_new)
 		
-		free_movement_zone_warp = max(1, (delta_distance) / 50)
-		throttle_zone_warp = max(1, (delta_distance) / 200)
-
+		free_movement_zone_warp = max(1, min(4, (movement_speed.length()) / 500))
+		throttle_zone_warp = max(1, min(4, (movement_speed.length()) / 1000))
+		
+		movement_speed = (tracking_pos_new - tracking_pos) / _delta
+#		print(movement_speed.length())
+		
 		if (distance_new < 1):
 			distance_new = 1
 			
@@ -63,7 +66,7 @@ func _process(_delta):
 			if (lost_tracking): 
 				lost_tracking = false
 				free_movement_zone_radius = 100
-				throttle_zone_radius = 400
+				throttle_zone_radius = 200
 				
 			var position_offset = tracking_pos_new - tracking_pos
 #			print(position_offset)
@@ -95,7 +98,7 @@ func _process(_delta):
 #				print("Lost")
 				lost_tracking = true
 				free_movement_zone_radius = 25
-				throttle_zone_radius = 200
+				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
 		
 	elif (role == ROLE.head):
@@ -103,7 +106,7 @@ func _process(_delta):
 		pointer_node.position = tracking_pos
 	elif (role == ROLE.mouseController):
 		pointer_node.position = get_global_mouse_position()
-		print(pointer_node.position)
+#		print(pointer_node.position)
 	
 	update()
 
@@ -113,8 +116,8 @@ func _within_free_movement_zone(pos, pos_new):
 	
 	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
 	
-	print(distance_from_origin(ellipse_point))
-	if (distance < distance_from_origin(ellipse_point)):
+	print(ellipse_point.length())
+	if (distance < ellipse_point.length()):
 		return true
 	return false
 
@@ -124,7 +127,9 @@ func _within_throttled_zone(pos, pos_new):
 	
 	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, throttle_zone_radius, throttle_zone_warp)
 	
-	if (distance < distance_from_origin(ellipse_point)):
+	print(ellipse_point.length())
+	if (distance < ellipse_point.length()):
+		print("in throttle zone")
 		return true
 	return false
 
@@ -173,8 +178,8 @@ func _on_Sprite_draw():
 
 func point_on_ellipse(angle, rotation, radius, warp):
 	return Vector2(
-		cos(rotation) * cos(angle) * (radius * warp) - sin(rotation) * sin(angle) * (radius),
-		cos(rotation) * sin(angle) * (radius) + sin(rotation) * cos(angle) * (radius * warp)
+		cos(rotation) * cos(angle) * (radius * warp) - sin(rotation) * sin(angle) * (radius),# + cos(rotation) * radius * (warp - 1) / 1.61803398875,
+		cos(rotation) * sin(angle) * (radius) + sin(rotation) * cos(angle) * (radius * warp)# + sin(rotation) * radius * (warp - 1) / 1.61803398875
 	)
 	
 func distance_from_origin(point):
