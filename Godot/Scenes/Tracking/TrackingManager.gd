@@ -35,6 +35,7 @@ var free_movement_zone_warp = 1
 var throttle_zone_warp = 1
 
 var delta_angle = 0
+var delta_delta_angle = 0
 var delta_distance = 0
 var movement_speed = Vector2(0,0)
 
@@ -50,6 +51,7 @@ func _process(_delta):
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
 		var distance_new = (tracking_pos_new.distance_to(tracking_pos))
 		
+		delta_delta_angle = atan2(tracking_pos_new.y - tracking_pos.y, tracking_pos_new.x - tracking_pos.x) - delta_angle
 		delta_angle = atan2(tracking_pos_new.y - tracking_pos.y, tracking_pos_new.x - tracking_pos.x)
 		delta_distance = tracking_pos.distance_to(tracking_pos_new)
 		
@@ -71,7 +73,16 @@ func _process(_delta):
 			var position_offset = tracking_pos_new - tracking_pos
 #			print(position_offset)
 			
-			tracking_pos += position_offset/4
+			var factor = 1.5 + abs(sin(delta_delta_angle)) * 6 + max(500 - movement_speed.length(), 0) / 500 * 6
+#			print(factor)
+			tracking_pos = tracking_pos + (position_offset/factor)
+#			if movement_speed.length() < 500: 
+#				tracking_pos = tracking_pos + (position_offset/4)
+#			else:
+#				tracking_pos = tracking_pos + (position_offset/factor)
+				
+			
+				
 			pointer_node.position = tracking_pos
 		elif _within_throttled_zone(tracking_pos, tracking_pos_new):
 #			print("Throttled")
@@ -109,7 +120,7 @@ func _process(_delta):
 func _within_free_movement_zone(pos, pos_new):
 	var distance = (pos.distance_to(pos_new))
 	
-	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
+	var ellipse_point = point_on_ellipse(0, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
 	
 	#print(ellipse_point.length())
 	if (distance < ellipse_point.length()):
@@ -120,7 +131,7 @@ func _within_free_movement_zone(pos, pos_new):
 func _within_throttled_zone(pos, pos_new):
 	var distance = (pos.distance_to(pos_new))
 	
-	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, throttle_zone_radius, throttle_zone_warp)
+	var ellipse_point = point_on_ellipse(0, delta_angle, throttle_zone_radius, throttle_zone_warp)
 	
 	#print(ellipse_point.length())
 	if (distance < ellipse_point.length()):
