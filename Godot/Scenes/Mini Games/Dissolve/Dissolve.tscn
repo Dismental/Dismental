@@ -100,7 +100,7 @@ text = "Vacuum"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="CompletionLabel" type="Label" parent="CanvasLayer"]
+[node name="Title" type="Label" parent="CanvasLayer"]
 margin_left = 784.0
 margin_top = 160.0
 margin_right = 1104.0

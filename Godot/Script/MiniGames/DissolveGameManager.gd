@@ -12,12 +12,12 @@ var matrix = []
 var columns = 90
 var rows = 72
 var heatmap_sprite
-var radius = 7
+var radius = 9
 var defuse_state = DefuserState.OFF
 
 # Increase/decrease factor of temperature
-var increase_factor = 14
-var decrease_factor = 6
+var increase_factor = 24
+var decrease_factor = 4
 
 var component_size = 40
 var num_of_components = 6
@@ -25,7 +25,8 @@ var components = []
 
 var vacuum_remove_threshold = 60
 
-var parent_node_heatma
+var blink_light
+var is_blinking = false
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
@@ -38,14 +39,14 @@ var colors = [
 	[70.0, 2.0, 100.0],
 ]
 
-var h_low = 0
-var h_range = 0
-var s_low = 0
-var s_range = 0
-var b_low = 0
-var b_range = 0
+var h_low
+var h_range
+var s_low
+var s_range
+var b_low
+var b_range
 
-var background_color = Color.from_hsv(0, 0, 0)
+var background_color
 
 var player_role
 
@@ -56,33 +57,20 @@ onready var vacuum_indicator = get_node("Vacuum")
 onready var vacuum_label = get_node("Vacuum/VacuumLabel")
 
 onready var motherboard = get_node("MotherBoard")
-onready var completion_label = get_node("CanvasLayer/CompletionLabel")
+onready var title_label = get_node("CanvasLayer/Title")
 
 func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
+		_generate_blink_light()
+		_generate_colors()
+		_generate_color_scale()
 		heatmap_sprite = _init_heatmap_sprite()
 		_generate_components()
 
-		# Convert H to percentage
-		for i in range(colors.size()):
-			colors[i][0] = ((colors[i][0] * 100.0) / 360.0) / 100.0
 
-		# Divide S & B by 100.0
-		for i in range(colors.size()):
-			for j in range(1, 3):
-				colors[i][j] = colors[i][j] / 100.0
-
-		var last_color_i = colors.size() - 1
-		h_low = colors[0][0]
-		h_range = 1.0 + colors[last_color_i][0]
-		s_low = colors[0][1]
-		s_range = abs(colors[last_color_i][1] - s_low)
-		b_low = colors[0][2]
-		b_range = abs(colors[last_color_i][2] - b_low)
-		background_color = Color.from_hsv(colors[0][0], colors[0][1], colors[0][2])
 
 	for _i in range(rows):
 		var row = []
@@ -99,6 +87,57 @@ func _process(delta):
 
 	if player_role == Role.SUPERVISOR:
 		_refresh_heatmap(delta)
+
+
+func _generate_colors():
+	# Convert H to percentage
+	for i in range(colors.size()):
+		colors[i][0] = ((colors[i][0] * 100.0) / 360.0) / 100.0
+
+	# Divide S & B by 100.0
+	for i in range(colors.size()):
+		for j in range(1, 3):
+			colors[i][j] = colors[i][j] / 100.0
+
+	var last_color_i = colors.size() - 1
+	h_low = colors[0][0]
+	h_range = 1.0 + colors[last_color_i][0]
+	s_low = colors[0][1]
+	s_range = abs(colors[last_color_i][1] - s_low)
+	b_low = colors[0][2]
+	b_range = abs(colors[last_color_i][2] - b_low)
+	background_color = Color.from_hsv(colors[0][0], colors[0][1], colors[0][2])
+
+func _generate_blink_light():
+	blink_light = ColorRect.new()
+	blink_light.color = Color(0.5, 0.5, 0.5, 1)
+
+	var width = 100
+	blink_light.set_begin(Vector2(110, 900))
+	blink_light.set_end(Vector2(110 + width, 900 + width))
+
+	get_node("CanvasLayer").add_child(blink_light)
+
+func _blink_light():
+	blink_light.color = Color(1, 0, 0, 0.5)
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	blink_light.color.a = 1
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	blink_light.color = Color(0.5, 0.5, 0.5, 1)
+	is_blinking = false
+
+func _generate_color_scale():
+	var n = 0
+	var width = 50
+	for c in colors:
+		var rec = ColorRect.new()
+		rec.color = Color.from_hsv(c[0], c[1], c[2])
+		rec.set_begin(Vector2(30 + n * width, 30))
+		rec.set_end(Vector2(30 + (n + 1) * width, 30 + width))
+		get_node("CanvasLayer").add_child(rec)
+		n += 1
 
 # Decreases the matrix temperatures and creates a new image afterwards
 func _refresh_heatmap(delta):
@@ -148,14 +187,18 @@ func _increase_matrix_input(delta):
 
 			for y in range(column - radius, column + radius):
 				for x in range(row - radius, row + radius):
-					if Vector2(row, column).distance_to(Vector2(x, y)) < radius:
-						var dis = Vector2(row, column).distance_squared_to(Vector2(x, y))
-
+					var dis = Vector2(row, column).distance_to(Vector2(x, y)) 
+					if dis < radius:
 						if x >= 0 and x < rows and y >= 0 and y < columns:
-							var ratio = pow(radius, 2) - dis
-							matrix[x][y] += (increase_factor / radius) * delta * ratio
+							var ratio = (radius - dis + 3) / (radius + 3)
+							matrix[x][y] += increase_factor* delta * ratio
+							
+							if matrix[x][y] > 80 and not is_blinking:
+								is_blinking = true
+								_blink_light()
 							if matrix[x][y] > 100:
 								matrix[x][y] = 100
+								title_label.text = "Failed"
 
 # Checks if the mouse cursor is in range of destroyable components
 # Removes a component when the temperature is above the threshold
@@ -177,7 +220,7 @@ func _check_vacuum():
 							motherboard.remove_child(node)
 							components.remove(id)
 							if len(components) == 0:
-								completion_label.text = "Completed"
+								title_label.text = "Completed"
 						break
 		id += 1
 
