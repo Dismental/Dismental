@@ -213,7 +213,7 @@ func _increase_matrix_input(delta):
 								_blink_light()
 							if matrix[x][y] > 100:
 								matrix[x][y] = 100
-								title_label.text = "Failed"
+								rpc("_game_over")
 
 # Checks if the input cursor is in range of destroyable components
 # Removes a component when the temperature is above the threshold
@@ -235,7 +235,7 @@ func _check_vacuum():
 							motherboard.remove_child(node)
 							components.remove(id)
 							if len(components) == 0:
-								title_label.text = "Completed"
+								rpc("_game_completed")
 						break
 		id += 1
 
@@ -286,18 +286,14 @@ func _generate_components():
 	var yi = 0
 	var xi = 0
 
+	var height_padding = 80
+	var parts = float(num_of_components) / 2.0 - 1
+	
 	var pros_sprite = get_node("MotherBoard/processor")
 	var pros_pos = pros_sprite.position
 	var pros_size = pros_sprite.get_rect().size * pros_sprite.scale
 
-	print("Pros position:" + str(pros_pos))
-	print("Pros size:" + str(pros_size))
 	var seperation_x = pros_size.x + component_width
-
-	var height_padding = 80
-
-	var parts = float(num_of_components) / 2.0 - 1
-
 	var seperation_y = pros_size.y / parts - component_height/ parts - height_padding
 
 	var start_x = pros_pos.x - component_width - pros_size.x / 2
@@ -339,7 +335,18 @@ func _set_input_pos():
 
 func _get_input_pos():
 	return puppet_mouse
-	
+
+
+
+remotesync func _game_completed():
+	title_label.text = "Completed"
+
+
+remotesync func _game_over():
+	title_label.text = "Failed"
+
+
+
 remotesync func _soldering_entered():
 	if defuse_state == DefuserState.SOLDERING_IRON:
 		defuse_state = DefuserState.OFF
