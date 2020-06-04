@@ -190,7 +190,7 @@ func _increase_matrix_input(delta):
 
 			for y in range(column - radius, column + radius):
 				for x in range(row - radius, row + radius):
-					var dis = Vector2(row, column).distance_to(Vector2(x, y)) 
+					var dis = Vector2(row, column).distance_to(Vector2(x, y))
 					if dis < radius:
 						if x >= 0 and x < rows and y >= 0 and y < columns:
 							var ratio = (radius - dis + 1) / (radius + 1)
