@@ -67,7 +67,6 @@ func _on_timer_timeout():
 	print("TIME'S UP")
 	print("BOOOOOOM")
 	print("Bomb exploded...")
-	
 
 
 func _on_start_minigame_pressed():
@@ -82,7 +81,7 @@ func _on_start_minigame_pressed():
 
 remotesync func _update_minigames_remaing_text(num):
 	puzzle_label.text = "Minigames remaining: " + num
-	
+
 remotesync func _on_defuse():
 	running = false
 	timer.stop()
