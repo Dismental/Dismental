@@ -135,5 +135,16 @@ margin_left = 150.0
 margin_top = 51.0
 margin_right = 485.0
 margin_bottom = 373.0
+
+[node name="SealButton" type="Button" parent="."]
+margin_left = 1307.0
+margin_top = 325.0
+margin_right = 1470.0
+margin_bottom = 377.0
+text = "Close room"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="StartGameButton" to="." method="_on_StartGameButton_pressed"]
+[connection signal="pressed" from="SealButton" to="." method="_on_SealButton_pressed"]

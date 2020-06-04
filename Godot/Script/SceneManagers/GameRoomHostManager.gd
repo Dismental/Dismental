@@ -9,6 +9,8 @@ func _on_BackButton_pressed():
 
 
 func _on_StartGameButton_pressed():
+	if(!Network.sealed):
+		Network.seal_lobby()
 	Network.begin_game_pressed()
 #	return Utils.change_screen("res://Scenes/GameScene.tscn", self)
 
@@ -20,3 +22,7 @@ func refresh_lobby():
 	$Players/List.add_item(Network.player_name + " (You)")
 	for p in players:
 		$Players/List.add_item(p)
+
+
+func _on_SealButton_pressed():
+	Network.seal_lobby()

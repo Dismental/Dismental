@@ -12,6 +12,7 @@ var player_name = ""
 var player_info = {}
 var players_ready = []
 var web_rtc : WebRTCMultiplayer = WebRTCMultiplayer.new()
+var sealed = false
 
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -49,6 +50,7 @@ func create_client(lobby, _server_ip = DEFAULT_SERVER):
 
 func start(url, lobby = ''):
 	stop()
+	sealed = false
 	self.lobby = lobby
 	connect_to_url(url)
 
@@ -62,10 +64,19 @@ func lobby_joined(lobby):
 	print(lobby)
 	print(str(get_tree().is_network_server()))
 
+func lobby_sealed():
+	print("lobby was sealed")
+	sealed = true
+
 func connected(id):
 	print("Connected %d" % id)
 	web_rtc.initialize(id, true)
 	get_tree().set_network_peer(web_rtc)
+
+func disconnected():
+	print("Disconnected: %d: %s" % [code, reason])
+	if not sealed:
+		stop()
 
 func peer_connected(id):
 	print("Peer connected %d" % id)
