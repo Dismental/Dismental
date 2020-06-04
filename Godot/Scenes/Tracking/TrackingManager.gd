@@ -24,12 +24,7 @@ var tracking_node
 var pointer_node
 var tracking_pos
 
-var tracking_speed
-var tracking_acc
-
 var distance_from_free_zone
-
-var distance
 
 var lost_tracking
 
@@ -46,25 +41,11 @@ func _process(_delta):
 	if (role == ROLE.debug):
 		
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
-		var tracking_speed_new = (tracking_pos_new - tracking_pos) / _delta
-		var tracking_acc_new = (tracking_speed_new - tracking_speed)/_delta
-		var tracking_acc2 = (tracking_acc_new - tracking_acc)/_delta
-		
 		var distance_new = (tracking_pos_new.distance_to(tracking_pos))
 
 		if (distance_new < 1):
 			distance_new = 1
-			
-		var ratio = distance_new/distance
-		
-		#print (round(distance_new))
-		#if (ratio > 1):
-		#print ("ratio: " + var2str(ratio))
-		#print ("trackingpos: " + var2str(tracking_pos) + ", newpos: " + var2str(tracking_pos_new) + ", speed: " + var2str(tracking_speed_new) + ", acc: " + var2str(tracking_acc.abs))
-		var vec = Vector2(0,0)
-		
-		
-		
+
 		if _within_free_movement_zone(tracking_pos, tracking_pos_new):
 			if (lost_tracking): 
 				lost_tracking = false
@@ -76,17 +57,13 @@ func _process(_delta):
 			
 			tracking_pos = tracking_pos + (position_offset/6)
 			pointer_node.position = tracking_pos
-			
-			tracking_acc = tracking_acc_new
-			tracking_speed = tracking_speed_new
 		elif _within_throttled_zone(tracking_pos, tracking_pos_new):
 			print("Throttled")
-			var distance_outside_free_zone = distance - free_movement_zone_radius
+			var distance_outside_free_zone = distance_new - free_movement_zone_radius
 			
 			if (distance_outside_free_zone <= 0): distance_outside_free_zone = 1
 			
 			var position_offset = tracking_pos_new - tracking_pos
-			
 			var position_offset_norm = position_offset.normalized()
 			var position_offset_limited_to_edge
 			
@@ -100,10 +77,6 @@ func _process(_delta):
 			
 			tracking_pos = tracking_pos + (position_offset_limited_to_edge/6)
 			pointer_node.position = tracking_pos
-			
-			tracking_acc = tracking_acc_new
-			tracking_speed = tracking_speed_new
-				
 		else:
 			if not (lost_tracking): 
 				print("Lost")
@@ -111,8 +84,6 @@ func _process(_delta):
 				free_movement_zone_radius = 25
 				throttle_zone_radius = 200
 			tracking_pos = tracking_pos
-			tracking_acc = tracking_acc_new
-			tracking_speed = tracking_speed
 		
 	elif (role == ROLE.head):
 		tracking_pos = _map_tracking_position(tracking_node.position)
@@ -148,7 +119,7 @@ func _set_role(_player_role):
 		var tracking = headTrackingScene.instance()
 		self.add_child(tracking)
 		tracking_node = tracking.get_node("HeadPos")
-		_init_tracking()
+		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
 		role = _player_role
 	elif (_player_role == ROLE.head):
 		print ("initiating head tracking")
@@ -156,17 +127,11 @@ func _set_role(_player_role):
 		var tracking = headTrackingScene.instance()
 		self.add_child(tracking)
 		tracking_node = tracking.get_node("HeadPos")
-		_init_tracking()
+		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
 		role = _player_role
 	elif (_player_role == ROLE.mouseController):
 		print ("initiating mouse as pointer")
 		role = _player_role
-
-func _init_tracking():
-	tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
-	tracking_speed = Vector2(0,0)
-	tracking_acc = Vector2(0,0)
-	distance = 1
 		
 func _map_tracking_position(track_pos):
 	var pointer_pos
