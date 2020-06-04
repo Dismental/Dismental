@@ -129,7 +129,8 @@ func _within_throttled_zone(pos, pos_new):
 	return false
 
 func _distance_to_free_zone_edge(pos, pos_new):
-	return free_movement_zone_radius
+	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
+	return ellipse_point.length()
 
 
 func _set_role(_player_role):
