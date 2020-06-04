@@ -195,7 +195,7 @@ func _increase_matrix_input(delta):
 						if x >= 0 and x < rows and y >= 0 and y < columns:
 							var ratio = (radius - dis + 1) / (radius + 1)
 							matrix[x][y] += increase_factor* delta * ratio
-							
+
 							if matrix[x][y] > 80 and not is_blinking:
 								is_blinking = true
 								_blink_light()
@@ -273,32 +273,32 @@ func _generate_components():
 	randomize()
 	var yi = 0
 	var xi = 0
-	
+
 	var pros_sprite = get_node("MotherBoard/processor")
 	var pros_pos = pros_sprite.position
 	var pros_size = pros_sprite.get_rect().size * pros_sprite.scale
-	
+
 	print("Pros position:" + str(pros_pos))
 	print("Pros size:" + str(pros_size))
 	var seperation_x = pros_size.x + component_width
-	
+
 	var height_padding = 80
-	
+
 	var parts = float(num_of_components) / 2.0 - 1
-	
+
 	var seperation_y = pros_size.y / parts - component_height/ parts - height_padding
-	
+
 	var start_x = pros_pos.x - component_width - pros_size.x / 2
 	var start_y = pros_pos.y - pros_size.y / 2 + height_padding
-	
+
 	for i in range(num_of_components):
 		if yi >= num_of_components/2:
 			xi += 1
 			yi = 0
-			
+
 		var rec = ColorRect.new()
 		rec.color = Color(0.4, 0.4, 0.4)
-		
+
 		var x = start_x + xi * seperation_x
 		var y = start_y + yi * seperation_y
 		rec.set_begin(Vector2(x, y))
