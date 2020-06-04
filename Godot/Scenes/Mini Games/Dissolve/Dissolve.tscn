@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Script/MiniGames/DissolveGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Fonts/Roboto/Roboto-Black.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Scenes/Mini Games/Dissolve/processor.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 40
@@ -24,9 +25,15 @@ script = ExtResource( 1 )
 margin_left = 321.517
 margin_right = 1601.52
 margin_bottom = 1080.0
+color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="processor" type="Sprite" parent="MotherBoard"]
+position = Vector2( 640, 536 )
+scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 3 )
 
 [node name="SolderingIron" type="ColorRect" parent="."]
 margin_left = 1664.0

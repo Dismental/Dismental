@@ -17,13 +17,14 @@ var defuse_state = DefuserState.OFF
 
 # Increase/decrease factor of temperature
 var increase_factor = 24
-var decrease_factor = 4
+var decrease_factor = 3
 
-var component_size = 40
+var component_width = 120
+var component_height = 30
 var num_of_components = 6
 var components = []
 
-var vacuum_remove_threshold = 60
+var vacuum_remove_threshold = 50
 
 var blink_light
 var is_blinking = false
@@ -80,6 +81,7 @@ func _ready():
 
 
 func _process(delta):
+	print(Engine.get_frames_per_second())
 	if defuse_state == DefuserState.SOLDERING_IRON:
 		_increase_matrix_input(delta)
 	elif defuse_state == DefuserState.VACUUM:
@@ -107,6 +109,7 @@ func _generate_colors():
 	b_low = colors[0][2]
 	b_range = abs(colors[last_color_i][2] - b_low)
 	background_color = Color.from_hsv(colors[0][0], colors[0][1], colors[0][2])
+	background_color.a = 0.4
 
 func _generate_blink_light():
 	blink_light = ColorRect.new()
@@ -144,7 +147,7 @@ func _refresh_heatmap(delta):
 	var dyn_image = Image.new()
 	var mb = motherboard.rect_size
 
-	dyn_image.create(mb.x, mb.y, false, Image.FORMAT_RGB8)
+	dyn_image.create(mb.x, mb.y, false, Image.FORMAT_RGBA8)
 	dyn_image.fill(background_color)
 
 	dyn_image.lock()
@@ -190,7 +193,7 @@ func _increase_matrix_input(delta):
 					var dis = Vector2(row, column).distance_to(Vector2(x, y)) 
 					if dis < radius:
 						if x >= 0 and x < rows and y >= 0 and y < columns:
-							var ratio = (radius - dis + 3) / (radius + 3)
+							var ratio = (radius - dis + 1) / (radius + 1)
 							matrix[x][y] += increase_factor* delta * ratio
 							
 							if matrix[x][y] > 80 and not is_blinking:
@@ -238,8 +241,8 @@ func _init_heatmap_sprite():
 	var dyn_image = Image.new()
 
 	var mb = motherboard.rect_size
-	dyn_image.create(mb.x, mb.y, false, Image.FORMAT_RGB8)
-	dyn_image.fill(background_color)
+	dyn_image.create(mb.x, mb.y, false, Image.FORMAT_RGBA8)
+	dyn_image.fill(Color(0, 0, 0, 0))
 	image_texture.create_from_image(dyn_image)
 	image_texture.resource_name = "heatmap"
 	var s = Sprite.new()
@@ -268,21 +271,44 @@ func _get_sector(input_x, input_y):
 # Generate destroyable components
 func _generate_components():
 	randomize()
+	var yi = 0
+	var xi = 0
+	
+	var pros_sprite = get_node("MotherBoard/processor")
+	var pros_pos = pros_sprite.position
+	var pros_size = pros_sprite.get_rect().size * pros_sprite.scale
+	
+	print("Pros position:" + str(pros_pos))
+	print("Pros size:" + str(pros_size))
+	var seperation_x = pros_size.x + component_width
+	
+	var height_padding = 80
+	
+	var parts = float(num_of_components) / 2.0 - 1
+	
+	var seperation_y = pros_size.y / parts - component_height/ parts - height_padding
+	
+	var start_x = pros_pos.x - component_width - pros_size.x / 2
+	var start_y = pros_pos.y - pros_size.y / 2 + height_padding
+	
 	for i in range(num_of_components):
+		if yi >= num_of_components/2:
+			xi += 1
+			yi = 0
+			
 		var rec = ColorRect.new()
-		rec.color = Color(0, 0, 0)
+		rec.color = Color(0.4, 0.4, 0.4)
+		
+		var x = start_x + xi * seperation_x
+		var y = start_y + yi * seperation_y
+		rec.set_begin(Vector2(x, y))
+		rec.set_end(Vector2(x+ component_width, y + component_height))
 
-		var randx = randi() % int(motherboard.rect_size.x - component_size)
-		var randy = randi() % int(motherboard.rect_size.y - component_size)
-
-		rec.set_begin(Vector2(randx, randy))
-		rec.set_end(Vector2(randx + component_size, randy + component_size))
-
-		var global_x_center = randx + component_size / 2 + motherboard.rect_position.x
-		var global_y_center = randy + component_size / 2 + motherboard.rect_position.y
+		var global_x_center = motherboard.rect_position.x + x + component_width / 2
+		var global_y_center =  motherboard.rect_position.y + y + component_height / 2
 		components.append([rec, _get_sector(global_x_center, global_y_center)])
-
 		motherboard.add_child(rec)
+		yi += 1
 
 
 func _on_SolderingIron_mouse_entered():
