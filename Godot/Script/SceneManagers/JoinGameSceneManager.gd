@@ -9,3 +9,6 @@ func _on_BackButton_pressed():
 
 func _create_client():
 	Network.create_client($InputGameID.text)
+
+func host_popup():
+	$AcceptDialog.popup_centered()

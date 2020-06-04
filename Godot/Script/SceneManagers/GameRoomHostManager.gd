@@ -1,10 +1,12 @@
 extends Control
+func _init():
+	Network.connect("player_list_changed", self, "refresh_lobby")
 
 func _ready():
-	Network.connect("player_list_changed", self, "refresh_lobby")
 	refresh_lobby()
 
 func _on_BackButton_pressed():
+	Network.stop()
 	return Utils.change_screen("res://Scenes/CreateGameRoom.tscn", self)
 
 

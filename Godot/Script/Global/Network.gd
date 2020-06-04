@@ -56,6 +56,7 @@ func start(url, lobby = ''):
 
 
 func stop():
+	player_info.clear()
 	web_rtc.close()
 	close()
 
@@ -75,19 +76,35 @@ func connected(id):
 
 func disconnected():
 	print("Disconnected: %d: %s" % [code, reason])
-	if not sealed:
+	if code == 4100:
+		print("host disconnect")
 		stop()
+		Utils.change_screen("res://Scenes/JoinGameRoom.tscn", get_tree().get_current_scene().get_child(0))
+		get_tree().get_current_scene().get_child(0).host_popup()
+	elif not sealed:
+		stop() #Unexpected disconnect
 
 func peer_connected(id):
 	print("Peer connected %d" % id)
 	_create_peer(id)
 	player_info[id] = str(id)
 
+func peer_disconnected(id):
+	var test = web_rtc.get_peers()
+	if web_rtc.has_peer(id): 
+		print("removing peer")
+		web_rtc.remove_peer(id)
+	deregister_player(id)
+#	for player in player_info:
+#		if(player != id):
+#			rpc_id(player, "deregister player")
+
 func _player_connected(id):
 	print("We connected player with id: " + str(id))
 	player_info[id] = str(id)
 	print(get_tree().get_network_connected_peers())
 	rpc_id(id, "register_player")
+	emit_signal("player_list_changed")
 
 
 func _create_peer(id):
@@ -215,6 +232,10 @@ remote func register_player():
 	player_info[id] = str(id)
 	emit_signal("player_list_changed")
 
+func deregister_player(id):
+	player_info.erase(id)
+	print("removing player: " + str(id))
+	emit_signal("player_list_changed")
 
 func get_players():
 	return player_info
