@@ -111,7 +111,7 @@ func _within_free_movement_zone(pos, pos_new):
 	
 	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
 	
-	print(ellipse_point.length())
+	#print(ellipse_point.length())
 	if (distance < ellipse_point.length()):
 		return true
 	return false
@@ -122,9 +122,9 @@ func _within_throttled_zone(pos, pos_new):
 	
 	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, throttle_zone_radius, throttle_zone_warp)
 	
-	print(ellipse_point.length())
+	#print(ellipse_point.length())
 	if (distance < ellipse_point.length()):
-		print("in throttle zone")
+#		print("in throttle zone")
 		return true
 	return false
 
