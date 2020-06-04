@@ -1,0 +1,5 @@
+enum {
+	DEFUSER,
+	SUPERVISOR,
+	OBSERVER
+}
