@@ -101,7 +101,7 @@ func _process(_delta):
 			
 		else:
 			if not (lost_tracking): 
-#				print("Lost")
+				print("Lost")
 				lost_tracking = true
 				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
@@ -189,8 +189,8 @@ func _on_Sprite_draw():
 
 func point_on_ellipse(angle, rotation, radius, warp):
 	return Vector2(
-		cos(rotation) * cos(angle) * (radius * warp) - sin(rotation) * sin(angle) * (radius),# + cos(rotation) * radius * (warp - 1) / 1.61803398875,
-		cos(rotation) * sin(angle) * (radius) + sin(rotation) * cos(angle) * (radius * warp)# + sin(rotation) * radius * (warp - 1) / 1.61803398875
+		cos(rotation) * cos(angle) * (radius * warp) - sin(rotation) * sin(angle) * (radius) + cos(rotation) * radius * (warp - 1) / 1.61803398875,
+		cos(rotation) * sin(angle) * (radius) + sin(rotation) * cos(angle) * (radius * warp) + sin(rotation) * radius * (warp - 1) / 1.61803398875
 	)
 	
 func distance_from_origin(point):
