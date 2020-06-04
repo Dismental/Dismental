@@ -59,7 +59,7 @@ func _draw():
 			draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
 
 	# Draw Start Point
-	#	var vb_rect = get_viewport_rect().size
+	#	var vp_rect = get_viewport_rect().size
 	#	var start_point = Vector2(vp_rect.x * start_x_ratio,vp_rect.y/2)
 	#	draw_circle(start_point, 50, Color(0, 0, 1))
 	
