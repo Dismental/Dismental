@@ -84,7 +84,7 @@ func peer_connected(id):
 
 func peer_disconnected(id):
 	var test = web_rtc.get_peers()
-	if web_rtc.has_peer(id): 
+	if web_rtc.has_peer(id):
 		print("removing peer")
 		web_rtc.remove_peer(id)
 	deregister_player(id)
