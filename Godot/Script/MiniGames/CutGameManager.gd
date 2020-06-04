@@ -18,7 +18,7 @@ var dots = []
 var running = false
 var waitForStartingPosition = true
 var start_position_input
-var tracking_node
+var pointer_node
 
 var finish_rect
 
@@ -34,10 +34,10 @@ func _ready():
 		_load_map(1, false)
 		
 		# Initialize the HeadTracking scene for this user
-		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
-		var headTracking = HeadTrackingScene.instance()
-		self.add_child(headTracking)
-		tracking_node = headTracking.get_node("Position2D")
+		var trackingScene = preload("res://Scenes/Tracking/Tracking.tscn")
+		var tracking = trackingScene.instance()
+		self.add_child(tracking)
+		pointer_node = tracking.get_node("pointer")
 		
 		# Turn the x-ray vision OFF for the operator
 		SupervisorVision.visible = false
@@ -249,7 +249,7 @@ func _get_input_pos():
 	var cursorpos
 	if get_tree().is_network_server():
 		# The values for the headtracking position ranges from 0 to 1
-		var pos = tracking_node.position
+		var pos = pointer_node.position
 		# Scale position to screne and amplify movement from the center to easily reach the edges
 		# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
 		var margin = 0.4

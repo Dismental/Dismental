@@ -77,8 +77,10 @@ void GDExample::_process(float delta) {
     }
 
     // Create the 'joystick' effect by restraining the movement of cursorPos. CursorPos 'follows' facePosition and is not mapped 1on1.
-    cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
-    cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
+    // cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
+    // cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
+    cursorPos.x = detector.facePosition().x;
+    cursorPos.y = detector.facePosition().y;
 
     // Set the position of the linked node (should be a Position2D node) with the tracked position
     set_position(Vector2(abs((float)cursorPos.x/(float)frame.cols-1), (float)cursorPos.y/(float)frame.rows));
