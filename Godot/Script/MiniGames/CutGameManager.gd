@@ -60,7 +60,7 @@ func _draw():
 
 	# Draw Start Point
 	#	var vb_rect = get_viewport_rect().size
-	#	var start_point = Vector2(vb_rect.x * start_x_ratio,vp_rect.y/2)
+	#	var start_point = Vector2(vp_rect.x * start_x_ratio,vp_rect.y/2)
 	#	draw_circle(start_point, 50, Color(0, 0, 1))
 	
 	# Draw current pointer
