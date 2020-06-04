@@ -1,9 +1,5 @@
 extends Node2D
 
-onready var start_dialog = $Control/StartDialog
-onready var game_over_dialog = $Control/GameOverDialog
-onready var completed_dialog = $Control/CompletedDialog
-
 puppet var puppet_mouse = Vector2()
 
 var map_sprite
@@ -11,6 +7,7 @@ var dots = []
 var running = false
 var waitForStartingPosition = true
 var start_position_input
+var tracking_node
 
 var finish_rect
 
@@ -19,10 +16,20 @@ var finish_rect
 # -1 is counterclockwise
 var finish_state = 0
 
+onready var start_dialog = $Control/StartDialog
+onready var game_over_dialog = $Control/GameOverDialog
+onready var completed_dialog = $Control/CompletedDialog
+
 func _ready():
 	if get_tree().is_network_server():
 		start_dialog.popup()
 		_load_map(1, false)
+		
+		# Initialize the HeadTracking scene for this user
+		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
+		var headTracking = HeadTrackingScene.instance()
+		self.add_child(headTracking)
+		tracking_node = headTracking.get_node("Position2D")
 	else:
 		_load_map(1)
 	_calc_finish_line()
@@ -53,7 +60,7 @@ func _draw():
 
 	# Draw Start Point
 	#	var vp_rect = get_viewport_rect().size
-	#	var start_point = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
+	#	var start_point = Vector2(vp_rect.x * start_x_ratio,vp_rect.y/2)
 	#	draw_circle(start_point, 50, Color(0, 0, 1))
 	
 	# Draw current pointer
@@ -129,6 +136,7 @@ func _update_game_state():
 				_game_over()
 			else:
 				_check_finish()
+		# Move the 'vision' of the Supervisor
 
 
 func _check_finish():
@@ -210,7 +218,7 @@ func _get_input_pos():
 	var cursorpos
 	if get_tree().is_network_server():
 		# The values for the headtracking position ranges from 0 to 1
-		var pos = get_node("HeadPos").position
+		var pos = tracking_node.position
 		# Scale position to screne and amplify movement from the center to easily reach the edges
 		# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
 		var margin = 0.4

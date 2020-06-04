@@ -1,11 +1,16 @@
 extends Node2D
 
-const Utils = preload("res://Script/Utils.gd")
-
 var map_sprite
+var tracking_node
 
 func _ready():
 	print("start tracking scene")
+
+	# Initialize the HeadTracking scene
+	var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
+	var head_tracking = HeadTrackingScene.instance()
+	self.add_child(head_tracking)
+	tracking_node = head_tracking.get_node("Position2D");
 
 func _process(_delta):
 	# Updates the draw function
@@ -30,7 +35,7 @@ func _unhandled_input(event):
 func _get_input_pos():
 	var cursorpos
 	# The values for the headtracking position ranges from 0 to 1
-	var pos = get_node("HeadPos").position
+	var pos = tracking_node.position
 	# Add a margin/multiplier so the user's movement is amplified.
 	# The makes it easy for the user to reach the edges of the game screen with the pointer
 	var margin = 0.4
@@ -39,4 +44,5 @@ func _get_input_pos():
 	# Set the pointer position with the modified tracking position
 	cursorpos = Vector2(pos.x*((get_viewport_rect().size.x) + windowmarginx)-(windowmarginx/2),
 			pos.y*((get_viewport_rect().size.y)+windowmarginy)-(windowmarginy/2))
+
 	return cursorpos
