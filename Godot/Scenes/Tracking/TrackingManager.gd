@@ -23,6 +23,7 @@ var role
 var tracking_node
 var pointer_node
 var tracking_pos
+var pointer_pos
 
 var distance_from_free_zone
 
@@ -52,11 +53,10 @@ func _process(_delta):
 		delta_angle = atan2(tracking_pos_new.y - tracking_pos.y, tracking_pos_new.x - tracking_pos.x)
 		delta_distance = tracking_pos.distance_to(tracking_pos_new)
 		
-		free_movement_zone_warp = max(1, min(4, (movement_speed.length()) / 500))
-		throttle_zone_warp = max(1, min(4, (movement_speed.length()) / 1000))
+		free_movement_zone_warp = max(1, min(4, (movement_speed.length()) / 100))
+		throttle_zone_warp = max(1, min(4, (movement_speed.length()) / 200))
 		
-		movement_speed = (tracking_pos_new - tracking_pos) / _delta
-#		print(movement_speed.length())
+		var pointer_pos_current = pointer_node.position
 		
 		if (distance_new < 1):
 			distance_new = 1
@@ -71,36 +71,31 @@ func _process(_delta):
 			var position_offset = tracking_pos_new - tracking_pos
 #			print(position_offset)
 			
-			tracking_pos = tracking_pos + (position_offset/6)
+			tracking_pos += position_offset/4
 			pointer_node.position = tracking_pos
 		elif _within_throttled_zone(tracking_pos, tracking_pos_new):
 #			print("Throttled")
 			var distance_outside_free_zone = distance_new - free_movement_zone_radius
 			
-			if (distance_outside_free_zone <= 0): distance_outside_free_zone = 1
+			if (distance_outside_free_zone <= 1): distance_outside_free_zone = 1
 			
 			var position_offset = tracking_pos_new - tracking_pos
 			var position_offset_norm = position_offset.normalized()
 			var position_offset_limited_to_edge
 			
-			if (lost_tracking): 
-				var inv_distance = 1/distance_outside_free_zone
-				#TODO change this to a line towards the tracking position, indicating where the current tracking location is
-				# Do this instead of slowly moving towards the tracking location as implemented below
-				position_offset_limited_to_edge = position_offset_norm * 20 * (inv_distance * inv_distance)
-			else:
+			if not (lost_tracking): 
 				position_offset_limited_to_edge = position_offset_norm * _distance_to_free_zone_edge(tracking_pos, tracking_pos_new)
+				tracking_pos += position_offset_limited_to_edge/4
+				pointer_node.position = tracking_pos
 			
-			tracking_pos = tracking_pos + (position_offset_limited_to_edge/6)
-			pointer_node.position = tracking_pos
 		else:
 			if not (lost_tracking): 
 #				print("Lost")
 				lost_tracking = true
-				free_movement_zone_radius = 25
 				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
-		
+		movement_speed = (pointer_pos_current - pointer_pos) / _delta
+		pointer_pos = pointer_pos_current
 	elif (role == ROLE.head):
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos
@@ -145,6 +140,8 @@ func _set_role(_player_role):
 		self.add_child(tracking)
 		tracking_node = tracking.get_node("HeadPos")
 		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
+		pointer_node.position = _map_tracking_position(Vector2(0.5,0.5))
+		pointer_pos = pointer_node.position 
 		role = _player_role
 	elif (_player_role == ROLE.head):
 		print ("initiating head tracking")
@@ -153,6 +150,8 @@ func _set_role(_player_role):
 		self.add_child(tracking)
 		tracking_node = tracking.get_node("HeadPos")
 		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
+		pointer_node.position = _map_tracking_position(Vector2(0.5,0.5))
+		pointer_pos = pointer_node.position 
 		role = _player_role
 	elif (_player_role == ROLE.mouseController):
 		print ("initiating mouse as pointer")
