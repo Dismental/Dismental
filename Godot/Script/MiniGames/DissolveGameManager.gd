@@ -6,6 +6,8 @@ enum DefuserState {
 	VACUUM
 }
 
+puppet var puppet_mouse = Vector2()
+
 const Role = preload("res://Script/Role.gd")
 
 var matrix = []
@@ -14,6 +16,8 @@ var rows = 72
 var heatmap_sprite
 var radius = 9
 var defuse_state = DefuserState.OFF
+
+var tracking_node
 
 # Increase/decrease factor of temperature
 var increase_factor = 24
@@ -51,45 +55,53 @@ var background_color
 
 var player_role
 
-onready var soldering_iron_indicator = get_node("SolderingIron")
-onready var iron_label = get_node("SolderingIron/SolderingIronLabel")
+onready var soldering_iron_indicator = $SolderingIron
+onready var iron_label = $SolderingIron/SolderingIronLabel
 
-onready var vacuum_indicator = get_node("Vacuum")
-onready var vacuum_label = get_node("Vacuum/VacuumLabel")
+onready var vacuum_indicator = $Vacuum
+onready var vacuum_label = $Vacuum/VacuumLabel
 
-onready var motherboard = get_node("MotherBoard")
-onready var title_label = get_node("CanvasLayer/Title")
+onready var motherboard = $MotherBoard
+onready var title_label = $CanvasLayer/Title
 
 func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
+		_init_matrix()
 		_generate_blink_light()
 		_generate_colors()
 		_generate_color_scale()
 		heatmap_sprite = _init_heatmap_sprite()
 		_generate_components()
 
+	elif player_role == Role.DEFUSER:
+		# Initialize the HeadTracking scene for this user
+		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
+		var headTracking = HeadTrackingScene.instance()
+		self.add_child(headTracking)
+		tracking_node = headTracking.get_node("Position2D")
+		_generate_components()
 
 
+func _process(delta):
+	if player_role == Role.SUPERVISOR:
+		if defuse_state == DefuserState.SOLDERING_IRON:
+			_increase_matrix_input(delta)
+		elif defuse_state == DefuserState.VACUUM:
+			_check_vacuum()
+		_refresh_heatmap(delta)
+	else:
+		_set_input_pos()
+
+
+func _init_matrix():
 	for _i in range(rows):
 		var row = []
 		for _j in range(columns):
 			row.append(0)
 		matrix.append(row)
-
-
-func _process(delta):
-	print(Engine.get_frames_per_second())
-	if defuse_state == DefuserState.SOLDERING_IRON:
-		_increase_matrix_input(delta)
-	elif defuse_state == DefuserState.VACUUM:
-		_check_vacuum()
-
-	if player_role == Role.SUPERVISOR:
-		_refresh_heatmap(delta)
-
 
 func _generate_colors():
 	# Convert H to percentage
@@ -177,7 +189,7 @@ func _increase_matrix_input(delta):
 	var mb_position = motherboard.rect_position
 	var mb_size = motherboard.rect_size
 
-	var input = get_viewport().get_mouse_position()
+	var input = _get_input_pos()
 
 	if input.x - mb_position.x > 0 and input.x < mb_size.x - 1 + mb_position.x:
 		if input.y - mb_position.y > 0 and input.y < mb_size.y - 1 + mb_position.y:
@@ -194,7 +206,7 @@ func _increase_matrix_input(delta):
 					if dis < radius:
 						if x >= 0 and x < rows and y >= 0 and y < columns:
 							var ratio = (radius - dis + 1) / (radius + 1)
-							matrix[x][y] += increase_factor* delta * ratio
+							matrix[x][y] += increase_factor * delta * ratio
 
 							if matrix[x][y] > 80 and not is_blinking:
 								is_blinking = true
@@ -207,7 +219,7 @@ func _increase_matrix_input(delta):
 # Removes a component when the temperature is above the threshold
 func _check_vacuum():
 	var input_sector_range = 2
-	var input = get_viewport().get_mouse_position()
+	var input = _get_input_pos()
 	var input_sector = _get_sector(input.x, input.y)
 	var id = 0
 	for item in components:
@@ -338,3 +350,19 @@ func _on_Vacuum_mouse_entered():
 		defuse_state = DefuserState.VACUUM
 		vacuum_indicator.color = Color(0, 1, 0)
 		vacuum_label.text = "ON"
+
+func _set_input_pos():
+	# The values for the headtracking position ranges from 0 to 1
+	var pos = tracking_node.position
+	# Scale position to screne and amplify movement from the center to easily reach the edges
+	# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
+	var margin = 0.4
+	var windowmarginx = (OS.get_window_size().x)*margin
+	var windowmarginy = (OS.get_window_size().y)*margin
+
+	var cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
+			pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
+	rset("puppet_mouse", cursorpos)
+
+func _get_input_pos():
+	return puppet_mouse
