@@ -1,8 +1,5 @@
 extends Node2D
 
-onready var start_dialog = $Control/StartDialog
-onready var game_over_dialog = $Control/GameOverDialog
-onready var completed_dialog = $Control/CompletedDialog
 onready var SupervisorVision = $"Control/X-rayVision"
 
 puppet var puppet_mouse = Vector2()
@@ -26,6 +23,10 @@ var finish_rect
 # 1 is clockwise
 # -1 is counterclockwise
 var finish_state = 0
+
+onready var start_dialog = $Control/StartDialog
+onready var game_over_dialog = $Control/GameOverDialog
+onready var completed_dialog = $Control/CompletedDialog
 
 func _ready():
 	SupervisorVision.visible = true
@@ -75,7 +76,7 @@ func _draw():
 
 	# Draw Start Point
 	#	var vp_rect = get_viewport_rect().size
-	#	var start_point = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
+	#	var start_point = Vector2(vp_rect.x * start_x_ratio,vp_rect.y/2)
 	#	draw_circle(start_point, 50, Color(0, 0, 1))
 	
 	# Draw current pointer

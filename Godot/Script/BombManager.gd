@@ -63,4 +63,4 @@ func _on_timer_timeout():
 
 
 func _on_start_minigame_pressed():
-	Network.start_minigame("Cut")
+	Network.start_minigame("Dissolve")

@@ -5,11 +5,11 @@ extends Node2D
 # var a = 2
 # var b = "text"
 enum ROLE{
-	notSet,
-	head,
-	hand,
-	mouse,
-	debug
+	NOTSET,
+	HEAD,
+	HAND,
+	MOUSE,
+	DEBUG
 }
 
 enum MOVEMENT{
@@ -18,7 +18,7 @@ enum MOVEMENT{
 	lost
 }
 
-var role
+var player_role
 
 var tracking_node
 var pointer_node
@@ -46,7 +46,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if (role == ROLE.debug):
+	if (player_role == ROLE.DEBUG):
 		
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
 		
@@ -76,14 +76,9 @@ func _process(_delta):
 		if (lost_tracking): 
 			free_movement_zone_warp = 1
 			throttle_zone_warp = 1
-			print ("lost, no warping")
 		else:
 			free_movement_zone_warp = max(1, min(4, (movement_speed.length()) / 100))
 			throttle_zone_warp = max(1, min(4, (movement_speed.length()) / 200))
-		
-		
-		
-		print(var2str(movement_speed.length()) + ", " + var2str(free_movement_zone_warp))
 		
 		if (distance_new < 1):
 			distance_new = 1
@@ -103,13 +98,10 @@ func _process(_delta):
 				tracking_pos += (position_offset/4)
 			else:
 				tracking_pos += (position_offset/factor)
-				
-			
-				
+
 			pointer_node.position = tracking_pos
 		# check if the new tracking position is inside of the throttle zone
 		elif _within_throttled_zone(tracking_pos, tracking_pos_new):
-#			print("Throttled")
 			var distance_outside_free_zone = distance_new - free_movement_zone_radius
 			
 			if (distance_outside_free_zone <= 1): distance_outside_free_zone = 1
@@ -125,19 +117,16 @@ func _process(_delta):
 		# tracking is lost
 		else:
 			if not (lost_tracking): 
-				print("Lost")
+				print("Lost" + ", " + var2str(pointer_pos_current))
 				lost_tracking = true
 				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
-		
 		pointer_pos = pointer_pos_current
-	elif (role == ROLE.head):
+	elif (player_role == ROLE.HEAD):
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos
-	elif (role == ROLE.mouseController):
+	elif (player_role == ROLE.MOUSE):
 		pointer_node.position = get_global_mouse_position()
-#		print(pointer_node.position)
-	
 	update()
 
 
@@ -173,8 +162,8 @@ func _distance_to_free_zone_edge(pos, pos_new):
 	return ellipse_point.length()
 
 
-func _set_role(_player_role):
-	if (_player_role == ROLE.debug):
+func set_role(_player_role):
+	if (_player_role == ROLE.DEBUG):
 		print ("initiating debug tracking")
 		var headTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
 		var tracking = headTrackingScene.instance()
@@ -184,8 +173,8 @@ func _set_role(_player_role):
 		pointer_node.position = _map_tracking_position(Vector2(0.5,0.5))
 		pointer_pos = pointer_node.position 
 		pointer_pos_current = pointer_node.position
-		role = _player_role
-	elif (_player_role == ROLE.head):
+		player_role = _player_role
+	elif (_player_role == ROLE.HEAD):
 		print ("initiating head tracking")
 		var headTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
 		var tracking = headTrackingScene.instance()
@@ -195,10 +184,10 @@ func _set_role(_player_role):
 		pointer_node.position = _map_tracking_position(Vector2(0.5,0.5))
 		pointer_pos = pointer_node.position 
 		pointer_pos_current = pointer_node.position
-		role = _player_role
-	elif (_player_role == ROLE.mouseController):
+		player_role = _player_role
+	elif (_player_role == ROLE.MOUSE):
 		print ("initiating mouse as pointer")
-		role = _player_role
+		player_role = _player_role
 		
 func _map_tracking_position(track_pos):
 	var pointer_pos
@@ -240,7 +229,7 @@ func _draw():
 	for i in range(64):
 		var theta = 2*PI/64*i
 		var point_ellipse = point_on_ellipse(theta, delta_angle, throttle_zone_radius, throttle_zone_warp)
-		
+
 		draw_line(
 			Vector2(tracking_pos.x, tracking_pos.y),
 #			Vector2(tracking_pos.x - cos(theta + delta_angle) * radiusX, tracking_pos.y - sin(theta + delta_angle) * radiusY),
@@ -251,12 +240,12 @@ func _draw():
 			Color(255,255,0),
 			4
 		)
-	
+
 	# draw free_movement_zone region
 	for i in range(64):
 		var theta = 2*PI/64*i
 		var point_ellipse = point_on_ellipse(theta, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
-		
+
 		draw_line(
 			Vector2(tracking_pos.x, tracking_pos.y),
 #			Vector2(tracking_pos.x - cos(theta + delta_angle) * radiusX, tracking_pos.y - sin(theta + delta_angle) * radiusY),

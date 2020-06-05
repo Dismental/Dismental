@@ -101,9 +101,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -111.0
+margin_left = -109.187
 margin_top = -40.0
-margin_right = 783.0
+margin_right = 784.813
 margin_bottom = 21.0
 hint_tooltip = "Enter game id"
 custom_fonts/font = SubResource( 2 )
@@ -111,7 +111,7 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-LIMIT = 39
+limit = 39
 
 [node name="EnterGameID" type="Label" parent="."]
 anchor_left = 0.5
