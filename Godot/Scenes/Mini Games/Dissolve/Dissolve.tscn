@@ -5,17 +5,17 @@
 [ext_resource path="res://Scenes/Mini Games/Dissolve/processor.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
-size = 40
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 35
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=3]
 size = 65
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 40
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 35
 font_data = ExtResource( 2 )
 
 [node name="Node2D" type="Node2D"]
@@ -35,42 +35,30 @@ position = Vector2( 640, 536 )
 scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 3 )
 
-[node name="SolderingIron" type="ColorRect" parent="."]
-margin_left = 1664.0
-margin_top = 192.0
-margin_right = 1856.0
-margin_bottom = 832.0
-color = Color( 1, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="SolderingIronLabel" type="Label" parent="SolderingIron"]
+[node name="Title" type="Label" parent="CanvasLayer"]
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -28.0
-margin_top = -24.0
-margin_right = 44.0
-margin_bottom = 24.0
+margin_left = -160.0
+margin_top = 120.0
+margin_right = 160.0
+margin_bottom = 197.0
 custom_fonts/font = SubResource( 1 )
-text = "OFF"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="SolderingIron"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -112.0
-margin_top = -72.0
-margin_right = 114.0
-margin_bottom = -30.0
-custom_fonts/font = SubResource( 2 )
-text = "Soldering iron"
+[node name="VacuumBackground" type="ColorRect" parent="."]
+margin_right = 320.0
+margin_bottom = 1080.0
+color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Vacuum" type="ColorRect" parent="."]
+[node name="Vacuum" type="ColorRect" parent="VacuumBackground"]
 margin_left = 64.0
 margin_top = 192.0
 margin_right = 256.0
@@ -80,7 +68,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VacuumLabel" type="Label" parent="Vacuum"]
+[node name="VacuumLabel" type="Label" parent="VacuumBackground/Vacuum"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -89,32 +77,64 @@ margin_left = -32.0
 margin_top = -24.0
 margin_right = 40.0
 margin_bottom = 24.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "OFF"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="Vacuum"]
+[node name="Label2" type="Label" parent="VacuumBackground/Vacuum"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -72.0
 margin_top = -72.0
 margin_right = 58.0
 margin_bottom = -30.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "Vacuum"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Title" type="Label" parent="CanvasLayer"]
-margin_left = 784.0
-margin_top = 160.0
-margin_right = 1104.0
-margin_bottom = 237.0
-custom_fonts/font = SubResource( 3 )
+[node name="SolderingBackground" type="ColorRect" parent="."]
+margin_left = 1600.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="mouse_entered" from="SolderingIron" to="." method="_on_SolderingIron_mouse_entered"]
-[connection signal="mouse_entered" from="Vacuum" to="." method="_on_Vacuum_mouse_entered"]
+
+[node name="SolderingIron" type="ColorRect" parent="SolderingBackground"]
+margin_left = 64.0
+margin_top = 192.0
+margin_right = 256.0
+margin_bottom = 832.0
+color = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SolderingIronLabel" type="Label" parent="SolderingBackground/SolderingIron"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -28.0
+margin_top = -24.0
+margin_right = 44.0
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 2 )
+text = "OFF"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="SolderingBackground/SolderingIron"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -112.0
+margin_top = -72.0
+margin_right = 114.0
+margin_bottom = -30.0
+custom_fonts/font = SubResource( 3 )
+text = "Soldering iron"
+[connection signal="mouse_entered" from="VacuumBackground/Vacuum" to="." method="_on_Vacuum_mouse_entered"]
+[connection signal="mouse_entered" from="SolderingBackground/SolderingIron" to="." method="_on_SolderingIron_mouse_entered"]
