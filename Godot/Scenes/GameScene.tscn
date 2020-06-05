@@ -54,11 +54,11 @@ font_data = ExtResource( 1 )
 size = 50
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=6]
 size = 37
 font_data = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=7]
 size = 140
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
@@ -119,9 +119,10 @@ anchor_right = 0.5
 margin_left = -335.0
 margin_top = 40.0
 margin_right = 327.0
-margin_bottom = 196.0
+margin_bottom = 166.0
 custom_fonts/font = SubResource( 4 )
 text = "Game Scene"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -166,7 +167,7 @@ margin_left = -251.5
 margin_top = -141.299
 margin_right = 251.5
 margin_bottom = -29.2992
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 6 )
 text = "Start next MiniGame"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -186,7 +187,7 @@ margin_top = -154.972
 margin_right = -92.2926
 margin_bottom = -36.9719
 rect_pivot_offset = Vector2( 1, 0 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 text = "03:46"
 __meta__ = {
 "_edit_use_anchors_": true

@@ -57,7 +57,7 @@ func _ready():
 func _process(_delta):
 	if running:
 		_update_game_state()
-		
+
 		# Updates the draw function
 		update()
 
@@ -151,9 +151,9 @@ func _calc_finish_line():
 
 
 func _game_over():
-	rpc("_on_update_running", false)
 	if get_tree().is_network_server():
 		game_over_dialog.popup()
+	rpc("_on_update_running", false)
 
 
 func _update_game_state():
@@ -274,7 +274,8 @@ func _on_StartDialog_confirmed():
 	rpc("_on_update_running", true)
 	start_position_input = _calc_start_position()
 
-sync func _restart_game():
+
+remotesync func _restart_game():
 	rpc("_on_update_running", true)
 	waitForStartingPosition = true
 	start_position_input = _calc_start_position()
