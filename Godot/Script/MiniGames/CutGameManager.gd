@@ -251,7 +251,7 @@ func _is_input_on_track():
 func _get_input_pos():
 	var cursorpos
 	if get_tree().is_network_server():
-		cursorpos = get_viewport().get_mouse_position()
+		cursorpos = pointer_node.position
 		rset("puppet_mouse", cursorpos)
 	else:
 		cursorpos = puppet_mouse
