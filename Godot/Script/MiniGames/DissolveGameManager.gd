@@ -28,7 +28,7 @@ var component_height = 30
 var num_of_components = 6
 var components = []
 
-var vacuum_remove_threshold = 50
+var vacuum_remove_threshold = -1
 
 var blink_light
 var is_blinking = false
@@ -64,6 +64,8 @@ onready var vacuum_label = $VacuumBackground/Vacuum/VacuumLabel
 onready var motherboard = $MotherBoard
 onready var title_label = $CanvasLayer/Title
 
+onready var pointer_dot = $red_dot
+
 func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 
@@ -78,10 +80,10 @@ func _ready():
 
 	elif player_role == Role.DEFUSER:
 		# Initialize the HeadTracking scene for this user
-#		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
-#		var headTracking = HeadTrackingScene.instance()
-#		self.add_child(headTracking)
-#		tracking_node = headTracking.get_node("Position2D")
+		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
+		var headTracking = HeadTrackingScene.instance()
+		self.add_child(headTracking)
+		tracking_node = headTracking.get_node("Position2D")
 		_generate_components()
 
 
@@ -93,8 +95,14 @@ func _process(delta):
 			_check_vacuum()
 		_refresh_heatmap(delta)
 	else:
-		_set_input_pos()
+		_check_input()
+	
+	# Updates the draw function
+	_update_dot()
 
+
+func _update_dot():
+	pointer_dot.position = _get_input_pos()
 
 func _init_matrix():
 	matrix = []
@@ -237,7 +245,8 @@ func _check_vacuum():
 							_destroy_component(id)
 							rpc_id(1, "_destroy_component", id)
 							if len(components) == 0:
-								rpc("_game_completed")
+								_game_completed()
+								return
 						break
 		id += 1
 
@@ -329,30 +338,30 @@ func _destroy_components():
 	for x in components:
 		motherboard.remove_child(x[0])
 
-func _set_input_pos():
-#	var cursorpos = get_viewport().get_mouse_position()
-	# The values for the headtracking position ranges from 0 to 1
-	var pos = tracking_node.position
-	# Scale position to screne and amplify movement from the center to easily reach the edges
-	# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
-	var margin = 0.4
-	var windowmarginx = (OS.get_window_size().x)*margin
-	var windowmarginy = (OS.get_window_size().y)*margin
-
-	var cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
-			pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
-	rset("puppet_mouse", cursorpos)
-
 func _get_input_pos():
-	return puppet_mouse
+	var cursorpos
+	if player_role == Role.DEFUSER:
 
-remotesync func _game_completed():
+		# The values for the headtracking position ranges from 0 to 1
+		var pos = tracking_node.position
+		# Scale position to screne and amplify movement from the center to easily reach the edges
+		# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
+		var margin = 0.4
+		var windowmarginx = (OS.get_window_size().x)*margin
+		var windowmarginy = (OS.get_window_size().y)*margin
+		cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
+				pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
+		rset("puppet_mouse", cursorpos)
+	else:
+		cursorpos = puppet_mouse
+	return cursorpos
+
+
+func _game_completed():
 	rpc_id(1, "_on_game_completed")
 	_on_game_completed()
-
-
-remotesync func _game_over():
-	# Not sure if needed to caal two times
+	
+func _game_over():
 	rpc_id(1, "_on_game_over")
 	_on_game_over()
 
@@ -384,18 +393,52 @@ remotesync func _vacuum_entered():
 		vacuum_indicator.color = Color(0, 1, 0)
 		vacuum_label.text = "ON"
 
+var on_vacuum = false
+var on_soldering = false
 
-func _on_SolderingIron_mouse_entered():
+func _check_input():
+	var input = _get_input_pos()
+	
+	var local_in = soldering_iron_indicator.get_rect()
+	var local_bg = $SolderingBackground.get_rect()
+	var pos = local_bg.position
+	var begin = Vector2(pos.x + local_in.position.x, pos.y + local_in.position.y)
+	var end = Vector2(pos.x + local_in.end.x, pos.y + local_in.end.y)
+	var sold_rect = Rect2(begin, end)
+	 
+	if sold_rect.has_point(input):
+		if not on_soldering:
+			_on_soldering_entered()
+			on_soldering = true
+	else:
+		on_soldering = false
+	
+	local_in = vacuum_indicator.get_rect()
+	local_bg = $VacuumBackground.get_rect()
+	pos = local_bg.position
+	begin = Vector2(pos.x + local_in.position.x, pos.y + local_in.position.y)
+	end = Vector2(pos.x + local_in.end.x, pos.y + local_in.end.y)
+	var vacuum_rect = Rect2(begin, end)
+	
+	if vacuum_rect.has_point(input):
+		if not on_vacuum:
+			_on_vacuum_entered()
+			on_vacuum = true
+	else:
+		on_vacuum = false
+
+func _on_soldering_entered():
 	if player_role == Role.DEFUSER:
 		print("Soldering entered")
 		rpc("_soldering_entered")
 
-func _on_Vacuum_mouse_entered():
+func _on_vacuum_entered():
 	if player_role == Role.DEFUSER:
 		print("Vacuum entered")
 		rpc("_vacuum_entered")
 
 remotesync func _on_game_completed():
+	print("Remove self")
 	get_parent().remove_child(self)
 	
 remotesync func _on_game_over():
@@ -403,5 +446,4 @@ remotesync func _on_game_over():
 		_init_matrix()
 	_destroy_components()
 	_generate_components()
-	print(components)
 	assert(len(components) == num_of_components)

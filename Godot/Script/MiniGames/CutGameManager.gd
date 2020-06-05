@@ -38,7 +38,7 @@ func _ready():
 func _process(_delta):
 	if running:
 		_update_game_state()
-		
+
 		# Updates the draw function
 		update()
 
@@ -118,10 +118,9 @@ func _calc_finish_line():
 
 
 func _game_over():
-	rpc("_on_update_running", false)
 	if get_tree().is_network_server():
 		game_over_dialog.popup()
-	
+	rpc("_on_update_running", false)
 
 func _update_game_state():
 	if waitForStartingPosition:
@@ -217,16 +216,16 @@ func _is_input_on_track():
 func _get_input_pos():
 	var cursorpos
 	if get_tree().is_network_server():
-		cursorpos = get_viewport().get_mouse_position()
-#		# The values for the headtracking position ranges from 0 to 1
-#		var pos = tracking_node.position
-#		# Scale position to screne and amplify movement from the center to easily reach the edges
-#		# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
-#		var margin = 0.4
-#		var windowmarginx = (OS.get_window_size().x)*margin
-#		var windowmarginy = (OS.get_window_size().y)*margin
-#		cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
-#				pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
+		# The values for the headtracking position ranges from 0 to 1
+		var pos = tracking_node.position
+		# Scale position to screne and amplify movement from the center to easily reach the edges
+		# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
+		var margin = 0.4
+		var windowmarginx = (OS.get_window_size().x)*margin
+		var windowmarginy = (OS.get_window_size().y)*margin
+		cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
+				pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
+				
 		rset("puppet_mouse", cursorpos)
 	else:
 		cursorpos = puppet_mouse
@@ -250,7 +249,7 @@ func _on_StartDialog_confirmed():
 	start_position_input = _calc_start_position()
 
 
-sync func _restart_game():
+remotesync func _restart_game():
 	rpc("_on_update_running", true)
 	waitForStartingPosition = true
 	start_position_input = _calc_start_position()
