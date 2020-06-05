@@ -4,6 +4,7 @@ var map_sprite
 var pointer_node
 var tracking_control
 
+
 enum ROLEP{
 	NOTSET,
 	HEAD,
@@ -12,11 +13,10 @@ enum ROLEP{
 	DEBUG
 }
 
-const TrackingScene = preload("res://Scenes/Tracking/Tracking.tscn")
 
 func _ready():
 	print("start tracking scene")
-
+	var TrackingScene = preload("res://Scenes/Tracking/Tracking.tscn")
 	var tracking = TrackingScene.instance()
 	self.add_child(tracking)
 	tracking_control = tracking.get_node(".")
