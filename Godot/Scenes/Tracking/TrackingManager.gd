@@ -56,25 +56,18 @@ func _process(_delta):
 		delta_angle = atan2(tracking_pos_new.y - tracking_pos.y, tracking_pos_new.x - tracking_pos.x)
 		delta_distance = tracking_pos.distance_to(tracking_pos_new)
 		
-		
 		pointer_pos_current = pointer_node.position
 		movement_speed = (pointer_pos_current - pointer_pos) / _delta
 		
 		if (lost_tracking): 
 			free_movement_zone_warp = 1
 			throttle_zone_warp = 1
-			print ("lost, no warping")
 		else:
 			free_movement_zone_warp = max(1, min(4, (movement_speed.length()) / 100))
 			throttle_zone_warp = max(1, min(4, (movement_speed.length()) / 200))
 		
-		
-		
-#		print(var2str(movement_speed.length()) + ", " + var2str(free_movement_zone_warp))
-		
 		if (distance_new < 1):
 			distance_new = 1
-		
 
 		if _within_free_movement_zone(tracking_pos, tracking_pos_new):
 			if (lost_tracking): 
@@ -89,12 +82,9 @@ func _process(_delta):
 				tracking_pos += (position_offset/4)
 			else:
 				tracking_pos += (position_offset/factor)
-				
-			
-				
+
 			pointer_node.position = tracking_pos
 		elif _within_throttled_zone(tracking_pos, tracking_pos_new):
-			print("Throttled")
 			var distance_outside_free_zone = distance_new - free_movement_zone_radius
 			
 			if (distance_outside_free_zone <= 1): distance_outside_free_zone = 1
@@ -107,23 +97,18 @@ func _process(_delta):
 				position_offset_limited_to_edge = position_offset_norm * _distance_to_free_zone_edge(tracking_pos, tracking_pos_new)
 				tracking_pos += position_offset_limited_to_edge/4
 				pointer_node.position = tracking_pos
-			
 		else:
 			if not (lost_tracking): 
 				print("Lost" + ", " + var2str(pointer_pos_current))
 				lost_tracking = true
 				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
-		
-		
 		pointer_pos = pointer_pos_current
 	elif (player_role == ROLE.head):
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos
 	elif (player_role == ROLE.mouseController):
 		pointer_node.position = get_global_mouse_position()
-#		print(pointer_node.position)
-	
 	update()
 
 
