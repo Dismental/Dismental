@@ -6,7 +6,7 @@ extends Node2D
 # var b = "text"
 enum ROLE{
 	notSet,
-	head,
+	HEAD,
 	hand,
 	mouse,
 	debug
