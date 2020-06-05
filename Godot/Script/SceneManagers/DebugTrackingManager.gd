@@ -2,17 +2,15 @@ extends Node2D
 
 var map_sprite
 var pointer_node
-var tracking_control
 
 func _ready():
 	print("start tracking scene")
-	var TrackingScene = preload("res://Scenes/Tracking/Tracking.tscn")
-	var tracking = TrackingScene.instance()
-	self.add_child(tracking)
-	tracking_control = tracking.get_node(".")
-	tracking_control.set_role(tracking_control.ROLE.HEADTHROTTLE)
-	pointer_node = tracking.get_node("Pointer")
-
+	var pointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
+	var pointer = pointerScene.instance()
+	self.add_child(pointer)
+	var pointer_control = pointer.get_node(".")
+	pointer_control.set_role(pointer.ROLE.HEADTHROTTLE)
+	pointer_node = pointer.get_node("Pointer")
 
 func _process(_delta):
 	# Updates the draw function
