@@ -9,7 +9,7 @@ enum ROLE{
 	HEAD,
 	HAND,
 	MOUSE,
-	DEBUG
+	HEADTHROTTLE
 }
 
 enum MOVEMENT{
@@ -46,7 +46,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if (player_role == ROLE.DEBUG):
+	if (player_role == ROLE.HEADTHROTTLE):
 		
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
 		
@@ -163,8 +163,8 @@ func _distance_to_free_zone_edge(pos, pos_new):
 
 
 func set_role(_player_role):
-	if (_player_role == ROLE.DEBUG):
-		print ("initiating debug tracking")
+	if (_player_role == ROLE.HEADTHROTTLE):
+		print ("initiating head tracking with throttle")
 		var headTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
 		var tracking = headTrackingScene.instance()
 		self.add_child(tracking)

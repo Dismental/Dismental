@@ -10,7 +10,7 @@ func _ready():
 	var tracking = TrackingScene.instance()
 	self.add_child(tracking)
 	tracking_control = tracking.get_node(".")
-	tracking_control.set_role(tracking_control.ROLE.DEBUG)
+	tracking_control.set_role(tracking_control.ROLE.HEADTHROTTLE)
 	pointer_node = tracking.get_node("Pointer")
 
 

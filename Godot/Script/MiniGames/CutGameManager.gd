@@ -35,10 +35,12 @@ func _ready():
 		_load_map(1, false)
 		
 		# Initialize the HeadTracking scene for this user
-		var trackingScene = preload("res://Scenes/Tracking/Tracking.tscn")
-		var tracking = trackingScene.instance()
+		var TrackingScene = preload("res://Scenes/Tracking/Tracking.tscn")
+		var tracking = TrackingScene.instance()
 		self.add_child(tracking)
-		pointer_node = tracking.get_node("pointer")
+		var tracking_control = tracking.get_node(".")
+		tracking_control.set_role(tracking_control.ROLE.HEADTHROTTLE)
+		pointer_node = tracking.get_node("Pointer")
 		
 		# Turn the x-ray vision OFF for the operator
 		SupervisorVision.visible = false
