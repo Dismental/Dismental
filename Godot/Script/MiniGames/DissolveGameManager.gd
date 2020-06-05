@@ -78,10 +78,12 @@ func _ready():
 
 	elif player_role == Role.DEFUSER:
 		# Initialize the HeadTracking scene for this user
-		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
-		var headTracking = HeadTrackingScene.instance()
-		self.add_child(headTracking)
-		tracking_node = headTracking.get_node("Position2D")
+		var TrackingScene = preload("res://Scenes/Tracking/Tracking.tscn")
+		var tracking = TrackingScene.instance()
+		self.add_child(tracking)
+		var tracking_control = tracking.get_node(".")
+		tracking_control.set_role(tracking_control.ROLE.HEADTHROTTLE)
+		tracking_node = tracking.get_node("Pointer")
 		_generate_components()
 
 
