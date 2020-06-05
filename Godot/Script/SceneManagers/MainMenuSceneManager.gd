@@ -1,14 +1,13 @@
 extends Control
 
 func _on_JoinRoomButton_pressed():
-	change_scene("res://Scenes/JoinGameRoom.tscn")
+	return Utils.change_screen("res://Scenes/JoinGameRoom.tscn", self)
 
 func _on_CreateRoomButton_pressed():
-	change_scene("res://Scenes/CreateGameRoom.tscn")
+	return Utils.change_screen("res://Scenes/CreateGameRoom.tscn", self)
 
 func _on_SettingsButton_pressed():
-	change_scene("res://Scenes/SettingsScene.tscn")
+	return Utils.change_screen("res://Scenes/SettingsScene.tscn", self)
 
-func change_scene(filename):
-	if get_tree().change_scene(filename) != OK:
-		print("Error loading " + str(filename))
+func _on_ScoreBoardButton_pressed():
+	return Utils.change_screen("res://Scenes/ScoreScenes/Scoreboard.tscn", self)

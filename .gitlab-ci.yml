@@ -2,4 +2,12 @@ godot-tests:
   stage: test
   image: barichello/godot-ci:3.2.1
   script:
-    - godot -d -s --path ./Godot addons/gut/gut_cmdln.gd
+    - godot -s --path ./Godot addons/gut/gut_cmdln.gd
+
+codestyle-lint:
+  stage: test
+  image: python:3.7
+  script:
+    - pip install gdtoolkit
+    - cd Godot
+    - python linter.py
