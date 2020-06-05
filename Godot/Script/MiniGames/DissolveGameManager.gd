@@ -28,7 +28,7 @@ var component_height = 30
 var num_of_components = 6
 var components = []
 
-var vacuum_remove_threshold = -1
+var vacuum_remove_threshold = 50
 
 var blink_light
 var is_blinking = false
