@@ -5,11 +5,11 @@ var pointer_node
 var tracking_control
 
 enum ROLE{
-	notSet,
-	head,
-	hand,
-	mouse,
-	debug
+	NOTSET,
+	HEAD,
+	HAND,
+	MOUSE,
+	DEBUG
 }
 
 func _ready():
@@ -20,7 +20,7 @@ func _ready():
 	var tracking = trackingScene.instance()
 	self.add_child(tracking)
 	tracking_control = tracking.get_node(".")
-	tracking_control._set_role(ROLE.debug)
+	tracking_control._set_role(ROLE.DEBUG)
 	pointer_node = tracking.get_node("Pointer")
 
 

@@ -5,11 +5,11 @@ extends Node2D
 # var a = 2
 # var b = "text"
 enum ROLE{
-	notSet,
+	NOTSET,
 	HEAD,
-	hand,
-	mouse,
-	debug
+	HAND,
+	MOUSE,
+	DEBUG
 }
 
 enum MOVEMENT{
@@ -47,7 +47,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if (player_role == ROLE.debug):
+	if (player_role == ROLE.DEBUG):
 		
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
 		var distance_new = (tracking_pos_new.distance_to(tracking_pos))
@@ -104,10 +104,10 @@ func _process(_delta):
 				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
 		pointer_pos = pointer_pos_current
-	elif (player_role == ROLE.head):
+	elif (player_role == ROLE.HEAD):
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos
-	elif (player_role == ROLE.mouseController):
+	elif (player_role == ROLE.MOUSE):
 		pointer_node.position = get_global_mouse_position()
 	update()
 
@@ -140,7 +140,7 @@ func _distance_to_free_zone_edge(pos, pos_new):
 
 
 func _set_role(_player_role):
-	if (_player_role == ROLE.debug):
+	if (_player_role == ROLE.DEBUG):
 		print ("initiating debug tracking")
 		var headTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
 		var tracking = headTrackingScene.instance()
@@ -151,7 +151,7 @@ func _set_role(_player_role):
 		pointer_pos = pointer_node.position 
 		pointer_pos_current = pointer_node.position
 		player_role = _player_role
-	elif (_player_role == ROLE.head):
+	elif (_player_role == ROLE.HEAD):
 		print ("initiating head tracking")
 		var headTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
 		var tracking = headTrackingScene.instance()
@@ -162,7 +162,7 @@ func _set_role(_player_role):
 		pointer_pos = pointer_node.position 
 		pointer_pos_current = pointer_node.position
 		player_role = _player_role
-	elif (_player_role == ROLE.mouseController):
+	elif (_player_role == ROLE.MOUSE):
 		print ("initiating mouse as pointer")
 		player_role = _player_role
 		
