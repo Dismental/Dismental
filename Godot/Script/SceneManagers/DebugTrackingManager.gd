@@ -12,12 +12,12 @@ enum ROLEP{
 	DEBUG
 }
 
+const TrackingScene = preload("res://Scenes/Tracking/Tracking.tscn")
+
 func _ready():
 	print("start tracking scene")
 
-	# Initialize the Tracking scene
-	var tracking_scene = preload("res://Scenes/Tracking/Tracking.tscn")
-	var tracking = tracking_scene.instance()
+	var tracking = TrackingScene.instance()
 	self.add_child(tracking)
 	tracking_control = tracking.get_node(".")
 	tracking_control.set_role(ROLEP.DEBUG)
