@@ -1,5 +1,5 @@
 #!/bin/sh
-# Get the path to the root of the project
+# Get the path to the current location of where the session is running
 PATH_TO_PROJECT=$(pwd)
 
 # Open a new window and supply the correct commands to launch a godot instance there
