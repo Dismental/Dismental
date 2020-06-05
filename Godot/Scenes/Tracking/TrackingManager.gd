@@ -139,7 +139,7 @@ func _distance_to_free_zone_edge(pos, pos_new):
 	return ellipse_point.length()
 
 
-func _set_role(_player_role):
+func set_role(_player_role):
 	if (_player_role == ROLE.DEBUG):
 		print ("initiating debug tracking")
 		var headTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
