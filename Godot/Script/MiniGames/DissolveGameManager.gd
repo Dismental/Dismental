@@ -17,7 +17,7 @@ var heatmap_sprite
 var radius = 9
 var defuse_state = DefuserState.OFF
 
-var tracking_node
+var pointer_node
 
 # Increase/decrease factor of temperature
 var increase_factor = 24
@@ -79,11 +79,13 @@ func _ready():
 		_generate_components()
 
 	elif player_role == Role.DEFUSER:
-		# Initialize the HeadTracking scene for this user
-		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
-		var headTracking = HeadTrackingScene.instance()
-		self.add_child(headTracking)
-		tracking_node = headTracking.get_node("Position2D")
+		# Initialize the pointer scene for this user
+		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
+		var pointer = PointerScene.instance()
+		self.add_child(pointer)
+		var pointer_control = pointer.get_node(".")
+		pointer_control.set_role(pointer.ROLE.HEADTHROTTLE)
+		pointer_node = pointer.get_node("Pointer")
 		_generate_components()
 
 
@@ -341,16 +343,7 @@ func _destroy_components():
 func _get_input_pos():
 	var cursorpos
 	if player_role == Role.DEFUSER:
-
-		# The values for the headtracking position ranges from 0 to 1
-		var pos = tracking_node.position
-		# Scale position to screne and amplify movement from the center to easily reach the edges
-		# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
-		var margin = 0.4
-		var windowmarginx = (OS.get_window_size().x)*margin
-		var windowmarginy = (OS.get_window_size().y)*margin
-		cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
-				pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
+		cursorpos = pointer_node.position
 		rset("puppet_mouse", cursorpos)
 	else:
 		cursorpos = puppet_mouse

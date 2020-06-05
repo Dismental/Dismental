@@ -39,15 +39,10 @@ void GDExample::_init() {
     // initialize any variables here
     cursorPos = Point(frame.cols / 4, frame.rows / 4);
 
-
-    // camera.set(3, 512);
-    // camera.set(4, 288);
-
     waitingForSample = true;
 
     bbox = Rect2d(100,200,200,300);
 
-    // // TODO 
     face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
     if(!face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml")) {
         cerr << "Error XML" << endl;
@@ -57,7 +52,6 @@ void GDExample::_init() {
     camera.read(frame);
 
     // Set the handtracking Detector with the camera
-    // detector = VideoFaceDetector::VideoFaceDetector();
     detector.setVideoCapture(camera);
     // Set the haarcascade classifier for the tracking method.
     detector.setFaceCascade(CASCADE_FILE);
@@ -72,13 +66,12 @@ void GDExample::_process(float delta) {
     handTracker.update(frame, bbox);
 
     if(waitKey(10) == 32) {
-        // tracker->init(frame,bbox);
         handTracker.toggleTracking(frame, bbox);
     }
 
     // Create the 'joystick' effect by restraining the movement of cursorPos. CursorPos 'follows' facePosition and is not mapped 1on1.
-    cursorPos.x += (detector.facePosition().x - cursorPos.x) / 4;
-    cursorPos.y += (detector.facePosition().y - cursorPos.y) / 4;
+    cursorPos.x = detector.facePosition().x;
+    cursorPos.y = detector.facePosition().y;
 
     // Set the position of the linked node (should be a Position2D node) with the tracked position
     set_position(Vector2(abs((float)cursorPos.x/(float)frame.cols-1), (float)cursorPos.y/(float)frame.rows));
