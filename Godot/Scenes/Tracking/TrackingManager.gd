@@ -71,15 +71,9 @@ func _process(_delta):
 				throttle_zone_radius = 200
 				
 			var position_offset = tracking_pos_new - tracking_pos
-#			print(position_offset)
 			
 			var factor = 1.5 + abs(sin(delta_delta_angle)) * 6 + max(500 - movement_speed.length(), 0) / 500 * 6
-#			print(factor)
 			tracking_pos = tracking_pos + (position_offset/factor)
-#			if movement_speed.length() < 500: 
-#				tracking_pos = tracking_pos + (position_offset/4)
-#			else:
-#				tracking_pos = tracking_pos + (position_offset/factor)
 				
 			
 				
