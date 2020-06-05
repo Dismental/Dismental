@@ -84,8 +84,11 @@ func _process(_delta):
 				
 			var position_offset = tracking_pos_new - tracking_pos
 			
-			var factor = 1.5 + abs(sin(delta_delta_angle)) * 6 + max(500 - movement_speed.length(), 0) / 500 * 6
-			tracking_pos = tracking_pos + (position_offset/factor)
+			var factor = 2.5 + abs(sin(delta_delta_angle)) * 6
+			if (movement_speed.length() < 200):
+				tracking_pos += (position_offset/4)
+			else:
+				tracking_pos += (position_offset/factor)
 				
 			
 				
