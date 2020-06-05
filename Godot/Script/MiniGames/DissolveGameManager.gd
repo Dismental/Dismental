@@ -87,7 +87,7 @@ func _ready():
 		_generate_components()
 
 
-func _process(delta):	
+func _process(delta):
 	if player_role == Role.SUPERVISOR:
 		if defuse_state == DefuserState.SOLDERING_IRON:
 			_increase_matrix_input(delta)
