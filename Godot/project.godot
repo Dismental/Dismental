@@ -43,6 +43,10 @@ window/stretch/aspect="keep"
 
 enabled=PoolStringArray( "gut" )
 
+[gdnative]
+
+singletons=[ "res://webrtc/webrtc.tres" ]
+
 [input]
 
 space={

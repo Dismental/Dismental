@@ -1,51 +1,127 @@
-extends Node
+extends "../webrtc.gd"
 
 signal player_list_changed()
 
-const DEFAULT_IP = '127.0.0.1'
-const DEFAULT_PORT = 31400
-const MAX_PLAYERS = 2
+const DEFAULT_SERVER = 'wss://signaling-server-bomb.herokuapp.com/'
 
 # Declare member variables here.
 var player_name = ""
 var player_info = {}
 var players_ready = []
+var web_rtc : WebRTCMultiplayer = WebRTCMultiplayer.new()
+var sealed = false
 
 # Called when the node enters the scene tree for the first time.
+func _init():
+	connect("connected", self, "connected")
+	connect("disconnected", self, "disconnected")
+
+	connect("offer_received", self, "offer_received")
+	connect("answer_received", self, "answer_received")
+	connect("candidate_received", self, "candidate_received")
+
+	connect("lobby_joined", self, "lobby_joined")
+	connect("lobby_sealed", self, "lobby_sealed")
+	connect("peer_connected", self, "peer_connected")
+	connect("peer_disconnected", self, "peer_disconnected")
+
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 
-func create_server(port = DEFAULT_PORT, players = MAX_PLAYERS):
-	# Trying to uPnP on the router if not successful the host will only be on
-	# the local network
-	var upnp = UPNP.new()
-	upnp.discover(2000, 2, "InternetGatewayDevice")
-	var result = upnp.add_port_mapping(port)
-	if (result == 0):
-		print("We are accessible from the outside world!")
-	else:
-		print("We are only accessible from our own local network!")
 
-	var peer = NetworkedMultiplayerENet.new()
-	peer.create_server(port, players)
-	get_tree().network_peer = peer
-	player_name = "1"
-	print("Network created on port: " + str(port))
+func create_server(url = DEFAULT_SERVER):
+	start(url)
 
 
-func create_client(_server_ip, port = DEFAULT_PORT):
-	get_tree().connect('connected_to_server', self, '_connected_to_server')
-	get_tree().connect("connection_failed", self, "_connect_fail")
-	var peer = NetworkedMultiplayerENet.new()
-	print("Trying to connect to: " + str(_server_ip))
-	peer.create_client(_server_ip, port)
-	get_tree().network_peer = peer
+func create_client(lobby, _server_ip = DEFAULT_SERVER):
+	start(_server_ip, lobby)
+
+
+func start(url, lobby = ''):
+	stop()
+	sealed = false
+	self.lobby = lobby
+	connect_to_url(url)
+
+
+func stop():
+	player_info.clear()
+	web_rtc.close()
+	close()
+
+
+func lobby_joined(lobby):
+	print(lobby)
+
+
+func lobby_sealed():
+	print("lobby was sealed")
+	sealed = true
+
+
+func connected(id):
+	print("Connected %d" % id)
+	web_rtc.initialize(id, true)
+	get_tree().set_network_peer(web_rtc)
+
+
+func disconnected():
+	print("Disconnected: %d: %s" % [code, reason])
+	if code == 4100:
+		print("host disconnect")
+		stop()
+		Utils.change_screen("res://Scenes/JoinGameRoom.tscn", get_tree().get_current_scene().get_child(0))
+		get_tree().get_current_scene().get_child(0).host_popup()
+	elif not sealed:
+		stop() #Unexpected disconnect
+
+
+func peer_connected(id):
+	print("Peer connected %d" % id)
+	_create_peer(id)
+	player_info[id] = str(id)
+
+
+func peer_disconnected(id):
+	var test = web_rtc.get_peers()
+	if web_rtc.has_peer(id):
+		print("removing peer")
+		web_rtc.remove_peer(id)
+	deregister_player(id)
 
 
 func _player_connected(id):
 	print("We connected player with id: " + str(id))
 	player_info[id] = str(id)
+	print(get_tree().get_network_connected_peers())
 	rpc_id(id, "register_player")
+	emit_signal("player_list_changed")
+
+
+func _create_peer(id):
+	var peer : WebRTCPeerConnection = WebRTCPeerConnection.new()
+	peer.initialize({
+		"iceServers": [ { "urls": ["stun:stun.l.google.com:19302"] } ]
+	})
+	peer.connect("session_description_created", self, "_offer_created", [id])
+	peer.connect("ice_candidate_created", self, "_new_ice_candidate", [id])
+	web_rtc.add_peer(peer, id)
+	if id > web_rtc.get_unique_id():
+		peer.create_offer()
+	return peer
+
+
+func _new_ice_candidate(mid_name, index_name, sdp_name, id):
+	send_candidate(id, mid_name, index_name, sdp_name)
+
+
+func _offer_created(type, data, id):
+	if not web_rtc.has_peer(id):
+		return
+	print("created", type)
+	web_rtc.get_peer(id).connection.set_local_description(type, data)
+	if type == "offer": send_offer(id, data)
+	else: send_answer(id, data)
 
 
 func _connected_to_server():
@@ -55,6 +131,24 @@ func _connected_to_server():
 func _connect_fail():
 	print("FAILED TO CONNECT")
 
+
+func offer_received(id, offer):
+	print("Got offer: %d" % id)
+	if web_rtc.has_peer(id):
+		web_rtc.get_peer(id).connection.set_remote_description("offer", offer)
+
+
+func answer_received(id, answer):
+	print("Got answer: %d" % id)
+	if web_rtc.has_peer(id):
+		web_rtc.get_peer(id).connection.set_remote_description("answer", answer)
+
+
+func candidate_received(id, mid, index, sdp):
+	if web_rtc.has_peer(id):
+		web_rtc.get_peer(id).connection.add_ice_candidate(mid, index, sdp)
+
+#### STARTING A GAME
 
 remote func pre_configure_game():
 	get_tree().set_pause(true)
@@ -128,6 +222,12 @@ remotesync func begin_minigame():
 remote func register_player():
 	var id = get_tree().get_rpc_sender_id()
 	player_info[id] = str(id)
+	emit_signal("player_list_changed")
+
+
+func deregister_player(id):
+	player_info.erase(id)
+	print("removing player: " + str(id))
 	emit_signal("player_list_changed")
 
 
