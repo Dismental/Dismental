@@ -1,9 +1,5 @@
 extends Node2D
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 enum ROLE{
 	NOTSET,
 	HEAD,
@@ -202,7 +198,8 @@ func _map_tracking_position(track_pos):
 	pointer_pos = Vector2(track_pos.x*((get_viewport_rect().size.x) + windowmarginx)-(windowmarginx/2),
 			track_pos.y*((get_viewport_rect().size.y)+windowmarginy)-(windowmarginy/2))
 	return pointer_pos
-	
+
+
 func _on_Sprite_draw():
 	print ("draw sprite")
 	
@@ -214,49 +211,15 @@ func point_on_ellipse(angle, rotation, radius, warp):
 		cos(rotation) * cos(angle) * (radius * warp) - sin(rotation) * sin(angle) * (radius) + cos(rotation) * radius * (warp - 1) / 1.61803398875,
 		cos(rotation) * sin(angle) * (radius) + sin(rotation) * cos(angle) * (radius * warp) + sin(rotation) * radius * (warp - 1) / 1.61803398875
 	)
-	
+
+
 func distance_from_origin(point):
 	return point.distance_to(Vector2(0,0))
 	
 	
 	
 func _draw():
-#	draw_circle(tracking_pos, throttle_zone_radius, Color(1, 1, 0))
-#	draw_circle(tracking_pos, free_movement_zone_radius, Color(0, 1, 0))
-	
-#	print(delta_distance, warp_level)
-	# draw throttle_movement_zone region
-#	for i in range(64):
-#		var theta = 2*PI/64*i
-#		var point_ellipse = point_on_ellipse(theta, delta_angle, throttle_zone_radius, throttle_zone_warp)
-#
-#		draw_line(
-#			Vector2(tracking_pos.x, tracking_pos.y),
-##			Vector2(tracking_pos.x - cos(theta + delta_angle) * radiusX, tracking_pos.y - sin(theta + delta_angle) * radiusY),
-#			Vector2(
-#				tracking_pos.x + point_ellipse.x,
-#				tracking_pos.y + point_ellipse.y
-#			),
-#			Color(255,255,0),
-#			4
-#		)
-#
 #	# draw free_movement_zone region
-#	for i in range(64):
-#		var theta = 2*PI/64*i
-#		var point_ellipse = point_on_ellipse(theta, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
-#
-#		draw_line(
-#			Vector2(tracking_pos.x, tracking_pos.y),
-##			Vector2(tracking_pos.x - cos(theta + delta_angle) * radiusX, tracking_pos.y - sin(theta + delta_angle) * radiusY),
-#			Vector2(
-#				tracking_pos.x + point_ellipse.x,
-#				tracking_pos.y + point_ellipse.y
-#			),
-#			Color(0,255,0),
-#			4
-#		)
-		
 	draw_circle(_map_tracking_position(tracking_node.position), 10, Color(255, 0, 0))
 	draw_line(
 		_map_tracking_position(tracking_node.position),
@@ -264,12 +227,3 @@ func _draw():
 		Color(255,0,0),
 		4
 	)
-	
-	
-	
-#	draw_line(
-#		Vector2(tracking_pos.x - cos(PI/2 + delta_angle) * 100, tracking_pos.y - sin(PI/2 + delta_angle) * 100),
-#		Vector2(tracking_pos.x + cos(PI/2 + delta_angle) * 100, tracking_pos.y + sin(PI/2 + delta_angle) * 100),
-#		Color(0,255,0),
-#		4
-#	)
