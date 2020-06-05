@@ -1,13 +1,21 @@
 extends Node2D
 
+onready var SupervisorVision = $"Control/X-rayVision"
+
 puppet var puppet_mouse = Vector2()
+
+# Constants for the properties of the x-ray vision texture
+const supervisor_shadow_width = 800
+const supervisor_shadow_height = 600
+const supervisor_shadow_scalex = 5
+const supervisor_shadow_scaley = supervisor_shadow_scalex
 
 var map_sprite
 var dots = []
 var running = false
 var waitForStartingPosition = true
 var start_position_input
-var tracking_node
+var pointer_node
 
 var finish_rect
 
@@ -21,17 +29,28 @@ onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
 
 func _ready():
+	SupervisorVision.visible = true
 	if get_tree().is_network_server():
 		start_dialog.popup()
 		_load_map(1, false)
 		
 		# Initialize the HeadTracking scene for this user
-		var HeadTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
-		var headTracking = HeadTrackingScene.instance()
-		self.add_child(headTracking)
-		tracking_node = headTracking.get_node("Position2D")
+		print("start tracking scene")
+		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
+		var pointer = PointerScene.instance()
+		self.add_child(pointer)
+		var pointer_control = pointer.get_node(".")
+		pointer_control.set_role(pointer.ROLE.HEADTHROTTLE)
+		pointer_node = pointer.get_node("Pointer")
+		
+		# Turn the x-ray vision OFF for the operator
+		SupervisorVision.visible = false
 	else:
 		_load_map(1)
+		# Turn the x-ray vision ON for the operator
+		SupervisorVision.visible = true
+		# Center the x-ray vision
+		_supervisor_vision_update(Vector2(OS.get_window_size().x, OS.get_window_size().y))
 	_calc_finish_line()
 
 
@@ -70,12 +89,26 @@ func _draw():
 	draw_circle(_get_input_pos(), rad, col)
 
 
+func _supervisor_vision_update(pos):
+	var ShadowPos = Vector2(0,0)
+
+	# Handle edge cases if pos is outside the screen
+	var x = clamp(pos.x, 0, get_viewport_rect().size.x)
+	var y = clamp(pos.y, 0, get_viewport_rect().size.y)
+	
+	# Position the center of x-ray shadow texture at the 'pos' input location
+	ShadowPos.x = x - supervisor_shadow_width * supervisor_shadow_scalex / 2
+	ShadowPos.y = y - supervisor_shadow_height * supervisor_shadow_scaley / 2
+
+	SupervisorVision.set_position(ShadowPos)
+
 
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_ESCAPE:
 			# Quits the game
 			get_tree().quit()
+
 
 func _calc_start_position():
 	var center_x = finish_rect.position.x + (finish_rect.size.x / 2.0)
@@ -122,6 +155,7 @@ func _game_over():
 		game_over_dialog.popup()
 	rpc("_on_update_running", false)
 
+
 func _update_game_state():
 	if waitForStartingPosition:
 		start_position_input = _calc_start_position()
@@ -135,7 +169,9 @@ func _update_game_state():
 				_game_over()
 			else:
 				_check_finish()
-		# Move the 'vision' of the Supervisor
+	# Move the 'vision' of the Supervisor
+	if running and not get_tree().is_network_server():
+		_supervisor_vision_update(get_global_mouse_position())
 
 
 func _check_finish():
@@ -152,7 +188,7 @@ func _check_finish():
 				_game_completed()
 			else:
 				finish_state = 0
-		
+
 	elif finish_state == -1:
 		if finish_rect.has_point(_get_input_pos()):
 			if dots[len(dots)-1].y <= finish_rect.position.y:
@@ -216,21 +252,11 @@ func _is_input_on_track():
 func _get_input_pos():
 	var cursorpos
 	if get_tree().is_network_server():
-		# The values for the headtracking position ranges from 0 to 1
-		var pos = tracking_node.position
-		# Scale position to screne and amplify movement from the center to easily reach the edges
-		# Add a margin/multiplier so the user can 'move' to the edge without actually moving its head to the edge
-		var margin = 0.4
-		var windowmarginx = (OS.get_window_size().x)*margin
-		var windowmarginy = (OS.get_window_size().y)*margin
-		cursorpos = Vector2(pos.x*((OS.get_window_size().x*2) + windowmarginx)-(windowmarginx/2), 
-				pos.y*((OS.get_window_size().y*2)+windowmarginy)-(windowmarginy/2))
-				
+		cursorpos = pointer_node.position
 		rset("puppet_mouse", cursorpos)
 	else:
 		cursorpos = puppet_mouse
 	return cursorpos
-	
 
 
 func _get_map_pixel_color(pos):
