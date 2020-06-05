@@ -4,23 +4,13 @@ var map_sprite
 var pointer_node
 var tracking_control
 
-
-enum ROLEP{
-	NOTSET,
-	HEAD,
-	HAND,
-	MOUSE,
-	DEBUG
-}
-
-
 func _ready():
 	print("start tracking scene")
 	var TrackingScene = preload("res://Scenes/Tracking/Tracking.tscn")
 	var tracking = TrackingScene.instance()
 	self.add_child(tracking)
 	tracking_control = tracking.get_node(".")
-	tracking_control.set_role(ROLEP.DEBUG)
+	tracking_control.set_role(tracking_control.ROLE.DEBUG)
 	pointer_node = tracking.get_node("Pointer")
 
 
