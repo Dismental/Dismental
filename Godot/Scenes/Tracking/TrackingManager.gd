@@ -24,6 +24,7 @@ var tracking_node
 var pointer_node
 var tracking_pos
 var pointer_pos
+var pointer_pos_current
 
 var distance_from_free_zone
 
@@ -55,14 +56,25 @@ func _process(_delta):
 		delta_angle = atan2(tracking_pos_new.y - tracking_pos.y, tracking_pos_new.x - tracking_pos.x)
 		delta_distance = tracking_pos.distance_to(tracking_pos_new)
 		
-		free_movement_zone_warp = max(1, min(4, (movement_speed.length()) / 100))
-		throttle_zone_warp = max(1, min(4, (movement_speed.length()) / 200))
 		
-		var pointer_pos_current = pointer_node.position
+		pointer_pos_current = pointer_node.position
+		movement_speed = (pointer_pos_current - pointer_pos) / _delta
+		
+		if (lost_tracking): 
+			free_movement_zone_warp = 1
+			throttle_zone_warp = 1
+			print ("lost, no warping")
+		else:
+			free_movement_zone_warp = max(1, min(4, (movement_speed.length()) / 100))
+			throttle_zone_warp = max(1, min(4, (movement_speed.length()) / 200))
+		
+		
+		
+		print(var2str(movement_speed.length()) + ", " + var2str(free_movement_zone_warp))
 		
 		if (distance_new < 1):
 			distance_new = 1
-			
+		
 
 		if _within_free_movement_zone(tracking_pos, tracking_pos_new):
 			if (lost_tracking): 
@@ -99,7 +111,7 @@ func _process(_delta):
 				lost_tracking = true
 				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
-		movement_speed = (pointer_pos_current - pointer_pos) / _delta
+		
 		pointer_pos = pointer_pos_current
 	elif (role == ROLE.head):
 		tracking_pos = _map_tracking_position(tracking_node.position)
@@ -148,6 +160,7 @@ func _set_role(_player_role):
 		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
 		pointer_node.position = _map_tracking_position(Vector2(0.5,0.5))
 		pointer_pos = pointer_node.position 
+		pointer_pos_current = pointer_node.position
 		role = _player_role
 	elif (_player_role == ROLE.head):
 		print ("initiating head tracking")
@@ -158,6 +171,7 @@ func _set_role(_player_role):
 		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
 		pointer_node.position = _map_tracking_position(Vector2(0.5,0.5))
 		pointer_pos = pointer_node.position 
+		pointer_pos_current = pointer_node.position
 		role = _player_role
 	elif (_player_role == ROLE.mouseController):
 		print ("initiating mouse as pointer")
