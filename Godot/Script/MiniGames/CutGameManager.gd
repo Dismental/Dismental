@@ -36,8 +36,8 @@ func _ready():
 		
 		# Initialize the HeadTracking scene for this user
 		print("start tracking scene")
-		var pointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
-		var pointer = pointerScene.instance()
+		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
+		var pointer = PointerScene.instance()
 		self.add_child(pointer)
 		var pointer_control = pointer.get_node(".")
 		pointer_control.set_role(pointer.ROLE.HEADTHROTTLE)
