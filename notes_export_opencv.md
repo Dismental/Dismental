@@ -19,6 +19,7 @@ Interesting links:
 # OpenCV dependency -> Any other OpenCV dependency
 
 Rpath has been set to solve this issue.
+However, it seems as if the rpath setting does not carry over when shipping the game to a new machine, need to investigate whether this is actually the case, and if it is, how to solve it.
 
 ```
 if env['export'] in ['y', 'yes']:
