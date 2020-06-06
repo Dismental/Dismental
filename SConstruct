@@ -114,7 +114,7 @@ env.Append(LIBS=[cpp_library])
 
 # For OSX these files have been filled in under assumption that you installed opencv using homebrew
 if env['platform'] == "osx" or env['platform'] in ('x11', 'linux'):
-    env.Append(CPPPATH=[os.environ['OPENCV_DIR'] + "/include/opencv4/"])
+    env.Append(CPPPATH=["./src/include/opencv4/"])
     env.Append(LIBPATH=["./src/lib/"])
     env.Append(LIBS=[
         "libopencv_alphamat.4.3.0",
