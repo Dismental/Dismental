@@ -55,7 +55,7 @@ if env['platform'] == "osx":
     cpp_library += '.osx'
     if env['target'] in ('debug', 'd'):
         env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64', '-std=c++17'])
-        env.Append(LINKFLAGS=['-arch', 'x86_64', '-rpath', '/Users/kevin/Applications/DefuseTheBomb.app/Contents/Frameworks/lib'])
+        env.Append(LINKFLAGS=['-arch', 'x86_64', '-rpath', '~/Applications/DefuseTheBomb.app/Contents/Frameworks/lib'])
     else:
         env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64', '-std=c++17'])
         env.Append(LINKFLAGS=['-arch', 'x86_64'])
