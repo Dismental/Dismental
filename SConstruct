@@ -14,6 +14,7 @@ env = DefaultEnvironment()
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
+opts.Add(EnumVariable('export', "Whether this is meant to be shipped or not'", '', ['', 'y', 'yes', 'n', 'no']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'Godot/bin/'))
 opts.Add(PathVariable('target_name', 'The library name.', 'libgdexample', PathVariable.PathAccept))
@@ -49,13 +50,18 @@ if env['platform'] == '':
 # - CPPDEFINES are for pre-processor defines
 # - LINKFLAGS are for linking flags
 
+if env['export'] in ['y', 'yes']:
+    rpath = '~/Applications/DefuseTheBomb.app/Contents/Frameworks/lib'
+elif env['export'] in ['n', 'no']:
+    rpath = '~/Development/contextproject/Godot/bin/osx/lib'
+
 # Check our platform specifics
 if env['platform'] == "osx":
     env['target_path'] += 'osx/'
     cpp_library += '.osx'
     if env['target'] in ('debug', 'd'):
         env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64', '-std=c++17'])
-        env.Append(LINKFLAGS=['-arch', 'x86_64', '-rpath', '~/Applications/DefuseTheBomb.app/Contents/Frameworks/lib'])
+        env.Append(LINKFLAGS=['-arch', 'x86_64', '-rpath', rpath])
     else:
         env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64', '-std=c++17'])
         env.Append(LINKFLAGS=['-arch', 'x86_64'])

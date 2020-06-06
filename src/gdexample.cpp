@@ -63,7 +63,7 @@ void GDExample::_init() {
     if(!face_cascase.load(path)) {
         path = get_env_var("HOME") + "/Applications/DefuseTheBomb.app/Contents/Resources/haarcascade_frontalface_default.xml";
         std::cout << path << std::endl;
-        cerr << "Error XML!!" << endl;
+        cerr << "Error XML!!!" << endl;
     }
     
     detector.setVideoCapture(camera);
