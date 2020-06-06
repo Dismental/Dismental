@@ -1,10 +1,39 @@
-OpenCV first looks into
-1. /usr/local/Cellar/opencv
-2. /usr/local/opt/opencv << this is ignored?
+# Libgdexample.dylib -> OpenCV dependency
 
-/Users/kevin/Development/contextproject/Godot/bin/osx/libgdexample.dylib LOOKS DIRECTLY TO /usr/local/opt/opencv/lib/libopencv_alphamat.4.3.dylib
+What's interesting is that when libgdexample is loaded, it seems to look into `/usr/local/opt/opencv`.
+We can set a symlink here to point to our dependencies, it would work but it's inconvenient because of the following reasons:
+1. If an user decides to install opencv in the future, the symlink has already been set to point to our games dependencies.
+2. We'd have to check if the symlink already exists, if it does, overwriting it could be problematic for ohter programs needing opencv.
 
-/usr/local/opt/opencv/lib/libopencv_alphamat.4.3.dylib LOOKS DIRECTLY TO @rpath/libopencv_imgproc.4.3.dylib
+So the best is to figure out why this is exactly happening in the first place, if we can override where it should look for opencv that'd be great.
+Could **not** find it at the following places:
+1. SConstruct
+2. Output of compiling with -v flag
+3. Output of linking with -v flag
+
+Interesting links:
+* https://stackoverflow.com/questions/50273061/dyld-library-not-loaded-usr-local-opt-jpeg-lib-libjpeg-9-dylib-opencv-c-mac
+
+> Usually there's a way to override the hardcoded path like /usr/local/opt at build time using some build script variable somewhere in the OpenCV build scripts.
+
+# OpenCV dependency -> Any other OpenCV dependency
+
+Rpath has been set to solve this issue.
+
+```
+if env['export'] in ['y', 'yes']:
+    rpath = '~/Applications/DefuseTheBomb.app/Contents/Frameworks/lib'
+elif env['export'] in ['n', 'no']:
+    rpath = '~/Development/contextproject/Godot/bin/osx/lib'
+
+env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64', '-std=c++17'])
+env.Append(LINKFLAGS=['-arch', 'x86_64', '-rpath', rpath])
+```
+
+# Error
+
+/Users/kevin/Development/contextproject/Godot/bin/osx/libgdexample.dylib ---(looks into)--> /usr/local/opt/opencv/lib/libopencv_alphamat.4.3.dylib
+/usr/local/opt/opencv/lib/libopencv_alphamat.4.3.dylib ---(looks into)--> @rpath/libopencv_imgproc.4.3.dylib
 
 ```
 contextproject/Godot git/77-export-game-to-macos*  
