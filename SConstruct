@@ -55,7 +55,7 @@ if env['platform'] == "osx":
     cpp_library += '.osx'
     if env['target'] in ('debug', 'd'):
         env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64', '-std=c++17'])
-        env.Append(LINKFLAGS=['-arch', 'x86_64'])
+        env.Append(LINKFLAGS=['-arch', 'x86_64', '-rpath', '/Users/kevin/Applications/DefuseTheBomb.app/Contents/Frameworks/lib'])
     else:
         env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64', '-std=c++17'])
         env.Append(LINKFLAGS=['-arch', 'x86_64'])
@@ -102,11 +102,14 @@ env.Append(LIBS=[cpp_library])
 # Add OpenCV configuration
 # At LIBS, omit file extensions such as '.lib' and '.dylib', they get appended in runtime depending on the OS
 # Configuration for linux has not been tested, but for now I assume it's similar to OSX
+# print("RPATH TO BE ADDED YOOOO")
+# env.Append(RPATH=[env.Literal(os.path.join('\\$$ORIGIN', os.pardir, 'lib'))])
+# env.Append(RPATH=["~/Development/contextproject/src/lib"])
 
 # For OSX these files have been filled in under assumption that you installed opencv using homebrew
 if env['platform'] == "osx" or env['platform'] in ('x11', 'linux'):
     env.Append(CPPPATH=[os.environ['OPENCV_DIR'] + "/include/opencv4/"])
-    env.Append(LIBPATH=[os.environ['OPENCV_DIR'] + "/lib/"])
+    env.Append(LIBPATH=["./src/lib/"])
     env.Append(LIBS=[
         "libopencv_alphamat.4.3.0",
         "libopencv_aruco.4.3.0",
