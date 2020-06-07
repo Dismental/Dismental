@@ -1,4 +1,4 @@
-Below is solved!
+The problems described below, regarding the RPATH and ligdexample.dylib calling `/usr/local/opt/opencv` have been solved! Relevant links:
 https://stackoverflow.com/questions/2092378/macosx-how-to-collect-dependencies-into-a-local-bundle
 https://medium.com/@donblas/fun-with-rpath-otool-and-install-name-tool-e3e41ae86172
 
