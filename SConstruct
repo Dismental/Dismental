@@ -1,6 +1,18 @@
 #!python
 import os, subprocess
+import functools
 from pathlib import Path
+
+# Parse the user environment for usage
+def parseEnvFile(acc, line):
+    [key, value] = line.strip().split("=")
+    acc[key] = value[1:-1] # Remove surrounding double quotes from the value that appears in .env
+    return acc
+
+f = open(".env", "r")
+contents = f.readlines()
+localEnv = functools.reduce(parseEnvFile, contents, {})
+f.close()
 
 # Create `/bin` directory if it does not exist
 Path("./Godot/test").mkdir(exist_ok=True)
@@ -30,6 +42,14 @@ bits = 64
 # Updates the environment with the option variables.
 opts.Update(env)
 
+# Show the configurations
+print()
+print('[Env configuration]')
+print(f'Platform : {env["platform"]}')
+print(f'Target   : {env["target"]}')
+print(f'Export   : {env["export"]}')
+print()
+
 # Process some arguments
 if env['use_llvm']:
     env['CC'] = 'clang'
@@ -53,7 +73,7 @@ if env['platform'] == '':
 if env['export'] in ['y', 'yes']:
     rpath = '~/Applications/DefuseTheBomb.app/Contents/Frameworks/lib'
 elif env['export'] in ['n', 'no']:
-    rpath = '~/Development/contextproject/Godot/bin/osx/lib'
+    rpath = f'{localEnv["ROOT_REPO"]}/Godot/bin/osx/lib'
 
 # Check our platform specifics
 if env['platform'] == "osx":
