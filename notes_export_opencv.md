@@ -3,7 +3,7 @@
 What's interesting is that when libgdexample is loaded, it seems to look into `/usr/local/opt/opencv`.
 We can set a symlink here to point to our dependencies, it would work but it's inconvenient because of the following reasons:
 1. If an user decides to install opencv in the future, the symlink has already been set to point to our games dependencies.
-2. We'd have to check if the symlink already exists, if it does, overwriting it could be problematic for ohter programs needing opencv.
+2. We'd have to check if the symlink already exists, if it does, overwriting it could be problematic for other programs needing opencv.
 
 So the best is to figure out why this is exactly happening in the first place, if we can override where it should look for opencv that'd be great.
 Could **not** find it at the following places:
@@ -20,6 +20,10 @@ Interesting links:
 
 Rpath has been set to solve this issue.
 However, it seems as if the rpath setting does not carry over when shipping the game to a new machine, need to investigate whether this is actually the case, and if it is, how to solve it.
+
+`libgdexample.dylib` looks at the following locations to find `libopencv_alphamat.4.3.dylib`.
+1. `/usr/local/Cellar/opencv`
+2. `/usr/local/opt/lib`
 
 ```
 if env['export'] in ['y', 'yes']:
