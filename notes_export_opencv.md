@@ -29,6 +29,8 @@ So I'm now in the process of copying all of those libraries over and setting the
 1. Using an installer so that we can install all those dependencies at the end user in `/usr/local/cellar`, and that should also place the symlinks pointing to `/usr/local/opt`.
 2. Use some tool that can automaticcaly recover which dependencies are used, copy them over and set the right `LC_LOAD_DYLIB` (which would make the manual process that I'm doing now automatic).
 
+`otool -L <file>.dylib` gives an overview similar to `-l` but is much more condensed.
+
 ---
 
 # Libgdexample.dylib -> OpenCV dependency
