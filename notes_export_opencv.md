@@ -1,3 +1,36 @@
+Below is solved!
+https://stackoverflow.com/questions/2092378/macosx-how-to-collect-dependencies-into-a-local-bundle
+https://medium.com/@donblas/fun-with-rpath-otool-and-install-name-tool-e3e41ae86172
+
+Basically, if you'd run
+```
+$ otool -l libgdexample.dylib
+```
+You'd see a lot of
+```
+Load command 57
+          cmd LC_LOAD_DYLIB
+      cmdsize 72
+         name /usr/local/opt/lib/libopencv_videoio.4.3.dylib (offset 24)
+   time stamp 2 Thu Jan  1 01:00:02 1970
+      current version 4.3.0
+compatibility version 4.3.0
+```
+So, what you want to do is change that reference, for each opencv dependency that libgdexample.dylib points to. Below is an example to change the `LC_LOAD_DYLIB` for `libopencv_videoio`.
+```
+install_name_tool -change "/usr/local/opt/opencv/lib/libopencv_videoio.dylib" "@loader_path/lib/libopencv_videoio.dylib" libgdexample.dylib
+```
+
+Setting the right path towards each each opencv dependency is time consuming, so there's a script in `Godot/bin/osx/lib` that will do that for all of them.
+
+Now, we have a new problem, the opencv dependency in turn also uses dependencies installed in `/usr/local/opt`!
+
+So I'm now in the process of copying all of those libraries over and setting the right `LC_LOAD_DYLIB` for each path. But this is very time consuming. There are 2 alternative options to consider:
+1. Using an installer so that we can install all those dependencies at the end user in `/usr/local/cellar`, and that should also place the symlinks pointing to `/usr/local/opt`.
+2. Use some tool that can automaticcaly recover which dependencies are used, copy them over and set the right `LC_LOAD_DYLIB` (which would make the manual process that I'm doing now automatic).
+
+---
+
 # Libgdexample.dylib -> OpenCV dependency
 
 What's interesting is that when libgdexample is loaded, it seems to look into `/usr/local/opt/opencv`.

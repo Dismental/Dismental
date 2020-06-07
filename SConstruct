@@ -42,7 +42,7 @@ bits = 64
 # Updates the environment with the option variables.
 opts.Update(env)
 
-# Show the configurations
+# Show the configuration
 print()
 print('[Env configuration]')
 print(f'Platform : {env["platform"]}')
@@ -81,7 +81,7 @@ if env['platform'] == "osx":
     cpp_library += '.osx'
     if env['target'] in ('debug', 'd'):
         env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64', '-std=c++17'])
-        env.Append(LINKFLAGS=['-arch', 'x86_64', '-rpath', rpath])
+        env.Append(LINKFLAGS=['-arch', 'x86_64'])
     else:
         env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64', '-std=c++17'])
         env.Append(LINKFLAGS=['-arch', 'x86_64'])
