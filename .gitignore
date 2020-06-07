@@ -368,6 +368,7 @@ pip-selfcheck.json
 Godot/[Bb]in/*
 !Godot/[Bb]in/*.gdnlib
 !Godot/[Bb]in/*.gdns
+!Godot/[Bb]in/osx/
 build/*
 !build/CMakeLists.txt
 api.json

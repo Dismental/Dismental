@@ -31,6 +31,8 @@ So I'm now in the process of copying all of those libraries over and setting the
 
 `otool -L <file>.dylib` gives an overview similar to `-l` but is much more condensed.
 
+Tool to bundle dylibs: https://github.com/auriamg/macdylibbundler/
+
 ---
 
 # Libgdexample.dylib -> OpenCV dependency
