@@ -198,6 +198,15 @@ OSX.64=[
   "res://bin/osx/libssl.1.1.dylib",
   "res://bin/osx/libcrypto.1.1.dylib",
 
+  "res://bin/osx/libglib-2.0.0.dylib",
+  "res://bin/osx/libintl.8.dylib",
+  "res://bin/osx/libfreetype.6.dylib",
+  "res://bin/osx/libgraphite2.3.dylib",
+  "res://bin/osx/libgmp.10.dylib",
+  "res://bin/osx/libintl.8.dylib",
+  "res://bin/osx/libunistring.2.dylib",
+  "res://bin/osx/libffi.7.dylib",
+  "res://bin/osx/libjpeg.9.dylib",
 
   "res://bin/osx/libavcodec.58.54.100.dylib",
   "res://bin/osx/libavcodec.58.dylib",
