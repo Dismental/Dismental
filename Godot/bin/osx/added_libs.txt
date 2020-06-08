@@ -1,0 +1,2 @@
+res://bin/osx/libpcre.1.dylib
+res://bin/osx/libintl.8.dylib

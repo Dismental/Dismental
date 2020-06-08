@@ -208,6 +208,9 @@ OSX.64=[
   "res://bin/osx/libffi.7.dylib",
   "res://bin/osx/libjpeg.9.dylib",
 
+  "res://bin/osx/libpcre.1.dylib",
+  "res://bin/osx/libintl.8.dylib",
+
   "res://bin/osx/libavcodec.58.54.100.dylib",
   "res://bin/osx/libavcodec.58.dylib",
   "res://bin/osx/libavcodec.dylib",

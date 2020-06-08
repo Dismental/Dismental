@@ -32,6 +32,8 @@ for lib in dylibs:
 
     if (len(sys.argv) > 2 and sys.argv[2] == '-e'):
       # Add path that needs to be added ot .gdnlib
+      # This is not guaranteed, it might get skipped cause the lib already exists
+      # Need to check in .gdnlib for duplicates
       added.append(f"res://bin/osx/{target_lib_name}")
       subprocess.run(copy_cmd, shell=True)
       subprocess.run(change_LC_LOAD_DYLIB_cmd, shell=True)
