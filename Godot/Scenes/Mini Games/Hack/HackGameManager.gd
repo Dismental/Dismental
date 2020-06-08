@@ -85,12 +85,10 @@ remotesync func _spawn_labels(delta):
 			var rand = rand_range(0,100)
 			if i == collectable_index:
 				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
-#				_create_collectable_label(pos, _generate_random_char())
 				rpc("_create_collectable_label", pos, _generate_random_char())
 				
 			elif rand < 15:
 				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
-#				_create_label_node(pos, _generate_random_char())
 				rpc("_create_label_node", pos, _generate_random_char())
 
 
