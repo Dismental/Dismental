@@ -22,4 +22,5 @@ for (old, new) in paths:
   command = f"sudo install_name_tool -change {old} {new} {FILE}"
   print("--")
   print(command)
-  subprocess.run(command, shell=True)
+  if (sys.argv[2] == '-e'):
+    subprocess.run(command, shell=True)
