@@ -5,12 +5,13 @@ import sys
 # @TODO Change this path to something relative
 TO = "/Users/kevin/Development/contextproject/Godot/bin/osx/"
 NEW_LOCATION = "@loader_path/"
-dylibs = glob.glob(sys.argv[1])
 
 def command_to_list(cmd):
   arr = subprocess.check_output(cmd, shell=True).decode('utf-8').strip().split('\n')
   return list(map(lambda x: x.strip(), arr))
 
+# This command excludes symlinks
+dylibs = command_to_list("ls -ld " + sys.argv[1] + "| grep -v ^l | awk '{print $9}'")
 added = []
 
 for lib in dylibs:
