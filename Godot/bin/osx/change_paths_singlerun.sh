@@ -29,21 +29,30 @@
 #   while read i; do otool -L $i; done
 # } 
 
-ls -d *.dylib | {                     
-while read i; do echo $i; done    
-}
+# ls -d *.dylib | {                     
+# while read i; do echo $i; done    
+# }
 
 
-otool -L libopencv_dnn.4.3.0.dylib | grep ^/usr/loca/opt {
-  while read i; do echo "Ayay   $i"; done
-}
+# otool -L libopencv_dnn.4.3.0.dylib | grep ^/usr/loca/opt {
+#   while read i; do echo "Ayay   $i"; done
+# }
 
 
 
 # Find references to /usr/local/opt
-otool -L libopencv_dnn.4.3.0.dylib |
-tail -n +3 |
-grep "/usr/local/opt/" |
-cut -d' ' -f1 | {
-  while read i; do echo "install_name_tool -change $i"; done
-}
+# otool -L libopencv_dnn.4.3.0.dylib |
+# tail -n +3 |
+# grep "/usr/local/opt/" |
+# cut -d' ' -f1 | {
+#   while read i; do echo "install_name_tool -change $i"; done
+# }
+
+
+
+# Run otool -l on all .dylib files
+dylibs=($(ls -d libopencv*.4.3.0.dylib))
+for dylib in "${dylibs[@]}"; do
+  echo ""
+  otool -L $dylib
+done
