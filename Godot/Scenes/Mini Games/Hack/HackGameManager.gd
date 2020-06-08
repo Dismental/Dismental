@@ -1,8 +1,12 @@
 extends Node2D
 
+var num_of_collectables = 10
+var collectables_interval = 2
+var collectable_time = 0
+
 var screen_height = 1080
 var screen_width = 1920
-var label_sprites = []
+var kinematic_labels = []
 
 var char_width = 30
 
@@ -13,37 +17,59 @@ var padding_top_bottom = 40
 
 var row_height = (screen_height - 2 * padding_top_bottom) / rows
 
-
-
-var jump_time = 0.1
+var moving_speed = 10
 var cur_time = 0
-
-var particles = preload("res://Scenes/Mini Games/Hack/Particles2D.tscn")
 
 
 func _process(delta):
-	print(Engine.get_frames_per_second())
-	for s in label_sprites:
-		s.position.x += char_width * delta * (1 / jump_time)
+	_move_labels(delta)
+	_spawn_labels(delta)
+	_remove_labels()
+
+func _move_labels(delta):
+	for s in kinematic_labels:
+		s.position.x += char_width * delta * moving_speed
+
+func _spawn_labels(delta):
+	cur_time += delta
+	collectable_time += delta
 	
-	if cur_time >= jump_time:
+	if cur_time >= (1.0 / moving_speed):
 		cur_time = 0
-#			var rand = rand_range(0,100)
-#			if rand < 1:
-#
-#				s.get_node("Label").text = "a"
+		
+		var collectable_index = -1
+		
+		if collectable_time > collectables_interval:
+			collectable_time = 0
+			collectables_interval = rand_range(1.5, 6)
+			collectable_index = randi() % rows
 				
 		for i in range(rows):
 			var rand = rand_range(0,100)
-			if rand < 30:
-				_create_label(Vector2(-char_width, padding_top_bottom + row_height * i), _generate_random_char())
-	else:
-		cur_time += delta
+			if i == collectable_index:
+				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
+				_create_collectable_label(pos, _generate_random_char())
+				
+			elif rand < 15:
+				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
+				_create_label(pos, _generate_random_char())
+				
+
 	
-	_remove_labels()
-		
+	
+func _create_collectable_label(pos, text):
+	var kb = _create_label(pos, text)
+	kb.get_node("Label").set("custom_colors/font_color", Color(1,0,0))
+	var cs = CollisionShape2D.new()
+	cs.position = Vector2(15, 30)
+	var shape = RectangleShape2D.new()
+	shape.extents = Vector2(20, 20)
+	cs.shape = shape
+	kb.add_child(cs)
+	
+	
 func _create_label(pos, text):
-	var s = Sprite.new()
+	var s = KinematicBody2D.new()
 	s.position = pos
 	# s.add_child(particles.instance())
 	var label = Label.new()
@@ -53,12 +79,14 @@ func _create_label(pos, text):
 	label.set("custom_colors/font_color", Color(0,1,0))
 	s.add_child(label)
 	$LabelSprites.add_child(s)
-	label_sprites.append(s)
+	kinematic_labels.append(s)
+	return s
 
 
-func _genersate_random_text():
+func _genersate_random_text(min_length, max_length):
 	var res = ""
-	for _i in range(randi() % 16 + 4):
+	var num_of_chars = randi() % (max_length - min_length) + min_length
+	for _i in range(num_of_chars):
 		res += _generate_random_char()
 	return res
 
@@ -66,7 +94,7 @@ func _generate_random_char():
 	return char(randi() % 100 + 30)
 
 func _remove_labels():
-	for i in range(len(label_sprites) - 1, -1, -1):
-		if label_sprites[i].position.x > screen_width + char_width:
-			$LabelSprites.remove_child(label_sprites[i])
-			label_sprites.remove(i)
+	for i in range(len(kinematic_labels) - 1, -1, -1):
+		if kinematic_labels[i].position.x > screen_width + char_width:
+			$LabelSprites.remove_child(kinematic_labels[i])
+			kinematic_labels.remove(i)
