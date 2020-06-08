@@ -1,6 +1,7 @@
 extends Node2D
 
 puppet var puppet_mouse = Vector2()
+const Role = preload("res://Script/Role.gd")
 
 var num_of_collectables = 5
 var spawned_collectables = 0
@@ -9,31 +10,22 @@ var collectable_time = 0
 var collectables = []
 var collected = 0
 
-var screen_height = 1080
-var screen_width = 1920
 var normal_labels = []
 
+var screen_height = 1080
+var screen_width = 1920
 var char_width = 30
-
-var spawn_interval = 2
-
 var rows = 16
 var padding_top_bottom = 40
-
 var row_height = (screen_height - 2 * padding_top_bottom) / rows
 
 var moving_speed = 8
 var cur_time = 0
 
-onready var bar = $Bar
-
-const Role = preload("res://Script/Role.gd")
-
 var player_role
 var pointer_node
 
-var random_chars = []
-var random_char_index = 0
+onready var bar = $Bar
 
 func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
@@ -101,6 +93,8 @@ remotesync func _spawn_labels(delta):
 #				_create_label_node(pos, _generate_random_char())
 				rpc("_create_label_node", pos, _generate_random_char())
 
+
+# Creates the chars the user has to collect
 remotesync func _create_collectable_label(pos, text):
 	var kb = KinematicBody2D.new()
 	kb.position = pos
@@ -120,14 +114,16 @@ remotesync func _create_collectable_label(pos, text):
 	collectables.append(kb)
 
 	$LabelNodes.add_child(kb)
-	
+
+# Creates a normal char without collision detection
 remotesync func _create_label_node(pos, text):
 	var s = Node2D.new()
 	s.position = pos
 	s.add_child(_create_label(text))
 	$LabelNodes.add_child(s)
 	normal_labels.append(s)
-	
+
+# Creates a label with the given text in the coding font style
 func _create_label(text):
 	var label = Label.new()
 	label.name = "Label"
@@ -137,6 +133,7 @@ func _create_label(text):
 	return label
 
 
+# Generates a random string
 func _genersate_random_text(min_length, max_length):
 	var res = ""
 	var num_of_chars = randi() % (max_length - min_length) + min_length
@@ -147,6 +144,7 @@ func _genersate_random_text(min_length, max_length):
 func _generate_random_char():
 	return char(randi() % 100 + 30)
 
+# Checks if label is off-screen and removes it if true
 func _remove_labels():
 	for i in range(len(normal_labels) - 1, -1, -1):
 		if normal_labels[i].position.x > screen_width + char_width:
@@ -154,7 +152,6 @@ func _remove_labels():
 			normal_labels.remove(i)
 
 func _get_input_pos():
-#	return get_viewport().get_mouse_position()
 	var cursorpos
 	if player_role == Role.DEFUSER:
 		cursorpos = pointer_node.position
@@ -163,25 +160,37 @@ func _get_input_pos():
 		cursorpos = puppet_mouse
 	return cursorpos
 	
-
+# 'Pong' Bar entered
 func _on_Bar_body_entered(body):
 	if player_role == Role.DEFUSER:
 		rpc("_collected_body", collectables.find(body))
 		if collected == num_of_collectables:
 			rpc("_game_completed")
 
+# Called when a collectable char is collected
 remotesync func _collected_body(i):
 	collected += 1
-	$ProgressLabel.text = "Progress: " + str((float(collected ) / float(num_of_collectables)) * 100) + "%"
+	_update_progress_label()
 	$LabelNodes.remove_child(collectables[i])
 	collectables.remove(i)
 
+# Called when a collectable char hits the offscreen area box
 func _on_GameOver_body_entered(body):
 	if player_role == Role.DEFUSER:
 		rpc("_game_over")
 	
+
+func _update_progress_label():
+	var percentage_collected = 100 * float(collected) / float(num_of_collectables)
+	$ProgressLabel.text = "Progress: " + str(percentage_collected) + "%"
+		
 remotesync func _game_completed():
 	get_parent().remove_child(self)
 	
+
 remotesync func _game_over():
-	pass
+	#TODO add gamelogic for gameover
+	print("GAME OVER")
+	get_parent().remove_child(self)
+
+	
