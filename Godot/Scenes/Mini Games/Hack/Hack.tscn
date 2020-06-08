@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/Mini Games/Hack/HackGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Fonts/Inconsolata/static/Inconsolata-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Fonts/Inconsolata/static/Inconsolata-Bold.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="ParticlesMaterial" id=1]
 emission_shape = 2
@@ -26,6 +27,10 @@ extents = Vector2( 30, 110 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 10, 540 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 50
+font_data = ExtResource( 3 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -77,5 +82,16 @@ position = Vector2( 1930, 540 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GameOver"]
 shape = SubResource( 4 )
+
+[node name="ProgressLabel" type="Label" parent="."]
+margin_left = 31.8519
+margin_top = 28.0077
+margin_right = 71.8519
+margin_bottom = 42.0077
+custom_fonts/font = SubResource( 5 )
+text = "Progress: 0%"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="body_entered" from="Bar" to="." method="_on_Bar_body_entered"]
 [connection signal="body_entered" from="GameOver" to="." method="_on_GameOver_body_entered"]
