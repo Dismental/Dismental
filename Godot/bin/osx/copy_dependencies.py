@@ -25,7 +25,7 @@ for lib in dylibs:
   paths = list(zip(clean, new_paths))
   for (file, new_location) in paths:
     target_lib_name = new_location.split('/')[-1]
-    copy_cmd = f"sudo cp {file} {TO}"
+    copy_cmd = f"sudo cp -n {file} {TO}" # -n means no overwrite
     change_LC_LOAD_DYLIB_cmd = f"sudo install_name_tool -change {file} {new_location} {lib}"
     print(copy_cmd)
     print(change_LC_LOAD_DYLIB_cmd)
