@@ -1,19 +1,30 @@
 import glob, subprocess, sys, os, argparse
 from os import path
 
-###
-# This script will do the following three things
-# 1.  For all .dylib files (excluding symlinks), look for any LC_LOAD_DYLIB's that start with the given PREFIX.
-# 2.  For those LC_LOAD_DYLIB's that start with the PREFIX, look whether the file that it points to already exists in the current directory that the script is running from.
-#     For example, if you have a PREFIX=/usr/local/opt and if you have a LC_LOAD_DYLIB="/usr/local/opt/ffmpeg/processimg.dylib" on a certain .dylib file,
-#     this script will check if processimg.dylib exists in the current directory.
-#     2.1.  If it does exist, it won't copy the dylib, skip to step 3.
-#     2.2.  If it does not exist, it will copy the .dylib over from the location mentioned in LC_LOAD_DYLIB to the current directory.
-#           It will also append a line "res://bin/osx/lib/processimg.dylib" to added_libs.txt, the lines added there are meant to be copied to .gdnlib. Once that's done, the .txt file should cleared.
-# 3.  After this, it will change the LC_LOAD_DYLIB path to @loader_path/processimg.dylib.
-#
-# Run `python copy_dependencies.py -h` for information on the arguments you can pass.
-###
+"""
+This script will do the following three things
+1.  For all .dylib files (excluding symlinks), look for any LC_LOAD_DYLIB's that start with the given PREFIX.
+2.  For those LC_LOAD_DYLIB's that start with the PREFIX, look whether the file that it points to already exists in the current directory that the script is running from.
+    For example, if you have a PREFIX=/usr/local/opt and if you have a LC_LOAD_DYLIB="/usr/local/opt/ffmpeg/processimg.dylib" on a certain .dylib file,
+    this script will check if processimg.dylib exists in the current directory.
+    2.1.  If it does exist, it won't copy the dylib, skip to step 3.
+    2.2.  If it does not exist, it will copy the .dylib over from the location mentioned in LC_LOAD_DYLIB to the current directory.
+          It will also append a line "res://bin/osx/lib/processimg.dylib" to added_libs.txt, the lines added there are meant to be copied to .gdnlib. Once that's done, the .txt file should cleared.
+3.  After this, it will change the LC_LOAD_DYLIB path to @loader_path/processimg.dylib.
+
+Run `python copy_dependencies.py -h` for information on the arguments you can pass.
+
+Examples:
+```
+# To check what commands this script will execute, on all libs that have a path that starts with the prefix
+python copy_dependencies.py -prefix "/usr/local/opt/" -glob "*.dylib"
+```
+
+```
+# Will run the same as above, but will actually execute the commands
+python copy_dependencies.py -prefix "/usr/local/opt/" -glob "*.dylib" -e
+```
+"""
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-glob', help='the files that this script should look into',type=str)
@@ -42,6 +53,9 @@ for lib in dylibs:
   new_paths = list(map(lambda x: f"{NEW_LOCATION}{x.split('/')[-1]}", clean))
   paths = list(zip(clean, new_paths))
   
+  if (not paths):
+    print(f"No paths found that started with the prefix: {args.prefix}")
+
   for (file, new_location) in paths:
     target_lib_name = new_location.split('/')[-1]
     copy_cmd = f"sudo cp -n {file} {TO}" # -n means no overwrite
