@@ -15,4 +15,33 @@ OSX.64="res://bin/osx/libgdexample.dylib"
 
 X11.64=[  ]
 Windows.64=[  ]
-OSX.64=[ "res://bin/osx/lib/libopencv_core.4.3.0.dylib", "res://bin/osx/lib/libopencv_core.4.3.dylib", "res://bin/osx/lib/libopencv_core.dylib", "res://bin/osx/lib/libopencv_highgui.4.3.0.dylib", "res://bin/osx/lib/libopencv_highgui.4.3.dylib", "res://bin/osx/lib/libopencv_highgui.dylib", "res://bin/osx/lib/libopencv_imgproc.4.3.0.dylib", "res://bin/osx/lib/libopencv_imgproc.4.3.dylib", "res://bin/osx/lib/libopencv_imgproc.dylib", "res://bin/osx/lib/libopencv_objdetect.4.3.0.dylib", "res://bin/osx/lib/libopencv_objdetect.4.3.dylib", "res://bin/osx/lib/libopencv_objdetect.dylib", "res://bin/osx/lib/libopencv_tracking.4.3.0.dylib", "res://bin/osx/lib/libopencv_tracking.4.3.dylib", "res://bin/osx/lib/libopencv_tracking.dylib", "res://bin/osx/lib/libopencv_videoio.4.3.0.dylib", "res://bin/osx/lib/libopencv_videoio.4.3.dylib", "res://bin/osx/lib/libopencv_videoio.dylib" ]
+OSX.64=[
+  "res://bin/osx/lib/libblas.dylib",
+  "res://bin/osx/lib/liblapack.dylib",
+  "res://bin/osx/lib/libopenblas.0.dylib",
+  "res://bin/osx/lib/libopenblas.dylib",
+  "res://bin/osx/lib/libopenblasp-r0.3.9.dylib",
+
+  "res://bin/osx/lib/libceres.dylib",
+  "res://bin/osx/lib/libceres.1.14.0.dylib",
+  "res://bin/osx/lib/libceres.1.dylib",
+
+  "res://bin/osx/lib/libopencv_core.4.3.0.dylib",
+  "res://bin/osx/lib/libopencv_core.4.3.dylib",
+  "res://bin/osx/lib/libopencv_core.dylib",
+  "res://bin/osx/lib/libopencv_highgui.4.3.0.dylib",
+  "res://bin/osx/lib/libopencv_highgui.4.3.dylib",
+  "res://bin/osx/lib/libopencv_highgui.dylib",
+  "res://bin/osx/lib/libopencv_imgproc.4.3.0.dylib",
+  "res://bin/osx/lib/libopencv_imgproc.4.3.dylib",
+  "res://bin/osx/lib/libopencv_imgproc.dylib",
+  "res://bin/osx/lib/libopencv_objdetect.4.3.0.dylib",
+  "res://bin/osx/lib/libopencv_objdetect.4.3.dylib",
+  "res://bin/osx/lib/libopencv_objdetect.dylib",
+  "res://bin/osx/lib/libopencv_tracking.4.3.0.dylib",
+  "res://bin/osx/lib/libopencv_tracking.4.3.dylib",
+  "res://bin/osx/lib/libopencv_tracking.dylib",
+  "res://bin/osx/lib/libopencv_videoio.4.3.0.dylib",
+  "res://bin/osx/lib/libopencv_videoio.4.3.dylib",
+  "res://bin/osx/lib/libopencv_videoio.dylib"
+]
