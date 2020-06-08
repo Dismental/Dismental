@@ -54,12 +54,11 @@ for lib in dylibs:
     print(change_LC_LOAD_DYLIB_cmd)
 
     if (args.e):
-      # Add path that needs to be added ot .gdnlib
       if not lib_exists:
+        # Append path to .txt that needs to be copied to .gdnlib
         added.append(f"res://bin/osx/{target_lib_name}")
         subprocess.run(copy_cmd, shell=True)
       subprocess.run(change_LC_LOAD_DYLIB_cmd, shell=True)
-
 
 # Write added files to .txt
 # so that we can add them to dylib afterwards
