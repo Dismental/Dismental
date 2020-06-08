@@ -164,8 +164,6 @@ OSX.64=[
   "res://bin/osx/libsoxr.0.dylib",
   "res://bin/osx/liblept.5.dylib",
   "res://bin/osx/libogg.0.dylib",
-  "res://bin/osx/libogg.0.dylib",
-  "res://bin/osx/libogg.0.dylib",
 
   "res://bin/osx/libfreetype.6.dylib",
   "res://bin/osx/libfribidi.0.dylib",

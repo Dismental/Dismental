@@ -50,8 +50,8 @@
 
 
 
-# Run otool -l on all .dylib files
-dylibs=($(ls -d libopencv*.4.3.0.dylib))
+# Run otool -L on all .dylib files
+dylibs=($(ls -d *.dylib))
 for dylib in "${dylibs[@]}"; do
   echo ""
   otool -L $dylib
