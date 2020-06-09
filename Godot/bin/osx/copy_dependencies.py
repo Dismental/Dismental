@@ -45,25 +45,33 @@ for lib in dylibs:
   # Remove first 2 lines, first line is filename, second is reference to itself
   output = command_to_list(f'otool -L {lib}')[2:]
   starts_with_prefix = list(filter(lambda x: x.startswith(args.prefix), output))
+  # Remove additional info such as compatibility - & current version
   clean = list(map(lambda x: x.split(' ')[0], starts_with_prefix))
+  # Construct an array of the new desired paths that LC_LOAD_DYLIB should point to
   new_paths = list(map(lambda x: f"{NEW_LOCATION}{x.split('/')[-1]}", clean))
+  # Pair each old path with the new one, to iterate over as seen later
   paths = list(zip(clean, new_paths))
   
+  # If paths is empty, it means the script won't do anything to this lib.
+  # Add it to the omitted array so we can enlist at the end of the session
+  # what files have been checked, but no commands were executed for.
   if (not paths):
     omitted.append(lib)
-    # print(f"No paths found that started with the prefix: {args.prefix}")
 
+  # If it does contain paths, print out the current lib before printing the commands
   if paths:
     print()
     print(lib)
   
+  # For each combination, construct the commands and print them.
+  # If the e flag is turned on, the commands will be executed.
   for (file, new_location) in paths:
     target_lib_name = new_location.split('/')[-1]
     copy_cmd = f"sudo cp -n {file} {TO}" # -n means no overwrite
     change_LC_LOAD_DYLIB_cmd = f"sudo install_name_tool -change {file} {new_location} {lib}"
     lib_exists = path.exists(f"{TO}/{target_lib_name}")
     print('--')
-    print("Lib already exists in our /lib: " + str(lib_exists))
+    print("Targeted lib already exists in our /lib: " + str(lib_exists))
     if not lib_exists:
       print(copy_cmd)
     print(change_LC_LOAD_DYLIB_cmd)
