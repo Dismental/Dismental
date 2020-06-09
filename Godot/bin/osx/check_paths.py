@@ -1,5 +1,6 @@
 import glob, subprocess, sys, os, argparse
 from os import path
+from utils import command_to_list, cleanOtool, startsWithAny, getFile
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-glob', help='the files that this script should look into',type=str)
@@ -18,32 +19,13 @@ python check_paths.py -prefix "@loader_path/" "/usr/lib" "/System/Library" "@rpa
 ```
 """
 
-def command_to_list(cmd):
-  arr = subprocess.check_output(cmd, shell=True).decode('utf-8').strip().split('\n')
-  return list(map(lambda x: x.strip(), arr))
-
-def cleanOtool(output_otool):
-  # Remove first 2 lines, first line is filename, second is reference to itself
-  removed_headers = output_otool[2:]
-  # Remove additional info such as compatibility - & current version
-  return list(map(lambda x: x.split(' ')[0], removed_headers))
-
-def startsWithAny(str):
-  for prefix in args.prefix:
-    if str.startswith(prefix):
-      return True
-  return False
-
-def getFile(path):
-  return path.split('/')[-1]
-
 # Look up all the files that match the glob, symlinks excluded
 dylibs = command_to_list("ls -ld " + args.glob + "| grep -v ^l | awk '{print $9}'")
 
 files = []
 for lib in dylibs:
   output = cleanOtool(command_to_list(f'otool -L {lib}'))
-  filtered = list(filter(lambda x: not startsWithAny(x) if args.n else startsWithAny(x), output))
+  filtered = list(filter(lambda x: not startsWithAny(x, args.prefix) if args.n else startsWithAny(x, args.prefix), output))
   
   print()
   print(lib)
@@ -54,6 +36,7 @@ for lib in dylibs:
     if path not in files:
       files.append(path)
   
-print("These files are required")
+print()
+print("These files are required:")
 print(files)
   
