@@ -4,7 +4,7 @@ puppet var puppet_mouse = Vector2()
 const Role = preload("res://Script/Role.gd")
 
 var password = "Test"
-var debug = false
+var online = true
 
 var num_of_collectables
 var spawned_collectables = 0
@@ -102,7 +102,7 @@ remotesync func _spawn_labels(delta):
 			if i == collectable_index:
 				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
 				
-				if !debug:
+				if online:
 					rpc("_create_collectable_label", pos, password[spawned_collectables])
 				else:
 					_create_collectable_label(pos,  password[spawned_collectables])
@@ -110,7 +110,7 @@ remotesync func _spawn_labels(delta):
 					
 			elif rand < 15:
 				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
-				if !debug:
+				if online:
 					rpc("_create_label_node", pos, _generate_random_char())
 				else:
 					_create_label_node(pos, _generate_random_char())
@@ -122,10 +122,9 @@ remotesync func _create_collectable_label(pos, text):
 	kb.position = pos
 	
 	var label = _create_label(text)
-	if player_role == Role.SUPERVISOR:
+	if player_role == Role.SUPERVISOR or not online:
 		label.set("custom_colors/font_color", Color(1,0,0))
-	if debug:
-		label.set("custom_colors/font_color", Color(0,0,1))
+
 	kb.add_child(label)
 	
 	var cs = CollisionShape2D.new()
@@ -176,7 +175,7 @@ func _remove_labels():
 			normal_labels.remove(i)
 
 func _get_input_pos():
-	if debug:
+	if not online:
 		return get_viewport().get_mouse_position()
 		
 	var cursorpos
@@ -189,7 +188,7 @@ func _get_input_pos():
 	
 # 'Pong' Bar entered
 func _on_Bar_body_entered(body):
-	if !debug:
+	if online:
 		if player_role == Role.DEFUSER:
 			rpc("_collected_body", collectables.find(body))
 			if collected == num_of_collectables:
@@ -210,7 +209,7 @@ remotesync func _collected_body(i):
 # Called when a collectable char hits the offscreen area box
 func _on_GameOver_body_entered(body):
 	if player_role == Role.DEFUSER:
-		if !debug:
+		if online:
 			rpc("_game_over")
 		else:
 			_game_over()
