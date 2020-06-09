@@ -210,7 +210,10 @@ remotesync func _collected_body(i):
 # Called when a collectable char hits the offscreen area box
 func _on_GameOver_body_entered(body):
 	if player_role == Role.DEFUSER:
-		rpc("_game_over")
+		if !debug:
+			rpc("_game_over")
+		else:
+			_game_over()
 	
 
 		
