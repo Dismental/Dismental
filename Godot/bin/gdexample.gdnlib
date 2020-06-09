@@ -172,4 +172,6 @@ OSX.64=[
   "res://bin/osx/lib/libwebpmux.3.dylib",
   "res://bin/osx/lib/libx264.159.dylib",
   "res://bin/osx/lib/libx265.188.dylib",
+
+  "res://bin/osx/libgcc_s.1.dylib",
 ]

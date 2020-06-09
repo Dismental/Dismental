@@ -42,10 +42,8 @@ NEW_LOCATION = "@loader_path/"
 dylibs = command_to_list("ls -ld " + args.glob + "| grep -v ^l | awk '{print $9}'")
 
 added = []
+omitted = []
 for lib in dylibs:
-  print()
-  print(lib)
-
   # Remove first 2 lines, first line is filename, second is reference to itself
   output = command_to_list(f'otool -L {lib}')[2:]
   starts_with_prefix = list(filter(lambda x: x.startswith(args.prefix), output))
@@ -54,13 +52,18 @@ for lib in dylibs:
   paths = list(zip(clean, new_paths))
   
   if (not paths):
-    print(f"No paths found that started with the prefix: {args.prefix}")
+    omitted.append(lib)
+    # print(f"No paths found that started with the prefix: {args.prefix}")
 
+  if paths:
+    print()
+    print(lib)
+  
   for (file, new_location) in paths:
     target_lib_name = new_location.split('/')[-1]
     copy_cmd = f"sudo cp -n {file} {TO}" # -n means no overwrite
     change_LC_LOAD_DYLIB_cmd = f"sudo install_name_tool -change {file} {new_location} {lib}"
-    lib_exists = path.exists(f"{TO}{target_lib_name}")
+    lib_exists = path.exists(f"{TO}/{target_lib_name}")
     print('--')
     print("Lib already exists in our /lib: " + str(lib_exists))
     if not lib_exists:
@@ -73,6 +76,10 @@ for lib in dylibs:
         added.append(f"res://bin/osx/{target_lib_name}")
         subprocess.run(copy_cmd, shell=True)
       subprocess.run(change_LC_LOAD_DYLIB_cmd, shell=True)
+
+print()
+print("Scanned the following files as well, but did not find the given prefix.")
+print(omitted)
 
 # Write added files to .txt
 # so that we can add them to dylib afterwards
