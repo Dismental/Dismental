@@ -83,7 +83,7 @@ position = Vector2( 1930, 540 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GameOver"]
 shape = SubResource( 4 )
 
-[node name="ProgressLabel" type="Label" parent="."]
+[node name="PasswordLabel" type="Label" parent="."]
 margin_left = 31.8519
 margin_top = 28.0077
 margin_right = 71.8519

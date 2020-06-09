@@ -3,7 +3,10 @@ extends Node2D
 puppet var puppet_mouse = Vector2()
 const Role = preload("res://Script/Role.gd")
 
-var num_of_collectables = 5
+var password = "Test"
+var debug = false
+
+var num_of_collectables
 var spawned_collectables = 0
 var collectables_interval = 2
 var collectable_time = 0
@@ -26,9 +29,13 @@ var player_role
 var pointer_node
 
 onready var bar = $Bar
+onready var password_label = $PasswordLabel
 
 func _ready():
+	num_of_collectables = len(password)
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
+	player_role = Role.DEFUSER
+	_update_password_label()
 	randomize()
 	
 	if player_role == Role.DEFUSER:
@@ -53,6 +60,16 @@ func _process(delta):
 	if fps % 20 == 0:
 		_remove_labels()
 
+func _update_password_label():
+	var text = ""
+	for i in range(len(password)):
+		if i < collected:
+			text += password[i]
+		else:
+			text += "*"
+	password_label.text = text
+	
+
 func _move_bar():
 	var input = _get_input_pos()
 	bar.position.y = input.y
@@ -76,7 +93,6 @@ remotesync func _spawn_labels(delta):
 		var collectable_index = -1
 		
 		if collectable_time > collectables_interval and spawned_collectables < num_of_collectables:
-			spawned_collectables += 1
 			collectable_time = 0
 			collectables_interval = rand_range(2, 6)
 			collectable_index = randi() % rows
@@ -85,11 +101,19 @@ remotesync func _spawn_labels(delta):
 			var rand = rand_range(0,100)
 			if i == collectable_index:
 				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
-				rpc("_create_collectable_label", pos, _generate_random_char())
 				
+				if !debug:
+					rpc("_create_collectable_label", pos, password[spawned_collectables])
+				else:
+					_create_collectable_label(pos,  password[spawned_collectables])
+				spawned_collectables += 1
+					
 			elif rand < 15:
 				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
-				rpc("_create_label_node", pos, _generate_random_char())
+				if !debug:
+					rpc("_create_label_node", pos, _generate_random_char())
+				else:
+					_create_label_node(pos, _generate_random_char())
 
 
 # Creates the chars the user has to collect
@@ -100,6 +124,8 @@ remotesync func _create_collectable_label(pos, text):
 	var label = _create_label(text)
 	if player_role == Role.SUPERVISOR:
 		label.set("custom_colors/font_color", Color(1,0,0))
+	if debug:
+		label.set("custom_colors/font_color", Color(0,0,1))
 	kb.add_child(label)
 	
 	var cs = CollisionShape2D.new()
@@ -150,6 +176,9 @@ func _remove_labels():
 			normal_labels.remove(i)
 
 func _get_input_pos():
+	if debug:
+		return get_viewport().get_mouse_position()
+		
 	var cursorpos
 	if player_role == Role.DEFUSER:
 		cursorpos = pointer_node.position
@@ -160,15 +189,21 @@ func _get_input_pos():
 	
 # 'Pong' Bar entered
 func _on_Bar_body_entered(body):
-	if player_role == Role.DEFUSER:
-		rpc("_collected_body", collectables.find(body))
+	if !debug:
+		if player_role == Role.DEFUSER:
+			rpc("_collected_body", collectables.find(body))
+			if collected == num_of_collectables:
+				rpc("_game_completed")
+	else:
+		_collected_body(collectables.find(body))
 		if collected == num_of_collectables:
-			rpc("_game_completed")
-
+			print("Game completed")
+			_game_completed()
+			
 # Called when a collectable char is collected
 remotesync func _collected_body(i):
 	collected += 1
-	_update_progress_label()
+	_update_password_label()
 	$LabelNodes.remove_child(collectables[i])
 	collectables.remove(i)
 
@@ -178,9 +213,6 @@ func _on_GameOver_body_entered(body):
 		rpc("_game_over")
 	
 
-func _update_progress_label():
-	var percentage_collected = 100 * float(collected) / float(num_of_collectables)
-	$ProgressLabel.text = "Progress: " + str(percentage_collected) + "%"
 		
 remotesync func _game_completed():
 	get_parent().remove_child(self)
