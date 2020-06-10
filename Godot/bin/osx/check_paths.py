@@ -3,8 +3,8 @@ from os import path
 from utils import command_to_list, cleanOtool, startsWithAny, getFile
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-glob', help='the files that this script should look into',type=str)
-parser.add_argument('-prefix', nargs='+', help='the prefix this script should look for', type=str)
+parser.add_argument('-glob', help='the files that this script should look into (defaults to checking all .dylib files)', type=str, default="*.dylib")
+parser.add_argument('-prefix', nargs='+', help='the prefix(es) this script should look for', type=str)
 parser.add_argument('-n', help='if the prefix should or should not match, if this flag is turned on, it will not match', action='store_true')
 args=parser.parse_args()
 
@@ -37,6 +37,7 @@ for lib in dylibs:
       files.append(path)
   
 print()
-print("These files are required:")
-print(files)
-  
+print("These files are required")
+print("---")
+for file in files:
+  print(file)
