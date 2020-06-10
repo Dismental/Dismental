@@ -32,7 +32,6 @@ for lib in dylibs:
   print("---")
   for path in filtered:
     print(path)
-    # file = getFile(path)
     if path not in files:
       files.append(path)
   
