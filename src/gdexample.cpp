@@ -61,9 +61,16 @@ void GDExample::_init() {
     // TODO get .xml from res:// instead of a hardcoded path
     std::string path = "../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml";
     if(!face_cascase.load(path)) {
-        path = get_env_var("HOME") + "/Applications/DefuseTheBomb.app/Contents/Resources/haarcascade_frontalface_default.xml";
-        std::cout << path << std::endl;
-        cerr << "Error XML!!" << endl;
+        // Load XML file in from the game being installed at the root applications
+        path = "/Applications/Dismental.app/Contents/Resources/haarcascade_frontalface_default.xml";
+        if (!face_cascase.load(path)) {
+            // If not found there, load from ~/Applications
+            path = get_env_var("HOME") + "/Applications/Dismental.app/Contents/Resources/haarcascade_frontalface_default.xml";
+            // If still not found, cout error
+            if (!face_cascase.load(path)) {
+                cerr << "Error XML!!" << endl;
+            }
+        }
     }
     
     detector.setVideoCapture(camera);
