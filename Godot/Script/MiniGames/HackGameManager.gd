@@ -1,6 +1,7 @@
 extends Node2D
 
 puppet var puppet_mouse = Vector2()
+
 const Role = preload("res://Script/Role.gd")
 
 var password = "Test"
@@ -34,7 +35,6 @@ onready var password_label = $PasswordLabel
 func _ready():
 	num_of_collectables = len(password)
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
-	player_role = Role.DEFUSER
 	_update_password_label()
 	randomize()
 	
