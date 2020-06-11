@@ -21,7 +21,7 @@ func _ready():
 			rings.append(node)
 		else:
 			node.visible = false
-			get_parent().call_deferred("remove_child", node)
+			call_deferred("remove_child", node)
 		
 	_create_timer()		
 	
@@ -62,7 +62,11 @@ func _assign_random_rings():
 		options.append(x)
 	options.shuffle()
 
-	var num_of_players = len(get_tree().get_network_connected_peers()) + 1
+	var num_of_players
+	if debug:
+		num_of_players = 1
+	else:
+		num_of_players = len(get_tree().get_network_connected_peers()) + 1
 	
 	var random_index = []
 	var id = 0
