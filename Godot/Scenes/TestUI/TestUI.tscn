@@ -1,0 +1,282 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Fonts/ds_digital.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Scenes/TestUI/TestUI.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/TestUI/ObserversPanel.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/TestUI/Timer.gd" type="Script" id=5]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0.207843, 0.207843, 0.207843, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id=2]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_detail = 1
+
+[sub_resource type="ShaderMaterial" id=4]
+
+[sub_resource type="StyleBoxFlat" id=5]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 0.0
+content_margin_bottom = 0.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[node name="Control" type="Control"]
+margin_left = 1.28068
+margin_top = -0.935784
+margin_right = 1.28076
+margin_bottom = -0.935791
+rect_min_size = Vector2( 1920, 1080 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+anchor_left = -0.000507863
+anchor_top = 0.000902868
+anchor_right = -0.000507863
+anchor_bottom = 0.000902868
+margin_left = 400.0
+margin_top = 400.0
+margin_right = 540.0
+margin_bottom = 436.0
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "BUTTON"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 167.248
+margin_top = 516.836
+margin_right = 289.248
+margin_bottom = 561.836
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+text = "LABEL"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="."]
+anchor_left = -0.000536283
+anchor_right = 0.0807137
+anchor_bottom = 0.0518519
+margin_left = 259.588
+margin_top = 280.884
+margin_right = 341.588
+margin_bottom = 315.884
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+text = "77354"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ObserversPanel" type="PanelContainer" parent="."]
+margin_left = 200.0
+margin_top = 20.0
+margin_right = 576.0
+margin_bottom = 140.0
+rect_clip_content = true
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 3 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="ObserversPanel"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 372.0
+margin_bottom = 116.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ObserversPanel/MarginContainer"]
+modulate = Color( 0.156863, 0.156863, 0.156863, 1 )
+material = SubResource( 4 )
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 348.0
+margin_bottom = 96.0
+custom_constants/separation = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="ObserversPanel/MarginContainer/HBoxContainer"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 76.0
+margin_bottom = 76.0
+rect_min_size = Vector2( 76, 76 )
+
+[node name="ColorRect2" type="ColorRect" parent="ObserversPanel/MarginContainer/HBoxContainer"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 88.0
+margin_right = 160.0
+margin_bottom = 76.0
+rect_min_size = Vector2( 72, 72 )
+
+[node name="ColorRect3" type="ColorRect" parent="ObserversPanel/MarginContainer/HBoxContainer"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 172.0
+margin_right = 244.0
+margin_bottom = 76.0
+rect_min_size = Vector2( 72, 72 )
+
+[node name="ColorRect4" type="ColorRect" parent="ObserversPanel/MarginContainer/HBoxContainer"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 256.0
+margin_right = 328.0
+margin_bottom = 76.0
+rect_min_size = Vector2( 72, 72 )
+
+[node name="OperatorPanel" type="PanelContainer" parent="."]
+margin_left = 12.1303
+margin_top = 20.1029
+margin_right = 188.13
+margin_bottom = 196.103
+rect_clip_content = true
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 3 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="OperatorPanel"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 172.0
+margin_bottom = 172.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OperatorPanel/MarginContainer"]
+modulate = Color( 0.156863, 0.156863, 0.156863, 1 )
+material = SubResource( 4 )
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 148.0
+margin_bottom = 148.0
+custom_constants/separation = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="OperatorPanel/MarginContainer/HBoxContainer"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+
+[node name="Timer" type="PanelContainer" parent="."]
+margin_left = 1672.85
+margin_top = 939.289
+margin_right = 1908.85
+margin_bottom = 1068.29
+rect_clip_content = true
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 3 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Timer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 232.0
+margin_bottom = 125.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="Timer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 208.0
+margin_bottom = 101.0
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+text = "10:00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="."]
+anchor_top = 0.000517669
+anchor_bottom = 0.000517669
+margin_left = 335.221
+margin_top = 12.5345
+margin_right = 455.221
+margin_bottom = 37.5345
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+text = "OBSERVERS"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 43.2833
+margin_top = 11.818
+margin_right = 157.283
+margin_bottom = 36.818
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+text = "OPERATOR"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
