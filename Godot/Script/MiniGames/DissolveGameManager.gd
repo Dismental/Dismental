@@ -431,7 +431,6 @@ func _on_vacuum_entered():
 		rpc("_vacuum_entered")
 
 remotesync func _on_game_completed():
-	print("Remove self")
 	get_parent().remove_child(self)
 	
 remotesync func _on_game_over():
