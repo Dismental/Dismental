@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 var debug = false
 
@@ -30,12 +30,17 @@ var ring_count = {
 var num_of_players
 var num_of_rings
 
+var random_input_factor
+
 onready var timer_label = get_node("Timer")
 
 
-
 func _ready():
+	randomize()
+	random_input_factor = randf() + 1
+	
 	num_of_players = _count_num_of_players()
+	print("Num of players: " + str(num_of_players))
 	num_of_rings = ring_count[num_of_players]
 	_init_rings()
 	_set_ring_scale()
@@ -60,10 +65,10 @@ func _process(delta):
 		timer_label.text = str(int(round(timer.get_time_left())))
 		_sync_rotate_rings()
 		
-	if debug or get_tree().is_network_server():
-		if _check_completion():
-			if debug: _game_completed()
-			else: rpc("_game_completed")
+		if debug or get_tree().is_network_server():
+			if _check_completion():
+				if debug: _game_completed()
+				else: rpc("_game_completed")
 
 
 func _init_rings():
@@ -85,13 +90,18 @@ func _count_num_of_players():
 
 func _sync_rotate_rings():
 	var input_pos = _get_input_pos()
-	var ratio = input_pos.x /  get_viewport_rect().size.x 
-	ratio = clamp(ratio, 0, 1)
-	
-	var degrees = fmod(ratio * 360.0, 360)
+	if input_pos.x > get_viewport_rect().size.x:
+		input_pos.x = get_viewport_rect().size.x
+	elif input_pos.x < 0:
+		input_pos.x = 0
+		
+	var ratio = input_pos.x /  (get_viewport_rect().size.x / random_input_factor)
+
+	var degrees = fmod(ratio * 360.0 + 180, 360)
 	if degrees < 0:
 		degrees += 360	
-	rpc("_rotate_ring", controlled_ring_index, degrees)
+	if debug: _rotate_ring(controlled_ring_index, degrees)
+	else: rpc("_rotate_ring", controlled_ring_index, degrees)
 	
 remotesync func _rotate_ring(ring_i, degrees):
 	var r = rings[ring_i]
@@ -143,9 +153,9 @@ remotesync func _start_game():
 	
 func _sync_set_random_angles():
 	var lst = []
-	for x in range(num_of_rings):
-		lst.append(randi() % 280 + 40)
-	
+	for _x in rings:
+		lst.append((randi() % 280) + 40)
+	print("Random angles: " + str(lst))
 	if debug: _set_rings_angle(lst)
 	else: rpc("_set_rings_angle", lst)
 
@@ -167,10 +177,14 @@ func _on_timer_timeout():
 
 remotesync func _game_completed():
 	print("Game completed")
+	if (debug or get_tree().is_network_server()) and running:
+		$AcceptDialog.show()
+	
+	$Title.text = "Completed"
+	$Title.visible = true
+	
 	timer.stop()
 	running = false
-	if debug or get_tree().is_network_server():
-		$AcceptDialog.popup()
 
 
 remotesync func _next_minigame():

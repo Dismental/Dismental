@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Script/MiniGames/AlignGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring6.png" type="Texture" id=2]
@@ -9,10 +9,17 @@
 [ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring4.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring5.png" type="Texture" id=8]
 [ext_resource path="res://Fonts/Roboto/Roboto-Light.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://Fonts/Roboto/Roboto-Medium.ttf" type="DynamicFontData" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 53
 font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 80
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 10 )
 
 [node name="Node2D" type="Control"]
 margin_right = 1920.0
@@ -93,6 +100,22 @@ margin_right = 2.97253
 margin_bottom = 19.153
 rect_scale = Vector2( 2, 2 )
 window_title = "Completed"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -242.203
+margin_top = 33.153
+margin_right = 245.797
+margin_bottom = 151.153
+custom_fonts/font = SubResource( 2 )
+text = "Completed"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
