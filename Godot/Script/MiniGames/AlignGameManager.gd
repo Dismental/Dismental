@@ -1,6 +1,6 @@
 extends Node2D
 
-var debug = true
+var debug = false
 
 var timer
 var timer_wait_time = 10
@@ -35,13 +35,7 @@ onready var timer_label = get_node("Timer")
 func _ready():
 	num_of_players = _count_num_of_players()
 	num_of_rings = ring_count[num_of_players]
-	for i in range(1, 7):
-		var node = get_node("ring" + str(i))
-		if i <= num_of_rings:
-			rings.append(node)
-		else:
-			node.visible = false
-			call_deferred("remove_child", node)
+	_init_rings()
 	_set_ring_scale()
 	_create_timer()		
 	
@@ -60,11 +54,21 @@ func _input(event):
 
 func _process(delta):
 	timer_label.text = str(int(round(timer.get_time_left())))
-	_input_rotate_rings()
+	_sync_rotate_rings()
 	if debug or get_tree().is_network_server():
 		if _check_completion():
 			if debug: _game_completed()
 			else: rpc("_game_completed")
+
+
+func _init_rings():
+	for i in range(1, 7):
+		var node = get_node("ring" + str(i))
+		if i <= num_of_rings:
+			rings.append(node)
+		else:
+			node.visible = false
+			call_deferred("remove_child", node)	
 
 func _count_num_of_players():
 	var num_of_players
@@ -74,14 +78,17 @@ func _count_num_of_players():
 		num_of_players = len(get_tree().get_network_connected_peers()) + 1
 	return num_of_players
 
-func _input_rotate_rings():
-	var r = rings[controlled_ring_index]
-	var mouse_pos = get_viewport().get_mouse_position()
-	var ratio = mouse_pos.x /  get_viewport_rect().size.x 
-	var rotation = fmod(ratio * 360.0, 360)
-	if rotation < 0:
-		rotation += 360
-	r.rotation_degrees = rotation
+func _sync_rotate_rings():
+	var input_pos = _get_input_pos()
+	var ratio = input_pos.x /  get_viewport_rect().size.x 
+	var degrees = fmod(ratio * 360.0, 360)
+	if degrees < 0:
+		degrees += 360	
+	rpc("_rotate_ring", controlled_ring_index, degrees)
+	
+remotesync func _rotate_ring(ring_i, degrees):
+	var r = rings[ring_i]
+	r.rotation_degrees = degrees
 
 func _set_ring_scale():
 	var scale = ring_scales[num_of_rings]
@@ -95,15 +102,15 @@ func _assign_random_rings():
 	for x in num_of_rings:
 		options.append(x)
 	options.shuffle()
-
-
 	
-	var random_index = []
-	var id = 0
-	for x in range(num_of_players):
-		random_index.append(options[id])
-		id += 1
-			
+	var ring_i = 0
+	
+	if not debug:
+		var lst = get_tree().get_network_connected_peers()
+		for x in lst:
+			rpc_id(x, options[ring_i])
+			ring_i += 1
+	controlled_ring_index = options[ring_i]
 
 remote func _assign_controlled_ring(i):
 	controlled_ring_index = i
@@ -139,6 +146,10 @@ remotesync func _set_rings_angle(lst):
 	for x in lst:
 		rings[i].rotation_degrees = x
 		i += 1
+
+func _get_input_pos():
+	return get_viewport().get_mouse_position()
+
 
 func _on_timer_timeout():
 	if debug:
