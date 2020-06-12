@@ -11,7 +11,7 @@ var rings = []
 var controlled_ring_index = 0
 
 # Range for compeltion +- the degree
-var completion_range = 30 
+var completion_range = 30
 
 # Ring scales depending on the number of rings
 var ring_scales= {
@@ -38,13 +38,13 @@ onready var timer_label = get_node("Timer")
 func _ready():
 	randomize()
 	random_input_factor = randf() + 1
-	
+
 	num_of_players = _count_num_of_players()
 	print("Num of players: " + str(num_of_players))
 	num_of_rings = ring_count[num_of_players]
 	_init_rings()
 	_set_ring_scale()
-	_create_timer()		
+	_create_timer()
 
 	if debug or get_tree().is_network_server():
 		_sync_set_random_angles()
@@ -78,7 +78,7 @@ func _init_rings():
 			rings.append(node)
 		else:
 			node.visible = false
-			call_deferred("remove_child", node)	
+			call_deferred("remove_child", node)
 
 func _count_num_of_players():
 	var num_of_players
