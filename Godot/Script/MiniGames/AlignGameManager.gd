@@ -2,8 +2,10 @@ extends Node2D
 
 var debug = false
 
+var running = false
+
 var timer
-var timer_wait_time = 10
+var timer_wait_time = 60
 
 var rings = []
 var controlled_ring_index = 0
@@ -42,7 +44,8 @@ func _ready():
 	if debug or get_tree().is_network_server():
 		_sync_set_random_angles()
 		_assign_random_rings()
-		_start_game()
+		if debug: _start_game()
+		else: rpc("_start_game")
 
 func _input(event):
 	if debug:
@@ -53,8 +56,10 @@ func _input(event):
 				controlled_ring_index -= 1
 
 func _process(delta):
-	timer_label.text = str(int(round(timer.get_time_left())))
-	_sync_rotate_rings()
+	if running:
+		timer_label.text = str(int(round(timer.get_time_left())))
+		_sync_rotate_rings()
+		
 	if debug or get_tree().is_network_server():
 		if _check_completion():
 			if debug: _game_completed()
@@ -81,6 +86,8 @@ func _count_num_of_players():
 func _sync_rotate_rings():
 	var input_pos = _get_input_pos()
 	var ratio = input_pos.x /  get_viewport_rect().size.x 
+	ratio = clamp(ratio, 0, 1)
+	
 	var degrees = fmod(ratio * 360.0, 360)
 	if degrees < 0:
 		degrees += 360	
@@ -108,7 +115,7 @@ func _assign_random_rings():
 	if not debug:
 		var lst = get_tree().get_network_connected_peers()
 		for x in lst:
-			rpc_id(x, options[ring_i])
+			rpc_id(x, "_assign_controlled_ring" , options[ring_i])
 			ring_i += 1
 	controlled_ring_index = options[ring_i]
 
@@ -131,12 +138,13 @@ func _check_completion():
 	return true
 	
 remotesync func _start_game():
+	running = true
 	timer.start()
 	
 func _sync_set_random_angles():
 	var lst = []
 	for x in range(num_of_rings):
-		lst.append(randi() % 360)
+		lst.append(randi() % 280 + 40)
 	
 	if debug: _set_rings_angle(lst)
 	else: rpc("_set_rings_angle", lst)
@@ -159,8 +167,19 @@ func _on_timer_timeout():
 
 remotesync func _game_completed():
 	print("Game completed")
+	timer.stop()
+	running = false
+	if debug or get_tree().is_network_server():
+		$AcceptDialog.popup()
+
+
+remotesync func _next_minigame():
 	get_parent().remove_child(self)
 	
 remotesync func _game_over():
 	print("Game over")
 	get_parent().remove_child(self)
+
+
+func _on_AcceptDialog_confirmed():
+	rpc("_next_minigame")

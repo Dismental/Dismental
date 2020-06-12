@@ -14,8 +14,13 @@
 size = 53
 font_data = ExtResource( 9 )
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Control"]
+margin_right = 1920.0
+margin_bottom = 1080.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 1920.0
@@ -26,7 +31,7 @@ __meta__ = {
 }
 
 [node name="ring6" type="Sprite" parent="."]
-position = Vector2( 960, 540 )
+position = Vector2( 960, 545.153 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
@@ -65,10 +70,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 903.665
-margin_top = 502.284
-margin_right = 1014.66
-margin_bottom = 582.284
+margin_left = -56.335
+margin_top = -38.847
+margin_right = 54.66
+margin_bottom = 41.153
 custom_fonts/font = SubResource( 1 )
 text = "60"
 align = 1
@@ -76,3 +81,19 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -115.027
+margin_top = -38.847
+margin_right = 2.97253
+margin_bottom = 19.153
+rect_scale = Vector2( 2, 2 )
+window_title = "Completed"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="confirmed" from="AcceptDialog" to="." method="_on_AcceptDialog_confirmed"]
