@@ -35,7 +35,10 @@ args=parser.parse_args()
 TO = os.getcwd()
 NEW_LOCATION = "@loader_path/"
 # Look up all the files that match the glob, symlinks excluded
+libs = []
 dylibs = command_to_list("ls -ld " + args.glob + "| grep -v ^l | awk '{print $9}'")
+exes = command_to_list("ls -p | grep -v / | grep -v '\.'")
+libs = libs + dylibs + exes
 
 omitted = []
 for lib in dylibs:

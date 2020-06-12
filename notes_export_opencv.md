@@ -1,3 +1,74 @@
+# Including system library stuff
+
+## Including /usr/lib/
+This is the most recent `.zip` of our dependencies.
+This `.zip` was made before adding a suffix to every lib, it contains the third party dependencies found in `/usr/local/opt/` and `/usr/local/Cellar`.
+It also contains the libraries we use from `/usr/lib/`.
+For every library the `LC_LOAD_DYLIB` has been adjusted.
+All of the libraries in this file request libraries from one of the following locations:
+* `@loader_path/` 
+* `@rpath/`
+* `/System/Library/Frameworks/`
+
+
+Since MacOS looks in `/usr/lib/` by default we have to set `DYLD_LIBRARY_PATH` to point to our libraries.
+Scripts need to be manipulated in `.app/Contents/MacOS/` for this.
+
+`PATH_TO_EXE="$(pwd)/Applications/Dismental.app/Contents/MacOS/"`
+
+Rename `$PATH_TO_EXE/Dismental` -> `$PATH_TO_EXE/DismentalMain`
+
+Add `$PATH_TO_EXE/Dismental` with the following contents:
+
+```
+#!/bin/sh
+echo "FROM EXECUTABLE"
+echo "$(pwd)"
+PATH_TO_APP="$(pwd)/Applications/Dismental.app"
+echo "${PATH_TO_APP}"
+export DYLD_PRINT_LIBRARIES=y
+export DYLD_LIBRARY_PATH="${PATH_TO_APP}/Contents/Frameworks/"
+"${PATH_TO_APP}/Contents/MacOS/Dismental-main"
+```
+
+Have to rename the following libs in `.app/Contents/Frameworks/` because the name collides with libraries present in `/System/Libraries/`
+
+`/System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libGIF.dylib`
+`/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib`
+`/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib`
+
+```
+libblas.dylib -> libblas_temp.dylib
+libgif.dylib -> libgif_temp.dylib
+liblapack.dylib -> liblapack_temp.dylib
+```
+
+So `/System/Library/` stuff won't stop at these libraries and instead keep looking to find their own in the other `/System/Library/` stuff.
+
+
+---
+I think I'm on the wrong path by also trying to include `/usr/lib/` and `/System/Library/Frameworks`.
+
+Resources:
+
+https://stackoverflow.com/questions/23471978/how-can-i-link-my-c-program-statically-with-libstdc-on-osx-using-clang
+
+
+
+---
+
+**dependencies.zip && dependencies_2.zip**
+
+Contains the third party dependencies found in `/usr/local/opt/` and `/usr/local/Cellar`.
+For every library the `LC_LOAD_DYLIB` has been adjusted.
+All of the libraries in this file request libraries from one of the following locations:
+* `@loader_path/` 
+* `@rpath/`
+* `/System/Library/Frameworks/`
+* `/usr/lib/`
+
+---
+
 The problems described below, regarding the RPATH and ligdexample.dylib calling `/usr/local/opt/opencv` have been solved! Relevant links:
 https://stackoverflow.com/questions/2092378/macosx-how-to-collect-dependencies-into-a-local-bundle
 https://medium.com/@donblas/fun-with-rpath-otool-and-install-name-tool-e3e41ae86172
