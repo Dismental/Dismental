@@ -5,16 +5,36 @@ var debug = true
 var timer
 var timer_wait_time = 10
 
-var num_of_rings = 4
 var rings = []
 var controlled_ring_index = 0
 
 # Range for compeltion +- the degree
 var completion_range = 30 
 
+# Ring scales depending on the number of rings
+var ring_scales= {
+	4 : Vector2(0.7, 0.7),
+	5 : Vector2(0.6, 0.6),
+	6 : Vector2(0.5, 0.5)}
+
+var ring_count = {
+			1 : 4, #Debug only
+			2 : 4,
+			3 : 6,
+			4 : 4,
+			5 : 5,
+			6 : 6}
+
+var num_of_players
+var num_of_rings
+
 onready var timer_label = get_node("Timer")
 
+
+
 func _ready():
+	num_of_players = _count_num_of_players()
+	num_of_rings = ring_count[num_of_players]
 	for i in range(1, 7):
 		var node = get_node("ring" + str(i))
 		if i <= num_of_rings:
@@ -22,7 +42,7 @@ func _ready():
 		else:
 			node.visible = false
 			call_deferred("remove_child", node)
-		
+	_set_ring_scale()
 	_create_timer()		
 	
 	if debug or get_tree().is_network_server():
@@ -46,6 +66,14 @@ func _process(delta):
 			if debug: _game_completed()
 			else: rpc("_game_completed")
 
+func _count_num_of_players():
+	var num_of_players
+	if debug:
+		num_of_players = 1
+	else:
+		num_of_players = len(get_tree().get_network_connected_peers()) + 1
+	return num_of_players
+
 func _input_rotate_rings():
 	var r = rings[controlled_ring_index]
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -55,6 +83,12 @@ func _input_rotate_rings():
 		rotation += 360
 	r.rotation_degrees = rotation
 
+func _set_ring_scale():
+	var scale = ring_scales[num_of_rings]
+	get_node("center").scale = scale
+	for x in rings:
+		x.scale = scale
+
 func _assign_random_rings():
 	randomize()
 	var options = []
@@ -62,11 +96,7 @@ func _assign_random_rings():
 		options.append(x)
 	options.shuffle()
 
-	var num_of_players
-	if debug:
-		num_of_players = 1
-	else:
-		num_of_players = len(get_tree().get_network_connected_peers()) + 1
+
 	
 	var random_index = []
 	var id = 0
