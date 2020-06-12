@@ -24,7 +24,7 @@ func _ready():
 	timer.one_shot = true
 	timer.connect("timeout",self,"_on_timer_timeout")
 	timer.set_wait_time(wait_time)
-	
+
 	add_child(timer)
 
 	_set_timer_label(wait_time)
