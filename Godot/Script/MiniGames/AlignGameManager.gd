@@ -40,7 +40,6 @@ func _ready():
 	random_input_factor = randf() + 1
 
 	num_of_players = _count_num_of_players()
-	print("Num of players: " + str(num_of_players))
 	num_of_rings = ring_count[num_of_players]
 	_init_rings()
 	_set_ring_scale()
@@ -156,7 +155,7 @@ func _sync_set_random_angles():
 	var lst = []
 	for _x in rings:
 		lst.append((randi() % 280) + 40)
-	print("Random angles: " + str(lst))
+
 	if debug: _set_rings_angle(lst)
 	else: rpc("_set_rings_angle", lst)
 
@@ -180,7 +179,6 @@ func _on_timer_timeout():
 
 
 remotesync func _game_completed():
-	print("Game completed")
 	if (debug or get_tree().is_network_server()) and running:
 		$AcceptDialog.show()
 
