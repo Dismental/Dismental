@@ -7,3 +7,7 @@
 script = ExtResource( 3 )
 
 [node name="MainMenu" parent="." instance=ExtResource( 1 )]
+anchor_left = 0.00094595
+anchor_right = 1.00095
+margin_left = -1.81628
+margin_right = -1.81628

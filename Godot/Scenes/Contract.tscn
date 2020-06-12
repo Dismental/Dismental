@@ -1,39 +1,332 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Textures/pointer.png" type="Texture" id=3]
+[ext_resource path="res://Textures/arrow_up.png" type="Texture" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.929412, 0.917647, 0.917647, 1 )
+bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 24
+font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.992157, 0.992157, 0.992157, 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 24
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 24
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 18
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 1, 1, 1, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.705882, 0.705882, 0.705882, 1 )
+corner_detail = 9
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Panel" type="Panel" parent="."]
+margin_top = 0.93869
 margin_right = 1924.0
-margin_bottom = 1079.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Panel2" type="Panel" parent="."]
-margin_left = 381.479
-margin_top = 794.924
-margin_right = 1617.48
-margin_bottom = 2142.92
+margin_bottom = 1079.94
 custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel2"]
-anchor_left = -0.484
-anchor_top = -0.38
-anchor_right = -0.484
-anchor_bottom = -0.38
-margin_left = 1030.34
-margin_top = 344.073
-margin_right = 1290.34
-margin_bottom = 544.073
-rect_scale = Vector2( 2.73837, 3.34768 )
-custom_styles/focus = SubResource( 2 )
-text = "Contract
-Top Secret"
+[node name="Label" type="Label" parent="Panel"]
+margin_left = 352.986
+margin_top = 136.214
+margin_right = 961.986
+margin_bottom = 197.214
+custom_fonts/font = ExtResource( 2 )
+text = "HOW TO USE THE POINTER"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Panel"]
+margin_left = 1473.13
+margin_top = 674.796
+margin_right = 1577.13
+margin_bottom = 705.796
+custom_fonts/font = SubResource( 4 )
+text = "POINTER"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="Panel"]
+margin_left = 348.965
+margin_top = 454.195
+margin_right = 564.965
+margin_bottom = 485.195
+custom_fonts/font = SubResource( 4 )
+text = "WEBCAM EXAMPLE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="."]
+margin_left = 343.0
+margin_top = 794.0
+margin_right = 1579.0
+margin_bottom = 3058.0
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="Panel2"]
+margin_left = 531.079
+margin_top = 125.283
+margin_right = 705.079
+margin_bottom = 156.283
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "CONFIDENTIAL"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Panel2"]
+margin_left = 494.746
+margin_top = 49.1058
+margin_right = 746.746
+margin_bottom = 110.106
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "CONTRACT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="Panel2"]
+margin_left = 545.906
+margin_top = 870.38
+margin_right = 717.906
+margin_bottom = 901.38
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "PARTICIPANTS"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label5" type="Label" parent="Panel2"]
+margin_left = 558.411
+margin_top = 1466.0
+margin_right = 705.411
+margin_bottom = 1497.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "SIGNATURES"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label6" type="Label" parent="Panel2"]
+margin_left = 169.0
+margin_top = 517.0
+margin_right = 980.0
+margin_bottom = 677.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Sergio gone mad due to the quarantaine. He has gone mad and placed a bomb. As member is BIT you have 
+the skill to find the bomb and dismantle it.
+
+
+Instructions of operator and supervisor
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel2"]
+margin_left = 108.0
+margin_top = 961.0
+margin_right = 538.0
+margin_bottom = 1646.0
+custom_constants/separation = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+margin_right = 430.0
+margin_bottom = 128.0
+custom_constants/separation = 23
+
+[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+color = Color( 0.862745, 0.862745, 0.862745, 1 )
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer"]
+margin_left = 151.0
+margin_top = 52.0
+margin_right = 200.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "NAME"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+margin_top = 140.0
+margin_right = 430.0
+margin_bottom = 268.0
+custom_constants/separation = 23
+
+[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer/HBoxContainer2"]
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+color = Color( 0.862745, 0.862745, 0.862745, 1 )
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer2"]
+margin_left = 151.0
+margin_top = 52.0
+margin_right = 200.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "NAME"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+margin_top = 280.0
+margin_right = 430.0
+margin_bottom = 408.0
+custom_constants/separation = 23
+
+[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer/HBoxContainer3"]
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+color = Color( 0.862745, 0.862745, 0.862745, 1 )
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer3"]
+margin_left = 151.0
+margin_top = 52.0
+margin_right = 200.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "NAME"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel2"]
+margin_left = 693.0
+margin_top = 958.0
+margin_right = 1207.0
+margin_bottom = 1646.0
+custom_constants/separation = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel2/VBoxContainer2"]
+margin_right = 514.0
+margin_bottom = 128.0
+custom_constants/separation = 23
+
+[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer2/HBoxContainer"]
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+color = Color( 0.862745, 0.862745, 0.862745, 1 )
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer2/HBoxContainer"]
+margin_left = 151.0
+margin_top = 52.0
+margin_right = 200.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "NAME"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel2/VBoxContainer2"]
+margin_top = 140.0
+margin_right = 514.0
+margin_bottom = 268.0
+custom_constants/separation = 23
+
+[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer2/HBoxContainer2"]
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+color = Color( 0.862745, 0.862745, 0.862745, 1 )
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer2/HBoxContainer2"]
+margin_left = 151.0
+margin_top = 52.0
+margin_right = 200.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "NAME"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Panel2/VBoxContainer2"]
+margin_top = 280.0
+margin_right = 514.0
+margin_bottom = 408.0
+custom_constants/separation = 23
+
+[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer2/HBoxContainer3"]
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+rect_pivot_offset = Vector2( 696.476, -147.176 )
+color = Color( 0.862745, 0.862745, 0.862745, 1 )
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer2/HBoxContainer3"]
+margin_left = 151.0
+margin_top = 52.0
+margin_right = 200.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "NAME"
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1524.64, 626.983 )
+scale = Vector2( 1.88731, 1.88731 )
+texture = ExtResource( 4 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 1524.73, 522.627 )
+texture = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 341.712
+margin_top = 519.878
+margin_right = 600.712
+margin_bottom = 684.878
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel3" type="Panel" parent="."]
+margin_left = 587.331
+margin_top = 2340.84
+margin_right = 1372.33
+margin_bottom = 2894.84
+custom_styles/panel = SubResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

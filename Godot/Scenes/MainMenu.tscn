@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
 [ext_resource path="res://Script/SceneManagers/MainMenuSceneManager.gd" type="Script" id=3]
+[ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 100
@@ -41,7 +42,7 @@ anchor_bottom = 0.0925926
 margin_left = -451.5
 margin_top = 200.0
 margin_right = 451.5
-margin_bottom = 126.0
+margin_bottom = 226.0
 custom_fonts/font = SubResource( 1 )
 text = "Defuse the bomb"
 __meta__ = {
@@ -66,8 +67,8 @@ __meta__ = {
 margin_right = 657.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
-custom_fonts/font = SubResource( 2 )
-text = "Create Room"
+custom_fonts/font = ExtResource( 4 )
+text = "CREATE ROOM"
 
 [node name="JoinRoomButton" type="Button" parent="VBoxContainer"]
 margin_top = 95.0
@@ -75,8 +76,8 @@ margin_right = 657.0
 margin_bottom = 175.0
 grow_vertical = 0
 rect_min_size = Vector2( 0, 80 )
-custom_fonts/font = SubResource( 2 )
-text = "Join Room"
+custom_fonts/font = ExtResource( 4 )
+text = "JOIN MISSION"
 
 [node name="SettingsButton" type="Button" parent="VBoxContainer"]
 margin_top = 190.0
