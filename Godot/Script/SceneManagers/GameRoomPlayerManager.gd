@@ -3,6 +3,9 @@ extends Control
 func _ready():
 	Network.connect("player_list_changed", self, "refresh_lobby")
 	refresh_lobby()
+	Utils.add_scene("res://Voip/VoiceStream.tscn", get_parent())
+	var voice = get_parent().get_node("VoiceStream")
+	voice.start()
 
 
 func _on_BackButton_pressed():
