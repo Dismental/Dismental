@@ -20,13 +20,10 @@ python check_paths.py -prefix "@loader_path/" "/usr/lib" "/System/Library" "@rpa
 """
 
 # Look up all the files that match the glob, symlinks excluded
-libs = []
 dylibs = command_to_list("ls -ld " + args.glob + "| grep -v ^l | awk '{print $9}'")
-exes = command_to_list("ls -p | grep -v / | grep -v '\.'")
-libs = libs + dylibs + exes
 
 files = []
-for lib in libs:
+for lib in dylibs:
   output = cleanOtool(command_to_list(f'otool -L {lib}'))
   filtered = list(filter(lambda x: not startsWithAny(x, args.prefix) if args.n else startsWithAny(x, args.prefix), output))
   
