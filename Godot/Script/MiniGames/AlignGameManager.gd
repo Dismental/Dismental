@@ -46,11 +46,12 @@ onready var timer_label = get_node("Timer")
 
 func _ready():
 	randomize()
-	
+
 	_init_random_input_params()
 
 	num_of_players = _count_num_of_players()
 	num_of_rings = ring_count[num_of_players]
+
 	_init_rings()
 	_set_ring_scale()
 	_create_timer()
@@ -82,12 +83,14 @@ func _input(ev):
 	if Input.is_key_pressed(KEY_K):
 		rotating = !rotating
 
+
+# Initializes all random parameters for the rotation of the rings
 func _init_random_input_params():
 	if rand_range(-1, 1) < 0:
 		inverted_x = -1
 	else:
 		inverted_x = 1
-	
+
 	if rand_range(-1, 1) < 0:
 		inverted_y = -1
 	else:
@@ -98,6 +101,7 @@ func _init_random_input_params():
 	random_zero_y = (randi() % 100) + 130
 
 
+# Shows the right amount of rings
 func _init_rings():
 	for i in range(1, 7):
 		var node = get_node("ring" + str(i))
@@ -107,6 +111,7 @@ func _init_rings():
 			node.visible = false
 			call_deferred("remove_child", node)
 
+# Counts the number of peers connected
 func _count_num_of_players():
 	var num_of_players
 	if debug:
@@ -115,49 +120,54 @@ func _count_num_of_players():
 		num_of_players = len(get_tree().get_network_connected_peers()) + 1
 	return num_of_players
 
+# Calculates the rotation locally and set the ring index and degree to all peers
 func _sync_rotate_rings():
 	if rotating:
 		for ring in controlled_rings:
 			var degrees
 			var input_pos = _get_input_pos()
-			
+
 			if ring["axis"] == "X":
 				if input_pos.x > get_viewport_rect().size.x:
 					input_pos.x = get_viewport_rect().size.x
 				elif input_pos.x < 0:
 					input_pos.x = 0
-	
+
 				var ratio = input_pos.x /  (get_viewport_rect().size.x / random_input_factor_x)
 				degrees = inverted_x * fmod(ratio * 360.0 + random_zero_x, 360)
-	
+
 			else:
 				if input_pos.y > get_viewport_rect().size.y:
 					input_pos.y = get_viewport_rect().size.y
 				elif input_pos.y < 0:
 					input_pos.y = 0
-	
+
 				var ratio = input_pos.y /  (get_viewport_rect().size.y / random_input_factor_y)
 				degrees = inverted_y * fmod(ratio * 360.0 + random_zero_y, 360)
-				
+
 			if degrees < 0:
 				degrees += 360
-				
+
 			if debug: _rotate_ring(ring['ringindex'], degrees)
 			else: rpc("_rotate_ring", ring['ringindex'], degrees)
 
+# Rotates the ring
 remotesync func _rotate_ring(ring_i, degrees):
 	var r = rings[ring_i]
 	r.rotation_degrees = degrees
 
+# Set the scale of the rings based on the number of rings
 func _set_ring_scale():
 	var scale = ring_scales[num_of_rings]
 	get_node("center").scale = scale
 	for x in rings:
 		x.scale = scale
 
+# Assigns every player a random ring and an axis of input
+# With 2 or 3 players, everyone gets 2 rings.
 func _assign_random_rings():
 	randomize()
-	
+
 	var options = []
 	for x in num_of_rings:
 		options.append(x)
@@ -183,18 +193,19 @@ func _assign_random_rings():
 			ring_i += 1
 			controlled_rings.append({"ringindex": options[ring_i], "axis": "Y"})
 
-	
 
+# The network server randomly assigns the controlled rings 
+# and communicates this with this remote function
 remote func _assign_controlled_ring(i, axis):
 	controlled_rings.append({"ringindex": i, "axis": axis})
 
-
+# Returns a random axis
 func _random_axis():
-	randomize()
 	if randf() < 0.5:
 		return "X"
 	return "Y"
 
+# Creates the game timer
 func _create_timer():
 	timer = Timer.new()
 	timer.one_shot = true
@@ -203,6 +214,7 @@ func _create_timer():
 	add_child(timer)
 	timer_label.text = str(timer_wait_time)
 
+# Checks if all the rings align with a small error range
 func _check_completion():
 	for ring in rings:
 		var rotation = ring.rotation_degrees
@@ -210,11 +222,15 @@ func _check_completion():
 			return false
 	return true
 
+# Starts the game and timer
 remotesync func _start_game():
 	running = true
 	timer.start()
 
 
+# Set every ring to a random starting angle
+# Otherwise if no input is detected the rings
+# will stay in the right position from the start
 func _sync_set_random_angles():
 	var lst = []
 	for _x in rings:
@@ -223,18 +239,18 @@ func _sync_set_random_angles():
 	if debug: _set_rings_angle(lst)
 	else: rpc("_set_rings_angle", lst)
 
-
+# Sync start ring angles with all peers
 remotesync func _set_rings_angle(lst):
 	var i = 0
 	for x in lst:
 		rings[i].rotation_degrees = x
 		i += 1
 
-
+# Returns the input position
 func _get_input_pos():
 	return get_viewport().get_mouse_position()
 
-
+# Called when time's up
 func _on_timer_timeout():
 	if debug:
 		_game_over()
