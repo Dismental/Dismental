@@ -79,7 +79,8 @@ func _process(delta):
 			else:
 				completed_timer = 0
 
-func _input(ev):
+
+func _input(_ev):
 	if Input.is_key_pressed(KEY_K):
 		rotating = !rotating
 
@@ -193,8 +194,7 @@ func _assign_random_rings():
 			ring_i += 1
 			controlled_rings.append({"ringindex": options[ring_i], "axis": "Y"})
 
-
-# The network server randomly assigns the controlled rings 
+# The network server randomly assigns the controlled rings
 # and communicates this with this remote function
 remote func _assign_controlled_ring(i, axis):
 	controlled_rings.append({"ringindex": i, "axis": axis})
