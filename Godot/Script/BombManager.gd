@@ -9,7 +9,7 @@ var last_label_update
 var next_scene
 
 var minigame_index = 0
-var minigames = ["Hack", "Cut", "Dissolve"]
+var minigames = ["Hack", "Align", "Cut", "Dissolve"]
 
 onready var puzzle_label = $Control/VBoxContainer/PanelContainer/PuzzlesLeft
 onready var bottom_button = $Control/VBoxContainer/PanelContainer/Button
@@ -22,10 +22,11 @@ func _ready():
 
 	timer = Timer.new()
 	timer.one_shot = true
-
 	timer.connect("timeout",self,"_on_timer_timeout")
-	add_child(timer)
 	timer.set_wait_time(wait_time)
+
+	add_child(timer)
+
 	_set_timer_label(wait_time)
 
 	running = true
