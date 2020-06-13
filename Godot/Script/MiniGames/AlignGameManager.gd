@@ -1,6 +1,6 @@
 extends Control
 
-var debug = true
+var debug = false
 
 var running = false
 
@@ -8,10 +8,13 @@ var timer
 var timer_wait_time = 60
 
 var rings = []
-var controlled_ring_index = 0
+var controlled_rings = []
 
 # Range for compeltion +- the degree
 var completion_range = 30
+
+var completion_delay = 2
+var completed_timer = 0
 
 # Ring scales depending on the number of rings
 var ring_scales= {
@@ -30,16 +33,21 @@ var ring_count = {
 var num_of_players
 var num_of_rings
 
-var random_input_factor
-var random_zero_x = (randi() % 100) + 130
-var inverter
+var random_input_factor_x
+var random_input_factor_y
+var random_zero_x
+var random_zero_y
+var inverted_x
+var inverted_y
+
+var rotating = true
 
 onready var timer_label = get_node("Timer")
 
 func _ready():
 	randomize()
-	random_input_factor = randf() + 1
-	_rand_assign_inverter()
+	
+	_init_random_input_params()
 
 	num_of_players = _count_num_of_players()
 	num_of_rings = ring_count[num_of_players]
@@ -53,29 +61,42 @@ func _ready():
 		if debug: _start_game()
 		else: rpc("_start_game")
 
-func _input(event):
-	if debug:
-		if event is InputEventKey and event.pressed:
-			if event.scancode == KEY_UP:
-				controlled_ring_index += 1
-			elif event.scancode == KEY_DOWN:
-				controlled_ring_index -= 1
 
-func _process(_delta):
+func _process(delta):
 	if running:
 		timer_label.text = str(int(round(timer.get_time_left())))
 		_sync_rotate_rings()
 
 		if debug or get_tree().is_network_server():
 			if _check_completion():
-				if debug: _game_completed()
-				else: rpc("_game_completed")
+				print("Game completed")
+				if completed_timer > completion_delay:
+					if debug: _game_completed()
+					else: rpc("_game_completed")
+				else:
+					completed_timer += delta
+			else:
+				completed_timer = 0
 
-func _rand_assign_inverter():
+func _input(ev):
+	if Input.is_key_pressed(KEY_K):
+		rotating = !rotating
+
+func _init_random_input_params():
 	if rand_range(-1, 1) < 0:
-		inverter = -1
+		inverted_x = -1
 	else:
-		inverter = 1
+		inverted_x = 1
+	
+	if rand_range(-1, 1) < 0:
+		inverted_y = -1
+	else:
+		inverted_y = 1
+	random_input_factor_x = randf() + 1
+	random_input_factor_y = randf() + 1
+	random_zero_x = (randi() % 100) + 130
+	random_zero_y = (randi() % 100) + 130
+
 
 func _init_rings():
 	for i in range(1, 7):
@@ -95,19 +116,34 @@ func _count_num_of_players():
 	return num_of_players
 
 func _sync_rotate_rings():
-	var input_pos = _get_input_pos()
-	if input_pos.x > get_viewport_rect().size.x:
-		input_pos.x = get_viewport_rect().size.x
-	elif input_pos.x < 0:
-		input_pos.x = 0
-
-	var ratio = input_pos.x /  (get_viewport_rect().size.x / random_input_factor)
-
-	var degrees = inverter * fmod(ratio * 360.0 + random_zero_x, 360)
-	if degrees < 0:
-		degrees += 360
-	if debug: _rotate_ring(controlled_ring_index, degrees)
-	else: rpc("_rotate_ring", controlled_ring_index, degrees)
+	if rotating:
+		for ring in controlled_rings:
+			var degrees
+			var input_pos = _get_input_pos()
+			
+			if ring["axis"] == "X":
+				if input_pos.x > get_viewport_rect().size.x:
+					input_pos.x = get_viewport_rect().size.x
+				elif input_pos.x < 0:
+					input_pos.x = 0
+	
+				var ratio = input_pos.x /  (get_viewport_rect().size.x / random_input_factor_x)
+				degrees = inverted_x * fmod(ratio * 360.0 + random_zero_x, 360)
+	
+			else:
+				if input_pos.y > get_viewport_rect().size.y:
+					input_pos.y = get_viewport_rect().size.y
+				elif input_pos.y < 0:
+					input_pos.y = 0
+	
+				var ratio = input_pos.y /  (get_viewport_rect().size.y / random_input_factor_y)
+				degrees = inverted_y * fmod(ratio * 360.0 + random_zero_y, 360)
+				
+			if degrees < 0:
+				degrees += 360
+				
+			if debug: _rotate_ring(ring['ringindex'], degrees)
+			else: rpc("_rotate_ring", ring['ringindex'], degrees)
 
 remotesync func _rotate_ring(ring_i, degrees):
 	var r = rings[ring_i]
@@ -121,6 +157,7 @@ func _set_ring_scale():
 
 func _assign_random_rings():
 	randomize()
+	
 	var options = []
 	for x in num_of_rings:
 		options.append(x)
@@ -130,13 +167,33 @@ func _assign_random_rings():
 
 	if not debug:
 		var lst = get_tree().get_network_connected_peers()
-		for x in lst:
-			rpc_id(x, "_assign_controlled_ring" , options[ring_i])
+		if num_of_players >= 4:
+			for x in lst:
+				var axis = _random_axis()
+				rpc_id(x, "_assign_controlled_ring" , options[ring_i], axis)
+				ring_i += 1
+			controlled_rings.append({"ringindex": options[ring_i], "axis": _random_axis()})
+		else:
+			for x in lst:
+				rpc_id(x, "_assign_controlled_ring", options[ring_i], "X")
+				ring_i += 1
+				rpc_id(x, "_assign_controlled_ring" , options[ring_i], "Y")
+				ring_i += 1
+			controlled_rings.append({"ringindex": options[ring_i], "axis": "X"})
 			ring_i += 1
-	controlled_ring_index = options[ring_i]
+			controlled_rings.append({"ringindex": options[ring_i], "axis": "Y"})
 
-remote func _assign_controlled_ring(i):
-	controlled_ring_index = i
+	
+
+remote func _assign_controlled_ring(i, axis):
+	controlled_rings.append({"ringindex": i, "axis": axis})
+
+
+func _random_axis():
+	randomize()
+	if randf() < 0.5:
+		return "X"
+	return "Y"
 
 func _create_timer():
 	timer = Timer.new()
@@ -202,7 +259,8 @@ remotesync func _next_minigame():
 
 remotesync func _game_over():
 	print("Game over")
-	get_parent().remove_child(self)
+	get_tree().paused = true
+
 
 
 func _on_AcceptDialog_confirmed():

@@ -434,8 +434,10 @@ remotesync func _on_game_completed():
 	get_parent().remove_child(self)
 	
 remotesync func _on_game_over():
-	if player_role == Role.SUPERVISOR:
-		_init_matrix()
-	_destroy_components()
-	_generate_components()
-	assert(len(components) == num_of_components)
+	get_tree().paused = true
+
+#	if player_role == Role.SUPERVISOR:
+#		_init_matrix()
+#	_destroy_components()
+#	_generate_components()
+#	assert(len(components) == num_of_components)
