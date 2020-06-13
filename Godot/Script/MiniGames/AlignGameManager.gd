@@ -1,6 +1,6 @@
 extends Control
 
-var debug = false
+var debug = true
 
 var running = false
 
@@ -31,13 +31,15 @@ var num_of_players
 var num_of_rings
 
 var random_input_factor
+var random_zero_x = (randi() % 100) + 130
+var inverter
 
 onready var timer_label = get_node("Timer")
-
 
 func _ready():
 	randomize()
 	random_input_factor = randf() + 1
+	_rand_assign_inverter()
 
 	num_of_players = _count_num_of_players()
 	num_of_rings = ring_count[num_of_players]
@@ -69,6 +71,11 @@ func _process(_delta):
 				if debug: _game_completed()
 				else: rpc("_game_completed")
 
+func _rand_assign_inverter():
+	if rand_range(-1, 1) < 0:
+		inverter = -1
+	else:
+		inverter = 1
 
 func _init_rings():
 	for i in range(1, 7):
@@ -96,7 +103,7 @@ func _sync_rotate_rings():
 
 	var ratio = input_pos.x /  (get_viewport_rect().size.x / random_input_factor)
 
-	var degrees = fmod(ratio * 360.0 + 180, 360)
+	var degrees = inverter * fmod(ratio * 360.0 + random_zero_x, 360)
 	if degrees < 0:
 		degrees += 360
 	if debug: _rotate_ring(controlled_ring_index, degrees)
