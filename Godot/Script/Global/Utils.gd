@@ -32,3 +32,11 @@ func change_screen(path: String, s_node : Node):
 	else:
 		push_error("can't delete" + str(s_node))
 		return false
+
+func add_scene(path: String, parent : Node):
+	var node = load(path)
+	if node == null:
+		print("no scene found with path: " + path)
+	else:
+		node = node.instance()
+		parent.add_child(node)
