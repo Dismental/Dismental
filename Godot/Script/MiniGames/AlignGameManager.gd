@@ -69,7 +69,6 @@ func _process(delta):
 
 		if debug or get_tree().is_network_server():
 			if _check_completion():
-				print("Game completed")
 				if completed_timer > completion_delay:
 					if debug: _game_completed()
 					else: rpc("_game_completed")
@@ -282,7 +281,6 @@ remotesync func _next_minigame():
 
 
 remotesync func _game_over():
-	print("Game over")
 	get_tree().paused = true
 
 
