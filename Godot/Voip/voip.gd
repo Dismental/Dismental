@@ -1,6 +1,6 @@
 extends AudioStreamPlayer
 
-const MIN_PACKET_LENGTH = 0.4
+const MIN_PACKET_LENGTH = 0.2
 
 var mic : AudioEffectRecord
 var record
@@ -43,7 +43,7 @@ func _helper():
 		print("recording is null!")
 	else:
 		var comp = record.get_data().compress(1)
-		rpc("_play",get_tree().get_network_unique_id(), comp, record.get_format(), 
+		rpc_unreliable("_play",get_tree().get_network_unique_id(), comp, record.get_format(), 
 		record.get_mix_rate(), record.is_stereo(), record.get_data().size())
 	time_elapsed = 0
 
