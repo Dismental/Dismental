@@ -11,8 +11,19 @@ func _ready():
 	mic = AudioServer.get_bus_effect(AudioServer.get_bus_index("Record"), 1)
 	print("voip added")
 
+# Allows for multiple inputs to be played at the same time
+func play( from_position=0.0 ):
+		if !playing:
+			.play(from_position)
+		else:
+			var audio_player = self.duplicate(DUPLICATE_USE_INSTANCING)
+			get_parent().add_child(audio_player)
+			audio_player.stream = stream
+			audio_player.play()
+			yield(audio_player, "finished")
+			audio_player.queue_free()
+
 remote func _play(id, audioPacket : PoolByteArray, format, mix_rate, stereo, size):
-	#print("received audio from player with id: %s\n" % id)
 	if(audioPacket.empty()):
 		print("EMPTY AUDIOPACKET")
 	else:
