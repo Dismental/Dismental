@@ -95,6 +95,7 @@ func _init_random_input_params():
 		inverted_y = -1
 	else:
 		inverted_y = 1
+		
 	random_input_factor_x = randf() + 1
 	random_input_factor_y = randf() + 1
 	random_zero_x = (randi() % 100) + 130
@@ -104,12 +105,19 @@ func _init_random_input_params():
 # Shows the right amount of rings
 func _init_rings():
 	for i in range(1, 7):
-		var node = get_node("ring" + str(i))
+		var node = _get_ring_node(i)
 		if i <= num_of_rings:
 			rings.append(node)
 		else:
-			node.visible = false
-			call_deferred("remove_child", node)
+			_remove_node(node)
+
+func _get_ring_node(i):
+	return get_node("ring" + str(i))
+
+func _remove_node(node):
+	node.visible = false
+	call_deferred("remove_child", node)
+
 
 # Counts the number of peers connected
 func _count_num_of_players():

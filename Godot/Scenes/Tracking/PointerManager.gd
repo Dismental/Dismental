@@ -186,7 +186,7 @@ func set_role(_player_role):
 		player_role = _player_role
 		
 func _map_tracking_position(track_pos):
-	var pointer_pos
+
 	# The values for the headtracking position ranges from 0 to 1
 	var pos = pointer_node.position
 	# Add a margin/multiplier so the user's movement is amplified.
@@ -194,15 +194,16 @@ func _map_tracking_position(track_pos):
 	var margin = 0.4
 	var windowmarginx = (get_viewport_rect().size.x)*margin
 	var windowmarginy = (get_viewport_rect().size.y)*margin
+	
 	# Set the pointer position with the modified tracking position
-	pointer_pos = Vector2(track_pos.x*((get_viewport_rect().size.x) + windowmarginx)-(windowmarginx/2),
-			track_pos.y*((get_viewport_rect().size.y)+windowmarginy)-(windowmarginy/2))
+	var pointer_pos = Vector2(track_pos.x * ((get_viewport_rect().size.x) + windowmarginx) - (windowmarginx/2),
+			track_pos.y * ((get_viewport_rect().size.y) + windowmarginy) - (windowmarginy/2))
 	return pointer_pos
 
 
 func _on_Sprite_draw():
 	print ("draw sprite")
-	
+
 
 # calculate the x and y of a point defined by 'angle' on an ellipse with center=0,0, a specific rotation, a radius and a level of warping
 # this function is used for defining the boundries of an ellipse-shaped zone 

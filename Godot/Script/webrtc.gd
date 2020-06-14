@@ -36,7 +36,7 @@ func close():
 	client.disconnect_from_host()
 
 
-func _closed(was_clean = false):
+func _closed(_was_clean = false):
 	emit_signal("disconnected")
 
 
