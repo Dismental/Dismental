@@ -187,7 +187,7 @@ func set_role(_player_role):
 		
 func _map_tracking_position(track_pos):
 	var pointer_pos
-		# The values for the headtracking position ranges from 0 to 1
+	# The values for the headtracking position ranges from 0 to 1
 	var pos = pointer_node.position
 	# Add a margin/multiplier so the user's movement is amplified.
 	# The makes it easy for the user to reach the edges of the game screen with the pointer

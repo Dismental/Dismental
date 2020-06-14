@@ -48,9 +48,8 @@ func _ready():
 	randomize()
 
 	_init_random_input_params()
-
-	num_of_players = _count_num_of_players()
-	num_of_rings = ring_count[num_of_players]
+	_count_num_of_players()
+	_set_num_of_rings()
 
 	_init_rings()
 	_set_ring_scale()
@@ -114,12 +113,13 @@ func _init_rings():
 
 # Counts the number of peers connected
 func _count_num_of_players():
-	var num_of_players
 	if debug:
 		num_of_players = 1
 	else:
 		num_of_players = len(get_tree().get_network_connected_peers()) + 1
-	return num_of_players
+
+func _set_num_of_rings():
+	num_of_rings = ring_count[num_of_players]
 
 # Calculates the rotation locally and set the ring index and degree to all peers
 func _sync_rotate_rings():

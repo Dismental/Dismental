@@ -54,4 +54,16 @@ func test_rotate_rings():
 	assert_eq(sprite2.rotation_degrees, 60)
 	inst._rotate_ring(1, 0)
 	assert_eq(sprite2.rotation_degrees, 0)
+
+func test_num_of_rings():
+	var inst = load('res://Script/MiniGames/AlignGameManager.gd').new()
 	
+	var players = 2
+	inst.num_of_players = players
+	inst._set_num_of_rings()
+	assert_eq(inst.num_of_rings, inst.ring_count[players])
+	
+	players = 5
+	inst.num_of_players = players
+	inst._set_num_of_rings()
+	assert_eq(inst.num_of_rings, inst.ring_count[players])
