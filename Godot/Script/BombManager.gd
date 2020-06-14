@@ -73,6 +73,7 @@ func _on_timer_timeout():
 func _on_start_minigame_pressed():
 	if len(minigames) - minigame_index > 0:
 		Network.start_minigame(minigames[minigame_index])
+		bottom_button.release_focus()
 		minigame_index += 1
 		rpc("_update_minigames_remaing_text", str(len(minigames) - minigame_index))
 		if len(minigames) - minigame_index == 0:
