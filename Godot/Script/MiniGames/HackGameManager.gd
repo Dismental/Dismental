@@ -217,7 +217,7 @@ func _on_GameOver_body_entered(body):
 
 		
 remotesync func _game_completed():
-	get_parent().remove_child(self)
+	get_parent().call_deferred("remove_child", self)
 	
 
 remotesync func _game_over():

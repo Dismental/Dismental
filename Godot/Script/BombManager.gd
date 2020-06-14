@@ -9,7 +9,7 @@ var last_label_update
 var next_scene
 
 var minigame_index = 0
-var minigames = ["Align", "Hack", "Cut", "Dissolve"]
+var minigames = ["Hack", "Align", "Cut", "Dissolve"]
 
 onready var puzzle_label = $Control/VBoxContainer/PanelContainer/PuzzlesLeft
 onready var bottom_button = $Control/VBoxContainer/PanelContainer/Button

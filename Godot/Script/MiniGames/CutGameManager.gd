@@ -296,5 +296,5 @@ sync func _on_update_running(newValue):
 
 
 remotesync func _on_game_completed():
-	get_parent().remove_child(self)
+	get_parent().call_deferred("remove_child", self)
 

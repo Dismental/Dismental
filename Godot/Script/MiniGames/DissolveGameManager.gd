@@ -431,7 +431,7 @@ func _on_vacuum_entered():
 		rpc("_vacuum_entered")
 
 remotesync func _on_game_completed():
-	get_parent().remove_child(self)
+	get_parent().call_deferred("remove_child", self)
 	
 remotesync func _on_game_over():
 	get_tree().paused = true
