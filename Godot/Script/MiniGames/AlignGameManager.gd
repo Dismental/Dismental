@@ -95,7 +95,7 @@ func _init_random_input_params():
 		inverted_y = -1
 	else:
 		inverted_y = 1
-		
+
 	random_input_factor_x = randf() + 1
 	random_input_factor_y = randf() + 1
 	random_zero_x = (randi() % 100) + 130
