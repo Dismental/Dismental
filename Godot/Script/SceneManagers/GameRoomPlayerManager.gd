@@ -10,13 +10,12 @@ func _ready():
 
 
 func _on_BackButton_pressed():
+	stop_voip()
 	Network.stop()
 	return Utils.change_screen("res://Scenes/JoinGameRoom.tscn", self)
 
 func host_disconnect():
-	voice.stop()
-	voice.get_parent().remove_child(voice)
-	voice.queue_free()
+	stop_voip()
 	Utils.change_screen("res://Scenes/JoinGameRoom.tscn", self)
 
 func refresh_lobby():
@@ -26,3 +25,8 @@ func refresh_lobby():
 	$Players/List.add_item(Network.player_name + " (You)")
 	for p in players:
 		$Players/List.add_item(p)
+
+func stop_voip():
+	voice.stop()
+	voice.get_parent().remove_child(voice)
+	voice.queue_free()
