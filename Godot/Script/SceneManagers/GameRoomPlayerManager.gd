@@ -1,10 +1,11 @@
 extends Control
+var voice : Node
 
 func _ready():
 	Network.connect("player_list_changed", self, "refresh_lobby")
 	refresh_lobby()
 	Utils.add_scene("res://Voip/VoiceStream.tscn", get_parent())
-	var voice = get_parent().get_node("VoiceStream")
+	voice = get_parent().get_node("VoiceStream")
 	voice.start()
 
 
@@ -13,6 +14,9 @@ func _on_BackButton_pressed():
 	return Utils.change_screen("res://Scenes/JoinGameRoom.tscn", self)
 
 func host_disconnect():
+	voice.stop()
+	voice.get_parent().remove_child(voice)
+	voice.queue_free()
 	Utils.change_screen("res://Scenes/JoinGameRoom.tscn", self)
 
 func refresh_lobby():

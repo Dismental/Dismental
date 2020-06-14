@@ -170,10 +170,10 @@ __meta__ = {
 }
 
 [node name="PopupText" type="Label" parent="AcceptDialog"]
-margin_left = 79.0
-margin_top = 41.0
-margin_right = 297.0
-margin_bottom = 83.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 363.0
+margin_bottom = 104.0
 text = "Host disconnected"
 __meta__ = {
 "_edit_use_anchors_": false
