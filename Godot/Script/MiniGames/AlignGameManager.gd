@@ -234,7 +234,7 @@ remotesync func _start_game():
 func _sync_set_random_angles():
 	var lst = []
 	for _x in rings:
-		lst.append((randi() % 280) + 40)
+		lst.append((randi() % 360 - completion_range) + completion_range)
 
 	if debug: _set_rings_angle(lst)
 	else: rpc("_set_rings_angle", lst)
