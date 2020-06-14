@@ -64,7 +64,7 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[node name="Node" type="Node"]
+[node name="GameScene" type="Node"]
 script = ExtResource( 6 )
 
 [node name="Control" type="Control" parent="."]

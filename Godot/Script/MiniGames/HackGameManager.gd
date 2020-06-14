@@ -221,8 +221,6 @@ remotesync func _game_completed():
 	
 
 remotesync func _game_over():
-	#TODO add gamelogic for gameover
-	print("GAME OVER")
-	get_parent().remove_child(self)
+	get_tree().get_root().get_node("GameScene").game_over()
+	get_parent().call_deferred("remove_child", self)
 
-	
