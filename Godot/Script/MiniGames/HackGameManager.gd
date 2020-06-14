@@ -201,10 +201,11 @@ func _on_Bar_body_entered(body):
 			
 # Called when a collectable char is collected
 remotesync func _collected_body(i):
-	collected += 1
-	_update_password_label()
 	$LabelNodes.remove_child(collectables[i])
 	collectables.remove(i)
+
+	collected += 1
+	_update_password_label()
 
 # Called when a collectable char hits the offscreen area box
 func _on_GameOver_body_entered(body):

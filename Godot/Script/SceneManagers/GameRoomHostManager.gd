@@ -17,6 +17,14 @@ func _on_StartGameButton_pressed():
 	get_parent().remove_child(self)
 
 
+# TODO: Remove GameRoomPlayer from all peers
+#	print(get_tree().get_network_connected_peers())
+#	for peer in get_tree().get_network_connected_peers():
+#		rpc_id(peer, "_remove_room_scene")
+#
+#remote func _remove_room_scene():
+#	get_tree().get_root().remove_child(get_node("Main/GameRoomPlayer"))
+
 func refresh_lobby():
 	var players = Network.get_players().values()
 	players.sort()
