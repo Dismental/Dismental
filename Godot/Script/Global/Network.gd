@@ -71,12 +71,12 @@ func disconnected():
 		print("host disconnect")
 		stop()
 		Utils.change_screen("res://Scenes/JoinGameRoom.tscn",
-		 get_tree().get_current_scene().get_child(0))
+			get_tree().get_current_scene().get_child(0))
 		get_tree().get_current_scene().get_node("JoinGameRoom").popup(
 			"Host disconnected")
 	if code == 4004:
 		Utils.change_screen("res://Scenes/JoinGameRoom.tscn",
-		 get_tree().get_current_scene().get_node("GameRoomPlayer"))
+			get_tree().get_current_scene().get_node("GameRoomPlayer"))
 		get_tree().get_current_scene().get_node("JoinGameRoom").popup(
 			"Room with that name does not exist")
 
