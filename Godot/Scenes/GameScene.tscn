@@ -159,10 +159,10 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="Control/VBoxContainer/PanelContainer"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_left = 0.4992
+anchor_top = 1.08084
+anchor_right = 0.4992
+anchor_bottom = 1.08084
 margin_left = -251.5
 margin_top = -141.299
 margin_right = 251.5

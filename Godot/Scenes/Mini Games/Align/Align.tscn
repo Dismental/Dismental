@@ -21,7 +21,7 @@ outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 10 )
 
-[node name="Node2D" type="Control"]
+[node name="Control" type="Control"]
 margin_right = 1920.0
 margin_bottom = 1080.0
 script = ExtResource( 1 )
