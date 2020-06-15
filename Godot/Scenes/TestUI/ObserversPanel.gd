@@ -42,3 +42,7 @@ func _draw_screws(rect):
 	draw_circle(Vector2(x - 18, y + 10), 2, Color.black)
 	draw_circle(Vector2(x - 10, y + 18), 2, Color.black)
 	
+
+
+func _on_HSlider_value_changed(value):
+	pass # Replace with function body.
