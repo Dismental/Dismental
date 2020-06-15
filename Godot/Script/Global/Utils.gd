@@ -34,9 +34,9 @@ func change_screen(path: String, s_node : Node):
 		return false
 
 func add_scene(path: String, parent : Node):
-	var n_node = load(path)
-	if n_node == null:
+	var new_node = load(path)
+	if new_node == null:
 		print("no scene found with path: " + path)
 	else:
-		n_node = n_node.instance()
-		parent.add_child(n_node)
+		new_node = new_node.instance()
+		parent.add_child(new_node)
