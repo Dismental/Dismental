@@ -6,6 +6,7 @@ var mic : AudioEffectRecord
 var record
 var recording = false
 var time_elapsed = 0
+var mute_players : Dictionary
 
 func _ready():
 	mic = AudioServer.get_bus_effect(AudioServer.get_bus_index("Record"), 1)
@@ -26,8 +27,8 @@ remote func _play(id, audioPacket : PoolByteArray, format, mix_rate, stereo, siz
 	if(audioPacket.empty()):
 		print("EMPTY AUDIOPACKET")
 	else:
-		var dec = audioPacket.decompress(size, 1)
-		var audioStream = AudioStreamSample.new()
+		if(mute_players.has(id)):
+			return
 		audioStream.data = dec
 		audioStream.set_format(format)
 		audioStream.set_mix_rate(mix_rate)
