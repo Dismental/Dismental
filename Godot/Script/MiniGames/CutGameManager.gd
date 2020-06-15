@@ -274,24 +274,19 @@ func _on_StartDialog_confirmed():
 	rpc("_on_update_running", true)
 	start_position_input = _calc_start_position()
 
-
-remotesync func _restart_game():
-	rpc("_on_update_running", true)
-	waitForStartingPosition = true
-	start_position_input = _calc_start_position()
-	dots.clear()
-	finish_state = 0
-
-
 func _on_GameOverDialog_confirmed():
-	rpc("_restart_game")
-
+	rpc("_on_game_over")
 
 func _on_CompletedDialog_confirmed():
-	pass
+	rpc("_on_game_completed")
+	
+
+remotesync func _on_game_over():
+	get_tree().get_root().get_node("GameScene").game_over()
+	get_parent().call_deferred("remove_child", self)
 
 
-sync func _on_update_running(newValue):
+remotesync func _on_update_running(newValue):
 	running = newValue
 
 
