@@ -1,8 +1,11 @@
 extends Control
 
 func _on_JoinGameButton_pressed():
-	_create_client()
-	return Utils.change_screen("res://Scenes/GameRoomPlayer.tscn", self)
+	if $InputGameID.text.empty():
+		popup("Lobby name can't be empty!")
+	else:
+		_create_client()
+		return Utils.change_screen("res://Scenes/GameRoomPlayer.tscn", self)
 
 func _on_BackButton_pressed():
 	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)
