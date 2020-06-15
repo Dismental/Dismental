@@ -4,8 +4,8 @@ puppet var puppet_mouse = Vector2()
 
 const Role = preload("res://Script/Role.gd")
 
-var password = "Test"
-var online = true
+var password = "Test_word"
+var online = false
 
 var num_of_collectables
 var spawned_collectables = 0
@@ -34,7 +34,7 @@ onready var password_label = $PasswordLabel
 
 func _ready():
 	num_of_collectables = len(password)
-	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
+	player_role = Role.DEFUSER if !online  or get_tree().is_network_server() else Role.SUPERVISOR
 	_update_password_label()
 	randomize()
 	
@@ -51,13 +51,9 @@ func _physics_process(delta):
 	_move_labels(delta)
 	_move_bar()
 
-var fps = 0
 func _process(delta):
 	if player_role == Role.DEFUSER:
 		_spawn_labels(delta)
-	
-	fps += 1
-	if fps % 20 == 0:
 		_remove_labels()
 
 func _update_password_label():
@@ -169,10 +165,14 @@ func _generate_random_char():
 
 # Checks if label is off-screen and removes it if true
 func _remove_labels():
-	for i in range(len(normal_labels) - 1, -1, -1):
+	print("Len labels " + str(len(normal_labels)))
+	var iterations = min(rows / 2, len(normal_labels) - 1)
+	for i in range(iterations, -1, -1):
 		if normal_labels[i].position.x > screen_width + char_width:
 			$LabelNodes.remove_child(normal_labels[i])
 			normal_labels.remove(i)
+		else:
+			break
 
 func _get_input_pos():
 	if not online:
@@ -208,7 +208,7 @@ remotesync func _collected_body(i):
 	_update_password_label()
 
 # Called when a collectable char hits the offscreen area box
-func _on_GameOver_body_entered(body):
+func _on_GameOver_body_entered(_body):
 	if player_role == Role.DEFUSER:
 		if online:
 			rpc("_game_over")
