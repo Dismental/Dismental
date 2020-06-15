@@ -9,7 +9,6 @@ var time_elapsed = 0
 
 func _ready():
 	mic = AudioServer.get_bus_effect(AudioServer.get_bus_index("Record"), 1)
-	print("voip added")
 
 # Allows for multiple inputs to be played at the same time
 func play( from_position=0.0 ):

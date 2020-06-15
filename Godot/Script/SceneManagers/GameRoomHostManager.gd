@@ -6,7 +6,7 @@ func _init():
 
 func _ready():
 	refresh_lobby()
-	Utils.add_scene("res://Voip/VoiceStream.tscn", get_parent())
+	Utils.add_scene("res://Scenes/VoiceStream.tscn", get_parent())
 	voice = get_parent().get_node("VoiceStream")
 	voice.start()
 

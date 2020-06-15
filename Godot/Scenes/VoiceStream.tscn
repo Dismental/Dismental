@@ -1,12 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Voip/voip.gd" type="Script" id=1]
+[ext_resource path="res://Script/voip.gd" type="Script" id=1]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Control
-
-func _ready():
-	pass
+script/source = "extends Node
 
 func start():
 	$Output.recording = true
@@ -21,13 +18,8 @@ func toggle_mute(b: bool):
 
 [sub_resource type="AudioStreamMicrophone" id=2]
 
-[node name="VoiceStream" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="VoiceStream" type="Node"]
 script = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Output" type="AudioStreamPlayer" parent="."]
 script = ExtResource( 1 )
