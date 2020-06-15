@@ -5,7 +5,7 @@ puppet var puppet_mouse = Vector2()
 const Role = preload("res://Script/Role.gd")
 
 var password = "Test_word"
-var online = false
+var online = true
 
 var num_of_collectables
 var spawned_collectables = 0
@@ -31,6 +31,7 @@ var pointer_node
 
 onready var bar = $Bar
 onready var password_label = $PasswordLabel
+onready var label_nodes = $LabelNodes
 
 func _ready():
 	num_of_collectables = len(password)
@@ -132,14 +133,14 @@ remotesync func _create_collectable_label(pos, text):
 	
 	collectables.append(kb)
 
-	$LabelNodes.add_child(kb)
+	label_nodes.add_child(kb)
 
 # Creates a normal char without collision detection
 remotesync func _create_label_node(pos, text):
 	var s = Node2D.new()
 	s.position = pos
 	s.add_child(_create_label(text))
-	$LabelNodes.add_child(s)
+	label_nodes.add_child(s)
 	normal_labels.append(s)
 
 # Creates a label with the given text in the coding font style
@@ -153,7 +154,7 @@ func _create_label(text):
 
 
 # Generates a random string
-func _genersate_random_text(min_length, max_length):
+func _generate_random_text(min_length, max_length):
 	var res = ""
 	var num_of_chars = randi() % (max_length - min_length) + min_length
 	for _i in range(num_of_chars):
@@ -169,7 +170,7 @@ func _remove_labels():
 	var iterations = min(rows / 2, len(normal_labels) - 1)
 	for i in range(iterations, -1, -1):
 		if normal_labels[i].position.x > screen_width + char_width:
-			$LabelNodes.remove_child(normal_labels[i])
+			label_nodes.remove_child(normal_labels[i])
 			normal_labels.remove(i)
 		else:
 			break
@@ -201,7 +202,7 @@ func _on_Bar_body_entered(body):
 			
 # Called when a collectable char is collected
 remotesync func _collected_body(i):
-	$LabelNodes.remove_child(collectables[i])
+	label_nodes.remove_child(collectables[i])
 	collectables.remove(i)
 
 	collected += 1
