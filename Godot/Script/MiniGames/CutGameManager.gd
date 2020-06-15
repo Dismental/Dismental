@@ -1,7 +1,5 @@
 extends Node2D
 
-onready var SupervisorVision = $"Control/X-rayVision"
-
 puppet var puppet_mouse = Vector2()
 
 # Constants for the properties of the x-ray vision texture
@@ -14,7 +12,6 @@ var map_sprite
 var dots = []
 var running = false
 var waitForStartingPosition = true
-var start_position_input
 var pointer_node
 
 var finish_rect
@@ -27,9 +24,10 @@ var finish_state = 0
 onready var start_dialog = $Control/StartDialog
 onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
+onready var supervisor_vision = $"Control/X-rayVision"
 
 func _ready():
-	SupervisorVision.visible = true
+	supervisor_vision.visible = true
 	if get_tree().is_network_server():
 		start_dialog.popup()
 		_load_map(1, false)
@@ -44,11 +42,11 @@ func _ready():
 		pointer_node = pointer.get_node("Pointer")
 		
 		# Turn the x-ray vision OFF for the operator
-		SupervisorVision.visible = false
+		supervisor_vision.visible = false
 	else:
 		_load_map(1)
 		# Turn the x-ray vision ON for the operator
-		SupervisorVision.visible = true
+		supervisor_vision.visible = true
 		# Center the x-ray vision
 		_supervisor_vision_update(Vector2(OS.get_window_size().x, OS.get_window_size().y))
 	_calc_finish_line()
@@ -90,17 +88,17 @@ func _draw():
 
 
 func _supervisor_vision_update(pos):
-	var ShadowPos = Vector2(0,0)
+	var shadow_pos = Vector2(0,0)
 
 	# Handle edge cases if pos is outside the screen
 	var x = clamp(pos.x, 0, get_viewport_rect().size.x)
 	var y = clamp(pos.y, 0, get_viewport_rect().size.y)
 	
 	# Position the center of x-ray shadow texture at the 'pos' input location
-	ShadowPos.x = x - supervisor_shadow_width * supervisor_shadow_scalex / 2
-	ShadowPos.y = y - supervisor_shadow_height * supervisor_shadow_scaley / 2
+	shadow_pos.x = x - supervisor_shadow_width * supervisor_shadow_scalex / 2.0
+	shadow_pos.y = y - supervisor_shadow_height * supervisor_shadow_scaley / 2.0
 
-	SupervisorVision.set_position(ShadowPos)
+	supervisor_vision.set_position(shadow_pos)
 
 
 func _unhandled_input(event):
@@ -158,7 +156,7 @@ func _game_over():
 
 func _update_game_state():
 	if waitForStartingPosition:
-		start_position_input = _calc_start_position()
+		var start_position_input = _calc_start_position()
 		var distance_from_start = (start_position_input*2).distance_to(_get_input_pos())
 		if distance_from_start < 10:
 			waitForStartingPosition = false
@@ -272,13 +270,11 @@ func _get_map_pixel_color(pos):
 ### BUTTON FUNCTIONALITIES ###
 func _on_StartDialog_confirmed():
 	rpc("_on_update_running", true)
-	start_position_input = _calc_start_position()
 
 
 remotesync func _restart_game():
 	rpc("_on_update_running", true)
 	waitForStartingPosition = true
-	start_position_input = _calc_start_position()
 	dots.clear()
 	finish_state = 0
 
@@ -296,5 +292,5 @@ sync func _on_update_running(newValue):
 
 
 remotesync func _on_game_completed():
-	get_parent().remove_child(self)
+	get_parent().call_deferred("remove_child", self)
 
