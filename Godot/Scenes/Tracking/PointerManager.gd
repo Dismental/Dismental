@@ -69,15 +69,14 @@ func _process(_delta):
 		# In the ideal case the zones should resemble ellipses that are warped according to the movement speed
 		
 		# Defining the warping of the free movement zone and the throttle zone
-		if (lost_tracking): 
+		if lost_tracking: 
 			free_movement_zone_warp = 1
 			throttle_zone_warp = 1
 		else:
 			free_movement_zone_warp = max(1, min(4, (movement_speed.length()) / 100))
 			throttle_zone_warp = max(1, min(4, (movement_speed.length()) / 200))
 		
-		if (distance_new < 1):
-			distance_new = 1
+		distance_new = max(distance_new, 1)
 		
 		# Check if the new tracking position is inside of the free movement zone
 		if _within_free_movement_zone(tracking_pos, tracking_pos_new):
@@ -106,7 +105,7 @@ func _process(_delta):
 			var position_offset_norm = position_offset.normalized()
 			var position_offset_limited_to_edge
 			
-			if not (lost_tracking): 
+			if not lost_tracking: 
 				position_offset_limited_to_edge = position_offset_norm * _distance_to_free_zone_edge(tracking_pos, tracking_pos_new)
 				tracking_pos += position_offset_limited_to_edge/4
 				pointer_node.position = tracking_pos
@@ -127,12 +126,11 @@ func _process(_delta):
 
 
 func _within_free_movement_zone(pos, pos_new):
-	var distance = (pos.distance_to(pos_new))
+	var distance = pos.distance_to(pos_new)
 	
 	# calculate the relevant point on the ellipse-shaped free movement zone
 	var ellipse_point = point_on_ellipse(0, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
 	
-	#print(ellipse_point.length())
 	# check if the distance of pos is smaller than the radius of the point on the ellipse
 	if (distance < ellipse_point.length()):
 		return true
@@ -140,15 +138,13 @@ func _within_free_movement_zone(pos, pos_new):
 
 
 func _within_throttled_zone(pos, pos_new):
-	var distance = (pos.distance_to(pos_new))
+	var distance = pos.distance_to(pos_new)
 	
 	# calculate the relevant point on the ellipse-shaped free movement zone
 	var ellipse_point = point_on_ellipse(0, delta_angle, throttle_zone_radius, throttle_zone_warp)
 	
-	#print(ellipse_point.length())
 	# check if the distance of pos is smaller than the radius of the point on the ellipse
 	if (distance < ellipse_point.length()):
-#		print("in throttle zone")
 		return true
 	return false
 
@@ -159,8 +155,12 @@ func _distance_to_free_zone_edge(pos, pos_new):
 
 
 func set_role(_player_role):
-	if (_player_role == ROLE.HEADTHROTTLE):
-		print ("initiating head tracking with throttle")
+	if _player_role == ROLE.HEADTHROTTLE or _player_role == ROLE.HEAD:
+		if _player_role == ROLE.HEADTHROTTLE:
+			print ("initiating head tracking with throttle")
+		else:
+			print ("initiating head tracking")
+			
 		var headTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
 		var tracking = headTrackingScene.instance()
 		self.add_child(tracking)
@@ -170,18 +170,8 @@ func set_role(_player_role):
 		pointer_pos = pointer_node.position 
 		pointer_pos_current = pointer_node.position
 		player_role = _player_role
-	elif (_player_role == ROLE.HEAD):
-		print ("initiating head tracking")
-		var headTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
-		var tracking = headTrackingScene.instance()
-		self.add_child(tracking)
-		tracking_node = tracking.get_node("HeadPos")
-		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
-		pointer_node.position = _map_tracking_position(Vector2(0.5,0.5))
-		pointer_pos = pointer_node.position 
-		pointer_pos_current = pointer_node.position
-		player_role = _player_role
-	elif (_player_role == ROLE.MOUSE):
+
+	elif _player_role == ROLE.MOUSE:
 		print ("initiating mouse as pointer")
 		player_role = _player_role
 		
