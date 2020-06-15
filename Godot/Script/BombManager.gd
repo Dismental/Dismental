@@ -82,7 +82,7 @@ func _on_start_minigame_pressed():
 
 
 func game_over():
-	return Utils.change_screen("res://Scenes/LoseScreen.tscn", self)
+	return Utils.change_screen("res://Scenes/LoseScene.tscn", self)
 
 
 remotesync func _update_minigames_remaing_text(num):
@@ -92,4 +92,4 @@ remotesync func _on_defuse():
 	running = false
 	timer.stop()
 	$Control/VBoxContainer/HBoxContainer/ExampleBomb/Title.text = "Defused"
-	return Utils.change_screen("res://Scenes/WinScreen.tscn", self)
+	return Utils.change_screen("res://Scenes/WinScene.tscn", self)
