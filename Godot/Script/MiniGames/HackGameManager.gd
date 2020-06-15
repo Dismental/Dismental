@@ -172,8 +172,7 @@ func _remove_labels():
 		if normal_labels[i].position.x > screen_width + char_width:
 			label_nodes.remove_child(normal_labels[i])
 			normal_labels.remove(i)
-		else:
-			break
+
 
 func _get_input_pos():
 	if not online:
