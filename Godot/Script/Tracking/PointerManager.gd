@@ -163,7 +163,7 @@ func _within_throttled_zone(pos, pos_new):
 		return true
 	return false
 
-func _distance_to_free_zone_edge(pos):
+func _distance_to_free_zone_edge():
 	# calculate the relevant point on the ellipse-shaped free movement zone
 	var ellipse_point = point_on_ellipse(
 		delta_angle,
@@ -181,8 +181,8 @@ func set_role(_player_role):
 		else:
 			print ("initiating head tracking")
 
-		var headTrackingScene = preload("res://Scenes/Tracking/HeadTracking.tscn")
-		var tracking = headTrackingScene.instance()
+		var head_tracking_scene = preload("res://Scenes/Tracking/HeadTracking.tscn")
+		var tracking = head_tracking_scene.instance()
 		self.add_child(tracking)
 		tracking_node = tracking.get_node("HeadPos")
 		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
