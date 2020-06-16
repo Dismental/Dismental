@@ -55,6 +55,9 @@ var background_color
 
 var player_role
 
+var on_vacuum = false
+var on_soldering = false
+
 onready var soldering_iron_indicator = $SolderingBackground/SolderingIron
 onready var iron_label = $SolderingBackground/SolderingIron/SolderingIronLabel
 
@@ -350,12 +353,12 @@ func _get_input_pos():
 
 
 func _game_completed():
-	rpc_id(1, "_on_game_completed")
-	_on_game_completed()
-	
+	rpc("_on_game_completed")
+
+
 func _game_over():
-	rpc_id(1, "_on_game_over")
-	_on_game_over()
+	rpc("_on_game_over")
+
 
 remotesync func _soldering_entered():
 	if defuse_state == DefuserState.SOLDERING_IRON:
@@ -371,6 +374,7 @@ remotesync func _soldering_entered():
 		defuse_state = DefuserState.SOLDERING_IRON
 		soldering_iron_indicator.color = Color(0, 1, 0)
 
+
 remotesync func _vacuum_entered():
 	if defuse_state == DefuserState.VACUUM:
 		defuse_state = DefuserState.OFF
@@ -385,8 +389,6 @@ remotesync func _vacuum_entered():
 		vacuum_indicator.color = Color(0, 1, 0)
 		vacuum_label.text = "ON"
 
-var on_vacuum = false
-var on_soldering = false
 
 func _check_input():
 	var input = _get_input_pos()
@@ -419,24 +421,20 @@ func _check_input():
 	else:
 		on_vacuum = false
 
+
 func _on_soldering_entered():
 	if player_role == Role.DEFUSER:
-		print("Soldering entered")
 		rpc("_soldering_entered")
+
 
 func _on_vacuum_entered():
 	if player_role == Role.DEFUSER:
-		print("Vacuum entered")
 		rpc("_vacuum_entered")
+
 
 remotesync func _on_game_completed():
 	get_parent().call_deferred("remove_child", self)
-	
+
+
 remotesync func _on_game_over():
 	get_tree().paused = true
-
-#	if player_role == Role.SUPERVISOR:
-#		_init_matrix()
-#	_destroy_components()
-#	_generate_components()
-#	assert(len(components) == num_of_components)
