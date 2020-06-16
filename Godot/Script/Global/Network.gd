@@ -149,8 +149,8 @@ func candidate_received(id, mid, index, sdp):
 	if web_rtc.has_peer(id):
 		web_rtc.get_peer(id).connection.add_ice_candidate(mid, index, sdp)
 
-#### STARTING A GAME
 
+#### STARTING A GAME
 remote func pre_configure_game():
 	get_tree().set_pause(true)
 

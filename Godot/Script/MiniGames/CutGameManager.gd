@@ -269,17 +269,15 @@ func _get_map_pixel_color(pos):
 remotesync func _on_update_running(newValue):
 	running = newValue
 
+
 func _on_GameOverDialog_confirmed():
 	rpc("_on_game_over")
 
+
 func _on_CompletedDialog_confirmed():
 	rpc("_on_game_completed")
-	
+
 
 remotesync func _on_game_over():
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
-
-
-remotesync func _on_update_running(newValue):
-	running = newValue
