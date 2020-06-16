@@ -45,7 +45,7 @@ func _close_request(code, reason):
 	self.reason = reason
 
 
-func _connected(protocol = ""):
+func _connected(_protocol = ""):
 	client.get_peer(1).set_write_mode(WebSocketPeer.WRITE_MODE_TEXT)
 	if autojoin:
 		join_lobby(lobby)

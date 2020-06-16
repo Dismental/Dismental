@@ -106,7 +106,7 @@ func _process(_delta):
 			var position_offset_limited_to_edge
 			
 			if not lost_tracking: 
-				position_offset_limited_to_edge = position_offset_norm * _distance_to_free_zone_edge(tracking_pos, tracking_pos_new)
+				position_offset_limited_to_edge = position_offset_norm * _distance_to_free_zone_edge(tracking_pos)
 				tracking_pos += position_offset_limited_to_edge/4
 				pointer_node.position = tracking_pos
 		# tracking is lost
@@ -148,7 +148,7 @@ func _within_throttled_zone(pos, pos_new):
 		return true
 	return false
 
-func _distance_to_free_zone_edge(pos, pos_new):
+func _distance_to_free_zone_edge(pos):
 	# calculate the relevant point on the ellipse-shaped free movement zone
 	var ellipse_point = point_on_ellipse(delta_angle, delta_angle, free_movement_zone_radius, free_movement_zone_warp)
 	return ellipse_point.length()
@@ -177,8 +177,6 @@ func set_role(_player_role):
 		
 func _map_tracking_position(track_pos):
 
-	# The values for the headtracking position ranges from 0 to 1
-	var pos = pointer_node.position
 	# Add a margin/multiplier so the user's movement is amplified.
 	# The makes it easy for the user to reach the edges of the game screen with the pointer
 	var margin = 0.4
