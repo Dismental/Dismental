@@ -285,5 +285,3 @@ func _on_GameOverDialog_confirmed():
 
 func _on_CompletedDialog_confirmed():
 	rpc("_on_game_completed")
-
-
