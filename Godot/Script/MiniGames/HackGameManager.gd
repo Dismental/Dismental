@@ -35,7 +35,7 @@ onready var label_nodes = $LabelNodes
 
 func _ready():
 	num_of_collectables = len(password)
-	player_role = Role.DEFUSER if !online  or get_tree().is_network_server() else Role.SUPERVISOR
+	player_role = Role.DEFUSER if !online or get_tree().is_network_server() else Role.SUPERVISOR
 	_update_password_label()
 	randomize()
 	

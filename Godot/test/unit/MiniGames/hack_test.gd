@@ -17,6 +17,7 @@ func test_move_bar():
 	inst._move_bar()
 	assert_eq(inst.bar.position.y, 10.0)
 
+
 func test_create_label():
 	var inst = load('res://Script/MiniGames/HackGameManager.gd').new()
 	inst.label_nodes = Node.new()
@@ -37,6 +38,7 @@ func test_create_label():
 	assert_eq(inst.normal_labels[1].position, pos)
 	assert_eq(inst.normal_labels[1].get_child(0).text, text)
 
+
 func test_remove_one_label():
 	var inst = load('res://Script/MiniGames/HackGameManager.gd').new()
 	inst.label_nodes = Node.new()
@@ -51,6 +53,7 @@ func test_remove_one_label():
 	inst.normal_labels[0].position.x = inst.screen_width + inst.char_width + 1
 	inst._remove_labels()
 	assert_eq(len(inst.normal_labels), 0)
+
 
 func test_remove_multiple_labels():
 	var inst = load('res://Script/MiniGames/HackGameManager.gd').new()
@@ -125,6 +128,7 @@ func test_password_label():
 	inst._update_password_label()
 	assert_eq(inst.password_label.text, "Hello*****")
 
+
 func test_collecting_label():
 	var inst = load('res://Script/MiniGames/HackGameManager.gd').new()
 	inst.online = false
@@ -168,6 +172,7 @@ func test_text_update_when_collecting_label():
 	inst._on_Bar_body_entered(node2)
 	assert_eq(inst.password_label.text, "He********")
 
+
 func test_game_completion_collecting_last_label():
 	var inst = partial_double('res://Script/MiniGames/HackGameManager.gd').new()
 	stub(inst, '_game_completed').to_do_nothing()
@@ -191,5 +196,3 @@ func test_game_completion_collecting_last_label():
 	
 	assert_call_count(inst, '_game_completed', 1)
 	assert_call_count(inst, '_game_over', 0)
-
-
