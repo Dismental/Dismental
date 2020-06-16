@@ -265,7 +265,7 @@ func _get_map_pixel_color(pos):
 	return pixelcolor
 
 
-sync func _on_update_running(newValue):
+remotesync func _on_update_running(newValue):
 	running = newValue
 
 
