@@ -180,8 +180,8 @@ func set_role(_player_role):
 		else:
 			print ("initiating head tracking")
 
-		var head_tracking_scene = load("res://Scenes/Tracking/HeadTracking.tscn")
-		var tracking = head_tracking_scene.instance()
+		var HeadtrackingScene = load("res://Scenes/Tracking/HeadTracking.tscn")
+		var tracking = HeadtrackingScene.instance()
 		self.add_child(tracking)
 		tracking_node = tracking.get_node("HeadPos")
 		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
