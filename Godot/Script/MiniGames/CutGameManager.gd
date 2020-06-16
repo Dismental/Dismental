@@ -146,12 +146,6 @@ func _calc_finish_line():
 	finish_rect = Rect2(min_x, sp.y - rect_height/2, max_x - min_x, rect_height)
 
 
-func _game_over():
-	if get_tree().is_network_server():
-		game_over_dialog.popup()
-	rpc("_on_update_running", false)
-
-
 func _update_game_state():
 	if waitForStartingPosition:
 		var start_position_input = _calc_start_position()
@@ -191,11 +185,6 @@ func _check_finish():
 				_game_completed()
 			else:
 				finish_state = 0
-
-
-func _game_completed():
-	rpc("_on_update_running", false)
-	rpc("_on_game_completed")
 
 
 func _move_input_to_start():
@@ -266,8 +255,28 @@ func _get_map_pixel_color(pos):
 	return pixelcolor
 
 
+func _game_over():
+	if get_tree().is_network_server():
+		game_over_dialog.popup()
+	rpc("_on_update_running", false)
+
+
+func _game_completed():
+	rpc("_on_update_running", false)
+	rpc("_on_game_completed")
+	
+
 remotesync func _on_update_running(newValue):
 	running = newValue
+
+
+remotesync func _on_game_over():
+	get_tree().get_root().get_node("GameScene").game_over()
+	get_parent().call_deferred("remove_child", self)
+
+
+remotesync func _on_game_completed():
+	get_parent().call_deferred("remove_child", self)
 
 
 func _on_GameOverDialog_confirmed():
@@ -278,6 +287,3 @@ func _on_CompletedDialog_confirmed():
 	rpc("_on_game_completed")
 
 
-remotesync func _on_game_over():
-	get_tree().get_root().get_node("GameScene").game_over()
-	get_parent().call_deferred("remove_child", self)
