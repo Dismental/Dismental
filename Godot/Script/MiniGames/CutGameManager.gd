@@ -1,5 +1,7 @@
 extends Node2D
 
+const Role = preload("res://Script/Role.gd")
+
 puppet var puppet_mouse = Vector2()
 
 # Constants for the properties of the x-ray vision texture
@@ -20,6 +22,7 @@ var finish_rect
 # 1 is clockwise
 # -1 is counterclockwise
 var finish_state = 0
+var player_role
 
 onready var start_dialog = $Control/StartDialog
 onready var game_over_dialog = $Control/GameOverDialog
@@ -28,7 +31,10 @@ onready var supervisor_vision = $"Control/X-rayVision"
 
 func _ready():
 	supervisor_vision.visible = true
-	if get_tree().is_network_server():
+	
+	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
+	
+	if player_role == Role.DEFUSER:
 		start_dialog.popup()
 		_load_map(1, false)
 		
@@ -149,7 +155,7 @@ func _calc_finish_line():
 
 
 func _game_over():
-	if get_tree().is_network_server():
+	if player_role == Role.DEFUSER:
 		game_over_dialog.popup()
 	rpc("_on_update_running", false)
 
@@ -168,7 +174,7 @@ func _update_game_state():
 			else:
 				_check_finish()
 	# Move the 'vision' of the Supervisor
-	if running and not get_tree().is_network_server():
+	if running and not player_role == Role.DEFUSER:
 		_supervisor_vision_update(get_global_mouse_position())
 
 
@@ -201,7 +207,7 @@ func _game_completed():
 
 func _move_input_to_start():
 	var start_position_input = _calc_start_position()
-	if get_tree().is_network_server():
+	if player_role == Role.DEFUSER:
 		Input.warp_mouse_position(start_position_input)
 
 
@@ -249,7 +255,7 @@ func _is_input_on_track():
 
 func _get_input_pos():
 	var cursorpos
-	if get_tree().is_network_server():
+	if player_role == Role.DEFUSER:
 		cursorpos = pointer_node.position
 		rset("puppet_mouse", cursorpos)
 	else:
