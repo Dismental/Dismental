@@ -232,11 +232,11 @@ $ python linter.py [path-to-location] [path-to-location2] ...
 ```
 Examples:
 ```
-$ python linter.py Script/SceneManagers/ Script/Scoreboard.gd 
+$ python linter.py Script/SceneManagers/ Script/Scoreboard.gd
 ```
 
 ```
-$ python linter.py Network.gd 
+$ python linter.py Network.gd
 ```
 
 ```
@@ -255,14 +255,14 @@ Run these scripts using `sh ./<script-name>.sh` when at the root of the reposito
 
 This will compile the gdnative source files & directly run the main scene, easy for quick debugging when developing.
 
-**double_the_trouble**
+**double-the-trouble**
 
 We often need to test multiplayer locally, this script will open two instances of the main scene at once. Along with a terminal window for each instance.
 
 # Developer Team
-- Kevin van der Werff, Producer & Communication 
+- Kevin van der Werff, Producer & Communication
 - Onno Gieling, Lead Playtesting
-- Jonas Duifs, Interaction Designer 
+- Jonas Duifs, Interaction Designer
 - Pepijn Klop, Lead Designer
-- Gees Brouwers, Lead Artist & SFX Designer 
-- Jeroen Janssen, Lead Programmer 
+- Gees Brouwers, Lead Artist & SFX Designer
+- Jeroen Janssen, Lead Programmer

@@ -242,7 +242,6 @@ func _check_vacuum():
 				if input_row >= com_pos["row"] - input_sector_range:
 					if input_row <= com_pos["row"] + input_sector_range:
 						if matrix[input_row][input_col] > vacuum_remove_threshold:
-							var node = item[0]
 							print("Remove component" + str(id))
 							_destroy_component(id)
 							rpc_id(1, "_destroy_component", id)
@@ -312,7 +311,7 @@ func _generate_components():
 	var start_x = pros_pos.x - component_width - pros_size.x / 2
 	var start_y = pros_pos.y - pros_size.y / 2 + height_padding
 
-	for i in range(num_of_components):
+	for _i in range(num_of_components):
 		if yi >= num_of_components/2:
 			xi += 1
 			yi = 0
@@ -431,12 +430,8 @@ func _on_vacuum_entered():
 		rpc("_vacuum_entered")
 
 remotesync func _on_game_completed():
-	print("Remove self")
-	get_parent().remove_child(self)
+	get_parent().call_deferred("remove_child", self)
 	
 remotesync func _on_game_over():
-	if player_role == Role.SUPERVISOR:
-		_init_matrix()
-	_destroy_components()
-	_generate_components()
-	assert(len(components) == num_of_components)
+	get_tree().get_root().get_node("GameScene").game_over()
+	get_parent().call_deferred("remove_child", self)

@@ -18,8 +18,9 @@ func _on_BackButton_pressed():
 func _on_StartGameButton_pressed():
 	if(!Network.sealed):
 		Network.seal_lobby()
+
 	Network.begin_game_pressed()
-#	return Utils.change_screen("res://Scenes/GameScene.tscn", self)
+	get_parent().remove_child(self)
 
 func refresh_lobby():
 	var players = Network.get_players().values()
