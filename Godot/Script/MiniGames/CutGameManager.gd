@@ -38,7 +38,7 @@ func _ready():
 		var pointer = PointerScene.instance()
 		self.add_child(pointer)
 		var pointer_control = pointer.get_node(".")
-		pointer_control.set_role(pointer.ROLE.HEADTHROTTLE)
+		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
 		
 		# Turn the x-ray vision OFF for the operator
