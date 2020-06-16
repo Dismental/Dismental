@@ -26,6 +26,7 @@ onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
 onready var supervisor_vision = $"Control/X-rayVision"
 
+
 func _ready():
 	supervisor_vision.visible = true
 	if get_tree().is_network_server():
@@ -75,7 +76,6 @@ func _draw():
 		# Draw line
 		for i in range(2, len(dots) - 1):
 			draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
-
 
 	# Draw current pointer
 	var rad = 25
@@ -196,6 +196,7 @@ func _check_finish():
 func _game_completed():
 	rpc("_on_update_running", false)
 	rpc("_on_game_completed")
+
 
 func _move_input_to_start():
 	var start_position_input = _calc_start_position()

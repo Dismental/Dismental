@@ -113,8 +113,10 @@ func _init_rings():
 		else:
 			_remove_node(node)
 
+
 func _get_ring_node(i):
 	return get_node("ring" + str(i))
+
 
 func _remove_node(node):
 	node.visible = false
@@ -158,10 +160,12 @@ func _sync_rotate_rings():
 			if debug: _rotate_ring(ring['ringindex'], degrees)
 			else: rpc("_rotate_ring", ring['ringindex'], degrees)
 
+
 # Rotates the ring
 remotesync func _rotate_ring(ring_i, degrees):
 	var r = rings[ring_i]
 	r.rotation_degrees = degrees
+
 
 # Set the scale of the rings based on the number of rings
 func _set_ring_scale():
@@ -169,6 +173,7 @@ func _set_ring_scale():
 	get_node("center").scale = scale
 	for x in rings:
 		x.scale = scale
+
 
 # Assigns every player a random ring and an axis of input
 # With 2 or 3 players, everyone gets 2 rings.
@@ -200,16 +205,19 @@ func _assign_random_rings():
 			ring_i += 1
 			controlled_rings.append({"ringindex": options[ring_i], "axis": "Y"})
 
+
 # The network server randomly assigns the controlled rings
 # and communicates this with this remote function
 remote func _assign_controlled_ring(i, axis):
 	controlled_rings.append({"ringindex": i, "axis": axis})
+
 
 # Returns a random axis
 func _random_axis():
 	if randf() < 0.5:
 		return "X"
 	return "Y"
+
 
 # Creates the game timer
 func _create_timer():
@@ -220,6 +228,7 @@ func _create_timer():
 	add_child(timer)
 	timer_label.text = str(timer_wait_time)
 
+
 # Checks if all the rings align with a small error range
 func _check_completion():
 	for ring in rings:
@@ -227,6 +236,7 @@ func _check_completion():
 		if not (rotation < completion_range or rotation > 360 - completion_range):
 			return false
 	return true
+
 
 # Starts the game and timer
 remotesync func _start_game():
@@ -245,6 +255,7 @@ func _sync_set_random_angles():
 	if debug: _set_rings_angle(lst)
 	else: rpc("_set_rings_angle", lst)
 
+
 # Sync start ring angles with all peers
 remotesync func _set_rings_angle(lst):
 	var i = 0
@@ -252,9 +263,11 @@ remotesync func _set_rings_angle(lst):
 		rings[i].rotation_degrees = x
 		i += 1
 
+
 # Returns the input position
 func _get_input_pos():
 	return get_viewport().get_mouse_position()
+
 
 # Called when time's up
 func _on_timer_timeout():

@@ -161,6 +161,7 @@ func _within_throttled_zone(pos, pos_new):
 		return true
 	return false
 
+
 func _distance_to_free_zone_edge():
 	# calculate the relevant point on the ellipse-shaped free movement zone
 	var ellipse_point = point_on_ellipse(
@@ -195,7 +196,6 @@ func set_role(_player_role):
 
 
 func _map_tracking_position(track_pos):
-
 	# Add a margin/multiplier so the user's movement is amplified.
 	# The makes it easy for the user to reach the edges of the game screen with the pointer
 	var margin = 0.4

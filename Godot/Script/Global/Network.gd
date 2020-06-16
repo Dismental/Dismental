@@ -11,6 +11,7 @@ var players_ready = []
 var web_rtc : WebRTCMultiplayer = WebRTCMultiplayer.new()
 var sealed = false
 
+
 # Called when the node enters the scene tree for the first time.
 func _init():
 	connect("connected", self, "connected")
@@ -24,6 +25,7 @@ func _init():
 	connect("lobby_sealed", self, "lobby_sealed")
 	connect("peer_connected", self, "peer_connected")
 	connect("peer_disconnected", self, "peer_disconnected")
+
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
@@ -193,6 +195,7 @@ remote func pre_configure_minigame(minigame):
 	if not get_tree().is_network_server():
 		var self_peer_id = get_tree().get_network_unique_id()
 		rpc_id(1, "done_pre_configuring_minigame", self_peer_id)
+
 
 func start_minigame(minigame):
 	assert(get_tree().is_network_server())

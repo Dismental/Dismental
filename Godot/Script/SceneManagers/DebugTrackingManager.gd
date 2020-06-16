@@ -3,6 +3,7 @@ extends Node2D
 var map_sprite
 var pointer_node
 
+
 func _ready():
 	print("start tracking scene")
 	var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
@@ -12,9 +13,11 @@ func _ready():
 	pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 	pointer_node = pointer.get_node("Pointer")
 
+
 func _process(_delta):
 	# Updates the draw function
 	update()
+
 
 func _draw():
 	# Get cursor position
@@ -24,6 +27,7 @@ func _draw():
 	var rad = 25
 	var col = Color(0, 1, 0)
 	draw_circle(input_pos, rad, col)
+
 
 func _unhandled_input(event):
 	# Quit the game when escape is pressed

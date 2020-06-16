@@ -1,9 +1,13 @@
 extends Control
+
+
 func _init():
 	Network.connect("player_list_changed", self, "refresh_lobby")
 
+
 func _ready():
 	refresh_lobby()
+
 
 func _on_BackButton_pressed():
 	Network.stop()

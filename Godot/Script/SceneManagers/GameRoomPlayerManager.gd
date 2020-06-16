@@ -9,8 +9,10 @@ func _on_BackButton_pressed():
 	Network.stop()
 	return Utils.change_screen("res://Scenes/JoinGameRoom.tscn", self)
 
+
 func host_disconnect():
 	Utils.change_screen("res://Scenes/JoinGameRoom.tscn", self)
+
 
 func refresh_lobby():
 	var players = Network.get_players().values()
