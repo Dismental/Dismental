@@ -35,16 +35,14 @@ var delta_angle = 0
 var delta_angle_diff = 0
 var movement_speed = Vector2(0,0)
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	pointer_node = get_node("Pointer")
 	lost_tracking = true
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(_delta):
-
-	if (player_role == Role.HEADTHROTTLE):
-
+	if player_role == Role.HEADTHROTTLE:
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
 
 		# The distance between the last tracking position and the new tracking position
@@ -116,7 +114,7 @@ func _process(_delta):
 			var position_offset_norm = position_offset.normalized()
 
 			if not lost_tracking:
-				var pos_offset_edge = position_offset_norm * _distance_to_free_zone_edge(tracking_pos)
+				var pos_offset_edge = position_offset_norm * _distance_to_free_zone_edge()
 				tracking_pos += pos_offset_edge/4
 				pointer_node.position = tracking_pos
 		# tracking is lost
