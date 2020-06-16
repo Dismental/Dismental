@@ -279,6 +279,10 @@ remotesync func _on_game_completed():
 	get_parent().call_deferred("remove_child", self)
 
 
+func _on_StartDialog_confirmed():
+	rpc("_on_update_running", true)
+
+
 func _on_GameOverDialog_confirmed():
 	rpc("_on_game_over")
 
