@@ -13,6 +13,7 @@ var controlled_rings = []
 # Range for compeltion +- the degree
 var completion_range = 30
 
+# Time that is needed to stay on the solution to complete
 var completion_delay = 2
 var completed_timer = 0
 
@@ -33,6 +34,8 @@ var ring_count = {
 var num_of_players
 var num_of_rings
 
+
+# Input behaviour params
 var random_input_factor_x
 var random_input_factor_y
 var random_zero_x
@@ -125,8 +128,10 @@ func _count_num_of_players():
 	else:
 		num_of_players = len(get_tree().get_network_connected_peers()) + 1
 
+
 func _set_num_of_rings():
 	num_of_rings = ring_count[num_of_players]
+
 
 # Calculates the rotation locally and set the ring index and degree to all peers
 func _sync_rotate_rings():
@@ -136,19 +141,13 @@ func _sync_rotate_rings():
 			var input_pos = _get_input_pos()
 
 			if ring["axis"] == "X":
-				if input_pos.x > get_viewport_rect().size.x:
-					input_pos.x = get_viewport_rect().size.x
-				elif input_pos.x < 0:
-					input_pos.x = 0
+				input_pos.x = clamp(input_pos.x, 0, get_viewport_rect().size.x)
 
 				var ratio = input_pos.x /  (get_viewport_rect().size.x / random_input_factor_x)
 				degrees = inverted_x * fmod(ratio * 360.0 + random_zero_x, 360)
 
 			else:
-				if input_pos.y > get_viewport_rect().size.y:
-					input_pos.y = get_viewport_rect().size.y
-				elif input_pos.y < 0:
-					input_pos.y = 0
+				input_pos.y = clamp(input_pos.y, 0, get_viewport_rect().size.y)
 
 				var ratio = input_pos.y /  (get_viewport_rect().size.y / random_input_factor_y)
 				degrees = inverted_y * fmod(ratio * 360.0 + random_zero_y, 360)
@@ -282,7 +281,6 @@ remotesync func _next_minigame():
 
 remotesync func _game_over():
 	get_tree().paused = true
-
 
 
 func _on_AcceptDialog_confirmed():
