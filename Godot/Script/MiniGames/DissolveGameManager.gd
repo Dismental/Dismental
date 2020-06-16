@@ -452,4 +452,5 @@ remotesync func _on_game_completed():
 
 
 remotesync func _on_game_over():
-	get_tree().paused = true
+	get_tree().get_root().get_node("GameScene").game_over()
+	get_parent().call_deferred("remove_child", self)

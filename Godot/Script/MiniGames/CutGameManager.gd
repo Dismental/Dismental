@@ -269,21 +269,17 @@ func _get_map_pixel_color(pos):
 remotesync func _on_update_running(newValue):
 	running = newValue
 
+func _on_GameOverDialog_confirmed():
+	rpc("_on_game_over")
 
-remotesync func _restart_game():
-	rpc("_on_update_running", true)
-	waitForStartingPosition = true
-	dots.clear()
-	finish_state = 0
+func _on_CompletedDialog_confirmed():
+	rpc("_on_game_completed")
+	
 
-
-remotesync func _on_game_completed():
+remotesync func _on_game_over():
+	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
 
 
-func _on_StartDialog_confirmed():
-	rpc("_on_update_running", true)
-
-
-func _on_GameOverDialog_confirmed():
-	rpc("_restart_game")
+remotesync func _on_update_running(newValue):
+	running = newValue
