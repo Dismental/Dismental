@@ -1,8 +1,10 @@
 DMG_NAME="Dismental"
 TEMPORARY_DMG_DIR="./bin/temp_dmg"
-DMG_FULL_PATH="./bin/${DMG_NAME}.dmg"
 APP_FULL_PATH="${TEMPORARY_DMG_DIR}/${DMG_NAME}.app"
-godot --export-debug "MacOSX" $DMG_FULL_PATH
+MAC_VERSION=$1
+DMG_FULL_PATH="./bin/${DMG_NAME}_${MAC_VERSION}.dmg"
+
+godot --export-debug "MacOSX (${MAC_VERSION})" $DMG_FULL_PATH
 
 mkdir $TEMPORARY_DMG_DIR
 
@@ -15,15 +17,15 @@ hdiutil unmount "/Volumes/${DMG_NAME}"
 cp "./bin/haarcascade_frontalface_default.xml" "${APP_FULL_PATH}/Contents/Resources/"
 
 # Copy symlinks to .app/Contents/Frameworks/
-symlinks=($(ls -ld bin/osx/*.dylib | grep ^l | awk '{print $9}'))
+symlinks=($(ls -ld bin/osx/deps_${MAC_VERSION}/*.dylib | grep ^l | awk '{print $9}'))
 for symlink in "${symlinks[@]}"; do
   cp -a "./$symlink" "${APP_FULL_PATH}/Contents/Frameworks/"
 done
 
 # If -i flag is passed, then place the .app at INSTALL_LOCATION
-if [ $# == 2 ] && [ "$1" == "-i" ]; then
-  cp -R $APP_FULL_PATH "$2";
-fi
+# if [ $# == 2 ] && [ "$1" == "-i" ]; then
+  # cp -R $APP_FULL_PATH "$2";
+# fi
 
 # Repack temp_dmg/ into .dmg
 hdiutil create -volname $DMG_NAME -srcfolder $TEMPORARY_DMG_DIR -ov -format UDZO $DMG_FULL_PATH
