@@ -4,7 +4,7 @@ puppet var puppet_mouse = Vector2()
 
 const Role = preload("res://Script/Role.gd")
 
-var password = "Test"
+var password = "Test_word"
 var online = true
 
 var num_of_collectables
@@ -31,10 +31,11 @@ var pointer_node
 
 onready var bar = $Bar
 onready var password_label = $PasswordLabel
+onready var label_nodes = $LabelNodes
 
 func _ready():
 	num_of_collectables = len(password)
-	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
+	player_role = Role.DEFUSER if !online or get_tree().is_network_server() else Role.SUPERVISOR
 	_update_password_label()
 	randomize()
 	
@@ -51,13 +52,9 @@ func _physics_process(delta):
 	_move_labels(delta)
 	_move_bar()
 
-var fps = 0
 func _process(delta):
 	if player_role == Role.DEFUSER:
 		_spawn_labels(delta)
-	
-	fps += 1
-	if fps % 20 == 0:
 		_remove_labels()
 
 func _update_password_label():
@@ -136,14 +133,14 @@ remotesync func _create_collectable_label(pos, text):
 	
 	collectables.append(kb)
 
-	$LabelNodes.add_child(kb)
+	label_nodes.add_child(kb)
 
 # Creates a normal char without collision detection
 remotesync func _create_label_node(pos, text):
 	var s = Node2D.new()
 	s.position = pos
 	s.add_child(_create_label(text))
-	$LabelNodes.add_child(s)
+	label_nodes.add_child(s)
 	normal_labels.append(s)
 
 # Creates a label with the given text in the coding font style
@@ -157,7 +154,7 @@ func _create_label(text):
 
 
 # Generates a random string
-func _genersate_random_text(min_length, max_length):
+func _generate_random_text(min_length, max_length):
 	var res = ""
 	var num_of_chars = randi() % (max_length - min_length) + min_length
 	for _i in range(num_of_chars):
@@ -169,10 +166,13 @@ func _generate_random_char():
 
 # Checks if label is off-screen and removes it if true
 func _remove_labels():
-	for i in range(len(normal_labels) - 1, -1, -1):
+	print("Len labels " + str(len(normal_labels)))
+	var iterations = min(rows / 2, len(normal_labels) - 1)
+	for i in range(iterations, -1, -1):
 		if normal_labels[i].position.x > screen_width + char_width:
-			$LabelNodes.remove_child(normal_labels[i])
+			label_nodes.remove_child(normal_labels[i])
 			normal_labels.remove(i)
+
 
 func _get_input_pos():
 	if not online:
@@ -201,13 +201,14 @@ func _on_Bar_body_entered(body):
 			
 # Called when a collectable char is collected
 remotesync func _collected_body(i):
-	collected += 1
-	_update_password_label()
-	$LabelNodes.remove_child(collectables[i])
+	label_nodes.remove_child(collectables[i])
 	collectables.remove(i)
 
+	collected += 1
+	_update_password_label()
+
 # Called when a collectable char hits the offscreen area box
-func _on_GameOver_body_entered(body):
+func _on_GameOver_body_entered(_body):
 	if player_role == Role.DEFUSER:
 		if online:
 			rpc("_game_over")
@@ -217,12 +218,10 @@ func _on_GameOver_body_entered(body):
 
 		
 remotesync func _game_completed():
-	get_parent().remove_child(self)
+	get_parent().call_deferred("remove_child", self)
 	
 
 remotesync func _game_over():
-	#TODO add gamelogic for gameover
-	print("GAME OVER")
-	get_parent().remove_child(self)
+	get_tree().get_root().get_node("GameScene").game_over()
+	get_parent().call_deferred("remove_child", self)
 
-	
