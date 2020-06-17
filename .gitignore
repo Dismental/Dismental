@@ -369,6 +369,7 @@ Godot/[Bb]in/*
 !Godot/[Bb]in/*.gdnlib
 !Godot/[Bb]in/*.gdns
 !Godot/[Bb]in/osx/
+!Godot/[Bb]in/haarcascade_frontalface_default.xml
 build/*
 !build/CMakeLists.txt
 api.json
