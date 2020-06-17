@@ -18,7 +18,7 @@ func test_timer_creation():
 	inst._create_timer()
 	assert_true(inst.timer.is_stopped())
 	assert_eq(int(inst.timer.wait_time), inst.timer_wait_time)
-	
+
 
 func test_generate_starting_angles():
 	var inst = load('res://Script/MiniGames/AlignGameManager.gd').new()
@@ -51,6 +51,7 @@ func test_rotate_rings():
 	inst._rotate_ring(1, 0)
 	assert_eq(sprite2.rotation_degrees, 0.0)
 
+
 func test_num_of_rings():
 	var inst = load('res://Script/MiniGames/AlignGameManager.gd').new()
 
@@ -64,6 +65,7 @@ func test_num_of_rings():
 	inst._set_num_of_rings()
 	assert_eq(inst.num_of_rings, inst.ring_count[players])
 
+
 func test_init_rings():
 	var inst = double('res://Script/MiniGames/AlignGameManager.gd').new()
 
@@ -72,6 +74,7 @@ func test_init_rings():
 	inst._init_rings()
 
 	assert_eq(len(inst.rings), 5)
+
 
 func test_start_game():
 	var inst = partial_double('res://Script/MiniGames/AlignGameManager.gd').new()

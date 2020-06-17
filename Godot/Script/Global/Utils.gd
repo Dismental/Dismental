@@ -1,5 +1,6 @@
 extends Node
 
+
 static func _count_files_in_dir(path):
 	var count = 0
 	var dir = Directory.new()
@@ -15,6 +16,7 @@ static func _count_files_in_dir(path):
 
 	dir.list_dir_end()
 	return count
+
 
 # Changes the node from s_node with one made from the scene resource given in path
 func change_screen(path: String, s_node : Node):
@@ -32,3 +34,11 @@ func change_screen(path: String, s_node : Node):
 	else:
 		push_error("can't delete" + str(s_node))
 		return false
+
+func add_scene(path: String, parent : Node):
+	var NewNode = load(path)
+	if NewNode == null:
+		print("no scene found with path: " + path)
+	else:
+		NewNode = NewNode.instance()
+		parent.add_child(NewNode)

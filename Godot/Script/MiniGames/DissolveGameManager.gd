@@ -55,6 +55,9 @@ var background_color
 
 var player_role
 
+var on_vacuum = false
+var on_soldering = false
+
 onready var soldering_iron_indicator = $SolderingBackground/SolderingIron
 onready var iron_label = $SolderingBackground/SolderingIron/SolderingIronLabel
 
@@ -66,8 +69,11 @@ onready var title_label = $CanvasLayer/Title
 
 onready var pointer_dot = $red_dot
 
+<<<<<<< HEAD
 # SFX
 onready var game_completed_player = $AudioStreamPlayers/GameCompleted
+=======
+>>>>>>> bdc87ecb06fc00c421b59e6cb83ad3bce087604b
 
 func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
@@ -87,7 +93,7 @@ func _ready():
 		var pointer = PointerScene.instance()
 		self.add_child(pointer)
 		var pointer_control = pointer.get_node(".")
-		pointer_control.set_role(pointer.ROLE.HEADTHROTTLE)
+		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
 		_generate_components()
 
@@ -109,6 +115,7 @@ func _process(delta):
 func _update_dot():
 	pointer_dot.position = _get_input_pos()
 
+
 func _init_matrix():
 	matrix = []
 	for _i in range(rows):
@@ -116,6 +123,7 @@ func _init_matrix():
 		for _j in range(columns):
 			row.append(0)
 		matrix.append(row)
+
 
 func _generate_colors():
 	# Convert H to percentage
@@ -137,6 +145,7 @@ func _generate_colors():
 	background_color = Color.from_hsv(colors[0][0], colors[0][1], colors[0][2])
 	background_color.a = 0.4
 
+
 func _generate_blink_light():
 	blink_light = ColorRect.new()
 	blink_light.color = Color(0.5, 0.5, 0.5, 1)
@@ -146,6 +155,7 @@ func _generate_blink_light():
 	blink_light.set_end(Vector2(110 + width, 900 + width))
 
 	get_node("CanvasLayer").add_child(blink_light)
+
 
 func _blink_light():
 	blink_light.color = Color(1, 0, 0, 0.5)
@@ -157,6 +167,7 @@ func _blink_light():
 	blink_light.color = Color(0.5, 0.5, 0.5, 1)
 	is_blinking = false
 
+
 func _generate_color_scale():
 	var n = 0
 	var width = 50
@@ -167,6 +178,7 @@ func _generate_color_scale():
 		rec.set_end(Vector2(30 + (n + 1) * width, 30 + width))
 		get_node("CanvasLayer").add_child(rec)
 		n += 1
+
 
 # Decreases the matrix temperatures and creates a new image afterwards
 func _refresh_heatmap(delta):
@@ -197,6 +209,7 @@ func _refresh_heatmap(delta):
 
 	dyn_image.unlock()
 	heatmap_sprite.texture.create_from_image(dyn_image)
+
 
 # Increases matrix temperature values based on the input
 func _increase_matrix_input(delta):
@@ -229,6 +242,7 @@ func _increase_matrix_input(delta):
 								matrix[x][y] = 100
 								rpc("_game_over")
 
+
 # Checks if the input cursor is in range of destroyable components
 # Removes a component when the temperature is above the threshold
 func _check_vacuum():
@@ -254,6 +268,7 @@ func _check_vacuum():
 						break
 		id += 1
 
+
 # Give percentage in the range of 100%, returns the right color
 func _pick_color(percentage):
 	percentage = percentage / 100.0
@@ -261,6 +276,7 @@ func _pick_color(percentage):
 	var s = s_low - percentage * s_range
 	var b = b_low + percentage * b_range
 	return Color.from_hsv(h, s, b)
+
 
 # Create the heatmap sprite and add it to the scene
 func _init_heatmap_sprite():
@@ -294,6 +310,7 @@ func _get_sector(input_x, input_y):
 	var row = floor((input_y - mb_position.y) / row_height)
 	var column = floor((input_x - mb_position.x) / column_width)
 	return { "row": row, "column": column }
+
 
 # Generate destroyable components
 func _generate_components():
@@ -333,14 +350,17 @@ func _generate_components():
 		motherboard.add_child(rec)
 		yi += 1
 
+
 remotesync func _destroy_component(id):
 	motherboard.remove_child(components[id][0])
 	components.remove(id)
-	
+
+
 func _destroy_components():
 	components = []
 	for x in components:
 		motherboard.remove_child(x[0])
+
 
 func _get_input_pos():
 	var cursorpos
@@ -353,12 +373,12 @@ func _get_input_pos():
 
 
 func _game_completed():
-	rpc_id(1, "_on_game_completed")
-	_on_game_completed()
-	
+	rpc("_on_game_completed")
+
+
 func _game_over():
-	rpc_id(1, "_on_game_over")
-	_on_game_over()
+	rpc("_on_game_over")
+
 
 remotesync func _soldering_entered():
 	if defuse_state == DefuserState.SOLDERING_IRON:
@@ -374,6 +394,7 @@ remotesync func _soldering_entered():
 		defuse_state = DefuserState.SOLDERING_IRON
 		soldering_iron_indicator.color = Color(0, 1, 0)
 
+
 remotesync func _vacuum_entered():
 	if defuse_state == DefuserState.VACUUM:
 		defuse_state = DefuserState.OFF
@@ -388,8 +409,6 @@ remotesync func _vacuum_entered():
 		vacuum_indicator.color = Color(0, 1, 0)
 		vacuum_label.text = "ON"
 
-var on_vacuum = false
-var on_soldering = false
 
 func _check_input():
 	var input = _get_input_pos()
@@ -422,21 +441,23 @@ func _check_input():
 	else:
 		on_vacuum = false
 
+
 func _on_soldering_entered():
 	if player_role == Role.DEFUSER:
-		print("Soldering entered")
 		rpc("_soldering_entered")
+
 
 func _on_vacuum_entered():
 	if player_role == Role.DEFUSER:
-		print("Vacuum entered")
 		rpc("_vacuum_entered")
+
 
 remotesync func _on_game_completed():
 	game_completed_player.play()
 	yield(get_tree().create_timer(1.0), "timeout")
 	get_parent().call_deferred("remove_child", self)
-	
+
+
 remotesync func _on_game_over():
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)

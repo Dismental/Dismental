@@ -6,6 +6,7 @@ var level : String
 var time : String
 var date : String
 
+
 func _init(team_name: String, level_name: String, completed_time: String, completed_date: String):
 	team = team_name
 	level = level_name
