@@ -11,5 +11,5 @@ dest_files=[ "res://.import/go_signal.ogg-48c36b99b6fb1ca7f5b6f693de20d182.oggst
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

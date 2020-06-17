@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Script/MiniGames/DissolveGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Fonts/Roboto/Roboto-Black.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Scenes/Mini Games/Dissolve/processor.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Mini Games/Dissolve/red_dot.png" type="Texture" id=4]
+[ext_resource path="res://Sounds/game_cleared.ogg" type="AudioStream" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 65
@@ -142,3 +143,8 @@ text = "Soldering iron"
 position = Vector2( 424, 96 )
 scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 4 )
+
+[node name="AudioStreamPlayers" type="Node" parent="."]
+
+[node name="GameCompleted" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 5 )

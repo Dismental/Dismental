@@ -66,6 +66,9 @@ onready var title_label = $CanvasLayer/Title
 
 onready var pointer_dot = $red_dot
 
+# SFX
+onready var game_completed_player = $AudioStreamPlayers/GameCompleted
+
 func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 
@@ -430,6 +433,8 @@ func _on_vacuum_entered():
 		rpc("_vacuum_entered")
 
 remotesync func _on_game_completed():
+	game_completed_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")
 	get_parent().call_deferred("remove_child", self)
 	
 remotesync func _on_game_over():

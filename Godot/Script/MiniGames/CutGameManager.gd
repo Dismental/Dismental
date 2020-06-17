@@ -26,6 +26,10 @@ onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
 onready var supervisor_vision = $"Control/X-rayVision"
 
+# SFX
+onready var game_completed_player = $AudioStreamPlayers/GameCompleted
+onready var go_signal_player = $AudioStreamPlayers/GoSignal
+
 func _ready():
 	supervisor_vision.visible = true
 	if get_tree().is_network_server():
@@ -161,6 +165,7 @@ func _update_game_state():
 		if distance_from_start < 10:
 			waitForStartingPosition = false
 			dots.clear()
+			go_signal_player.play()
 	else:
 		if len(dots) > 2:
 			if not _is_input_on_track():
@@ -288,5 +293,7 @@ remotesync func _on_update_running(newValue):
 
 
 remotesync func _on_game_completed():
+	game_completed_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")	
 	get_parent().call_deferred("remove_child", self)
 

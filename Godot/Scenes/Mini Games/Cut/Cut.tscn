@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Script/MiniGames/CutGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Textures/x-rayshadow.png" type="Texture" id=2]
+[ext_resource path="res://Sounds/go_signal.ogg" type="AudioStream" id=3]
+[ext_resource path="res://Sounds/game_cleared.ogg" type="AudioStream" id=4]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://Fonts/Roboto/Roboto-Bold.ttf"
@@ -93,6 +95,14 @@ text = "Press [Esc] to stop"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AudioStreamPlayers" type="Node" parent="."]
+
+[node name="GoSignal" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 3 )
+
+[node name="GameCompleted" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 4 )
 [connection signal="confirmed" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
 [connection signal="popup_hide" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
 [connection signal="confirmed" from="Control/GameOverDialog" to="." method="_on_GameOverDialog_confirmed"]

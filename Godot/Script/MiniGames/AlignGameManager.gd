@@ -44,6 +44,10 @@ var rotating = true
 
 onready var timer_label = get_node("Timer")
 
+# SFX
+onready var game_completed_player = $AudioStreamPlayers/GameCompleted
+
+
 func _ready():
 	randomize()
 
@@ -266,6 +270,7 @@ func _on_timer_timeout():
 
 
 remotesync func _game_completed():
+	game_completed_player.play()
 	if (debug or get_tree().is_network_server()) and running:
 		$AcceptDialog.show()
 
