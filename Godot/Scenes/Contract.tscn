@@ -8,14 +8,14 @@
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=2]
 size = 24
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.992157, 0.992157, 0.992157, 1 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 24
 font_data = ExtResource( 1 )
 
@@ -64,7 +64,7 @@ margin_left = 1473.13
 margin_top = 674.796
 margin_right = 1577.13
 margin_bottom = 705.796
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 text = "POINTER"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -75,7 +75,7 @@ margin_left = 348.965
 margin_top = 454.195
 margin_right = 564.965
 margin_bottom = 485.195
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 text = "WEBCAM EXAMPLE"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -86,7 +86,7 @@ margin_left = 343.0
 margin_top = 794.0
 margin_right = 1579.0
 margin_bottom = 3058.0
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -96,7 +96,7 @@ margin_left = 531.079
 margin_top = 125.283
 margin_right = 705.079
 margin_bottom = 156.283
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "CONFIDENTIAL"
