@@ -12,7 +12,7 @@ func _ready():
 	mic = AudioServer.get_bus_effect(AudioServer.get_bus_index("Record"), 1)
 
 # Allows for multiple inputs to be played at the same time
-func play( from_position=0.0 ):
+func play(from_position=0.0):
 		if !playing:
 			.play(from_position)
 		else:
