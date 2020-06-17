@@ -165,6 +165,7 @@ margin_left = 783.0
 margin_top = 424.0
 margin_right = 1154.0
 margin_bottom = 581.0
+window_title = "Alarm!"
 __meta__ = {
 "_edit_use_anchors_": false
 }

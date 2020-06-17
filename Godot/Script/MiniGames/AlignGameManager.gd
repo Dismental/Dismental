@@ -281,8 +281,8 @@ remotesync func _next_minigame():
 
 
 remotesync func _game_over():
-	get_tree().paused = true
-
+	get_tree().get_root().get_node("GameScene").game_over()
+	get_parent().call_deferred("remove_child", self)
 
 
 func _on_AcceptDialog_confirmed():

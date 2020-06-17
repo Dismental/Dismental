@@ -2,3 +2,6 @@
 	path = godot-cpp
 	url = https://github.com/GodotNativeTools/godot-cpp
 	ignore = all
+[submodule "signaling-server-bomb"]
+	path = signaling-server-bomb
+	url = https://github.com/S3B4S/signaling-server-bomb
