@@ -72,11 +72,11 @@ func disconnected():
 	if code == 4100:
 		print("host disconnect")
 		stop()
-		Utils.change_screen("res://Scenes/JoinGameRoom.tscn", get_tree().get_current_scene().get_child(0))
+		var node = get_tree().get_current_scene().get_node("GameRoomPlayer")
+		node.host_disconnect()
 		get_tree().get_current_scene().get_child(0).host_popup()
 	elif not sealed:
 		stop() #Unexpected disconnect
-
 
 func peer_connected(id):
 	print("Peer connected %d" % id)
