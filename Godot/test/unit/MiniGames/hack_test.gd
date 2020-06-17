@@ -134,6 +134,7 @@ func test_collecting_label():
 	inst.online = false
 	inst.num_of_collectables = 10
 	inst.password_label = Label.new()
+	inst.label_collected_player = AudioStreamPlayer.new()
 	
 	var node1 = Node.new()
 	var node2 = Node.new()
@@ -155,6 +156,7 @@ func test_text_update_when_collecting_label():
 	inst.online = false
 	inst.num_of_collectables = 10
 	inst.password_label = Label.new()
+	inst.label_collected_player = AudioStreamPlayer.new()
 	inst.password = "HelloWorld"
 	
 	var node1 = Node.new()
@@ -180,6 +182,7 @@ func test_game_completion_collecting_last_label():
 	inst.online = false
 	inst.num_of_collectables = 2
 	inst.password_label = Label.new()
+	inst.label_collected_player = AudioStreamPlayer.new()
 	inst.password = "12"
 	
 	var node1 = Node.new()
