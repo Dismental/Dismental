@@ -227,7 +227,9 @@ func _load_map(index=null, visible=true):
 	var map = "res://Scenes/Mini Games/Cut/Maps/Map%s.png" % index
 	map_sprite.texture = load(map)
 	map_sprite.visible = visible
-	
+	$Control/NoCuttingZoneRect.visible = visible
+	$Control/MetalPlate.visible = not visible
+	$Control/StartCuttingHere.visible = not visible
 
 
 func _is_input_on_viewport():
