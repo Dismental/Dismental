@@ -8,12 +8,6 @@ enum Role {
 	HEADTHROTTLE,
 }
 
-enum Movement {
-	ALIGNED,
-	THROTTLED,
-	LOST,
-}
-
 var player_role
 
 var tracking_node
