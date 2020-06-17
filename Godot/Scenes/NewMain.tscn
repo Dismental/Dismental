@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scenes/TestUI/ObserversPanel.gd" type="Script" id=1]
 [ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/Label.gd" type="Script" id=4]
 [ext_resource path="res://Textures/main_menu_wires.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/NewMain.gd" type="Script" id=6]
+[ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=7]
 
 [sub_resource type="Theme" id=1]
 
@@ -64,6 +65,10 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id=11]
@@ -91,7 +96,7 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=13]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 2.0
@@ -102,7 +107,32 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=15]
+size = 24
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=16]
+
+[sub_resource type="StyleBoxFlat" id=18]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="DynamicFont" id=17]
+size = 32
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=19]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=14]
 size = 128
 font_data = ExtResource( 2 )
 
@@ -121,14 +151,14 @@ __meta__ = {
 }
 
 [node name="OperatorPanel5" type="PanelContainer" parent="."]
-anchor_left = 0.000875093
-anchor_top = -4.14813e-05
-anchor_right = 0.000875093
-anchor_bottom = -4.14813e-05
-margin_left = -8.68018
-margin_top = -4.70795
-margin_right = 1919.32
-margin_bottom = 1080.29
+anchor_left = 0.00120646
+anchor_top = 0.00114785
+anchor_right = 0.00120646
+anchor_bottom = 0.0011478
+margin_left = -990.316
+margin_top = 3.77204
+margin_right = 2962.68
+margin_bottom = 1959.77
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
@@ -138,7 +168,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OperatorPanel" type="PanelContainer" parent="."]
+[node name="SettingsPanel" type="PanelContainer" parent="."]
 margin_left = 1590.0
 margin_top = 515.0
 margin_right = 1916.0
@@ -151,7 +181,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="OperatorPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="SettingsPanel"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 322.0
@@ -161,14 +191,14 @@ custom_constants/margin_top = 24
 custom_constants/margin_left = 24
 custom_constants/margin_bottom = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OperatorPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/MarginContainer"]
 margin_left = 24.0
 margin_top = 24.0
 margin_right = 294.0
 margin_bottom = 534.0
 custom_constants/separation = 24
 
-[node name="Label3" type="Label" parent="OperatorPanel/MarginContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_left = 75.0
 margin_right = 194.0
 margin_bottom = 30.0
@@ -182,7 +212,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSeparator" type="HSeparator" parent="OperatorPanel/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 54.0
 margin_right = 270.0
 margin_bottom = 58.0
@@ -191,7 +221,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="OperatorPanel/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 82.0
 margin_right = 138.0
 margin_bottom = 108.0
@@ -203,19 +233,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OperatorPanel/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 132.0
 margin_right = 270.0
 margin_bottom = 158.0
 
-[node name="HSlider" type="HSlider" parent="OperatorPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HSlider" type="HSlider" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 180.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 180, 0 )
 size_flags_horizontal = 2
 value = 90.0
 
-[node name="Label" type="Label" parent="OperatorPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 235.0
 margin_right = 270.0
 margin_bottom = 26.0
@@ -223,7 +253,7 @@ custom_fonts/font = SubResource( 8 )
 text = "75%"
 script = ExtResource( 4 )
 
-[node name="Label2" type="Label" parent="OperatorPanel/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 182.0
 margin_right = 118.0
 margin_bottom = 208.0
@@ -235,19 +265,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="OperatorPanel/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 232.0
 margin_right = 270.0
 margin_bottom = 258.0
 
-[node name="HSlider" type="HSlider" parent="OperatorPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="HSlider" type="HSlider" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 180.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 180, 0 )
 size_flags_horizontal = 2
 value = 90.0
 
-[node name="Label" type="Label" parent="OperatorPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 235.0
 margin_right = 270.0
 margin_bottom = 26.0
@@ -261,9 +291,9 @@ anchor_top = -0.00179381
 anchor_right = 0.00186075
 anchor_bottom = -0.00179381
 margin_left = 1.68457
-margin_top = 8.93731
+margin_top = 9.81524
 margin_right = 1230.69
-margin_bottom = 752.937
+margin_bottom = 753.815
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
@@ -275,13 +305,13 @@ __meta__ = {
 
 [node name="OperatorPanel3" type="PanelContainer" parent="."]
 anchor_left = 0.000875093
-anchor_top = -0.00100606
+anchor_top = -0.00100608
 anchor_right = 0.000875093
-anchor_bottom = -0.00100606
-margin_left = 1.31982
-margin_top = 753.087
-margin_right = 1588.32
-margin_bottom = 1594.09
+anchor_bottom = -0.00100596
+margin_left = 2.44727
+margin_top = 754.857
+margin_right = 1589.45
+margin_bottom = 1956.86
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
 custom_styles/panel = SubResource( 11 )
@@ -312,10 +342,10 @@ anchor_left = 0.0028464
 anchor_top = -4.15378e-05
 anchor_right = 0.0028464
 anchor_bottom = -4.14813e-05
-margin_left = 331.535
-margin_top = 601.045
-margin_right = 604.535
-margin_bottom = 698.045
+margin_left = 100.535
+margin_top = 305.044
+margin_right = 548.535
+margin_bottom = 694.044
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
@@ -348,15 +378,15 @@ position = Vector2( 856.541, 819.065 )
 scale = Vector2( 1.17639, 1.17639 )
 texture = ExtResource( 5 )
 
-[node name="Button" type="Button" parent="."]
+[node name="JoinMissionButton" type="Button" parent="."]
 anchor_left = -0.00112165
 anchor_top = 0.000902868
 anchor_right = -0.00112165
 anchor_bottom = 0.000902868
-margin_left = 358.387
-margin_top = 622.771
-margin_right = 588.387
-margin_bottom = 675.771
+margin_left = 241.338
+margin_top = 429.75
+margin_right = 425.338
+margin_bottom = 472.75
 custom_styles/normal = SubResource( 12 )
 custom_fonts/font = ExtResource( 3 )
 text = "JOIN MISSION"
@@ -364,15 +394,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button2" type="Button" parent="."]
-anchor_left = -0.000507863
-anchor_top = 0.000902868
-anchor_right = -0.000507863
-anchor_bottom = 0.000902868
-margin_left = 375.495
-margin_top = 777.364
-margin_right = 658.495
-margin_bottom = 830.364
+[node name="CreateMissionButton" type="Button" parent="."]
+anchor_left = -0.000507864
+anchor_top = 0.000902866
+anchor_right = -0.000507864
+anchor_bottom = 0.000902866
+margin_left = 227.49
+margin_top = 535.635
+margin_right = 449.49
+margin_bottom = 578.635
 custom_styles/normal = SubResource( 12 )
 custom_fonts/font = ExtResource( 3 )
 text = "CREATE MISSION"
@@ -380,15 +410,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OperatorPanel6" type="PanelContainer" parent="."]
+[node name="CreateMissionPanel" type="PanelContainer" parent="."]
 anchor_left = 0.0028464
-anchor_top = 0.0030933
+anchor_top = 0.00390027
 anchor_right = 0.0028464
-anchor_bottom = 0.00309335
-margin_left = 713.535
-margin_top = 1007.04
-margin_right = 1303.53
-margin_bottom = 1468.04
+anchor_bottom = 0.00390027
+margin_left = 1031.53
+margin_top = 1050.83
+margin_right = 1522.53
+margin_bottom = 1628.83
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
@@ -398,28 +428,218 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="OperatorPanel6"]
+[node name="MarginContainer" type="MarginContainer" parent="CreateMissionPanel"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 586.0
-margin_bottom = 457.0
-custom_constants/margin_right = 24
+margin_right = 487.0
+margin_bottom = 574.0
+custom_constants/margin_right = 48
 custom_constants/margin_top = 24
-custom_constants/margin_left = 24
+custom_constants/margin_left = 48
 custom_constants/margin_bottom = 24
 
-[node name="Label2" type="Label" parent="OperatorPanel6/MarginContainer"]
-margin_left = 165.0
+[node name="VBoxContainer" type="VBoxContainer" parent="CreateMissionPanel/MarginContainer"]
+margin_left = 48.0
 margin_top = 24.0
-margin_right = 416.0
-margin_bottom = 69.0
+margin_right = 435.0
+margin_bottom = 546.0
+custom_constants/separation = 24
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CreateMissionPanel/MarginContainer/VBoxContainer"]
+margin_left = 83.0
+margin_right = 304.0
+margin_bottom = 35.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
-custom_styles/normal = SubResource( 14 )
+custom_styles/normal = SubResource( 13 )
 custom_fonts/font = ExtResource( 3 )
-text = "CREATE ROOM"
+text = "CREATE MISSION"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CreateMissionPanel/MarginContainer/VBoxContainer"]
+margin_top = 59.0
+margin_right = 387.0
+margin_bottom = 104.0
+
+[node name="Label5" type="Label" parent="CreateMissionPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_top = 7.0
+margin_right = 208.0
+margin_bottom = 38.0
+custom_fonts/font = SubResource( 15 )
+text = "YOUR MISSION ID:"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="CreateMissionPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 267.0
+margin_right = 387.0
+margin_bottom = 45.0
+size_flags_horizontal = 10
+size_flags_vertical = 8
+theme = SubResource( 16 )
+custom_styles/normal = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
+custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+text = "77354"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label6" type="Label" parent="CreateMissionPanel/MarginContainer/VBoxContainer"]
+modulate = Color( 1, 1, 1, 0.501961 )
+margin_top = 128.0
+margin_right = 387.0
+margin_bottom = 173.0
+custom_fonts/font = SubResource( 19 )
+text = "YOUR MISSION ID IS COPIED TO YOUR CLIPBOARD. SHARE IT WITH YOUR FRIENDS"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CreateMissionPanel/MarginContainer/VBoxContainer"]
+margin_top = 197.0
+margin_right = 387.0
+margin_bottom = 242.0
+
+[node name="Label5" type="Label" parent="CreateMissionPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_top = 7.0
+margin_right = 263.0
+margin_bottom = 38.0
+custom_fonts/font = SubResource( 15 )
+text = "AMOUNT OF PLAYERS:"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="CreateMissionPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 267.0
+margin_right = 387.0
+margin_bottom = 45.0
+size_flags_horizontal = 10
+size_flags_vertical = 8
+theme = SubResource( 16 )
+custom_styles/normal = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
+custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label8" type="Label" parent="CreateMissionPanel/MarginContainer/VBoxContainer"]
+margin_top = 266.0
+margin_right = 387.0
+margin_bottom = 297.0
+custom_fonts/font = SubResource( 15 )
+text = "CHOOSE A BOMB:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinMissionPanel" type="PanelContainer" parent="."]
+anchor_left = 0.0028464
+anchor_top = 0.00390027
+anchor_right = 0.0028464
+anchor_bottom = 0.00390027
+margin_left = 279.535
+margin_top = 988.828
+margin_right = 770.535
+margin_bottom = 1409.83
+rect_pivot_offset = Vector2( 493.364, 382.353 )
+rect_clip_content = true
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 10 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="JoinMissionPanel"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 487.0
+margin_bottom = 417.0
+custom_constants/margin_right = 48
+custom_constants/margin_top = 24
+custom_constants/margin_left = 48
+custom_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinMissionPanel/MarginContainer"]
+margin_left = 48.0
+margin_top = 24.0
+margin_right = 435.0
+margin_bottom = 389.0
+custom_constants/separation = 24
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="JoinMissionPanel/MarginContainer/VBoxContainer"]
+margin_left = 101.0
+margin_right = 285.0
+margin_bottom = 35.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_styles/normal = SubResource( 13 )
+custom_fonts/font = ExtResource( 3 )
+text = "JOIN MISSION"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="JoinMissionPanel/MarginContainer/VBoxContainer"]
+margin_top = 59.0
+margin_right = 387.0
+margin_bottom = 104.0
+
+[node name="Label5" type="Label" parent="JoinMissionPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_top = 7.0
+margin_right = 218.0
+margin_bottom = 38.0
+custom_fonts/font = SubResource( 15 )
+text = "ENTER MISSION ID:"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="JoinMissionPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 267.0
+margin_right = 387.0
+margin_bottom = 45.0
+size_flags_horizontal = 10
+size_flags_vertical = 8
+theme = SubResource( 16 )
+custom_styles/normal = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
+custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+placeholder_text = "0000"
+placeholder_alpha = 0.33
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label6" type="Label" parent="JoinMissionPanel/MarginContainer/VBoxContainer"]
+modulate = Color( 1, 1, 1, 0.501961 )
+margin_top = 128.0
+margin_right = 387.0
+margin_bottom = 173.0
+custom_fonts/font = SubResource( 19 )
+text = "YOUR MISSION ID IS COPIED TO YOUR CLIPBOARD. SHARE IT WITH YOUR FRIENDS"
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -429,11 +649,54 @@ margin_left = 153.201
 margin_top = 101.348
 margin_right = 849.201
 margin_bottom = 390.348
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 14 )
 text = "DISMENTAL"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="value_changed" from="OperatorPanel/MarginContainer/VBoxContainer/HBoxContainer/HSlider" to="OperatorPanel/MarginContainer/VBoxContainer/HBoxContainer/Label" method="_on_HSlider_value_changed"]
-[connection signal="value_changed" from="OperatorPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="OperatorPanel/MarginContainer/VBoxContainer/HBoxContainer2/Label" method="_on_HSlider_value_changed"]
-[connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed"]
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 461.884
+margin_top = 1562.49
+margin_right = 594.884
+margin_bottom = 1593.49
+custom_fonts/font = SubResource( 15 )
+text = "CREATORS:"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 390.895
+margin_top = 1812.82
+margin_right = 665.895
+margin_bottom = 1843.82
+custom_fonts/font = SubResource( 15 )
+text = "COPYRIGHT CG-01 2020"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0.329412 )
+margin_left = 385.455
+margin_top = 1601.5
+margin_right = 666.455
+margin_bottom = 1802.5
+custom_fonts/font = SubResource( 15 )
+text = "GEES BROUWERS
+JONAS DUIFS 
+ONNO GIELING
+PEPIJN KLOP
+JEROEN JANSSEN
+KEVERT VAN DER WERFF"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/Label" method="_on_HSlider_value_changed"]
+[connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Label" method="_on_HSlider_value_changed"]
+[connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
+[connection signal="pressed" from="CreateMissionButton" to="." method="_on_Button2_pressed"]
