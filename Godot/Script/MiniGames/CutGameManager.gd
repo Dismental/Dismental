@@ -36,7 +36,7 @@ func _ready():
 	
 	if player_role == Role.DEFUSER:
 		start_dialog.popup()
-		_load_map(1, false)
+		_load_map(2, false)
 		
 		# Initialize the HeadTracking scene for this user
 		print("start tracking scene")
@@ -50,7 +50,7 @@ func _ready():
 		# Turn the x-ray vision OFF for the operator
 		supervisor_vision.visible = false
 	else:
-		_load_map(1)
+		_load_map(2)
 		# Turn the x-ray vision ON for the operator
 		supervisor_vision.visible = true
 		# Center the x-ray vision
@@ -137,16 +137,18 @@ func _calc_finish_line():
 	
 	var vp_rect = get_viewport_rect().size
 	var sp = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
+	
+	print(_get_map_pixel_color(sp))
 
 	# Find min x
-	while(_get_map_pixel_color(sp) != Color(1, 1, 1)):
+	while(_get_map_pixel_color(sp).a > 0):
 		sp.x -= 1
 	var min_x = sp.x
 	
 	sp.x  = vp_rect.x * start_x_ratio
 	
 	# Find max x
-	while(_get_map_pixel_color(sp) != Color(1, 1, 1)):
+	while(_get_map_pixel_color(sp).a > 0):
 		sp.x += 1
 	var max_x = sp.x
 	
@@ -213,7 +215,7 @@ func _move_input_to_start():
 
 func _load_map(index=null, visible=true):
 	# if no index is given -> generate an random index
-	map_sprite = Sprite.new()
+	map_sprite = $Control/Map
 	randomize()
 	if not index:
 		var map_path = "res://Scenes/Mini Games/Cut/Maps/"
@@ -222,20 +224,10 @@ func _load_map(index=null, visible=true):
 		print(map_count)
 		index = randi() % map_count + 1
 
-	var map = "res://Scenes/Mini Games/Cut/Maps/Map%s.jpeg" % index
+	var map = "res://Scenes/Mini Games/Cut/Maps/Map%s.png" % index
 	map_sprite.texture = load(map)
-	if visible:
-		_add_sprite_to_scene(map_sprite)
-	else:
-		var metal_sprite = Sprite.new()
-		metal_sprite.texture = load("res://Textures/metal-background.jpg")
-		_add_sprite_to_scene(metal_sprite)
-
-
-func _add_sprite_to_scene(sprite):
-	sprite.centered = false
-	sprite.show_behind_parent = true
-	add_child(sprite)
+	map_sprite.visible = visible
+	
 
 
 func _is_input_on_viewport():
@@ -249,7 +241,7 @@ func _is_input_on_viewport():
 func _is_input_on_track():
 	if _is_input_on_viewport():
 		var pixelcolor = _get_map_pixel_color(_get_input_pos())
-		return pixelcolor != Color(1, 1, 1)
+		return pixelcolor.a > 0
 	return false
 
 
