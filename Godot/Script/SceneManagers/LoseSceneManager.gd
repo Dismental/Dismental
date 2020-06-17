@@ -2,8 +2,8 @@ extends Control
 
 
 func _on_MainMenuButton_pressed():
-	var voice = get_parent().get_node("VoiceStream")
-	if (voice != null):
+	if get_parent().has_node("VoiceStream"):
+		var voice = get_parent().get_node("VoiceStream")
 		voice.stop()
 		voice.get_parent().remove_child(voice)
 		voice.queue_free()
