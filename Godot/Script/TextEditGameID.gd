@@ -10,6 +10,7 @@ var cursor_column = 0
 func _on_InputGameID_text_changed():
 	_limit_amount_of_chars()
 
+
 func _limit_amount_of_chars():
 	# Limits the amount of chars that can be entered
 	var new_text : String = self.text
@@ -23,5 +24,3 @@ func _limit_amount_of_chars():
 	current_text = self.text
 	cursor_line = self.cursor_get_line()
 	cursor_column = self.cursor_get_column()
-
-

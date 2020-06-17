@@ -39,7 +39,6 @@ func test_create_game_room_scene_change():
 	stub(doubled, '_on_CreateRoomButton_pressed').to_call_super()
 	assert_true(doubled._on_CreateRoomButton_pressed())
 
-	
 
 func test_settings_scene_change():
 	var path = 'res://Script/SceneManagers/SettingsSceneManager.gd'
@@ -48,5 +47,3 @@ func test_settings_scene_change():
 
 	stub(doubled, '_on_BackButton_pressed').to_call_super()
 	assert_true(doubled._on_BackButton_pressed())
-
-	

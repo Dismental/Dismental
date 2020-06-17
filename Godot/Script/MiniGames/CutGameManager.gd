@@ -29,6 +29,7 @@ onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
 onready var supervisor_vision = $"Control/X-rayVision"
 
+
 func _ready():
 	supervisor_vision.visible = true
 	
@@ -44,7 +45,7 @@ func _ready():
 		var pointer = PointerScene.instance()
 		self.add_child(pointer)
 		var pointer_control = pointer.get_node(".")
-		pointer_control.set_role(pointer.ROLE.HEADTHROTTLE)
+		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
 		
 		# Turn the x-ray vision OFF for the operator
@@ -55,6 +56,7 @@ func _ready():
 		supervisor_vision.visible = true
 		# Center the x-ray vision
 		_supervisor_vision_update(Vector2(OS.get_window_size().x, OS.get_window_size().y))
+
 	_calc_finish_line()
 
 
@@ -81,11 +83,6 @@ func _draw():
 		for i in range(2, len(dots) - 1):
 			draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
 
-	# Draw Start Point
-	#	var vp_rect = get_viewport_rect().size
-	#	var start_point = Vector2(vp_rect.x * start_x_ratio,vp_rect.y/2)
-	#	draw_circle(start_point, 50, Color(0, 0, 1))
-	
 	# Draw current pointer
 	var rad = 25
 	var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(0, 1, 0)
@@ -118,23 +115,24 @@ func _calc_start_position():
 	var center_x = finish_rect.position.x + (finish_rect.size.x / 2.0)
 	var center_y = finish_rect.position.y + (finish_rect.size.y / 2.0)
 	var center_rect = Vector2(center_x, center_y)
-	
+
 	var vp_size = get_viewport().size
 	var vp_real_size = get_viewport_rect().size
 	var ratio = vp_size / vp_real_size
-	
+
 	var offset_x = (OS.get_window_size().x - vp_size.x) / 2.0
 	var offset_y = (OS.get_window_size().y - vp_size.y) / 2.0
-	
+
 	var start_pos = center_rect * ratio
 	start_pos.x += offset_x
 	start_pos.y += offset_y
+
 	return start_pos
 
 
 func _calc_finish_line():
 	var start_x_ratio = 0.1
-	
+
 	var vp_rect = get_viewport_rect().size
 	var sp = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
 
@@ -142,22 +140,16 @@ func _calc_finish_line():
 	while(_get_map_pixel_color(sp) != Color(1, 1, 1)):
 		sp.x -= 1
 	var min_x = sp.x
-	
+
 	sp.x  = vp_rect.x * start_x_ratio
-	
+
 	# Find max x
 	while(_get_map_pixel_color(sp) != Color(1, 1, 1)):
 		sp.x += 1
 	var max_x = sp.x
-	
+
 	var rect_height = 80
 	finish_rect = Rect2(min_x, sp.y - rect_height/2, max_x - min_x, rect_height)
-
-
-func _game_over():
-	if player_role == Role.DEFUSER:
-		game_over_dialog.popup()
-	rpc("_on_update_running", false)
 
 
 func _update_game_state():
@@ -200,10 +192,6 @@ func _check_finish():
 			else:
 				finish_state = 0
 
-
-func _game_completed():
-	rpc("_on_update_running", false)
-	rpc("_on_game_completed")
 
 func _move_input_to_start():
 	var start_position_input = _calc_start_position()
@@ -273,26 +261,37 @@ func _get_map_pixel_color(pos):
 	return pixelcolor
 
 
-### BUTTON FUNCTIONALITIES ###
-func _on_StartDialog_confirmed():
-	rpc("_on_update_running", true)
+func _game_over():
+	if player_role == Role.DEFUSER:
+		game_over_dialog.popup()
+	rpc("_on_update_running", false)
 
-func _on_GameOverDialog_confirmed():
-	rpc("_on_game_over")
 
-func _on_CompletedDialog_confirmed():
+func _game_completed():
+	rpc("_on_update_running", false)
 	rpc("_on_game_completed")
 	
+
+remotesync func _on_update_running(newValue):
+	running = newValue
+
 
 remotesync func _on_game_over():
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
 
 
-remotesync func _on_update_running(newValue):
-	running = newValue
-
-
 remotesync func _on_game_completed():
 	get_parent().call_deferred("remove_child", self)
 
+
+func _on_StartDialog_confirmed():
+	rpc("_on_update_running", true)
+
+
+func _on_GameOverDialog_confirmed():
+	rpc("_on_game_over")
+
+
+func _on_CompletedDialog_confirmed():
+	rpc("_on_game_completed")

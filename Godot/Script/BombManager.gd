@@ -1,7 +1,7 @@
 extends Node
 
 var timer
-var wait_time = 180
+var wait_time = 60 * 10
 
 var timer_label
 var running = false
@@ -13,6 +13,7 @@ var minigames = ["Hack", "Align", "Cut", "Dissolve"]
 
 onready var puzzle_label = $Control/VBoxContainer/PanelContainer/PuzzlesLeft
 onready var bottom_button = $Control/VBoxContainer/PanelContainer/Button
+
 
 func _ready():
 	puzzle_label.text = "Minigames remaining: " + str(len(minigames))
@@ -65,9 +66,7 @@ func _set_timer_label(sec):
 
 
 func _on_timer_timeout():
-	print("TIME'S UP")
-	print("BOOOOOOM")
-	print("Bomb exploded...")
+	return Utils.change_screen("res://Scenes/LoseScene.tscn", self)
 
 
 func _on_start_minigame_pressed():

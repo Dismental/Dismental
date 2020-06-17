@@ -13,6 +13,7 @@ var controlled_rings = []
 # Range for compeltion +- the degree
 var completion_range = 30
 
+# Time that is needed to stay on the solution to complete
 var completion_delay = 2
 var completed_timer = 0
 
@@ -33,6 +34,8 @@ var ring_count = {
 var num_of_players
 var num_of_rings
 
+
+# Input behaviour params
 var random_input_factor_x
 var random_input_factor_y
 var random_zero_x
@@ -110,8 +113,10 @@ func _init_rings():
 		else:
 			_remove_node(node)
 
+
 func _get_ring_node(i):
 	return get_node("ring" + str(i))
+
 
 func _remove_node(node):
 	node.visible = false
@@ -125,8 +130,10 @@ func _count_num_of_players():
 	else:
 		num_of_players = len(get_tree().get_network_connected_peers()) + 1
 
+
 func _set_num_of_rings():
 	num_of_rings = ring_count[num_of_players]
+
 
 # Calculates the rotation locally and set the ring index and degree to all peers
 func _sync_rotate_rings():
@@ -136,19 +143,13 @@ func _sync_rotate_rings():
 			var input_pos = _get_input_pos()
 
 			if ring["axis"] == "X":
-				if input_pos.x > get_viewport_rect().size.x:
-					input_pos.x = get_viewport_rect().size.x
-				elif input_pos.x < 0:
-					input_pos.x = 0
+				input_pos.x = clamp(input_pos.x, 0, get_viewport_rect().size.x)
 
 				var ratio = input_pos.x /  (get_viewport_rect().size.x / random_input_factor_x)
 				degrees = inverted_x * fmod(ratio * 360.0 + random_zero_x, 360)
 
 			else:
-				if input_pos.y > get_viewport_rect().size.y:
-					input_pos.y = get_viewport_rect().size.y
-				elif input_pos.y < 0:
-					input_pos.y = 0
+				input_pos.y = clamp(input_pos.y, 0, get_viewport_rect().size.y)
 
 				var ratio = input_pos.y /  (get_viewport_rect().size.y / random_input_factor_y)
 				degrees = inverted_y * fmod(ratio * 360.0 + random_zero_y, 360)
@@ -159,10 +160,12 @@ func _sync_rotate_rings():
 			if debug: _rotate_ring(ring['ringindex'], degrees)
 			else: rpc("_rotate_ring", ring['ringindex'], degrees)
 
+
 # Rotates the ring
 remotesync func _rotate_ring(ring_i, degrees):
 	var r = rings[ring_i]
 	r.rotation_degrees = degrees
+
 
 # Set the scale of the rings based on the number of rings
 func _set_ring_scale():
@@ -170,6 +173,7 @@ func _set_ring_scale():
 	get_node("center").scale = scale
 	for x in rings:
 		x.scale = scale
+
 
 # Assigns every player a random ring and an axis of input
 # With 2 or 3 players, everyone gets 2 rings.
@@ -201,16 +205,19 @@ func _assign_random_rings():
 			ring_i += 1
 			controlled_rings.append({"ringindex": options[ring_i], "axis": "Y"})
 
+
 # The network server randomly assigns the controlled rings
 # and communicates this with this remote function
 remote func _assign_controlled_ring(i, axis):
 	controlled_rings.append({"ringindex": i, "axis": axis})
+
 
 # Returns a random axis
 func _random_axis():
 	if randf() < 0.5:
 		return "X"
 	return "Y"
+
 
 # Creates the game timer
 func _create_timer():
@@ -221,6 +228,7 @@ func _create_timer():
 	add_child(timer)
 	timer_label.text = str(timer_wait_time)
 
+
 # Checks if all the rings align with a small error range
 func _check_completion():
 	for ring in rings:
@@ -228,6 +236,7 @@ func _check_completion():
 		if not (rotation < completion_range or rotation > 360 - completion_range):
 			return false
 	return true
+
 
 # Starts the game and timer
 remotesync func _start_game():
@@ -246,6 +255,7 @@ func _sync_set_random_angles():
 	if debug: _set_rings_angle(lst)
 	else: rpc("_set_rings_angle", lst)
 
+
 # Sync start ring angles with all peers
 remotesync func _set_rings_angle(lst):
 	var i = 0
@@ -253,9 +263,11 @@ remotesync func _set_rings_angle(lst):
 		rings[i].rotation_degrees = x
 		i += 1
 
+
 # Returns the input position
 func _get_input_pos():
 	return get_viewport().get_mouse_position()
+
 
 # Called when time's up
 func _on_timer_timeout():
@@ -283,7 +295,6 @@ remotesync func _next_minigame():
 remotesync func _game_over():
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
-
 
 func _on_AcceptDialog_confirmed():
 	rpc("_next_minigame")
