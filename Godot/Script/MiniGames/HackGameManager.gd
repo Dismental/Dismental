@@ -32,6 +32,8 @@ var pointer_node
 onready var bar = $Bar
 onready var password_label = $PasswordLabel
 onready var label_nodes = $LabelNodes
+onready var label_collected_player = $AudioStreamPlayers/LabelCollected
+onready var game_completed_player = $AudioStreamPlayers/GameCompleted
 
 func _ready():
 	num_of_collectables = len(password)
@@ -166,7 +168,6 @@ func _generate_random_char():
 
 # Checks if label is off-screen and removes it if true
 func _remove_labels():
-	print("Len labels " + str(len(normal_labels)))
 	var iterations = min(rows / 2, len(normal_labels) - 1)
 	for i in range(iterations, -1, -1):
 		if normal_labels[i].position.x > screen_width + char_width:
@@ -201,6 +202,7 @@ func _on_Bar_body_entered(body):
 			
 # Called when a collectable char is collected
 remotesync func _collected_body(i):
+	label_collected_player.play()
 	label_nodes.remove_child(collectables[i])
 	collectables.remove(i)
 
@@ -218,6 +220,7 @@ func _on_GameOver_body_entered(_body):
 
 		
 remotesync func _game_completed():
+	game_completed_player.play()
 	get_parent().call_deferred("remove_child", self)
 	
 

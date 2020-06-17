@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Script/MiniGames/HackGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Fonts/Inconsolata/static/Inconsolata-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Fonts/Inconsolata/static/Inconsolata-Bold.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Sounds/label_collected.ogg" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/game_cleared.ogg" type="AudioStream" id=5]
 
 [sub_resource type="ParticlesMaterial" id=1]
 emission_shape = 2
@@ -93,5 +95,13 @@ text = "********"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AudioStreamPlayers" type="Node" parent="."]
+
+[node name="LabelCollected" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 4 )
+
+[node name="GameCompleted" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 5 )
 [connection signal="body_entered" from="Bar" to="." method="_on_Bar_body_entered"]
 [connection signal="body_entered" from="GameOver" to="." method="_on_GameOver_body_entered"]
