@@ -69,11 +69,9 @@ onready var title_label = $CanvasLayer/Title
 
 onready var pointer_dot = $red_dot
 
-<<<<<<< HEAD
 # SFX
 onready var game_completed_player = $AudioStreamPlayers/GameCompleted
-=======
->>>>>>> bdc87ecb06fc00c421b59e6cb83ad3bce087604b
+
 
 func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
