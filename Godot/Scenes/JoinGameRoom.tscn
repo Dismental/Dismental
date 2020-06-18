@@ -169,16 +169,6 @@ window_title = "Alarm!"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="PopupText" type="Label" parent="AcceptDialog"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 363.0
-margin_bottom = 104.0
-text = "Host disconnected"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 [connection signal="text_changed" from="InputGameID" to="InputGameID" method="_on_InputGameID_text_changed"]
 [connection signal="pressed" from="JoinGameButton" to="." method="_on_JoinGameButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
