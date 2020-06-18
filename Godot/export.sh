@@ -11,7 +11,8 @@ mkdir $TEMPORARY_DMG_DIR
 # Copy the .app from the export of Godot
 hdiutil mount $DMG_FULL_PATH
 cp -R "/Volumes/${DMG_NAME}/${DMG_NAME}.app" $TEMPORARY_DMG_DIR
-hdiutil unmount "/Volumes/${DMG_NAME}"
+MOUNTED_DMG_NAME=$(ls -d /Volumes/Dismental* | tail -n 1 | awk -F "/" '{print $(NF)}')
+hdiutil unmount "/Volumes/${MOUNTED_DMG_NAME}"
 
 # Copy XML file to .app/Contents/Resources/
 cp "./bin/haarcascade_frontalface_default.xml" "${APP_FULL_PATH}/Contents/Resources/"
