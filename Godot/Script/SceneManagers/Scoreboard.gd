@@ -12,6 +12,7 @@ func _on_BackButton_pressed():
 
 # Makes ScorePanels based on the scores that currently exist within ScoreManager.
 func instance_panels():
+	ScoreManager.sort_scores()
 	var scores = ScoreManager.get_scores()
 	var Scorepanel = preload("res://Scenes/ScoreScenes/ScorePanel.tscn")
 	var pos = 1
