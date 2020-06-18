@@ -129,12 +129,10 @@ env.Append(LIBS=[cpp_library])
 # At LIBS, omit file extensions such as '.lib' and '.dylib', they get appended in runtime depending on the OS
 # Configuration for linux has not been tested, but for now I assume it's similar to OSX
 
-OPENCV_DIR = "/Users/kevin/Development/opencv_backup/opt/opencv@4"
-
 # For OSX these files have been filled in under assumption that you installed opencv using homebrew
 if env['platform'] == "osx" or env['platform'] in ('x11', 'linux'):
-    env.Append(CPPPATH=[OPENCV_DIR + "/include/opencv4/"])
-    env.Append(LIBPATH=[OPENCV_DIR + "/lib/"])
+    env.Append(CPPPATH=[os.environ['OPENCV_DIR'] + "/include/opencv4/"])
+    env.Append(LIBPATH=[os.environ['OPENCV_DIR'] + "/lib/"])
     env.Append(LIBS=[
         "libopencv_core.4.3.0",
         "libopencv_highgui.4.3.0",
