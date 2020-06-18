@@ -18,20 +18,22 @@ onready var timerText = self.get_child(0).get_child(0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	timerText.text = "10:00"
+	pass
+#	timerText.text = "10:00"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	timerText.set_text(getFormattedTimerValue())
-	if blink:
-		if blinkState < 0:
-			timerText.text = ""
-		blinkState += 1
-		if blinkState > BLINK_INTERVAL:
-			blinkState = -BLINK_INTERVAL
-	
-	updateTimer()
-	update()
+	pass
+#	timerText.set_text(getFormattedTimerValue())
+#	if blink:
+#		if blinkState < 0:
+#			timerText.text = ""
+#		blinkState += 1
+#		if blinkState > BLINK_INTERVAL:
+#			blinkState = -BLINK_INTERVAL
+#
+#	updateTimer()
+#	update()
 	
 func _draw():
 	_draw_screws(Rect2(0,0,self.get_rect().size.x,self.get_rect().size.y))
