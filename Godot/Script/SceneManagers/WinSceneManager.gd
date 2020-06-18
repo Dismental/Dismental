@@ -9,3 +9,7 @@ func _on_MainMenuButton_pressed():
 		voice.queue_free()
 	Network.stop()
 	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)
+
+
+func _on_ScoreBoardButton_pressed():
+	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)
