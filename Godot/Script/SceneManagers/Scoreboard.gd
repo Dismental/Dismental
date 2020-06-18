@@ -6,7 +6,8 @@ func _ready():
 
 
 func _on_BackButton_pressed():
-	Utils.change_screen("res://Scenes/MainMenu.tscn", self)
+	get_parent().remove_child(self)
+	self.queue_free()
 
 
 # Makes ScorePanels based on the scores that currently exist within ScoreManager.
