@@ -124,7 +124,6 @@ OSX.64.15=[
   "res://bin/osx/deps_10.15/libfreetype.6.dylib",
   "res://bin/osx/deps_10.15/libfribidi.0.dylib",
   "res://bin/osx/deps_10.15/libgcc_s.1.dylib",
-  "res://bin/osx/deps_10.15/libgdexample.dylib",
   "res://bin/osx/deps_10.15/libgflags.2.2.dylib",
   "res://bin/osx/deps_10.15/libgfortran.5.dylib",
   "res://bin/osx/deps_10.15/libgif.dylib",

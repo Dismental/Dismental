@@ -4,7 +4,13 @@ APP_FULL_PATH="${TEMPORARY_DMG_DIR}/${DMG_NAME}.app"
 MAC_VERSION=$1
 DMG_FULL_PATH="./bin/${DMG_NAME}_${MAC_VERSION}.dmg"
 
-godot --export-debug "MacOSX (${MAC_VERSION})" $DMG_FULL_PATH
+if [ "$1" != "10.14" ] && [ "$1" != "10.15" ]; then
+  echo "Add the mac os version, choose one of [10.14, 10.15]"
+  echo "Example usage: 'sudo sh export.sh 10.14'"
+  exit
+fi
+
+godot --export "MacOSX (${MAC_VERSION})" $DMG_FULL_PATH
 
 mkdir $TEMPORARY_DMG_DIR
 
