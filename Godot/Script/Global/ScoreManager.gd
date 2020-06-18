@@ -16,6 +16,10 @@ func add_score(score: Score):
 	scores.append(score)
 
 
+func sort_scores():
+	scores.sort_custom(CustomSort, "sort")
+
+
 func save_scores():
 	var save_file = File.new()
 	save_file.open("user://scoresave.save", File.WRITE)
