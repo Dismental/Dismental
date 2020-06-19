@@ -42,5 +42,4 @@ func stop_voip():
 
 
 func _on_OptionButton_item_selected(id):
-	#TODO Set difficulty in global gamestate
-	pass
+	GameState.difficulty_changed(id)
