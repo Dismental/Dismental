@@ -270,20 +270,11 @@ The extracted directory contains the file that the export preset was looking for
 ## Exporting the game
 The game can now be exported to a .dmg. Accessing the resources (res://) was not yet successful, thus a reference to a .xml file for face tracking is hardcoded for now. This also requires additional steps to get the .xml file at the right location.
 
-### Using the script
 A script has been written to automate this process, which is `/export.sh`. It will perform the steps described below.
-To run the script go to the root of the repo in your terminal and run `sh ./export.sh`.
-It will ask for your password at some point, since `sudo` has been used to perform the `cp` (copy) command (it wouldn't work without it for me, so that's why I included it ~ @ksavanderwerff).
+To run the script go to the root of the repo in your terminal and run `sh ./export.sh` (prepend `sudo` if needed).
+You need to add the version for which you want to export the game, choose from `10.14` or `10.15`.
 
-### Manually
-Follow these steps when exporting the game:
-
-- When exporting use the 'Export all' button together with export mode 'Export all resources in the project'
-- Move the DefuseTheBomb.app in the .dmg file to your user applications folder (~/Applications)
-- Navigate to the Resources folder (DefuseTheBomb.app/Contents/Resources/). A .app can be opened with 'show package contents' (available with right-click)
-- Get the haarcascade_frontalface_default.xml file from the repository (src/opencv_data/haarcascades/)
-- Copy the .xml file to the Resources folder
-- Now you can run the game
+Example usage: `sudo sh export.sh 10.15`.
 
 **double-the-trouble**
 
