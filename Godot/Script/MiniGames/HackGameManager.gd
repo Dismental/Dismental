@@ -33,6 +33,7 @@ onready var bar = $Bar
 onready var password_label = $PasswordLabel
 onready var label_nodes = $LabelNodes
 
+
 func _ready():
 	num_of_collectables = len(password)
 	player_role = Role.DEFUSER if !online or get_tree().is_network_server() else Role.SUPERVISOR
@@ -45,17 +46,20 @@ func _ready():
 		var pointer = PointerScene.instance()
 		self.add_child(pointer)
 		var pointer_control = pointer.get_node(".")
-		pointer_control.set_role(pointer.ROLE.HEADTHROTTLE)
+		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
+
 
 func _physics_process(delta):
 	_move_labels(delta)
 	_move_bar()
 
+
 func _process(delta):
 	if player_role == Role.DEFUSER:
 		_spawn_labels(delta)
 		_remove_labels()
+
 
 func _update_password_label():
 	var text = ""
@@ -65,11 +69,12 @@ func _update_password_label():
 		else:
 			text += "*"
 	password_label.text = text
-	
+
 
 func _move_bar():
 	var input = _get_input_pos()
 	bar.position.y = input.y
+
 
 func _move_labels(delta):
 	var move_x = char_width * delta * moving_speed
@@ -135,6 +140,7 @@ remotesync func _create_collectable_label(pos, text):
 
 	label_nodes.add_child(kb)
 
+
 # Creates a normal char without collision detection
 remotesync func _create_label_node(pos, text):
 	var s = Node2D.new()
@@ -142,6 +148,7 @@ remotesync func _create_label_node(pos, text):
 	s.add_child(_create_label(text))
 	label_nodes.add_child(s)
 	normal_labels.append(s)
+
 
 # Creates a label with the given text in the coding font style
 func _create_label(text):
@@ -161,8 +168,10 @@ func _generate_random_text(min_length, max_length):
 		res += _generate_random_char()
 	return res
 
+
 func _generate_random_char():
 	return char(randi() % 100 + 30)
+
 
 # Checks if label is off-screen and removes it if true
 func _remove_labels():
@@ -185,7 +194,8 @@ func _get_input_pos():
 	else:
 		cursorpos = puppet_mouse
 	return cursorpos
-	
+
+
 # 'Pong' Bar entered
 func _on_Bar_body_entered(body):
 	if online:
@@ -198,7 +208,8 @@ func _on_Bar_body_entered(body):
 		if collected == num_of_collectables:
 			print("Game completed")
 			_game_completed()
-			
+
+
 # Called when a collectable char is collected
 remotesync func _collected_body(i):
 	label_nodes.remove_child(collectables[i])
@@ -207,6 +218,7 @@ remotesync func _collected_body(i):
 	collected += 1
 	_update_password_label()
 
+
 # Called when a collectable char hits the offscreen area box
 func _on_GameOver_body_entered(_body):
 	if player_role == Role.DEFUSER:
@@ -214,14 +226,12 @@ func _on_GameOver_body_entered(_body):
 			rpc("_game_over")
 		else:
 			_game_over()
-	
 
-		
+
 remotesync func _game_completed():
 	get_parent().call_deferred("remove_child", self)
-	
+
 
 remotesync func _game_over():
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
-

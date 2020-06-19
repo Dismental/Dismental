@@ -7,11 +7,14 @@ func _ready():
 	load_scores()
 	scores.sort_custom(CustomSort, "sort")
 
+
 func get_scores():
 	return scores
 
+
 func add_score(score: Score):
 	scores.append(score)
+
 
 func save_scores():
 	var save_file = File.new()
@@ -20,6 +23,7 @@ func save_scores():
 		var score_data = score.save()
 		save_file.store_line(to_json(score_data))
 	save_file.close()
+
 
 func load_scores():
 	var save_file = File.new()
@@ -33,6 +37,7 @@ func load_scores():
 				score_data["time"], score_data["date"])
 		scores.append(score)
 	save_file.close()
+
 
 #This is for testing purposes, should be removed before building!
 func first_run():
@@ -51,6 +56,7 @@ func first_run():
 	scores.append(Score.new("laatste", "lvltst", "00:00:06", "01/01/2000"))
 	scores.append(Score.new("tst2", "lvltst", "00:00:02", "01/01/2000"))
 	save_scores()
+
 
 class CustomSort:
 	static func sort(a, b):
