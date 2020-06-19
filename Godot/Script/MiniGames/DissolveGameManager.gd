@@ -9,7 +9,7 @@ enum DefuserState {
 puppet var puppet_mouse = Vector2()
 
 const Role = preload("res://Script/Role.gd")
-const DEBUG_OFFLINE = true # Toggle to be able to debug offline
+const DEBUG_OFFLINE = false # Toggle to be able to debug offline
 
 var matrix
 var columns = 90
@@ -70,9 +70,11 @@ onready var title_label = $CanvasLayer/Title
 
 onready var pointer_dot = $red_dot
 
-onready var fire_sign_bg = $FireSignLayer/fire_sign_bg
+onready var fire_sign = $FireSignControl
+onready var fire_sign_bg = $FireSignControl/fire_sign_bg
 const fire_sign_color_blink = Color(210.0 / 255, 69.0 / 255, 69.0 / 255)
 const fire_sign_color_def = Color(0.0, 0.0, 0.0)
+const blinking_frames = 3
 
 func _ready():
 	if (!DEBUG_OFFLINE):
@@ -83,8 +85,8 @@ func _ready():
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
 		# Hide vacuum & soldering iron in GUI
-		vacuum_indicator.visible = false;
-		soldering_iron_indicator.visible = false;
+		vacuum_indicator.visible = false
+		soldering_iron_indicator.visible = false
 		
 		_init_matrix()
 		_generate_colors()
@@ -93,6 +95,8 @@ func _ready():
 		_generate_components()
 
 	elif player_role == Role.DEFUSER:
+		# Hide fire sign layer for defuser
+		fire_sign.visible = false
 		# Initialize the pointer scene for this user
 		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
 		var pointer = PointerScene.instance()
@@ -155,12 +159,12 @@ func _blink_light():
 	
 	fire_sign_bg.modulate = fire_sign_color_blink
 	# Wait five frames
-	for _i in range(5):
+	for _i in range(blinking_frames):
 		yield(get_tree(), "idle_frame")
 
 	# Reset to inital position
 	fire_sign_bg.modulate = fire_sign_color_def;
-	for _i in range(5):
+	for _i in range(blinking_frames):
 		yield(get_tree(), "idle_frame")
 
 	is_blinking = false
