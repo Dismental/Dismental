@@ -30,11 +30,6 @@ for symlink in "${symlinks[@]}"; do
   cp -a "./$symlink" "${APP_FULL_PATH}/Contents/Frameworks/"
 done
 
-# If -i flag is passed, then place the .app at INSTALL_LOCATION
-# if [ $# == 2 ] && [ "$1" == "-i" ]; then
-  # cp -R $APP_FULL_PATH "$2";
-# fi
-
 # Repack temp_dmg/ into .dmg
 hdiutil create -volname $DMG_NAME -srcfolder $TEMPORARY_DMG_DIR -ov -format UDZO $DMG_FULL_PATH
 

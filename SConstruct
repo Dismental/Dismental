@@ -3,19 +3,8 @@ import os, subprocess
 import functools
 from pathlib import Path
 
-# Parse the user environment for usage
-def parseEnvFile(acc, line):
-    [key, value] = line.strip().split("=")
-    acc[key] = value[1:-1] # Remove surrounding double quotes from the value that appears in .env
-    return acc
-
-f = open(".env", "r")
-contents = f.readlines()
-localEnv = functools.reduce(parseEnvFile, contents, {})
-f.close()
-
 # Create `/bin` directory if it does not exist
-Path("./Godot/test").mkdir(exist_ok=True)
+Path('./Godot/bin').mkdir(exist_ok=True)
 
 opts = Variables([], ARGUMENTS)
 
@@ -23,18 +12,17 @@ opts = Variables([], ARGUMENTS)
 env = DefaultEnvironment()
 
 # Define our options
-opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
-opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
-opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
-opts.Add(EnumVariable('export', "Whether this is meant to be shipped or not'", 'n', ['y', 'yes', 'n', 'no']))
-opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
+opts.Add(EnumVariable('target', 'Compilation target', 'debug', ['d', 'debug', 'r', 'release']))
+opts.Add(EnumVariable('platform', 'Compilation platform', '', ['', 'windows', 'x11', 'linux', 'osx']))
+opts.Add(EnumVariable('p', 'Compilation target, alias for 'platform'', '', ['', 'windows', 'x11', 'linux', 'osx']))
+opts.Add(BoolVariable('use_llvm', 'Use the LLVM / Clang compiler', 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'Godot/bin/'))
 opts.Add(PathVariable('target_name', 'The library name.', 'libgdexample', PathVariable.PathAccept))
 
 # Local dependency paths, adapt them to your setup
-godot_headers_path = "godot-cpp/godot_headers/"
-cpp_bindings_path = "godot-cpp/"
-cpp_library = "libgodot-cpp"
+godot_headers_path = 'godot-cpp/godot_headers/'
+cpp_bindings_path = 'godot-cpp/'
+cpp_library = 'libgodot-cpp'
 
 # only support 64 at this time..
 bits = 64
@@ -45,9 +33,8 @@ opts.Update(env)
 # Show the configuration
 print()
 print('[Env configuration]')
-print(f'Platform : {env["platform"]}')
-print(f'Target   : {env["target"]}')
-print(f'Export   : {env["export"]}')
+print(f'Platform : {env['platform']}')
+print(f'Target   : {env['target']}')
 print()
 
 # Process some arguments
@@ -59,7 +46,7 @@ if env['p'] != '':
     env['platform'] = env['p']
 
 if env['platform'] == '':
-    print("No valid target platform selected.")
+    print('No valid target platform selected.')
     quit();
 
 # For the reference:
@@ -70,13 +57,8 @@ if env['platform'] == '':
 # - CPPDEFINES are for pre-processor defines
 # - LINKFLAGS are for linking flags
 
-if env['export'] in ['y', 'yes']:
-    rpath = '~/Applications/DefuseTheBomb.app/Contents/Frameworks/lib'
-elif env['export'] in ['n', 'no']:
-    rpath = f'{localEnv["ROOT_REPO"]}/Godot/bin/osx/lib'
-
 # Check our platform specifics
-if env['platform'] == "osx":
+if env['platform'] == 'osx':
     env['target_path'] += 'osx/'
     cpp_library += '.osx'
     if env['target'] in ('debug', 'd'):
@@ -96,7 +78,7 @@ elif env['platform'] in ('x11', 'linux'):
         env.Append(CCFLAGS=['-fPIC', '-g', '-O3', '-std=c++17'])
         env.Append(CXXFLAGS=['-std=c++17'])
 
-elif env['platform'] == "windows":
+elif env['platform'] == 'windows':
     env['target_path'] += 'win64/'
     cpp_library += '.windows'
     # This makes sure to keep the session environment variables on windows,
@@ -130,37 +112,37 @@ env.Append(LIBS=[cpp_library])
 # Configuration for linux has not been tested, but for now I assume it's similar to OSX
 
 # For OSX these files have been filled in under assumption that you installed opencv using homebrew
-if env['platform'] == "osx" or env['platform'] in ('x11', 'linux'):
-    env.Append(CPPPATH=[os.environ['OPENCV_DIR'] + "/include/opencv4/"])
-    env.Append(LIBPATH=[os.environ['OPENCV_DIR'] + "/lib/"])
+if env['platform'] == 'osx' or env['platform'] in ('x11', 'linux'):
+    env.Append(CPPPATH=[os.environ['OPENCV_DIR'] + '/include/opencv4/'])
+    env.Append(LIBPATH=[os.environ['OPENCV_DIR'] + '/lib/'])
     env.Append(LIBS=[
-        "libopencv_core.4.3.0",
-        "libopencv_highgui.4.3.0",
-        "libopencv_imgproc.4.3.0",
-        "libopencv_objdetect.4.3.0",
-        "libopencv_tracking.4.3.0",
-        "libopencv_videoio.4.3.0",
+        'libopencv_core.4.3.0',
+        'libopencv_highgui.4.3.0',
+        'libopencv_imgproc.4.3.0',
+        'libopencv_objdetect.4.3.0',
+        'libopencv_tracking.4.3.0',
+        'libopencv_videoio.4.3.0',
     ])
 # For windows, these files have been filled under assumption that you downloaded the .zip release of 4.3.0 from sourceforge
-elif env['platform'] == "windows":
-    env.Append(CPPPATH=[os.environ['OPENCV_DIR'] + "/include/"])
-    env.Append(LIBPATH=[os.environ['OPENCV_DIR'] + "/lib/"])
+elif env['platform'] == 'windows':
+    env.Append(CPPPATH=[os.environ['OPENCV_DIR'] + '/include/'])
+    env.Append(LIBPATH=[os.environ['OPENCV_DIR'] + '/lib/'])
     env.Append(LIBS=[
-        "opencv_calib3d430d",
-        "opencv_core430d",
-        "opencv_dnn430d",
-        "opencv_features2d430d",
-        "opencv_flann430d",
-        "opencv_gapi430d",
-        "opencv_highgui430d",
-        "opencv_imgcodecs430d",
-        "opencv_imgproc430d",
-        "opencv_ml430d",
-        "opencv_objdetect430d",
-        "opencv_photo430d",
-        "opencv_stitching430d",
-        "opencv_video430d",
-        "opencv_videoio430d",
+        'opencv_calib3d430d',
+        'opencv_core430d',
+        'opencv_dnn430d',
+        'opencv_features2d430d',
+        'opencv_flann430d',
+        'opencv_gapi430d',
+        'opencv_highgui430d',
+        'opencv_imgcodecs430d',
+        'opencv_imgproc430d',
+        'opencv_ml430d',
+        'opencv_objdetect430d',
+        'opencv_photo430d',
+        'opencv_stitching430d',
+        'opencv_video430d',
+        'opencv_videoio430d',
     ])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
