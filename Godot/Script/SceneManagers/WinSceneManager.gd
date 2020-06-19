@@ -17,8 +17,8 @@ func instance_score(score: Score, score_pos : int):
 		= "[center]Team:\n" + score.team + "[/center]"
 	n_panel.get_node("HBoxContainer/Time").bbcode_text \
 		= "[center]Time:\n" + score.time + "[/center]"
-	n_panel.get_node("HBoxContainer/Level").bbcode_text \
-		= "[center]Level:\n" + score.level + "[/center]"
+	n_panel.get_node("HBoxContainer/Difficulty").bbcode_text \
+		= "[center]Difficulty:\n" + score.difficulty + "[/center]"
 	n_panel.get_node("HBoxContainer/Position").bbcode_text \
 		= "[center]Pos:\n" + str(score_pos) + "[/center]"
 	add_child(n_panel)

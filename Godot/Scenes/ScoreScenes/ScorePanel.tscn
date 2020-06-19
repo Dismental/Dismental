@@ -58,7 +58,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Level" type="RichTextLabel" parent="HBoxContainer"]
+[node name="Difficulty" type="RichTextLabel" parent="HBoxContainer"]
 margin_left = 290.0
 margin_right = 420.0
 margin_bottom = 85.0
@@ -66,8 +66,8 @@ rect_min_size = Vector2( 130, 0 )
 bbcode_enabled = true
 bbcode_text = "[center]Level:
 TheSuperCool Level [/center]"
-text = "Level:
-TheSuperCool Level "
+text = "Difficulty:
+Superhard"
 __meta__ = {
 "_edit_use_anchors_": false
 }

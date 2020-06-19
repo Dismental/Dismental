@@ -37,7 +37,7 @@ func load_scores():
 	save_file.open("user://scoresave.save", File.READ)
 	while save_file.get_position() < save_file.get_len():
 		var score_data = parse_json(save_file.get_line())
-		var score = Score.new(score_data["team"], score_data["level"],
+		var score = Score.new(score_data["team"], score_data["difficulty"],
 				score_data["time"], score_data["date"])
 		scores.append(score)
 	save_file.close()
