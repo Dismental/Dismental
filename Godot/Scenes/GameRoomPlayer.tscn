@@ -148,4 +148,16 @@ margin_right = 1296.47
 margin_bottom = 442.032
 text = "Team name:
 Bomb Squad"
+
+[node name="Microphone" type="CheckButton" parent="."]
+margin_left = 1250.63
+margin_top = 477.265
+margin_right = 1473.63
+margin_bottom = 517.265
+pressed = true
+text = "Microphone:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="toggled" from="Microphone" to="." method="_on_Microphone_toggled"]

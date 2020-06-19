@@ -188,8 +188,20 @@ selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Microphone" type="CheckButton" parent="."]
+margin_left = 1313.0
+margin_top = 572.0
+margin_right = 1460.0
+margin_bottom = 615.0
+pressed = true
+text = "Microphone:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="StartGameButton" to="." method="_on_StartGameButton_pressed"]
 [connection signal="pressed" from="SealButton" to="." method="_on_SealButton_pressed"]
 [connection signal="text_changed" from="Team/TeamName" to="Team/TeamName" method="_on_TeamName_text_changed"]
 [connection signal="item_selected" from="Label/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="toggled" from="Microphone" to="." method="_on_Microphone_toggled"]

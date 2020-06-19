@@ -39,3 +39,7 @@ func update_difficulty(diff):
 
 func update_team_name(name):
 	$TeamName.text = "Team name:\n" + str(name)
+
+
+func _on_Microphone_toggled(button_pressed):
+	voice.set_recording(button_pressed)
