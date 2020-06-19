@@ -50,7 +50,7 @@ remotesync func _on_defuse():
 	var date = OS.get_date().get("day")
 	date += "/" + OS.get_date().get("month")
 	date += "/" + OS.get_date().get("year")
-	ScoreManager.add_score(Score.new(Network.player_name,
-		Network.player_info.size(), timer.get_time_left(), date))
+	ScoreManager.add_score(Score.new(GameState.team_name,
+		GameState.difficulty, GameState.timer.get_time_left(), date))
 
 	return Utils.change_screen("res://Scenes/WinScene.tscn", self)
