@@ -18,7 +18,7 @@ func _ready():
 	puzzle_label.text = "Minigames remaining: " + str(len(minigames))
 	last_label_update = wait_time
 
-	timer_label = get_node("CanvasLayer/TimeCounter")
+	timer_label = get_node("CanvasLayer/Timer/MarginContainer/TimeCounter")
 
 	timer = Timer.new()
 	timer.one_shot = true
@@ -60,7 +60,6 @@ func _set_timer_label(sec):
 		sec = "0" + str(sec)
 	else:
 		sec = str(sec)
-
 	timer_label.text = minutes + ":" + sec
 
 

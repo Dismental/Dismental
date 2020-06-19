@@ -1,13 +1,14 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Script/SceneManagers/GameSceneManager.gd" type="Script" id=2]
 [ext_resource path="res://Textures/example-bomb.jpg" type="Texture" id=3]
 [ext_resource path="res://Fonts/Roboto/Roboto-Light.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://Fonts/digital-7/digital-7 (mono).ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Script/BombManager.gd" type="Script" id=6]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
 [ext_resource path="res://Fonts/Roboto/Roboto-Regular.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://Fonts/ds_digital.tres" type="DynamicFont" id=9]
+[ext_resource path="res://Scenes/TestUI/Timer.gd" type="Script" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
@@ -58,11 +59,21 @@ font_data = ExtResource( 4 )
 size = 37
 font_data = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=7]
-size = 140
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 5 )
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=8]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 0.0
+content_margin_bottom = 0.0
+bg_color = Color( 0, 0, 0, 1 )
 
 [node name="GameScene" type="Node"]
 script = ExtResource( 6 )
@@ -176,21 +187,40 @@ __meta__ = {
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 20
 
-[node name="TimeCounter" type="Label" parent="CanvasLayer"]
-modulate = Color( 1, 0, 0, 1 )
-anchor_left = 0.999183
-anchor_top = 1.00255
-anchor_right = 1.04115
-anchor_bottom = 1.00255
-margin_left = -331.724
-margin_top = -154.972
-margin_right = -92.2926
-margin_bottom = -36.9719
-rect_pivot_offset = Vector2( 1, 0 )
-custom_fonts/font = SubResource( 7 )
-text = "03:46"
+[node name="Timer" type="PanelContainer" parent="CanvasLayer"]
+margin_left = 1676.84
+margin_top = 938.353
+margin_right = 1912.84
+margin_bottom = 1067.35
+rect_clip_content = true
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 10 )
 __meta__ = {
-"_edit_use_anchors_": true
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Timer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 232.0
+margin_bottom = 125.001
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="TimeCounter" type="Label" parent="CanvasLayer/Timer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 208.0
+margin_bottom = 101.0
+custom_styles/normal = SubResource( 8 )
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+text = "10:00"
+__meta__ = {
+"_edit_use_anchors_": false
 }
 [connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/Panel/BackButton" to="Control" method="_on_BackButton_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/PanelContainer/Button" to="." method="_on_start_minigame_pressed"]
