@@ -3,6 +3,8 @@ var voice : Node
 
 func _ready():
 	Network.connect("player_list_changed", self, "refresh_lobby")
+	GameState.connect("update_difficulty", self, "update_difficulty")
+	GameState.connect("update_team_name", self , "update_team_name")
 	refresh_lobby()
 	Utils.add_scene("res://Scenes/VoiceStream.tscn", get_parent())
 	voice = get_parent().get_node("VoiceStream")
@@ -31,3 +33,13 @@ func stop_voip():
 	voice.stop()
 	voice.get_parent().remove_child(voice)
 	voice.queue_free()
+
+func update_difficulty(diff):
+	$Difficulty.text = "Difficulty:\n" + str(diff)
+
+func update_team_name(name):
+	$TeamName.text = "Team name:\n" + str(name)
+
+
+func _on_Microphone_toggled(button_pressed):
+	voice.set_recording(button_pressed)

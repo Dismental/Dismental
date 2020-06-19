@@ -4,7 +4,7 @@ signal player_list_changed()
 
 const DEFAULT_SERVER = 'wss://signaling-server-bomb.herokuapp.com/'
 
-# Declare member variables here.
+var host = 1
 var player_name = ""
 var player_info = {}
 var players_ready = []
@@ -50,6 +50,7 @@ func stop():
 	player_info.clear()
 	web_rtc.close()
 	close()
+	web_rtc = WebRTCMultiplayer.new()
 
 
 func lobby_joined(lobby):
@@ -103,6 +104,8 @@ func _player_connected(id):
 	player_info[id] = str(id)
 	print(get_tree().get_network_connected_peers())
 	rpc_id(id, "register_player")
+	if get_tree().get_network_unique_id() == host:
+		GameState.init_lobby_options(id)
 	emit_signal("player_list_changed")
 
 
