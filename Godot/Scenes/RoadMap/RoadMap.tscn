@@ -12,10 +12,10 @@
 
 [sub_resource type="Theme" id=1]
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -28,9 +28,9 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 corner_detail = 1
 
-[sub_resource type="Theme" id=7]
+[sub_resource type="Theme" id=4]
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=5]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 6.0
@@ -41,11 +41,11 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=6]
 size = 32
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=7]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 6.0
@@ -56,12 +56,12 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=8]
 size = 24
 outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=9]
 size = 32
 font_data = ExtResource( 2 )
 
@@ -91,7 +91,7 @@ margin_left = -144.0
 margin_top = -97.0
 margin_right = 2105.0
 margin_bottom = 1221.0
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -103,7 +103,7 @@ margin_bottom = 1080.0
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 3 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -154,7 +154,7 @@ custom_constants/separation = -366
 margin_right = 320.0
 margin_bottom = 320.0
 rect_min_size = Vector2( 320, 320 )
-theme = SubResource( 7 )
+theme = SubResource( 4 )
 texture = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -167,8 +167,8 @@ margin_right = 214.0
 margin_bottom = 7.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0.521569, 1, 0.4, 1 )
 text = "HACK"
 align = 1
@@ -177,14 +177,14 @@ __meta__ = {
 }
 
 [node name="LABEL5" type="Label" parent="CenterContainer/HBoxContainer/Hack/VBoxContainer"]
-margin_left = 59.0
+margin_left = 60.0
 margin_top = 418.0
-margin_right = 259.0
+margin_right = 260.0
 margin_bottom = 529.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 8 )
-custom_fonts/font = SubResource( 9 )
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "DESCRIPTION OF HACK MINIGAME"
 align = 1
@@ -228,7 +228,7 @@ custom_constants/separation = -366
 margin_right = 320.0
 margin_bottom = 320.0
 rect_min_size = Vector2( 320, 320 )
-theme = SubResource( 7 )
+theme = SubResource( 4 )
 texture = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -240,8 +240,8 @@ margin_top = -46.0
 margin_right = 203.0
 margin_bottom = 7.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 5 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 0.4, 0.4, 1 )
 text = "CUT"
 align = 1
@@ -250,14 +250,14 @@ __meta__ = {
 }
 
 [node name="LABEL5" type="Label" parent="CenterContainer/HBoxContainer/Cut/VBoxContainer"]
-margin_left = 59.0
+margin_left = 60.0
 margin_top = 418.0
-margin_right = 259.0
+margin_right = 260.0
 margin_bottom = 529.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 8 )
-custom_fonts/font = SubResource( 9 )
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "DESCRIPTION OF CUT MINIGAME"
 align = 1
@@ -301,7 +301,7 @@ custom_constants/separation = -366
 margin_right = 320.0
 margin_bottom = 320.0
 rect_min_size = Vector2( 320, 320 )
-theme = SubResource( 7 )
+theme = SubResource( 4 )
 texture = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -313,7 +313,7 @@ margin_top = -46.0
 margin_right = 217.0
 margin_bottom = 7.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 3 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.4, 0.67451, 1, 1 )
 text = "ALIGN"
@@ -323,14 +323,14 @@ __meta__ = {
 }
 
 [node name="LABEL5" type="Label" parent="CenterContainer/HBoxContainer/Align/VBoxContainer"]
-margin_left = 59.0
+margin_left = 60.0
 margin_top = 418.0
-margin_right = 259.0
+margin_right = 260.0
 margin_bottom = 529.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 8 )
-custom_fonts/font = SubResource( 9 )
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "DESCRIPTION OF ALIGN MINIGAME"
 align = 1
@@ -374,7 +374,7 @@ custom_constants/separation = -366
 margin_right = 320.0
 margin_bottom = 320.0
 rect_min_size = Vector2( 320, 320 )
-theme = SubResource( 7 )
+theme = SubResource( 4 )
 texture = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -386,7 +386,7 @@ margin_top = -46.0
 margin_right = 247.0
 margin_bottom = 7.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 3 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 0.615686, 0.4, 1 )
 text = "DISSOLVE"
@@ -396,14 +396,14 @@ __meta__ = {
 }
 
 [node name="LABEL5" type="Label" parent="CenterContainer/HBoxContainer/Dissolve/VBoxContainer"]
-margin_left = 59.0
+margin_left = 60.0
 margin_top = 418.0
-margin_right = 259.0
+margin_right = 260.0
 margin_bottom = 529.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 8 )
-custom_fonts/font = SubResource( 9 )
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "DESCRIPTION OF DISSOLVE MINIGAME"
 align = 1

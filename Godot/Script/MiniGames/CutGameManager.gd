@@ -33,6 +33,7 @@ func _ready():
 	supervisor_vision.visible = true
 	
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
+	player_role = Role.DEFUSER
 	
 	if player_role == Role.DEFUSER:
 		start_dialog.popup()

@@ -28,7 +28,8 @@ func _process(delta):
 		scroll_down_anim_progress = min(scroll_down_anim_progress, 1)
 		self.margin_top = -calc_scroll_pos(scroll_down_anim_progress).y
 		self.margin_left = -calc_scroll_pos(scroll_down_anim_progress).x
-		$SettingsPanel.margin_top = 515 - self.margin_top
+		$SettingsPanel.margin_top = 515 - self.margin_top / 2
+		$SettingsPanel.margin_bottom = 515 - self.margin_top / 2 + $SettingsPanel.get_rect().size.y
 		if scroll_down_anim_progress >= 1:
 			scroll_down_animating = false
 

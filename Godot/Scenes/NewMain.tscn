@@ -173,6 +173,7 @@ margin_left = 1590.0
 margin_top = 515.0
 margin_right = 1916.0
 margin_bottom = 1081.0
+rect_min_size = Vector2( 0, 566 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
 custom_styles/panel = SubResource( 3 )
@@ -342,28 +343,10 @@ anchor_left = 0.0028464
 anchor_top = -4.15378e-05
 anchor_right = 0.0028464
 anchor_bottom = -4.14813e-05
-margin_left = 100.535
-margin_top = 305.044
-margin_right = 548.535
-margin_bottom = 694.044
-rect_pivot_offset = Vector2( 493.364, 382.353 )
-rect_clip_content = true
-size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 10 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="OperatorPanel8" type="PanelContainer" parent="."]
-anchor_left = 0.0028464
-anchor_top = -4.15378e-05
-anchor_right = 0.0028464
-anchor_bottom = -4.14813e-05
-margin_left = 353.535
-margin_top = 756.045
-margin_right = 664.535
-margin_bottom = 853.045
+margin_left = 280.51
+margin_top = 521.803
+margin_right = 728.51
+margin_bottom = 910.803
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
@@ -383,10 +366,10 @@ anchor_left = -0.00112165
 anchor_top = 0.000902868
 anchor_right = -0.00112165
 anchor_bottom = 0.000902868
-margin_left = 241.338
-margin_top = 429.75
-margin_right = 425.338
-margin_bottom = 472.75
+margin_left = 380.402
+margin_top = 601.411
+margin_right = 610.402
+margin_bottom = 696.411
 custom_styles/normal = SubResource( 12 )
 custom_fonts/font = ExtResource( 3 )
 text = "JOIN MISSION"
@@ -399,10 +382,10 @@ anchor_left = -0.000507864
 anchor_top = 0.000902866
 anchor_right = -0.000507864
 anchor_bottom = 0.000902866
-margin_left = 227.49
-margin_top = 535.635
-margin_right = 449.49
-margin_bottom = 578.635
+margin_left = 387.975
+margin_top = 760.034
+margin_right = 670.975
+margin_bottom = 847.034
 custom_styles/normal = SubResource( 12 )
 custom_fonts/font = ExtResource( 3 )
 text = "CREATE MISSION"
@@ -449,9 +432,9 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="CreateMissionPanel/MarginContainer/VBoxContainer"]
-margin_left = 83.0
-margin_right = 304.0
-margin_bottom = 35.0
+margin_left = 52.0
+margin_right = 335.0
+margin_bottom = 45.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 custom_styles/normal = SubResource( 13 )
@@ -464,9 +447,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CreateMissionPanel/MarginContainer/VBoxContainer"]
-margin_top = 59.0
+margin_top = 69.0
 margin_right = 387.0
-margin_bottom = 104.0
+margin_bottom = 114.0
 
 [node name="Label5" type="Label" parent="CreateMissionPanel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_top = 7.0
@@ -496,9 +479,9 @@ __meta__ = {
 
 [node name="Label6" type="Label" parent="CreateMissionPanel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.501961 )
-margin_top = 128.0
+margin_top = 138.0
 margin_right = 387.0
-margin_bottom = 173.0
+margin_bottom = 183.0
 custom_fonts/font = SubResource( 18 )
 text = "YOUR MISSION ID IS COPIED TO YOUR CLIPBOARD. SHARE IT WITH YOUR FRIENDS!"
 autowrap = true
@@ -507,9 +490,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="CreateMissionPanel/MarginContainer/VBoxContainer"]
-margin_top = 197.0
+margin_top = 207.0
 margin_right = 387.0
-margin_bottom = 242.0
+margin_bottom = 252.0
 
 [node name="Label5" type="Label" parent="CreateMissionPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_top = 7.0
@@ -538,11 +521,23 @@ __meta__ = {
 }
 
 [node name="Label8" type="Label" parent="CreateMissionPanel/MarginContainer/VBoxContainer"]
-margin_top = 266.0
+margin_top = 276.0
 margin_right = 387.0
-margin_bottom = 297.0
+margin_bottom = 307.0
 custom_fonts/font = SubResource( 14 )
 text = "CHOOSE A BOMB:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateMissionButton2" type="Button" parent="."]
+margin_left = 1147.34
+margin_top = 1543.92
+margin_right = 1430.34
+margin_bottom = 1596.92
+custom_styles/normal = SubResource( 12 )
+custom_fonts/font = ExtResource( 3 )
+text = "CREATE MISSION"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -586,9 +581,9 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="JoinMissionPanel/MarginContainer/VBoxContainer"]
-margin_left = 101.0
-margin_right = 285.0
-margin_bottom = 35.0
+margin_left = 78.0
+margin_right = 308.0
+margin_bottom = 45.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 custom_styles/normal = SubResource( 13 )
@@ -601,9 +596,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="JoinMissionPanel/MarginContainer/VBoxContainer"]
-margin_top = 59.0
+margin_top = 69.0
 margin_right = 386.0
-margin_bottom = 104.0
+margin_bottom = 114.0
 
 [node name="Label5" type="Label" parent="JoinMissionPanel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_top = 7.0
@@ -634,9 +629,9 @@ __meta__ = {
 
 [node name="Label6" type="Label" parent="JoinMissionPanel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.501961 )
-margin_top = 128.0
+margin_top = 138.0
 margin_right = 386.0
-margin_bottom = 173.0
+margin_bottom = 183.0
 custom_fonts/font = SubResource( 18 )
 text = "YOUR MISSION ID IS COPIED TO YOUR CLIPBOARD. SHARE IT WITH YOUR FRIENDS"
 autowrap = true
@@ -700,3 +695,4 @@ __meta__ = {
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Label" method="_on_HSlider_value_changed"]
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
 [connection signal="pressed" from="CreateMissionButton" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="CreateMissionButton2" to="." method="_on_Button2_pressed"]
