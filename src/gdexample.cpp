@@ -64,11 +64,11 @@ void GDExample::_process(float delta) {
     
     detector >> frame;
 
-    handTracker.update(frame, bbox);
+    // handTracker.update(frame, bbox);
 
-    if(waitKey(10) == 32) {
-        handTracker.toggleTracking(frame, bbox);
-    }
+    // if(waitKey(10) == 32) {
+    //     handTracker.toggleTracking(frame, bbox);
+    // }
 
     // Create the 'joystick' effect by restraining the movement of cursorPos. CursorPos 'follows' facePosition and is not mapped 1on1.
     cursorPos.x = detector.facePosition().x;
