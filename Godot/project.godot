@@ -33,6 +33,7 @@ enable_audio_input=true
 Network="*res://Script/Global/Network.gd"
 Utils="*res://Script/Global/Utils.gd"
 ScoreManager="*res://Script/Global/ScoreManager.gd"
+GameState="*res://Script/Global/GameState.gd"
 
 [display]
 
