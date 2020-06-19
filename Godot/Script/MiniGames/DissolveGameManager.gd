@@ -10,28 +10,28 @@ puppet var puppet_mouse = Vector2()
 
 const Role = preload("res://Script/Role.gd")
 
-var matrix
-var columns = 90
-var rows = 72
+var matrix: Array
+var columns: int = 90
+var rows: int = 72
 var heatmap_sprite
-var radius = 9
+var radius: int = 8
 var defuse_state = DefuserState.OFF
 
 var pointer_node
 
 # Increase/decrease factor of temperature
-var increase_factor = 24
-var decrease_factor = 3
+var increase_factor: int = 22
+var decrease_factor: int = 2.5
 
-var component_width = 120
-var component_height = 30
-var num_of_components = 6
-var components = []
+var component_width: int = 120
+var component_height: int = 30
+var num_of_components: int = 6
+var components: Array = []
 
 var vacuum_remove_threshold = 40
 
 var blink_light
-var is_blinking = false
+var is_blinking: bool = false
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
