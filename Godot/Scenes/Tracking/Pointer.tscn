@@ -16,28 +16,28 @@ content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
 content_margin_bottom = 6.0
-bg_color = Color( 0, 0, 0, 0.211765 )
+bg_color = Color( 0, 0, 0, 0.611765 )
 
 [sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
 content_margin_bottom = 6.0
-bg_color = Color( 0, 0, 0, 0.239216 )
+bg_color = Color( 0, 0, 0, 0.470588 )
 
 [sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
 content_margin_bottom = 6.0
-bg_color = Color( 0, 0, 0, 0.203922 )
+bg_color = Color( 0, 0, 0, 0.501961 )
 
 [sub_resource type="StyleBoxFlat" id=5]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
 content_margin_bottom = 6.0
-bg_color = Color( 0, 0, 0, 0.305882 )
+bg_color = Color( 0, 0, 0, 0.466667 )
 
 [node name="Control" type="Node2D"]
 script = ExtResource( 2 )
@@ -53,9 +53,9 @@ script = ExtResource( 3 )
 script = ExtResource( 3 )
 
 [node name="Lbl_warning" type="Label" parent="."]
-margin_left = 759.096
+margin_left = 766.479
 margin_top = 20.2419
-margin_right = 884.096
+margin_right = 891.479
 margin_bottom = 46.2419
 rect_scale = Vector2( 2, 2 )
 custom_styles/normal = SubResource( 1 )
@@ -68,10 +68,10 @@ __meta__ = {
 }
 
 [node name="Lbl_template_matching" type="Label" parent="."]
-margin_left = 682.677
-margin_top = 138.129
-margin_right = 919.677
-margin_bottom = 165.129
+margin_left = 1425.85
+margin_top = 18.7784
+margin_right = 1662.85
+margin_bottom = 45.7784
 rect_scale = Vector2( 2, 2 )
 custom_styles/normal = SubResource( 2 )
 text = "Please face directly to the webcam"
@@ -80,10 +80,10 @@ __meta__ = {
 }
 
 [node name="Lbl_too_close" type="Label" parent="."]
-margin_left = 686.156
-margin_top = 198.224
-margin_right = 909.156
-margin_bottom = 241.224
+margin_left = 1530.59
+margin_top = 158.608
+margin_right = 1711.59
+margin_bottom = 201.608
 rect_scale = Vector2( 2, 2 )
 custom_styles/normal = SubResource( 3 )
 text = "Too close to the webcam.
@@ -93,10 +93,10 @@ __meta__ = {
 }
 
 [node name="Lbl_lost_tracking" type="Label" parent="."]
-margin_left = 683.903
-margin_top = 77.7742
-margin_right = 866.903
-margin_bottom = 103.774
+margin_left = 1521.82
+margin_top = 90.0784
+margin_right = 1704.82
+margin_bottom = 116.078
 rect_scale = Vector2( 2, 2 )
 custom_styles/normal = SubResource( 4 )
 text = "Face could not be found!"
@@ -105,10 +105,10 @@ __meta__ = {
 }
 
 [node name="Lbl_pickup_pointer" type="Label" parent="."]
-margin_left = 687.548
-margin_top = 290.452
-margin_right = 828.548
-margin_bottom = 316.452
+margin_left = 1609.13
+margin_top = 260.922
+margin_right = 1750.13
+margin_bottom = 286.922
 rect_scale = Vector2( 2, 2 )
 custom_styles/normal = SubResource( 5 )
 text = "Pickup the pointer"
