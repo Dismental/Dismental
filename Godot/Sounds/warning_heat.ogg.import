@@ -11,5 +11,5 @@ dest_files=[ "res://.import/warning_heat.ogg-89bed02a74fa853bb026d0d0ad0900d3.og
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
