@@ -4,6 +4,7 @@ signal timer_timeout
 signal update_remaining_text(text)
 signal defused
 signal update_difficulty
+signal update_team_name
 
 enum Difficulty {
 	EASY,
@@ -23,6 +24,7 @@ var defusers = []
 var last_label_update
 
 var difficulty = Difficulty.keys()[0]
+var team_name = "Bomb Squad"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -114,6 +116,17 @@ func difficulty_changed(id: int):
 	difficulty = Difficulty.keys()[id]
 	rpc("update_difficulty", difficulty)
 
+
 remote func update_difficulty(diff):
 	difficulty = diff
 	emit_signal("update_difficulty", difficulty)
+
+
+func team_name_changed(name: String):
+	team_name = name
+	rpc("update_team_name", team_name)
+
+
+remote func update_team_name(name:String):
+	team_name = name
+	emit_signal("update_team_name", team_name)

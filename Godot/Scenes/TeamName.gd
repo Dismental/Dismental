@@ -9,8 +9,8 @@ var cursor_column = 0
 
 func _on_TeamName_text_changed():
 	_limit_amount_of_chars()
-	#TODO add set team in global gamestate
-	
+	GameState.team_name_changed(current_text)
+
 
 func _limit_amount_of_chars():
 	# Limits the amount of chars that can be entered

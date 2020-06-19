@@ -140,4 +140,12 @@ margin_right = 1364.64
 margin_bottom = 402.377
 text = "Difficulty:
 EASY"
+
+[node name="TeamName" type="Label" parent="."]
+margin_left = 1256.47
+margin_top = 411.032
+margin_right = 1296.47
+margin_bottom = 442.032
+text = "Team name:
+Bomb Squad"
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
