@@ -87,7 +87,6 @@ func _ready():
 		soldering_iron_indicator.visible = false;
 		
 		_init_matrix()
-		_generate_blink_light()
 		_generate_colors()
 		_generate_color_scale()
 		heatmap_sprite = _init_heatmap_sprite()
@@ -150,17 +149,6 @@ func _generate_colors():
 	b_range = abs(colors[last_color_i][2] - b_low)
 	background_color = Color.from_hsv(colors[0][0], colors[0][1], colors[0][2])
 	background_color.a = 0.4
-
-
-func _generate_blink_light():
-	blink_light = ColorRect.new()
-	blink_light.color = Color(0.5, 0.5, 0.5, 1)
-
-	var width = 100
-	blink_light.set_begin(Vector2(110, 900))
-	blink_light.set_end(Vector2(110 + width, 900 + width))
-
-	get_node("CanvasLayer").add_child(blink_light)
 
 
 func _blink_light():
