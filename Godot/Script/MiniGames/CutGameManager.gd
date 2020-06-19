@@ -31,13 +31,13 @@ onready var supervisor_vision = $"Control/X-rayVision"
 
 
 func _ready():
+	rpc("_on_update_running", true)
+	
 	supervisor_vision.visible = true
 	
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
-	player_role = Role.DEFUSER
 	
 	if player_role == Role.DEFUSER:
-		start_dialog.popup()
 		_load_map(2, false)
 		
 		# Initialize the HeadTracking scene for this user
@@ -62,7 +62,7 @@ func _ready():
 
 
 func _process(_delta):
-	if running:
+	if true or running:
 		_update_game_state()
 
 		# Updates the draw function
@@ -70,24 +70,24 @@ func _process(_delta):
 
 
 func _draw():
-	# Draw finish rect
-	draw_rect(finish_rect, Color(0.5, 0.5, 0.5), 10)
-	if running and not waitForStartingPosition:
+	if waitForStartingPosition:
+		$Control/StartCuttingHere.set_position(_calc_start_position() - $Control/StartCuttingHere.get_rect().size/2)
+		
+	if not waitForStartingPosition and running:
 		var input_pos = _get_input_pos()
+		$LaserPointer.set_position(input_pos - $LaserPointer.get_rect().size / 2)
+		$LaserPointer.show()
 
 		# Add input pos to list of past input position
 		# If the previous input position wasn't close
 		if len(dots) == 0 or (dots[len(dots)-1].distance_to(input_pos) > 15):
 			dots.append(input_pos)
-
-		# Draw line
-		for i in range(2, len(dots) - 1):
-			draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
+			$CuttingLine.add_point(input_pos)
 
 	# Draw current pointer
-	var rad = 25
-	var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(0, 1, 0)
-
+	var rad = 12
+	var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(1, 0, 0)
+	
 	draw_circle(_get_input_pos(), rad, col)
 
 
@@ -136,8 +136,6 @@ func _calc_finish_line():
 
 	var vp_rect = get_viewport_rect().size
 	var sp = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
-	
-	print(_get_map_pixel_color(sp))
 
 	# Find min x
 	while(_get_map_pixel_color(sp).a > 0):
@@ -158,8 +156,10 @@ func _calc_finish_line():
 func _update_game_state():
 	if waitForStartingPosition:
 		var start_position_input = _calc_start_position()
-		var distance_from_start = (start_position_input*2).distance_to(_get_input_pos())
+		var distance_from_start = (start_position_input).distance_to(_get_input_pos())
 		if distance_from_start < 10:
+			$Control/StartCuttingHere.visible = false
+			$LaserPointer.visible = true
 			waitForStartingPosition = false
 			dots.clear()
 	else:
@@ -278,10 +278,7 @@ remotesync func _on_game_over():
 
 remotesync func _on_game_completed():
 	get_parent().call_deferred("remove_child", self)
-
-
-func _on_StartDialog_confirmed():
-	rpc("_on_update_running", true)
+	
 
 
 func _on_GameOverDialog_confirmed():
