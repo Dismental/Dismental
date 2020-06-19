@@ -24,6 +24,10 @@ func popup(text: String):
 	$AcceptDialog.popup_centered()
 
 
+func get_input_playername():
+	return $PlayerName/Input.text
+
+
 func _on_Input_text_changed():
 	_limit_amount_of_chars()
 
