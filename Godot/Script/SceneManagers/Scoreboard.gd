@@ -4,8 +4,10 @@ extends Control
 func _ready():
 	instance_panels()
 
+
 func _on_BackButton_pressed():
 	Utils.change_screen("res://Scenes/MainMenu.tscn", self)
+
 
 # Makes ScorePanels based on the scores that currently exist within ScoreManager.
 func instance_panels():

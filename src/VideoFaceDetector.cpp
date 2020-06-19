@@ -46,11 +46,6 @@ cv::CascadeClassifier *VideoFaceDetector::faceCascade() const
     return m_faceCascade;
 }
 
-std::queue<cv::Mat> VideoFaceDetector::getLastSeenFaceTemplateQueue() const
-{
-    return m_faceTemplate_lastSeen_queue;
-}
-
 void VideoFaceDetector::setResizedWidth(const int width)
 {
     m_resizedWidth = std::max(width, 1);
@@ -195,18 +190,24 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
         cv::Size(m_trackedFace.width * 8 / 10, m_trackedFace.height * 8 / 10),
         cv::Size(m_trackedFace.width * 12 / 10, m_trackedFace.height * 12 / 10));
 
-    if (m_allFaces.empty()) {
+    // When no face is found, search for a face at the 'lastSeen' location
+    if (m_allFaces.empty()) 
+    {
+        // Face detection at 'lastSeen'
         std::vector<cv::Rect>   m_allFaces_lastSeen;
         cv::Rect m_faceRoi_lastSeen = doubleRectSize(m_trackedFace_lastSeen, cv::Rect(0, 0, frame.cols, frame.rows));
-
         m_faceCascade->detectMultiScale(frame(m_faceRoi_lastSeen), m_allFaces_lastSeen, 1.1, 3, 0,
             cv::Size(m_trackedFace.width * 8 / 10, m_trackedFace.height * 8 / 10),
             cv::Size(m_trackedFace.width * 12 / 10, m_trackedFace.height * 12 / 10));
 
-        if (!m_allFaces_lastSeen.empty()) {
+        if (!m_allFaces_lastSeen.empty()) 
+        {
+            // A face has been found at the 'lastSeen' location
+            // Override the current face data with the newly found face
             m_faceRoi = m_faceRoi_lastSeen;
             m_allFaces = m_allFaces_lastSeen;
 
+            // Add a rectangle to the debug display queue
             cv::Rect m_trackedFace_lastSeen = biggestFace(m_allFaces_lastSeen);
             printToFrameQueue.push(m_trackedFace_lastSeen);
         }
@@ -222,12 +223,6 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
         return;
     }
 
-    // Add face template to the queue
-    m_faceTemplate_lastSeen_queue.push(getFaceTemplate(frame, m_trackedFace));
-
-    // If queue is larger than [maxQueueSize], pop oldest facetemplate
-    if (m_faceTemplate_lastSeen_queue.size() > m_maxBufferFaceTemplate) m_faceTemplate_lastSeen_queue.pop();
-   
     // Turn off template matching if running and reset timer
     m_templateMatchingRunning = false;
     m_templateMatchingCurrentTime = m_templateMatchingStartTime = 0;

@@ -232,11 +232,11 @@ $ python linter.py [path-to-location] [path-to-location2] ...
 ```
 Examples:
 ```
-$ python linter.py Script/SceneManagers/ Script/Scoreboard.gd 
+$ python linter.py Script/SceneManagers/ Script/Scoreboard.gd
 ```
 
 ```
-$ python linter.py Network.gd 
+$ python linter.py Network.gd
 ```
 
 ```
@@ -285,10 +285,14 @@ Follow these steps when exporting the game:
 - Copy the .xml file to the Resources folder
 - Now you can run the game
 
+**double-the-trouble**
+
+We often need to test multiplayer locally, this script will open two instances of the main scene at once. Along with a terminal window for each instance.
+
 # Developer Team
-- Kevin van der Werff, Producer & Communication 
+- Kevin van der Werff, Producer & Communication
 - Onno Gieling, Lead Playtesting
-- Jonas Duifs, Interaction Designer 
+- Jonas Duifs, Interaction Designer
 - Pepijn Klop, Lead Designer
-- Gees Brouwers, Lead Artist & SFX Designer 
-- Jeroen Janssen, Lead Programmer 
+- Gees Brouwers, Lead Artist & SFX Designer
+- Jeroen Janssen, Lead Programmer
