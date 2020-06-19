@@ -92,22 +92,23 @@ func _ready():
 		_generate_colors()
 		_generate_color_scale()
 		heatmap_sprite = _init_heatmap_sprite()
-		_generate_components()
 
 	elif player_role == Role.DEFUSER:
 		# Hide fire sign layer for defuser
 		fire_sign.visible = false
-		# Initialize the pointer scene for this user
+		# Initialize the pointer scene for the defuser
 		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
 		var pointer = PointerScene.instance()
 		self.add_child(pointer)
 		var pointer_control = pointer.get_node(".")
 		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
-		_generate_components()
+	
+	_generate_components()
 
 
 func _process(delta):
+#	print(components)
 	if player_role == Role.SUPERVISOR:
 		if defuse_state == DefuserState.SOLDERING_IRON:
 			_increase_matrix_input(delta)
@@ -156,7 +157,6 @@ func _generate_colors():
 
 
 func _blink_light():
-	
 	fire_sign_bg.modulate = fire_sign_color_blink
 	# Wait five frames
 	for _i in range(blinking_frames):
@@ -248,27 +248,36 @@ func _increase_matrix_input(delta):
 # Checks if the input cursor is in range of destroyable components
 # Removes a component when the temperature is above the threshold
 func _check_vacuum():
-	var input_sector_range = 2
 	var input = _get_input_pos()
 	var input_sector = _get_sector(input.x, input.y)
 	var id = 0
 	for item in components:
-		var com_pos = item[1]
+		var component_pos = item[1]
 		var input_col = input_sector["column"]
 		var input_row = input_sector["row"]
-		if input_col >= com_pos["column"] - input_sector_range:
-			if input_col <= com_pos["column"] + input_sector_range:
-				if input_row >= com_pos["row"] - input_sector_range:
-					if input_row <= com_pos["row"] + input_sector_range:
-						if matrix[input_row][input_col] > vacuum_remove_threshold:
-							print("Remove component" + str(id))
-							_destroy_component(id)
-							rpc_id(1, "_destroy_component", id)
-							if len(components) == 0:
-								_game_completed()
-								return
-						break
+		if _is_in_range(component_pos, input_col, input_row):
+			if matrix[input_row][input_col] > vacuum_remove_threshold:
+				print("Remove component" + str(id))
+				_destroy_component(id)
+				rpc_id(1, "_destroy_component", id)
+				if len(components) == 0:
+					_game_completed()
+					return
+			break
 		id += 1
+
+
+# Give a component position & sector
+# Returns true if in range, otherwise false
+func _is_in_range(component_position, input_col, input_row):
+	var input_sector_range = 2
+	
+	return (
+		input_col >= component_position["column"] - input_sector_range and
+		input_col <= component_position["column"] + input_sector_range and
+		input_row >= component_position["row"] - input_sector_range and
+		input_row <= component_position["row"] + input_sector_range
+	)
 
 
 # Give percentage in the range of 100%, returns the right color
