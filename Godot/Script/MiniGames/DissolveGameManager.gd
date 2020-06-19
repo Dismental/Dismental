@@ -28,11 +28,10 @@ var component_width = 120
 var component_height = 30
 var num_of_components = 6
 var components = []
+const component_base_color = Color(0.4, 0.4, 0.4)
+const component_removable_color = Color(0.8, 0.4, 0.4)
 
 var vacuum_remove_threshold = 50
-
-var blink_light
-var is_blinking = false
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
@@ -74,7 +73,9 @@ onready var fire_sign = $FireSignControl
 onready var fire_sign_bg = $FireSignControl/fire_sign_bg
 const fire_sign_color_blink = Color(210.0 / 255, 69.0 / 255, 69.0 / 255)
 const fire_sign_color_def = Color(0.0, 0.0, 0.0)
+var is_blinking = false
 const blinking_frames = 3
+
 
 func _ready():
 	if (!DEBUG_OFFLINE):
@@ -108,13 +109,13 @@ func _ready():
 
 
 func _process(delta):
-#	print(components)
 	if player_role == Role.SUPERVISOR:
 		if defuse_state == DefuserState.SOLDERING_IRON:
 			_increase_matrix_input(delta)
 		elif defuse_state == DefuserState.VACUUM:
 			_check_vacuum()
 		_refresh_heatmap(delta)
+		_check_components_removable()
 	else:
 		_check_input()
 	
@@ -180,6 +181,17 @@ func _generate_color_scale():
 		rec.set_end(Vector2(30 + (n + 1) * width, 30 + width))
 		get_node("CanvasLayer").add_child(rec)
 		n += 1
+
+
+func _check_components_removable():
+	for item in components:
+		var component_pos = item[1]
+		var input_col = component_pos["column"]
+		var input_row = component_pos["row"]
+		if matrix[input_row][input_col] > vacuum_remove_threshold:
+			item[0].color = component_removable_color
+		else:
+			item[0].color = component_base_color
 
 
 # Decreases the matrix temperatures and creates a new image afterwards
@@ -348,7 +360,7 @@ func _generate_components():
 			yi = 0
 
 		var rec = ColorRect.new()
-		rec.color = Color(0.4, 0.4, 0.4)
+		rec.color = component_base_color
 
 		var x = start_x + xi * seperation_x
 		var y = start_y + yi * seperation_y
