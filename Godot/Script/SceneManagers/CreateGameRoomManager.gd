@@ -1,14 +1,27 @@
 extends Control
 
+var limit = 16
+
+var current_text = ''
+var cursor_line = 0
+var cursor_column = 0
 
 func _on_CreateRoomButton_pressed():
+	if $PlayerName/Input.text.empty():
+		popup("Playername can't be empty!")
+	else:
 		Network.player_name = current_text
-	Network.create_server()
-	return Utils.change_screen("res://Scenes/GameRoomHost.tscn", self)
+		Network.create_server()
+		return Utils.change_screen("res://Scenes/GameRoomHost.tscn", self)
 
 
 func _on_BackButton_pressed():
 	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)
+
+
+func popup(text: String):
+	$AcceptDialog.dialog_text = text
+	$AcceptDialog.popup_centered()
 
 
 func _on_Input_text_changed():

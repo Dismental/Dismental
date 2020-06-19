@@ -1,13 +1,22 @@
 extends Control
 
+var limit = 16
+
+var current_text = ''
+var cursor_line = 0
+var cursor_column = 0
+
 
 func _on_JoinGameButton_pressed():
 	if get_input_gameid().empty():
 		popup("Lobby name can't be empty!")
 	else:
 		if $PlayerName/Input.text.empty():
-		_create_client()
-		return Utils.change_screen("res://Scenes/GameRoomPlayer.tscn", self)
+			popup("Playername can't be empty!")
+		else:
+			Network.player_name = current_text
+			_create_client()
+			return Utils.change_screen("res://Scenes/GameRoomPlayer.tscn", self)
 
 
 func _on_BackButton_pressed():
