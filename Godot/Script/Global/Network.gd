@@ -50,6 +50,7 @@ func stop():
 	player_info.clear()
 	web_rtc.close()
 	close()
+	web_rtc = WebRTCMultiplayer.new()
 
 
 func lobby_joined(lobby):
