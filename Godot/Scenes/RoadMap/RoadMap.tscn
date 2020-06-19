@@ -1,0 +1,436 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Scenes/TestUI/ObserversPanel.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/RoadMap/hack.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/RoadMap/align.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/RoadMap/cut.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/RoadMap/dissolve.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/RoadMap/RoadMap.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/RoadMap/arrow.png" type="Texture" id=9]
+
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 1
+
+[sub_resource type="Theme" id=7]
+
+[sub_resource type="StyleBoxFlat" id=3]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="DynamicFont" id=9]
+size = 24
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 80
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=11]
+size = 24
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 2 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 1 )
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = -0.000729036
+anchor_right = -0.000728989
+margin_left = -144.0
+margin_top = -97.0
+margin_right = 2105.0
+margin_bottom = 1221.0
+custom_styles/panel = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OperatorPanel2" type="PanelContainer" parent="."]
+margin_left = 0.615204
+margin_right = 1920.62
+margin_bottom = 1080.0
+rect_pivot_offset = Vector2( 493.364, 382.353 )
+rect_clip_content = true
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 2 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+margin_left = 176.0
+margin_top = 131.0
+margin_right = 1744.0
+margin_bottom = 948.0
+custom_constants/separation = 96
+
+[node name="Hack" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
+margin_right = 320.0
+margin_bottom = 817.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Hack"]
+margin_right = 320.0
+margin_bottom = 817.0
+custom_constants/separation = 24
+
+[node name="Arrow" type="TextureRect" parent="CenterContainer/HBoxContainer/Hack/VBoxContainer"]
+margin_right = 54.0
+margin_bottom = 50.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Hack/VBoxContainer"]
+margin_top = 74.0
+margin_right = 320.0
+margin_bottom = 394.0
+rect_min_size = Vector2( 320, 320 )
+size_flags_vertical = 0
+custom_constants/separation = -366
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/HBoxContainer/Hack/VBoxContainer/Container"]
+margin_right = 320.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 320, 320 )
+theme = SubResource( 7 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL" type="Label" parent="CenterContainer/HBoxContainer/Hack/VBoxContainer/Container"]
+margin_left = 106.0
+margin_top = -46.0
+margin_right = 214.0
+margin_bottom = 7.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.521569, 1, 0.4, 1 )
+text = "HACK"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL5" type="Label" parent="CenterContainer/HBoxContainer/Hack/VBoxContainer"]
+margin_left = 59.0
+margin_top = 418.0
+margin_right = 259.0
+margin_bottom = 529.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "DESCRIPTION OF HACK MINIGAME"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cut" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
+margin_left = 416.0
+margin_right = 736.0
+margin_bottom = 817.0
+custom_constants/margin_top = 96
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Cut"]
+margin_top = 96.0
+margin_right = 320.0
+margin_bottom = 817.0
+custom_constants/separation = 24
+
+[node name="Arrow" type="TextureRect" parent="CenterContainer/HBoxContainer/Cut/VBoxContainer"]
+margin_right = 54.0
+margin_bottom = 50.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Cut/VBoxContainer"]
+margin_top = 74.0
+margin_right = 320.0
+margin_bottom = 394.0
+rect_min_size = Vector2( 320, 320 )
+size_flags_vertical = 0
+custom_constants/separation = -366
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/HBoxContainer/Cut/VBoxContainer/Container"]
+margin_right = 320.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 320, 320 )
+theme = SubResource( 7 )
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL2" type="Label" parent="CenterContainer/HBoxContainer/Cut/VBoxContainer/Container"]
+margin_left = 117.0
+margin_top = -46.0
+margin_right = 203.0
+margin_bottom = 7.0
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 1, 0.4, 0.4, 1 )
+text = "CUT"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL5" type="Label" parent="CenterContainer/HBoxContainer/Cut/VBoxContainer"]
+margin_left = 59.0
+margin_top = 418.0
+margin_right = 259.0
+margin_bottom = 529.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "DESCRIPTION OF CUT MINIGAME"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Align" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
+margin_left = 832.0
+margin_right = 1152.0
+margin_bottom = 817.0
+custom_constants/margin_top = 192
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Align"]
+margin_top = 192.0
+margin_right = 320.0
+margin_bottom = 817.0
+custom_constants/separation = 24
+
+[node name="Arrow" type="TextureRect" parent="CenterContainer/HBoxContainer/Align/VBoxContainer"]
+margin_right = 54.0
+margin_bottom = 50.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Align/VBoxContainer"]
+margin_top = 74.0
+margin_right = 320.0
+margin_bottom = 394.0
+rect_min_size = Vector2( 320, 320 )
+size_flags_vertical = 0
+custom_constants/separation = -366
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/HBoxContainer/Align/VBoxContainer/Container"]
+margin_right = 320.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 320, 320 )
+theme = SubResource( 7 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL3" type="Label" parent="CenterContainer/HBoxContainer/Align/VBoxContainer/Container"]
+margin_left = 102.0
+margin_top = -46.0
+margin_right = 217.0
+margin_bottom = 7.0
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.4, 0.67451, 1, 1 )
+text = "ALIGN"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL5" type="Label" parent="CenterContainer/HBoxContainer/Align/VBoxContainer"]
+margin_left = 59.0
+margin_top = 418.0
+margin_right = 259.0
+margin_bottom = 529.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "DESCRIPTION OF ALIGN MINIGAME"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Dissolve" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
+margin_left = 1248.0
+margin_right = 1568.0
+margin_bottom = 817.0
+custom_constants/margin_top = 288
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Dissolve"]
+margin_top = 288.0
+margin_right = 320.0
+margin_bottom = 817.0
+custom_constants/separation = 24
+
+[node name="Arrow" type="TextureRect" parent="CenterContainer/HBoxContainer/Dissolve/VBoxContainer"]
+margin_right = 54.0
+margin_bottom = 50.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Dissolve/VBoxContainer"]
+margin_top = 74.0
+margin_right = 320.0
+margin_bottom = 394.0
+rect_min_size = Vector2( 320, 320 )
+size_flags_vertical = 0
+custom_constants/separation = -366
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/HBoxContainer/Dissolve/VBoxContainer/Container"]
+margin_right = 320.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 320, 320 )
+theme = SubResource( 7 )
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL4" type="Label" parent="CenterContainer/HBoxContainer/Dissolve/VBoxContainer/Container"]
+margin_left = 73.0
+margin_top = -46.0
+margin_right = 247.0
+margin_bottom = 7.0
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0.615686, 0.4, 1 )
+text = "DISSOLVE"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL5" type="Label" parent="CenterContainer/HBoxContainer/Dissolve/VBoxContainer"]
+margin_left = 59.0
+margin_top = 418.0
+margin_right = 259.0
+margin_bottom = 529.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "DESCRIPTION OF DISSOLVE MINIGAME"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 1187.88
+margin_top = 87.9105
+margin_right = 1796.88
+margin_bottom = 187.911
+custom_fonts/font = SubResource( 10 )
+text = "TASK OVERVIEW"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 744.311
+margin_top = 1020.38
+margin_right = 1232.31
+margin_bottom = 1051.38
+custom_fonts/font = SubResource( 11 )
+text = "WAITING FOR HOST TO START NEXT TASK"
+__meta__ = {
+"_edit_use_anchors_": false
+}

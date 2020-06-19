@@ -59,10 +59,10 @@ __meta__ = {
 }
 
 [node name="LABEL" type="Label" parent="."]
-margin_left = 167.266
-margin_top = 516.734
-margin_right = 255.266
-margin_bottom = 551.734
+margin_left = 138.4
+margin_top = 241.19
+margin_right = 226.4
+margin_bottom = 276.19
 custom_styles/normal = SubResource( 2 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.521569, 1, 0.4, 1 )
