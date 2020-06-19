@@ -5,7 +5,7 @@ puppet var puppet_mouse = Vector2()
 const Role = preload("res://Script/Role.gd")
 
 var password = "Test_word"
-var online = true
+var online = false
 
 var num_of_collectables
 var spawned_collectables = 0
@@ -24,7 +24,7 @@ var padding_top_bottom = 40
 var row_height = (screen_height - 2 * padding_top_bottom) / rows
 
 var moving_speed = 8
-var cur_time = 0
+var cur_time = -5
 
 var player_role
 var pointer_node
@@ -37,6 +37,7 @@ onready var label_nodes = $LabelNodes
 func _ready():
 	num_of_collectables = len(password)
 	player_role = Role.DEFUSER if !online or get_tree().is_network_server() else Role.SUPERVISOR
+	player_role = Role.DEFUSER
 	_update_password_label()
 	randomize()
 	
@@ -175,7 +176,6 @@ func _generate_random_char():
 
 # Checks if label is off-screen and removes it if true
 func _remove_labels():
-	print("Len labels " + str(len(normal_labels)))
 	var iterations = min(rows / 2, len(normal_labels) - 1)
 	for i in range(iterations, -1, -1):
 		if normal_labels[i].position.x > screen_width + char_width:
