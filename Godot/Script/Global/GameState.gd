@@ -1,5 +1,9 @@
 extends Node
 
+signal timer_timeout
+signal update_remaining_text(text)
+signal defused
+
 enum Difficulty {
 	EASY,
 	MEDIUM,
@@ -16,10 +20,6 @@ var minigame_index = 0
 var minigames = ["Hack", "Align", "Cut", "Dissolve"]
 var last_label_update
 
-signal timer_timeout
-signal update_remaining_text(text)
-signal defused
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -33,16 +33,16 @@ func _process(_delta):
 			_set_timer_label(time_left)
 
 
-func start_timer(timerNode):
-	timer_label = timerNode
+func start_timer(timer_node):
+	timer_label = timer_node
 	last_label_update = wait_time
-	
+
 	timer = Timer.new()
 	timer.one_shot = true
 	timer.connect("timeout", self, "_on_timer_timeout")
 	timer.set_wait_time(wait_time)
 
-	timerNode.add_child(timer)
+	timer_node.add_child(timer)
 
 	_set_timer_label(wait_time)
 
