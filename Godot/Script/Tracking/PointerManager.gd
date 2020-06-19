@@ -148,8 +148,6 @@ func _process(_delta):
 			$Lbl_warning.visible = true
 		else:
 			$Lbl_warning.visible = false
-		
-		print ("too close: " + var2str(tracking_node.tooclose))
 	elif (player_role == Role.HEAD):
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos
@@ -206,10 +204,6 @@ func set_role(_player_role):
 			print ("initiating head tracking")
 
 		tracking_node = $HeadPos
-		print ("lost: " + var2str(tracking_node.losttracking))
-		print ("multi: " + var2str(tracking_node.multiface))
-		print ("template matching: " + var2str(tracking_node.templatematching))
-		print ("too close: " + var2str(tracking_node.tooclose))
 		tracking_pos = _map_tracking_position(start_pos)
 		pointer_node.position = _map_tracking_position(start_pos)
 		pointer_pos = pointer_node.position 
