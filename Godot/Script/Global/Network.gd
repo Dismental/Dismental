@@ -104,6 +104,8 @@ func _player_connected(id):
 	player_info[id] = str(id)
 	print(get_tree().get_network_connected_peers())
 	rpc_id(id, "register_player")
+	if get_tree().get_network_unique_id() == host:
+		GameState.init_lobby_options(id)
 	emit_signal("player_list_changed")
 
 

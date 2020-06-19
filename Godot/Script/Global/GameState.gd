@@ -112,6 +112,11 @@ remotesync func update_squad_name(new_name):
 	squadname = new_name
 
 
+func init_lobby_options(id: int):
+	rpc_id(id, "update_difficulty", difficulty)
+	rpc_id(id, "update_team_name", team_name)
+
+
 func difficulty_changed(id: int):
 	difficulty = Difficulty.keys()[id]
 	rpc("update_difficulty", difficulty)
