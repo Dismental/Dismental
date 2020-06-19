@@ -5,6 +5,9 @@ extends Control
 # var a = 2
 # var b = "text"
 
+var openingAnimation = true
+var openingProgress = 0
+
 onready var miniGamePreviews = [
 	$CenterContainer/HBoxContainer/Hack,
 	$CenterContainer/HBoxContainer/Cut,
@@ -18,12 +21,19 @@ var blinkProgress = 0.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for i in range(upcomingMiniGame + 1, 4):
-		miniGamePreviews[i].modulate = Color(1,1,1,.25)
+		miniGamePreviews[i].modulate = Color(1,1,1,.2)
 		
 		
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if openingProgress < 1:
+		openingProgress += .01
+		$CenterContainer/HBoxContainer.set(
+			"custom_constants/separation", 
+			(1.0 - pow(1.0 - openingProgress, 6)) * 192 - 96
+		)
+	
 	var upcomingMiniGameNode = miniGamePreviews[upcomingMiniGame]
 	var upcomingMiniGameImg = upcomingMiniGameNode.get_node("VBoxContainer/Container/TextureRect")
 	var upcomingMiniGameArrow = upcomingMiniGameNode.get_node("VBoxContainer/Arrow")
