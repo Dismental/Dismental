@@ -6,7 +6,7 @@
 
 [sub_resource type="Theme" id=1]
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -19,7 +19,7 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 2.0
@@ -52,7 +52,7 @@ margin_bottom = 1080.0
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 2 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -63,7 +63,7 @@ margin_left = 138.4
 margin_top = 241.19
 margin_right = 226.4
 margin_bottom = 276.19
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.521569, 1, 0.4, 1 )
 text = "HACK"
@@ -77,7 +77,7 @@ margin_left = 400.045
 margin_top = 516.0
 margin_right = 488.045
 margin_bottom = 551.0
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 0.4, 0.4, 1 )
 text = "CUT"
@@ -91,7 +91,7 @@ margin_left = 659.0
 margin_top = 536.0
 margin_right = 754.0
 margin_bottom = 571.0
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.4, 0.67451, 1, 1 )
 text = "ALIGN"
@@ -105,7 +105,7 @@ margin_left = 941.218
 margin_top = 609.466
 margin_right = 1080.22
 margin_bottom = 644.466
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 0.615686, 0.4, 1 )
 text = "DISSOLVE"
