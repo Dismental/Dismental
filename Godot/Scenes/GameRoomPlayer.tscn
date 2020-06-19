@@ -132,4 +132,12 @@ margin_top = 493.0
 margin_right = 472.0
 margin_bottom = 536.0
 text = "Wait for the host to start the game"
+
+[node name="Difficulty" type="Label" parent="."]
+margin_left = 1252.64
+margin_top = 337.377
+margin_right = 1364.64
+margin_bottom = 402.377
+text = "Difficulty:
+EASY"
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
