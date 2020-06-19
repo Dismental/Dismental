@@ -14,7 +14,7 @@ env = DefaultEnvironment()
 # Define our options
 opts.Add(EnumVariable('target', 'Compilation target', 'debug', ['d', 'debug', 'r', 'release']))
 opts.Add(EnumVariable('platform', 'Compilation platform', '', ['', 'windows', 'x11', 'linux', 'osx']))
-opts.Add(EnumVariable('p', 'Compilation target, alias for 'platform'', '', ['', 'windows', 'x11', 'linux', 'osx']))
+opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(BoolVariable('use_llvm', 'Use the LLVM / Clang compiler', 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'Godot/bin/'))
 opts.Add(PathVariable('target_name', 'The library name.', 'libgdexample', PathVariable.PathAccept))
@@ -33,8 +33,8 @@ opts.Update(env)
 # Show the configuration
 print()
 print('[Env configuration]')
-print(f'Platform : {env['platform']}')
-print(f'Target   : {env['target']}')
+print(f"Platform : {env['platform']}")
+print(f"Target   : {env['target']}")
 print()
 
 # Process some arguments
