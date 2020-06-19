@@ -75,6 +75,7 @@ onready var pointer_dot = $red_dot
 onready var game_completed_player = $AudioStreamPlayers/GameCompleted
 onready var heat_warning_player = $AudioStreamPlayers/HeatWarning
 onready var remove_component_player = $AudioStreamPlayers/RemoveComponent
+onready var select_player = $AudioStreamPlayers/Select
 
 func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
@@ -253,19 +254,13 @@ func _check_vacuum():
 	var input = _get_input_pos()
 	var id = 0
 	for item in components:
-		rpc_id(1, 'printy', "len components", len(components))
 		var com_pos = item[1]
-
-		rpc_id(1, 'printy', "com_pos", com_pos)
-		rpc_id(1, 'printy', "input", input)
-		rpc_id(1, 'printy', "dis", com_pos.distance_to(input))
 		if com_pos.distance_to(input) < 70:
 			var sector = _get_sector(com_pos.x, com_pos.y)
 			var input_row = sector.get("row")
 			var input_column = sector.get("column")
 			
 			if _check_overheat(input_row, input_column):
-				rpc_id(1, 'printy', "destory comp", id)
 				rpc("_destroy_component", id)
 				if len(components) == 0 and not completed:
 					_game_completed()
@@ -274,15 +269,13 @@ func _check_vacuum():
 			break
 		id += 1
 
+
 func _check_overheat(sector_row, sector_column):
 	for x in range(-2, 3):
 		for y in range(-2, 3):
 			if matrix[sector_row + x][sector_column + y] > vacuum_remove_threshold:
 				return true
 	return false
-
-remotesync func printy(a, b):
-	print(str(a) + str(b))
 
 
 # Give percentage in the range of 100%, returns the right color
@@ -392,6 +385,7 @@ func _game_over():
 
 
 remotesync func _soldering_entered():
+	select_player.play()
 	if defuse_state == DefuserState.SOLDERING_IRON:
 		defuse_state = DefuserState.OFF
 		soldering_iron_indicator.color = Color(1, 0, 0)
@@ -407,6 +401,7 @@ remotesync func _soldering_entered():
 
 
 remotesync func _vacuum_entered():
+	select_player.play()
 	if defuse_state == DefuserState.VACUUM:
 		defuse_state = DefuserState.OFF
 		vacuum_indicator.color = Color(1, 0, 0)
