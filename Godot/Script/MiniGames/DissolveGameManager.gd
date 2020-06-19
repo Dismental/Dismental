@@ -9,6 +9,7 @@ enum DefuserState {
 puppet var puppet_mouse = Vector2()
 
 const Role = preload("res://Script/Role.gd")
+const DEBUG_OFFLINE = true # Toggle to be able to debug offline
 
 var matrix
 var columns = 90
@@ -71,10 +72,20 @@ onready var pointer_dot = $red_dot
 
 
 func _ready():
-	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
+	print("<<<<<<")
+	print(get_tree().is_network_server())
+	
+	if (!DEBUG_OFFLINE):
+		player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
+	else:
+		player_role = Role.SUPERVISOR
 
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
+		# Hide vacuum & soldering iron in GUI
+		vacuum_indicator.visible = false;
+		soldering_iron_indicator.visible = false;
+		
 		_init_matrix()
 		_generate_blink_light()
 		_generate_colors()
