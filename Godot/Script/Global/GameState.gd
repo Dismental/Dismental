@@ -15,9 +15,10 @@ var wait_time = 60 * 10
 var timer_label
 var running = false
 
-var squadname
+var squadname = ""
 var minigame_index = 0
 var minigames = ["Hack", "Align", "Cut", "Dissolve"]
+var defusers = []
 var last_label_update
 
 # Called when the node enters the scene tree for the first time.
@@ -31,6 +32,19 @@ func _process(_delta):
 		if last_label_update != time_left:
 			last_label_update = time_left
 			_set_timer_label(time_left)
+
+
+func assign_roles():
+	var players = get_tree().get_network_connected_peers()
+	var index = randi() % len(players)
+	for mg in minigames:
+		if mg != "Align":
+			defusers.append(players[index])
+			index += 1
+			if index >= len(players):
+				index = 0
+		else:
+			defusers.append(-1)
 
 
 func start_timer(timer_node):
@@ -88,3 +102,7 @@ func start_minigame(button_reference):
 			button_reference.text = "Defuse Bomb"
 	else:
 		emit_signal("defused")
+
+
+remotesync func update_squad_name(new_name):
+	squadname = new_name
