@@ -44,7 +44,7 @@ func _on_Input_text_changed():
 
 func _limit_amount_of_chars():
 	# Limits the amount of chars that can be entered
-	
+
 	var new_text : String = $PlayerName/Input.text
 	if new_text.length() > limit:
 		$PlayerName/Input.text = current_text
@@ -56,6 +56,6 @@ func _limit_amount_of_chars():
 	current_text = $PlayerName/Input.text
 	cursor_line = $PlayerName/Input.cursor_get_line()
 	cursor_column = $PlayerName/Input.cursor_get_column()
-	pass # Replace with function body.
+
 
 
