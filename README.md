@@ -270,6 +270,9 @@ The extracted directory contains the file that the export preset was looking for
 ## Exporting the game
 The game can now be exported to a .dmg. Accessing the resources (res://) was not yet successful, thus a reference to a .xml file for face tracking is hardcoded for now. This also requires additional steps to get the .xml file at the right location.
 
+Before being able to export the game, you need to unzip the shipped dependencies found in `<root-repo>/Godot/bin/osx/deps_{version}`,
+simply extract them, and they should end up in a folder with the same name (such as `deps_10.14`).
+
 A script has been written to automate this process, which is `/export.sh`. It will perform the steps described below.
 To run the script go to the root of the repo in your terminal and run `sh ./export.sh` (prepend `sudo` if needed).
 You need to add the version for which you want to export the game, choose from `10.14` or `10.15`.
