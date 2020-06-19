@@ -39,3 +39,8 @@ func stop_voip():
 	voice.stop()
 	voice.get_parent().remove_child(voice)
 	voice.queue_free()
+
+
+func _on_OptionButton_item_selected(id):
+	#TODO Set difficulty in global gamestate
+	pass
