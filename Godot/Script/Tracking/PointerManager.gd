@@ -144,7 +144,7 @@ func _process(_delta):
 		else:
 			$Lbl_lost_tracking.visible = false
 		
-		if (($HeadPos.templatematching || $HeadPos.tooclose || $HeadPos.multiface || $HeadPos.losttracking || lost_tracking) && !$Lbl_warning.visible):
+		if ($HeadPos.templatematching || $HeadPos.tooclose || $HeadPos.multiface || $HeadPos.losttracking || lost_tracking):
 			$Lbl_warning.visible = true
 		else:
 			$Lbl_warning.visible = false

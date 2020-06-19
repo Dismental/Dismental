@@ -4,35 +4,35 @@
 [ext_resource path="res://Script/Tracking/PointerManager.gd" type="Script" id=2]
 [ext_resource path="res://bin/gdexample.gdns" type="Script" id=3]
 
-[sub_resource type="StyleBoxFlat" id=5]
-content_margin_left = 6.0
-content_margin_right = 6.0
-content_margin_top = 6.0
-content_margin_bottom = 6.0
-bg_color = Color( 0, 0, 0, 0.227451 )
-
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
 content_margin_bottom = 6.0
-bg_color = Color( 0, 0, 0, 0.211765 )
+bg_color = Color( 0, 0, 0, 0.737255 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
 content_margin_bottom = 6.0
-bg_color = Color( 0, 0, 0, 0.239216 )
+bg_color = Color( 0, 0, 0, 0.211765 )
 
 [sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
 content_margin_bottom = 6.0
-bg_color = Color( 0, 0, 0, 0.203922 )
+bg_color = Color( 0, 0, 0, 0.239216 )
 
 [sub_resource type="StyleBoxFlat" id=4]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 0.203922 )
+
+[sub_resource type="StyleBoxFlat" id=5]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
@@ -53,12 +53,15 @@ script = ExtResource( 3 )
 script = ExtResource( 3 )
 
 [node name="Lbl_warning" type="Label" parent="."]
-margin_left = 755.548
-margin_top = 19.3548
-margin_right = 880.548
-margin_bottom = 45.3548
+margin_left = 759.096
+margin_top = 20.2419
+margin_right = 884.096
+margin_bottom = 46.2419
 rect_scale = Vector2( 2, 2 )
-custom_styles/normal = SubResource( 5 )
+custom_styles/normal = SubResource( 1 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "[Tracking warning]"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -70,7 +73,7 @@ margin_top = 138.129
 margin_right = 919.677
 margin_bottom = 165.129
 rect_scale = Vector2( 2, 2 )
-custom_styles/normal = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
 text = "Please face directly to the webcam"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -82,7 +85,7 @@ margin_top = 198.224
 margin_right = 909.156
 margin_bottom = 241.224
 rect_scale = Vector2( 2, 2 )
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 text = "Too close to the webcam.
 Keep 1,5 m distance"
 __meta__ = {
@@ -95,7 +98,7 @@ margin_top = 77.7742
 margin_right = 866.903
 margin_bottom = 103.774
 rect_scale = Vector2( 2, 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
 text = "Face could not be found!"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -107,7 +110,7 @@ margin_top = 290.452
 margin_right = 828.548
 margin_bottom = 316.452
 rect_scale = Vector2( 2, 2 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 text = "Pickup the pointer"
 __meta__ = {
 "_edit_use_anchors_": false
