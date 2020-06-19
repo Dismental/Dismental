@@ -1,12 +1,22 @@
 extends Control
 
+var limit = 16
+
+var current_text = ''
+var cursor_line = 0
+var cursor_column = 0
+
 
 func _on_JoinGameButton_pressed():
 	if get_input_gameid().empty():
 		popup("Lobby name can't be empty!")
 	else:
-		_create_client()
-		return Utils.change_screen("res://Scenes/GameRoomPlayer.tscn", self)
+		if get_input_playername().empty():
+			popup("Playername can't be empty!")
+		else:
+			Network.player_name = current_text
+			_create_client()
+			return Utils.change_screen("res://Scenes/GameRoomPlayer.tscn", self)
 
 
 func _on_BackButton_pressed():
@@ -22,3 +32,30 @@ func popup(text: String):
 
 func get_input_gameid():
 	return $InputGameID.text
+
+
+func get_input_playername():
+	return $PlayerName/Input.text
+
+
+func _on_Input_text_changed():
+	_limit_amount_of_chars()
+
+
+func _limit_amount_of_chars():
+	# Limits the amount of chars that can be entered
+
+	var new_text : String = $PlayerName/Input.text
+	if new_text.length() > limit:
+		$PlayerName/Input.text = current_text
+		# when replacing the text, the cursor will get moved to the beginning of the
+		# text, so move it back to where it was
+		$PlayerName/Input.cursor_set_line(cursor_line)
+		$PlayerName/Input.cursor_set_column(cursor_column)
+
+	current_text = $PlayerName/Input.text
+	cursor_line = $PlayerName/Input.cursor_get_line()
+	cursor_column = $PlayerName/Input.cursor_get_column()
+
+
+

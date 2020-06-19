@@ -160,7 +160,6 @@ __meta__ = {
 }
 
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
-visible = true
 margin_left = 783.0
 margin_top = 424.0
 margin_right = 1154.0
@@ -169,6 +168,23 @@ window_title = "Alarm!"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PlayerName" type="Label" parent="."]
+margin_left = 490.282
+margin_top = 409.362
+margin_right = 639.282
+margin_bottom = 440.362
+text = "Player name:"
+
+[node name="Input" type="TextEdit" parent="PlayerName"]
+margin_left = 162.0
+margin_top = -11.0
+margin_right = 427.0
+margin_bottom = 29.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="text_changed" from="InputGameID" to="InputGameID" method="_on_InputGameID_text_changed"]
 [connection signal="pressed" from="JoinGameButton" to="." method="_on_JoinGameButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="text_changed" from="PlayerName/Input" to="." method="_on_Input_text_changed"]
