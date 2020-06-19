@@ -104,9 +104,15 @@ func _player_connected(id):
 	player_info[id] = str(id)
 	print(get_tree().get_network_connected_peers())
 	rpc_id(id, "register_player")
+	rpc_id(id, "register_player", player_name)
 	if get_tree().get_network_unique_id() == host:
 		GameState.init_lobby_options(id)
 	emit_signal("player_list_changed")
+
+
+remote func add_player_name(name: String):
+	var id = get_tree().get_rpc_sender_id()
+	player_info[id] = name
 
 
 func _create_peer(id):
@@ -133,10 +139,6 @@ func _offer_created(type, data, id):
 	web_rtc.get_peer(id).connection.set_local_description(type, data)
 	if type == "offer": send_offer(id, data)
 	else: send_answer(id, data)
-
-
-func _connected_to_server():
-	player_name = str(get_tree().get_network_unique_id())
 
 
 func _connect_fail():
@@ -231,9 +233,9 @@ remotesync func begin_minigame():
 
 
 ##### Lobby management
-remote func register_player():
+remote func register_player(name):
 	var id = get_tree().get_rpc_sender_id()
-	player_info[id] = str(id)
+	player_info[id] = name
 	emit_signal("player_list_changed")
 
 
