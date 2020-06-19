@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=1]
+size = 100
+font_data = ExtResource( 1 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 3.29175
+margin_right = 3.29175
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 783.889
+margin_top = 69.2394
+margin_right = 1959.89
+margin_bottom = 194.239
+custom_fonts/font = SubResource( 1 )
+text = "BOOOOOOOOMMMMMM"
+
+[node name="Button" type="Button" parent="."]
+margin_left = 859.153
+margin_top = 798.255
+margin_right = 1010.15
+margin_bottom = 818.255
+text = "BACK TO MAIN MENU"
