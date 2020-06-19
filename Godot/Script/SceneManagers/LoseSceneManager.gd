@@ -1,5 +1,9 @@
 extends Control
 
+func _ready():
+	$Squad.text = GameState.team_name
+	for player in Network.player_info.values():
+		$Squad/Members.add_item(player)
 
 func _on_MainMenuButton_pressed():
 	if get_parent().has_node("VoiceStream"):

@@ -2,10 +2,22 @@ extends Control
 
 
 func _ready():
-	var score = ScoreManager.get_scores().back()
+	var score : Score = ScoreManager.get_scores().back()
 	ScoreManager.sort_scores()
 	var score_pos = ScoreManager.get_scores().find(score) + 1
-	instance_score(score, score_pos)
+	$Squad.text = GameState.team_name
+	for player in Network.player_info.values():
+		$Squad/Members.add_item(player)
+	$Squad/Score.text += "\n" + str(score.time) + "\n"
+	match score_pos:
+		1:
+			$Squad/Score.text +=  str(score_pos)  + "st on scoreboard"
+		2:
+			$Squad/Score.text +=  str(score_pos)  + "nd on scoreboard"
+		3:
+			$Squad/Score.text +=  str(score_pos)  + "rd on scoreboard"
+		_:
+			$Squad/Score.text +=  str(score_pos)  + "th on scoreboard"
 
 
 func instance_score(score: Score, score_pos : int):
