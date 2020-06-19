@@ -11,7 +11,7 @@ func _on_JoinGameButton_pressed():
 	if get_input_gameid().empty():
 		popup("Lobby name can't be empty!")
 	else:
-		if $PlayerName/Input.text.empty():
+		if get_input_playername().empty():
 			popup("Playername can't be empty!")
 		else:
 			Network.player_name = current_text

@@ -7,7 +7,7 @@ var cursor_line = 0
 var cursor_column = 0
 
 func _on_CreateRoomButton_pressed():
-	if $PlayerName/Input.text.empty():
+	if get_input_playername().empty():
 		popup("Playername can't be empty!")
 	else:
 		Network.player_name = current_text
