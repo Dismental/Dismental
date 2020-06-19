@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Script/MiniGames/DissolveGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Fonts/Roboto/Roboto-Black.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Scenes/Mini Games/Dissolve/processor.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Mini Games/Dissolve/red_dot.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/Mini Games/Dissolve/fire_sign.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/Mini Games/Dissolve/fire_sign_bg_white.png" type="Texture" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 65
@@ -104,6 +106,7 @@ __meta__ = {
 }
 
 [node name="SolderingIron" type="ColorRect" parent="SolderingBackground"]
+visible = false
 margin_left = 64.0
 margin_top = 192.0
 margin_right = 256.0
@@ -142,3 +145,16 @@ text = "Soldering iron"
 position = Vector2( 424, 96 )
 scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 4 )
+
+[node name="FireSignLayer" type="CanvasLayer" parent="."]
+
+[node name="fire_sign_bg" type="Sprite" parent="FireSignLayer"]
+modulate = Color( 0.823529, 0.270588, 0.270588, 1 )
+position = Vector2( 1760, 336 )
+scale = Vector2( 0.703202, 0.703202 )
+texture = ExtResource( 6 )
+
+[node name="fire_sign" type="Sprite" parent="FireSignLayer"]
+position = Vector2( 1760, 336 )
+scale = Vector2( 0.697044, 0.697044 )
+texture = ExtResource( 5 )

@@ -70,11 +70,11 @@ onready var title_label = $CanvasLayer/Title
 
 onready var pointer_dot = $red_dot
 
+onready var fire_sign_bg = $FireSignLayer/fire_sign_bg
+const fire_sign_color_blink = Color(210.0 / 255, 69.0 / 255, 69.0 / 255)
+const fire_sign_color_def = Color(0.0, 0.0, 0.0)
 
 func _ready():
-	print("<<<<<<")
-	print(get_tree().is_network_server())
-	
 	if (!DEBUG_OFFLINE):
 		player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 	else:
@@ -164,13 +164,17 @@ func _generate_blink_light():
 
 
 func _blink_light():
-	blink_light.color = Color(1, 0, 0, 0.5)
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	blink_light.color.a = 1
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	blink_light.color = Color(0.5, 0.5, 0.5, 1)
+	
+	fire_sign_bg.modulate = fire_sign_color_blink
+	# Wait five frames
+	for _i in range(5):
+		yield(get_tree(), "idle_frame")
+
+	# Reset to inital position
+	fire_sign_bg.modulate = fire_sign_color_def;
+	for _i in range(5):
+		yield(get_tree(), "idle_frame")
+
 	is_blinking = false
 
 
