@@ -31,8 +31,8 @@ func test_generate_starting_angles():
 	inst._sync_set_random_angles()
 
 	for sprite in inst.rings:
-		assert_true(sprite.rotation_degrees > inst.completion_range)
-		assert_true(sprite.rotation_degrees < 360 - inst.completion_range)
+		assert_true(sprite.rotation_degrees >= inst.completion_range)
+		assert_true(sprite.rotation_degrees <= 360 - inst.completion_range)
 
 
 func test_rotate_rings():
