@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Fonts/ds_digital.tres" type="DynamicFont" id=2]
@@ -24,7 +24,7 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=2]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 2.0
@@ -36,6 +36,10 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
 [sub_resource type="StyleBoxFlat" id=3]
+
+[sub_resource type="StyleBoxFlat" id=4]
+
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -44,16 +48,16 @@ border_width_bottom = 4
 border_color = Color( 0, 0, 0, 1 )
 corner_detail = 1
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=6]
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=7]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 0.0
 content_margin_bottom = 0.0
 bg_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=8]
 content_margin_left = 24.0
 content_margin_right = 24.0
 content_margin_top = 24.0
@@ -65,11 +69,11 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=9]
 size = 24
 font_data = ExtResource( 6 )
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
 border_width_left = 2
 border_width_top = 3
@@ -79,7 +83,7 @@ border_color = Color( 0.768627, 0.768627, 0.768627, 1 )
 expand_margin_top = 2.0
 expand_margin_bottom = 2.0
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0, 0, 0, 1 )
 border_width_bottom = 2
 border_color = Color( 0, 0, 0, 1 )
@@ -118,7 +122,7 @@ margin_left = 167.248
 margin_top = 516.836
 margin_right = 289.248
 margin_bottom = 561.836
-custom_styles/normal = SubResource( 14 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 1 )
 text = "LABEL"
 align = 1
@@ -132,12 +136,31 @@ anchor_left = -0.000536283
 anchor_right = 0.0807137
 anchor_bottom = 0.0518519
 margin_left = 259.588
-margin_top = 280.884
+margin_top = 282.847
 margin_right = 341.588
-margin_bottom = 315.884
+margin_bottom = 317.847
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
 text = "77354"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit2" type="LineEdit" parent="."]
+anchor_left = -0.000536283
+anchor_right = 0.0807137
+anchor_bottom = 0.0518519
+margin_left = 260.03
+margin_top = 819.0
+margin_right = 342.029
+margin_bottom = 854.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_styles/read_only = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+text = "1"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -156,7 +179,7 @@ margin_right = 576.0
 margin_bottom = 140.0
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 5 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -174,7 +197,7 @@ custom_constants/margin_bottom = 16
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ObserversPanel/MarginContainer"]
 modulate = Color( 0.156863, 0.156863, 0.156863, 1 )
-material = SubResource( 4 )
+material = SubResource( 6 )
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 348.0
@@ -218,7 +241,7 @@ margin_right = 188.13
 margin_bottom = 196.103
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 5 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -236,7 +259,7 @@ custom_constants/margin_bottom = 20
 
 [node name="HBoxContainer" type="HBoxContainer" parent="OperatorPanel/MarginContainer"]
 modulate = Color( 0.156863, 0.156863, 0.156863, 1 )
-material = SubResource( 4 )
+material = SubResource( 6 )
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 148.0
@@ -259,7 +282,7 @@ margin_right = 1908.85
 margin_bottom = 1068.29
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 5 )
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -280,7 +303,7 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 208.0
 margin_bottom = 101.0
-custom_styles/normal = SubResource( 5 )
+custom_styles/normal = SubResource( 7 )
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
 text = "10:00"
@@ -295,7 +318,7 @@ margin_left = 335.0
 margin_top = 12.4409
 margin_right = 633.0
 margin_bottom = 77.4409
-custom_styles/normal = SubResource( 14 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 1 )
 text = "OBSERVERS"
 align = 1
@@ -308,7 +331,7 @@ margin_left = 43.0
 margin_top = 12.0
 margin_right = 157.0
 margin_bottom = 37.0
-custom_styles/normal = SubResource( 14 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 1 )
 text = "OPERATOR"
 align = 1
@@ -327,7 +350,7 @@ margin_bottom = 749.776
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 8 )
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -356,7 +379,7 @@ __meta__ = {
 [node name="Label" type="Label" parent="PopupDialog/MarginContainer/VBoxContainer"]
 margin_right = 770.0
 margin_bottom = 31.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 9 )
 text = "TITLE OF THE POPUP WINDOW"
 align = 1
 __meta__ = {
@@ -368,7 +391,7 @@ margin_left = 597.068
 margin_top = 851.461
 margin_right = 1132.07
 margin_bottom = 1035.46
-custom_styles/slider = SubResource( 8 )
-custom_styles/grabber_area = SubResource( 9 )
+custom_styles/slider = SubResource( 10 )
+custom_styles/grabber_area = SubResource( 11 )
 value = 90.0
 [connection signal="pressed" from="Button" to="PopupDialog" method="_on_Button_pressed"]
