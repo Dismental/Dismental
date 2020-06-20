@@ -121,7 +121,15 @@ func difficulty_changed(id: int):
 
 remote func update_difficulty(diff):
 	difficulty = diff
-	emit_signal("update_difficulty", difficulty)
+	match diff:
+		"EASY":
+			emit_signal("update_difficulty", 0)
+		"MEDIUM":
+			emit_signal("update_difficulty", 1)
+		"HARD":
+			emit_signal("update_difficulty", 2)
+		_:
+			print("Difficulty not found!")
 
 
 func team_name_changed(name: String):

@@ -520,3 +520,6 @@ margin_bottom = 759.198
 pressed = true
 flat = true
 [connection signal="text_changed" from="TeamName" to="." method="_on_TeamName_text_changed"]
+[connection signal="pressed" from="StartMission" to="." method="_on_StartMission_pressed"]
+[connection signal="item_selected" from="DifficultyBtn" to="." method="_on_DifficultyBtn_item_selected"]
+[connection signal="toggled" from="MuteBtn" to="." method="_on_MuteBtn_toggled"]

@@ -30,8 +30,8 @@ func lobby_joined(miss_id):
 	$StartMission.visible = is_host
 	$CancelMission.visible = is_host
 	if !is_host:
+		GameState.connect("update_difficulty", self, "update_difficulty")
 		GameState.connect("update_team_name", self , "update_team_name")
-
 
 func stop_voip():
 	voice.stop()
@@ -59,8 +59,16 @@ func _on_StartMission_pressed():
 	get_parent().remove_child(self) 
 
 
+func _on_DifficultyBtn_item_selected(id):
+	GameState.difficulty_changed(id)
+
+
 func _on_MuteBtn_toggled(button_pressed):
 	voice.set_recording(button_pressed)
+
+
+func update_difficulty(diff):
+	$DifficultyBtn.selected = diff
 
 
 func update_team_name(name):
