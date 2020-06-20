@@ -51,6 +51,14 @@ func refresh_lobby():
 		player_nodes[i].get_node("Label").set_text(players[i])
 
 
+func _on_StartMission_pressed():
+	if(!Network.sealed):
+		Network.seal_lobby()
+
+	Network.begin_game_pressed()
+	get_parent().remove_child(self) 
+
+
 func update_team_name(name):
 	$TeamName.text = str(name)
 
