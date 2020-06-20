@@ -61,6 +61,7 @@ func _process(delta):
 		_spawn_labels(delta)
 		_remove_labels()
 
+
 func _adjust_for_difficulties():
 	if GameState.difficulty == GameState.Difficulty.EASY:
 		moving_speed = 8

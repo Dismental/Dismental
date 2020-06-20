@@ -21,17 +21,17 @@ var pointer_node
 
 # Increase/decrease factor of temperature
 var increase_factor = 24
-var decrease_factor = 3
+var decrease_factor
 
 var component_width = 120
 var component_height = 30
 var num_of_components = 6
 var components = []
 
-var vacuum_remove_threshold = 50
+var vacuum_remove_threshold
 var remove_radius = 2
 
-var blinking_threshold = 80
+var blinking_threshold
 var blink_light
 var is_blinking = false
 
@@ -73,6 +73,7 @@ onready var pointer_dot = $red_dot
 
 
 func _ready():
+	_adjust_for_difficulties()
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 
 	# Generate the heatmap for the supervisor only
@@ -120,6 +121,23 @@ func _init_matrix():
 		for _j in range(columns):
 			row.append(0)
 		matrix.append(row)
+
+
+func _adjust_for_difficulties():
+	if GameState.difficulty == GameState.Difficulty.EASY:
+		blinking_threshold = 70
+		vacuum_remove_threshold = 40
+		decrease_factor = 2.5
+
+	elif GameState.difficulty == GameState.Difficulty.MEDIUM:
+		blinking_threshold = 75
+		vacuum_remove_threshold = 50
+		decrease_factor = 2.7
+
+	elif GameState.difficulty == GameState.Difficulty.HARD:
+		blinking_threshold = 80
+		vacuum_remove_threshold = 60
+		decrease_factor = 3
 
 
 func _generate_colors():

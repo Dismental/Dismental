@@ -7,9 +7,8 @@ puppet var puppet_mouse = Vector2()
 # Constants for the properties of the x-ray vision texture
 const supervisor_shadow_width = 800
 const supervisor_shadow_height = 600
-const supervisor_shadow_scalex = 5
-const supervisor_shadow_scaley = supervisor_shadow_scalex
 
+var supervisor_shadow_scale = 5
 var map_sprite
 var dots = []
 var running = false
@@ -31,6 +30,7 @@ onready var supervisor_vision = $"Control/X-rayVision"
 
 
 func _ready():
+	_adjust_for_difficulties()
 	supervisor_vision.visible = true
 	
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
@@ -90,6 +90,18 @@ func _draw():
 	draw_circle(_get_input_pos(), rad, col)
 
 
+func _adjust_for_difficulties():
+	if GameState.difficulty == GameState.Difficulty.EASY:
+		#TODO load an easy map
+		pass
+	elif GameState.difficulty == GameState.Difficulty.MEDIUM:
+		#TODO load a medium map
+		pass
+	elif GameState.difficulty == GameState.Difficulty.HARD:
+		#TODO load a hard map
+		pass
+
+
 func _supervisor_vision_update(pos):
 	var shadow_pos = Vector2(0,0)
 
@@ -98,8 +110,8 @@ func _supervisor_vision_update(pos):
 	var y = clamp(pos.y, 0, get_viewport_rect().size.y)
 	
 	# Position the center of x-ray shadow texture at the 'pos' input location
-	shadow_pos.x = x - supervisor_shadow_width * supervisor_shadow_scalex / 2.0
-	shadow_pos.y = y - supervisor_shadow_height * supervisor_shadow_scaley / 2.0
+	shadow_pos.x = x - supervisor_shadow_width * supervisor_shadow_scale / 2.0
+	shadow_pos.y = y - supervisor_shadow_height * supervisor_shadow_scale / 2.0
 
 	supervisor_vision.set_position(shadow_pos)
 
