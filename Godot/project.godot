@@ -20,7 +20,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Dismental"
+config/name="DefuseTheBomb"
 run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
 
@@ -29,7 +29,6 @@ config/icon="res://icon.png"
 Network="*res://Script/Global/Network.gd"
 Utils="*res://Script/Global/Utils.gd"
 ScoreManager="*res://Script/Global/ScoreManager.gd"
-GameState="*res://Script/Global/GameState.gd"
 
 [display]
 

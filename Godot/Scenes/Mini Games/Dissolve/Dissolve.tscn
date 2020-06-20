@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Script/MiniGames/DissolveGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Fonts/Roboto/Roboto-Black.ttf" type="DynamicFontData" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Sounds/warning_heat.ogg" type="AudioStream" id=6]
 [ext_resource path="res://Sounds/remove_metal_bar.ogg" type="AudioStream" id=7]
 [ext_resource path="res://Sounds/select_1.ogg" type="AudioStream" id=8]
+[ext_resource path="res://Sounds/game_over.ogg" type="AudioStream" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 65
@@ -160,3 +161,6 @@ stream = ExtResource( 7 )
 
 [node name="Select" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
 stream = ExtResource( 8 )
+
+[node name="GameOver" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 9 )

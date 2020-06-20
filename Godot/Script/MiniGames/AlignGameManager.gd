@@ -49,7 +49,7 @@ onready var timer_label = get_node("Timer")
 
 # SFX
 onready var game_completed_player = $AudioStreamPlayers/GameCompleted
-
+onready var game_over_player = $AudioStreamPlayers/GameOver
 
 func _ready():
 	randomize()
@@ -298,6 +298,8 @@ remotesync func _next_minigame():
 
 
 remotesync func _game_over():
+	game_over_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")	
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
 

@@ -78,6 +78,7 @@ onready var game_completed_player = $AudioStreamPlayers/GameCompleted
 onready var heat_warning_player = $AudioStreamPlayers/HeatWarning
 onready var remove_component_player = $AudioStreamPlayers/RemoveComponent
 onready var select_player = $AudioStreamPlayers/Select
+onready var game_over_player = $AudioStreamPlayers/GameOver
 
 func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
@@ -469,5 +470,7 @@ remotesync func _on_game_completed():
 
 
 remotesync func _on_game_over():
+	game_over_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")	
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)

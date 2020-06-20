@@ -32,9 +32,11 @@ var pointer_node
 onready var bar = $Bar
 onready var password_label = $PasswordLabel
 onready var label_nodes = $LabelNodes
+
+# SFX
 onready var label_collected_player = $AudioStreamPlayers/LabelCollected
 onready var game_completed_player = $AudioStreamPlayers/GameCompleted
-
+onready var game_over_player = $AudioStreamPlayers/GameOver
 
 func _ready():
 	num_of_collectables = len(password)
@@ -237,5 +239,7 @@ remotesync func _game_completed():
 
 
 remotesync func _game_over():
+	game_over_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")	
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)

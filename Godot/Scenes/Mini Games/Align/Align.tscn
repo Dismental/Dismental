@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Script/MiniGames/AlignGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring6.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring5.png" type="Texture" id=8]
 [ext_resource path="res://Fonts/Roboto/Roboto-Light.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://Fonts/Roboto/Roboto-Medium.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://Sounds/game_over.ogg" type="AudioStream" id=11]
 [ext_resource path="res://Sounds/game_cleared.ogg" type="AudioStream" id=12]
 
 [sub_resource type="DynamicFont" id=1]
@@ -126,5 +127,6 @@ __meta__ = {
 [node name="GameCompleted" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
 stream = ExtResource( 12 )
 
-[node name="RingSprites" type="Node" parent="."]
+[node name="GameOver" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 11 )
 [connection signal="confirmed" from="AcceptDialog" to="." method="_on_AcceptDialog_confirmed"]
