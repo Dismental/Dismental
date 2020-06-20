@@ -51,6 +51,14 @@ corner_radius_bottom_left = 100
 size = 39
 font_data = ExtResource( 1 )
 
+[sub_resource type="DynamicFont" id=6]
+size = 29
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 40
+font_data = ExtResource( 5 )
+
 [node name="CreateGameRoomHost" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -135,6 +143,32 @@ margin_left = 150.0
 margin_top = 51.0
 margin_right = 485.0
 margin_bottom = 373.0
+
+[node name="lbl_roomcode_text" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -331.739
+margin_top = 707.131
+margin_right = -131.739
+margin_bottom = 762.131
+custom_fonts/font = SubResource( 6 )
+text = "Room ID:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_roomcode_code" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -200.314
+margin_top = 690.627
+margin_right = -44.3142
+margin_bottom = 738.627
+custom_fonts/font = SubResource( 7 )
+text = "[loading]"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="SealButton" type="Button" parent="."]
 margin_left = 1307.0
