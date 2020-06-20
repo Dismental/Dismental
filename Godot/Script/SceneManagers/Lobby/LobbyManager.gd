@@ -29,7 +29,6 @@ func lobby_joined(miss_id):
 	$DifficultyBtn.disabled = not is_host
 	$WaitingForHostLbl.visible = not is_host
 	$StartMission.visible = is_host
-	$CancelMission.visible = is_host
 	if !is_host:
 		GameState.connect("update_difficulty", self, "update_difficulty")
 		GameState.connect("update_team_name", self , "update_team_name")
