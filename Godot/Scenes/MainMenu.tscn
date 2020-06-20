@@ -187,7 +187,7 @@ font_data = ExtResource( 3 )
 size = 128
 font_data = ExtResource( 3 )
 
-[node name="Control" type="Control"]
+[node name="MainMenu" type="Control"]
 anchor_left = 0.000241216
 anchor_top = -0.00072807
 anchor_right = 1.00024

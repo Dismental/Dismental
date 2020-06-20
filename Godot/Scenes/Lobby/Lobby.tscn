@@ -168,7 +168,7 @@ size = 24
 outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
 font_data = ExtResource( 3 )
 
-[node name="Control" type="Control"]
+[node name="Lobby" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
