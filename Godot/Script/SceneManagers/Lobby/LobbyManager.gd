@@ -1,11 +1,5 @@
 extends Control
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
 var players = []
 
 onready var player_nodes = [
@@ -15,6 +9,16 @@ onready var player_nodes = [
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player4
 ]
 
+func _ready():
+	var is_host = Network.host == get_tree().get_network_unique_id()
+	$TeamNameInput.editable = is_host
+	$DifficultyBtn.disabled = not is_host
+	$WaitingForHostLbl.visible = not is_host
+	$StartMission.visible = is_host
+	$CancelMission.visible = is_host
+	for i in range(len(players)):
+		player_nodes[i].visible = true
+		player_nodes[i].get_node("Label").set_text(players[i])
 func add_player(name):
 	players.append(name)
 
@@ -30,23 +34,3 @@ func refresh():
 		player_nodes[i].visible = true
 		player_nodes[i].get_node("Label").set_text(players[i])
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	var is_host = false
-
-	$TeamNameInput.editable = is_host
-	$DifficultyBtn.disabled = not is_host
-	$WaitingForHostLbl.visible = not is_host
-	$StartMission.visible = is_host
-	$CancelMission.visible = is_host
-
-	for i in range(len(players)):
-		player_nodes[i].visible = true
-		player_nodes[i].get_node("Label").set_text(players[i])
-
-func _process(_delta):
-	if get_tree().is_network_server():
-		if Network.gamelobbycode != "":
-			$LineEdit2.text = Network.gamelobbycode
-			Network.gamelobbycode = ""
