@@ -3,6 +3,8 @@ extends Node
 signal timer_timeout
 signal update_remaining_text(text)
 signal defused
+signal update_difficulty
+signal update_team_name
 
 enum Difficulty {
 	EASY,
@@ -21,6 +23,8 @@ var minigames = ["Hack", "Align", "Cut", "Dissolve"]
 var defusers = []
 var last_label_update
 
+var difficulty = Difficulty.keys()[0]
+var team_name = "Bomb Squad"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -106,3 +110,28 @@ func start_minigame(button_reference):
 
 remotesync func update_squad_name(new_name):
 	squadname = new_name
+
+
+func init_lobby_options(id: int):
+	rpc_id(id, "update_difficulty", difficulty)
+	rpc_id(id, "update_team_name", team_name)
+
+
+func difficulty_changed(id: int):
+	difficulty = Difficulty.keys()[id]
+	rpc("update_difficulty", difficulty)
+
+
+remote func update_difficulty(diff):
+	difficulty = diff
+	emit_signal("update_difficulty", difficulty)
+
+
+func team_name_changed(name: String):
+	team_name = name
+	rpc("update_team_name", team_name)
+
+
+remote func update_team_name(name:String):
+	team_name = name
+	emit_signal("update_team_name", team_name)
