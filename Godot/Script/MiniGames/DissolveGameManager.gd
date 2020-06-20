@@ -244,16 +244,17 @@ func _increase_matrix_input(delta):
 # Checks if the input cursor is in range of destroyable components
 # Removes a component when the temperature is above the threshold
 func _check_vacuum():
+	var pixel_distance_check = 70
 	var input = _get_input_pos()
 	var id = 0
 	for item in components:
 		var com_pos = item[1]
-		if com_pos.distance_to(input) < 70:
+		if com_pos.distance_to(input) < pixel_distance_check:
 			var sector = _get_sector(com_pos.x, com_pos.y)
 			var input_row = sector.get("row")
 			var input_column = sector.get("column")
 			
-			if _check_overheat(input_row, input_column):
+			if _check_removable(input_row, input_column):
 				rpc("_destroy_component", id)
 				if len(components) == 0:
 					_game_completed()
@@ -262,9 +263,12 @@ func _check_vacuum():
 		id += 1
 
 
-func _check_overheat(sector_row, sector_column):
-	for x in range(-2, 3):
-		for y in range(-2, 3):
+# Check if a component is removable in a small range 
+# instead of only the center opf the component
+func _check_removable(sector_row, sector_column):
+	var radius = 2
+	for x in range(-radius, radius + 1):
+		for y in range(-radius, radius + 1):
 			if matrix[sector_row + x][sector_column + y] > vacuum_remove_threshold:
 				return true
 	return false
