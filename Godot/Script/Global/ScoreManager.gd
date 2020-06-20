@@ -64,6 +64,6 @@ func first_run():
 
 class CustomSort:
 	static func sort(a, b):
-		if a["time"] < b["time"]:
+		if a.get_time() < b.get_time():
 			return true
 		return false
