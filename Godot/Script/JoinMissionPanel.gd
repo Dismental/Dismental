@@ -10,7 +10,7 @@ func _on_JoinMissionBtn_pressed():
 		else:
 			Network.player_name = get_input_playername()
 			_create_client()
-			return Utils.change_screen("res://Scenes/GameRoomPlayer.tscn",
+			return Utils.change_screen("res://Scenes/Lobby/Lobby.tscn",
 				get_parent().get_parent())
 
 
