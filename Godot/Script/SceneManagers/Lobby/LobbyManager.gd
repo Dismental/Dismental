@@ -9,6 +9,7 @@ onready var player_nodes = [
 
 var voice: Node
 
+
 func _ready():
 	Network.connect("lobby_joined", self, "lobby_joined")
 	Network.connect("player_list_changed", self, "refresh_lobby")
@@ -23,11 +24,13 @@ func _ready():
 func lobby_joined(miss_id):
 	$MissionID.text = miss_id
 	var is_host = Network.host == get_tree().get_network_unique_id()
-	$TeamNameInput.editable = is_host
+	$TeamName.editable = is_host
 	$DifficultyBtn.disabled = not is_host
 	$WaitingForHostLbl.visible = not is_host
 	$StartMission.visible = is_host
 	$CancelMission.visible = is_host
+	if !is_host:
+		GameState.connect("update_team_name", self , "update_team_name")
 
 
 func stop_voip():
@@ -46,3 +49,11 @@ func refresh_lobby():
 	for i in range(len(players)):
 		player_nodes[i].visible = true
 		player_nodes[i].get_node("Label").set_text(players[i])
+
+
+func update_team_name(name):
+	$TeamName.text = str(name)
+
+
+func _on_TeamName_text_changed(new_text):
+	GameState.team_name_changed(new_text)
