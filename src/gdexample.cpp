@@ -23,9 +23,10 @@ const bool debug_mode = true;
 void GDExample::_register_methods() {
     register_method("_process", &GDExample::_process);
 
-    // First is name of signal
-    // After that you have pairs of values that specify parameter name and type of each parameter we send to signal
-    register_signal<GDExample>((char*)"position_changed", "node", GODOT_VARIANT_TYPE_OBJECT, "new_pos", GODOT_VARIANT_TYPE_VECTOR2);
+	register_property<GDExample, bool>("multiface", &GDExample::multiple_faces, false);
+	register_property<GDExample, bool>("tooclose", &GDExample::too_close, false);
+    register_property<GDExample, bool>("templatematching", &GDExample::template_matching, false);
+    register_property<GDExample, bool>("losttracking", &GDExample::lost_tracking, false);
 }
 
 GDExample::GDExample() {
@@ -63,11 +64,11 @@ void GDExample::_process(float delta) {
     
     detector >> frame;
 
-    handTracker.update(frame, bbox);
+    // handTracker.update(frame, bbox);
 
-    if(waitKey(10) == 32) {
-        handTracker.toggleTracking(frame, bbox);
-    }
+    // if(waitKey(10) == 32) {
+    //     handTracker.toggleTracking(frame, bbox);
+    // }
 
     // Create the 'joystick' effect by restraining the movement of cursorPos. CursorPos 'follows' facePosition and is not mapped 1on1.
     cursorPos.x = detector.facePosition().x;
@@ -90,4 +91,9 @@ void GDExample::_process(float delta) {
         flip(frame, flipFrame, 1);
         imshow("", flipFrame); // Uncomment this line to show the webcam frames in a seperate window
     }
+
+    multiple_faces = detector.multiple_faces;
+    too_close = detector.too_close;
+    lost_tracking = detector.lost_tracking;
+    template_matching = detector.template_matching;
 }
