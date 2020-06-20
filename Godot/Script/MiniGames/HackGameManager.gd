@@ -175,7 +175,6 @@ func _generate_random_char():
 
 # Checks if label is off-screen and removes it if true
 func _remove_labels():
-	print("Len labels " + str(len(normal_labels)))
 	var iterations = min(rows / 2, len(normal_labels) - 1)
 	for i in range(iterations, -1, -1):
 		if normal_labels[i].position.x > screen_width + char_width:
