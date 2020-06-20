@@ -76,14 +76,14 @@ func disconnected():
 	if code == 4100:
 		print("host disconnect")
 		stop()
-		Utils.change_screen("res://Scenes/JoinGameRoom.tscn",
-			get_tree().get_current_scene().get_node("GameRoomPlayer"))
-		get_tree().get_current_scene().get_node("JoinGameRoom").popup(
+		Utils.change_screen("res://Scenes/MainMenu.tscn",
+			get_tree().get_current_scene().get_node("Lobby"))
+		get_tree().get_current_scene().get_node("MainMenu").popup(
 			"Host disconnected")
 	elif code == 4004:
-		Utils.change_screen("res://Scenes/JoinGameRoom.tscn",
-			get_tree().get_current_scene().get_node("GameRoomPlayer"))
-		get_tree().get_current_scene().get_node("JoinGameRoom").popup(
+		Utils.change_screen("res://Scenes/MainMenu.tscn",
+			get_tree().get_current_scene().get_node("Lobby"))
+		get_tree().get_current_scene().get_node("MainMenu").popup(
 			"Room with that name does not exist")
 
 	elif not sealed:
