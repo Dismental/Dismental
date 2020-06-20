@@ -299,7 +299,7 @@ remotesync func _next_minigame():
 
 remotesync func _game_over():
 	game_over_player.play()
-	yield(get_tree().create_timer(1.0), "timeout")	
+	yield(get_tree().create_timer(1.0), "timeout")
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
 
