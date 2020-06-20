@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/main_menu_wires.png" type="Texture" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Script/PanelGraphics.gd" type="Script" id=6]
 [ext_resource path="res://Script/SceneManagers/MainMenu/Label.gd" type="Script" id=7]
 [ext_resource path="res://Script/CreateMissionPanel.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/PopupDialog.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Script/JoinMissionPanel.gd" type="Script" id=10]
 
 [sub_resource type="Theme" id=1]
 
@@ -359,10 +361,10 @@ anchor_left = 0.000875091
 anchor_top = -0.000343153
 anchor_right = 0.000875091
 anchor_bottom = -0.00034304
-margin_left = 2.44727
-margin_top = 754.857
-margin_right = 1589.45
-margin_bottom = 1956.86
+margin_left = -85.4571
+margin_top = 763.647
+margin_right = 1501.55
+margin_bottom = 1965.65
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
 custom_styles/panel = SubResource( 11 )
@@ -471,6 +473,7 @@ custom_constants/margin_right = 48
 custom_constants/margin_top = 24
 custom_constants/margin_left = 48
 custom_constants/margin_bottom = 24
+script = ExtResource( 10 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MissionPanel/JoinMissionPanel"]
 margin_left = 48.0
@@ -497,12 +500,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MissionPanel/JoinMissionPanel/VBoxContainer"]
+[node name="GameID" type="HBoxContainer" parent="MissionPanel/JoinMissionPanel/VBoxContainer"]
 margin_top = 69.0
 margin_right = 387.0
 margin_bottom = 114.0
 
-[node name="Label5" type="Label" parent="MissionPanel/JoinMissionPanel/VBoxContainer/HBoxContainer"]
+[node name="Label5" type="Label" parent="MissionPanel/JoinMissionPanel/VBoxContainer/GameID"]
 margin_top = 7.0
 margin_right = 218.0
 margin_bottom = 38.0
@@ -513,7 +516,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LineEdit" type="LineEdit" parent="MissionPanel/JoinMissionPanel/VBoxContainer/HBoxContainer"]
+[node name="Input" type="LineEdit" parent="MissionPanel/JoinMissionPanel/VBoxContainer/GameID"]
 margin_left = 267.0
 margin_right = 387.0
 margin_bottom = 45.0
@@ -541,12 +544,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MissionPanel/JoinMissionPanel/VBoxContainer"]
+[node name="PlayerName" type="HBoxContainer" parent="MissionPanel/JoinMissionPanel/VBoxContainer"]
 margin_top = 207.0
 margin_right = 387.0
 margin_bottom = 250.0
 
-[node name="Label5" type="Label" parent="MissionPanel/JoinMissionPanel/VBoxContainer/HBoxContainer2"]
+[node name="Label5" type="Label" parent="MissionPanel/JoinMissionPanel/VBoxContainer/PlayerName"]
 margin_top = 6.0
 margin_right = 228.0
 margin_bottom = 37.0
@@ -557,7 +560,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LineEdit" type="LineEdit" parent="MissionPanel/JoinMissionPanel/VBoxContainer/HBoxContainer2"]
+[node name="Input" type="LineEdit" parent="MissionPanel/JoinMissionPanel/VBoxContainer/PlayerName"]
 margin_left = 251.0
 margin_right = 387.0
 margin_bottom = 43.0
@@ -591,6 +594,7 @@ __meta__ = {
 }
 
 [node name="CreateMissionPanel" type="MarginContainer" parent="MissionPanel"]
+visible = false
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 487.003
@@ -729,6 +733,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Popup" parent="." instance=ExtResource( 9 )]
+margin_left = 543.749
+margin_top = 1197.99
+margin_right = 1143.75
+margin_bottom = 1407.99
+
 [node name="CreateMissionBtn2" type="Button" parent="."]
 margin_left = 235.022
 margin_top = 1105.65
@@ -747,6 +757,7 @@ __meta__ = {
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Label" method="_on_HSlider_value_changed"]
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
 [connection signal="pressed" from="CreateMissionButton" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="MissionPanel/JoinMissionPanel" method="_on_JoinMissionBtn_pressed"]
 [connection signal="text_changed" from="MissionPanel/CreateMissionPanel/VBoxContainer/PlayerName/Input" to="MissionPanel/CreateMissionPanel" method="_on_Input_text_changed"]
 [connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="MissionPanel/CreateMissionPanel" method="_on_CreateMissionBtn_pressed"]
 [connection signal="pressed" from="CreateMissionBtn2" to="." method="_on_CreateMissionBtn2_pressed"]
