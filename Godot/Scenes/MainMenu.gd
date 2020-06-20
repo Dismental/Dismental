@@ -1,10 +1,6 @@
 extends Control
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 var scrollAnimating = false
 var scrollProgress = 0
 var scrollAmount = 0
@@ -18,10 +14,8 @@ func startScrollAnimation(direction):
 	scrollAnimating = true
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	scrollAmount = $Background.get_rect().size.y - self.get_rect().size.y
-	pass # Replace with function body.
 	
 func calc_scroll_pos(progress):
 	var frac = (1.0 - pow(1.0 - progress, 6))
