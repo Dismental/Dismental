@@ -526,6 +526,7 @@ theme = SubResource( 16 )
 custom_styles/normal = SubResource( 17 )
 custom_fonts/font = SubResource( 18 )
 custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+max_length = 6
 placeholder_text = "0000"
 placeholder_alpha = 0.33
 __meta__ = {
