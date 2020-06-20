@@ -38,7 +38,7 @@ func _ready():
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 	
 	if player_role == Role.DEFUSER:
-		_load_map(2, false)
+		_load_map(null, false)
 		
 		# Initialize the HeadTracking scene for this user
 		print("start tracking scene")
@@ -52,7 +52,7 @@ func _ready():
 		# Turn the x-ray vision OFF for the operator
 		supervisor_vision.visible = false
 	else:
-		_load_map(2)
+		_load_map()
 		# Turn the x-ray vision ON for the operator
 		supervisor_vision.visible = true
 		# Center the x-ray vision
@@ -62,7 +62,7 @@ func _ready():
 
 
 func _process(_delta):
-	if true or running:
+	if running:
 		_update_game_state()
 
 		# Updates the draw function

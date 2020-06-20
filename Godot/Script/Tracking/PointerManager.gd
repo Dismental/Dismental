@@ -153,10 +153,6 @@ func _process(_delta):
 			tracking_pos = tracking_pos
 		pointer_pos = pointer_pos_current
 
-
-#		print ("lost: " + var2str(tracking_node.losttracking))
-#		print ("multi: " + var2str(tracking_node.multiface))
-#		print ("template matching: " + var2str(tracking_node.templatematching))
 		if (lost_tracking):
 			$Lbl_pickup_pointer.visible = true
 		else:
