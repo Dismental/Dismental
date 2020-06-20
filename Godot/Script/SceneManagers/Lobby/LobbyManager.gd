@@ -21,6 +21,7 @@ func _ready():
 	voice = get_parent().get_node("VoiceStream")
 	voice.start()
 
+
 func lobby_joined(miss_id):
 	$MissionID.text = miss_id
 	var is_host = Network.host == get_tree().get_network_unique_id()
@@ -32,6 +33,7 @@ func lobby_joined(miss_id):
 	if !is_host:
 		GameState.connect("update_difficulty", self, "update_difficulty")
 		GameState.connect("update_team_name", self , "update_team_name")
+
 
 func stop_voip():
 	voice.stop()
@@ -77,3 +79,9 @@ func update_team_name(name):
 
 func _on_TeamName_text_changed(new_text):
 	GameState.team_name_changed(new_text)
+
+
+func _on_CancelMission_pressed():
+	stop_voip()
+	Network.stop()
+	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)

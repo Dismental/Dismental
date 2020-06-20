@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Script/SceneManagers/Lobby/LobbyManager.gd" type="Script" id=2]
@@ -108,11 +108,6 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 1, 0.309804, 0.32549, 1 )
-
-[sub_resource type="DynamicFont" id=16]
-size = 18
-outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
-font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=17]
 size = 24
@@ -453,10 +448,10 @@ __meta__ = {
 }
 
 [node name="StartMission" type="Button" parent="."]
-margin_left = 1421.43
-margin_top = 899.874
-margin_right = 1710.43
-margin_bottom = 964.874
+margin_left = 1420.0
+margin_top = 900.0
+margin_right = 1710.0
+margin_bottom = 965.0
 custom_styles/normal = SubResource( 13 )
 custom_fonts/font = SubResource( 14 )
 text = "START MISSION"
@@ -465,12 +460,12 @@ __meta__ = {
 }
 
 [node name="CancelMission" type="Button" parent="."]
-margin_left = 1179.28
-margin_top = 918.254
-margin_right = 1377.28
-margin_bottom = 965.254
+margin_left = 210.0
+margin_top = 900.0
+margin_right = 517.0
+margin_bottom = 965.0
 custom_styles/normal = SubResource( 15 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 14 )
 custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
 text = "CANCEL MISSION"
 __meta__ = {
@@ -521,5 +516,6 @@ pressed = true
 flat = true
 [connection signal="text_changed" from="TeamName" to="." method="_on_TeamName_text_changed"]
 [connection signal="pressed" from="StartMission" to="." method="_on_StartMission_pressed"]
+[connection signal="pressed" from="CancelMission" to="." method="_on_CancelMission_pressed"]
 [connection signal="item_selected" from="DifficultyBtn" to="." method="_on_DifficultyBtn_item_selected"]
 [connection signal="toggled" from="MuteBtn" to="." method="_on_MuteBtn_toggled"]
