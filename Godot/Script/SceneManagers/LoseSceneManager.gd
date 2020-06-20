@@ -1,5 +1,9 @@
 extends Control
 
+func _ready():
+	$Squad.text = GameState.team_name
+	for player in Network.player_info.values():
+		$Squad/Members.add_item(player)
 
 func _on_MainMenuButton_pressed():
 	if get_parent().has_node("VoiceStream"):
@@ -9,3 +13,7 @@ func _on_MainMenuButton_pressed():
 		voice.queue_free()
 	Network.stop()
 	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)
+
+
+func _on_ScoreBoardButton_pressed():
+	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)

@@ -29,7 +29,9 @@ var num_of_components = 6
 var components = []
 
 var vacuum_remove_threshold = 50
+var remove_radius = 2
 
+var blinking_threshold = 80
 var blink_light
 var is_blinking = false
 
@@ -83,7 +85,7 @@ func _ready():
 		_generate_components()
 
 	elif player_role == Role.DEFUSER:
-		# Initialize the pointer scene for this user
+		# Initialize the pointer scene for the defuser
 		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
 		var pointer = PointerScene.instance()
 		self.add_child(pointer)
@@ -230,38 +232,46 @@ func _increase_matrix_input(delta):
 							var ratio = (radius - dis + 1) / (radius + 1)
 							matrix[x][y] += increase_factor * delta * ratio
 
-							if matrix[x][y] > 80 and not is_blinking:
+							if matrix[x][y] > blinking_threshold and not is_blinking:
 								is_blinking = true
 								_blink_light()
+								
 							if matrix[x][y] > 100:
 								matrix[x][y] = 100
-								rpc("_game_over")
+								_game_over()
+								return
 
 
 # Checks if the input cursor is in range of destroyable components
 # Removes a component when the temperature is above the threshold
 func _check_vacuum():
-	var input_sector_range = 2
+	var pixel_distance_check = 70
 	var input = _get_input_pos()
-	var input_sector = _get_sector(input.x, input.y)
 	var id = 0
 	for item in components:
 		var com_pos = item[1]
-		var input_col = input_sector["column"]
-		var input_row = input_sector["row"]
-		if input_col >= com_pos["column"] - input_sector_range:
-			if input_col <= com_pos["column"] + input_sector_range:
-				if input_row >= com_pos["row"] - input_sector_range:
-					if input_row <= com_pos["row"] + input_sector_range:
-						if matrix[input_row][input_col] > vacuum_remove_threshold:
-							print("Remove component" + str(id))
-							_destroy_component(id)
-							rpc_id(1, "_destroy_component", id)
-							if len(components) == 0:
-								_game_completed()
-								return
-						break
+		if com_pos.distance_to(input) < pixel_distance_check:
+			var sector = _get_sector(com_pos.x, com_pos.y)
+			var input_row = sector.get("row")
+			var input_column = sector.get("column")
+			
+			if _check_removable(input_row, input_column):
+				rpc("_destroy_component", id)
+				if len(components) == 0:
+					_game_completed()
+					return
+			break
 		id += 1
+
+
+# Check if a component is removable in a small range 
+# instead of only the center opf the component
+func _check_removable(sector_row, sector_column):
+	for x in range(-remove_radius, remove_radius + 1):
+		for y in range(-remove_radius, remove_radius + 1):
+			if matrix[sector_row + x][sector_column + y] > vacuum_remove_threshold:
+				return true
+	return false
 
 
 # Give percentage in the range of 100%, returns the right color
@@ -341,7 +351,7 @@ func _generate_components():
 
 		var global_x_center = motherboard.rect_position.x + x + component_width / 2
 		var global_y_center =  motherboard.rect_position.y + y + component_height / 2
-		components.append([rec, _get_sector(global_x_center, global_y_center)])
+		components.append([rec, Vector2(global_x_center, global_y_center)])
 		motherboard.add_child(rec)
 		yi += 1
 
@@ -349,12 +359,6 @@ func _generate_components():
 remotesync func _destroy_component(id):
 	motherboard.remove_child(components[id][0])
 	components.remove(id)
-
-
-func _destroy_components():
-	components = []
-	for x in components:
-		motherboard.remove_child(x[0])
 
 
 func _get_input_pos():

@@ -11,7 +11,7 @@ func start():
 func stop():
 	$Output.recording = false
 
-func toggle_mute(b: bool):
+func set_recording(b: bool):
 	$Output.recording =  b
 
 "

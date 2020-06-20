@@ -46,3 +46,11 @@ func stop_voip():
 	voice.stop()
 	voice.get_parent().remove_child(voice)
 	voice.queue_free()
+
+
+func _on_OptionButton_item_selected(id):
+	GameState.difficulty_changed(id)
+
+
+func _on_Microphone_toggled(button_pressed):
+	voice.set_recording(button_pressed)
