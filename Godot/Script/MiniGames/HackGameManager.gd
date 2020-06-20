@@ -23,7 +23,7 @@ var rows = 16
 var padding_top_bottom = 40
 var row_height = (screen_height - 2 * padding_top_bottom) / rows
 
-var moving_speed = 8
+var moving_speed
 var cur_time = 0
 
 var player_role
@@ -35,6 +35,7 @@ onready var label_nodes = $LabelNodes
 
 
 func _ready():
+	_adjust_for_difficulties()
 	num_of_collectables = len(password)
 	player_role = Role.DEFUSER if !online or get_tree().is_network_server() else Role.SUPERVISOR
 	_update_password_label()
@@ -59,6 +60,14 @@ func _process(delta):
 	if player_role == Role.DEFUSER:
 		_spawn_labels(delta)
 		_remove_labels()
+
+func _adjust_for_difficulties():
+	if GameState.difficulty == GameState.Difficulty.EASY:
+		moving_speed = 8
+	elif GameState.difficulty == GameState.Difficulty.MEDIUM:
+		moving_speed = 9
+	elif GameState.difficulty == GameState.Difficulty.HARD:
+		moving_speed = 10
 
 
 func _update_password_label():
