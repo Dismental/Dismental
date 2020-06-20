@@ -33,6 +33,12 @@ func _ready():
 	for i in range(len(players)):
 		playerNodes[i].visible = true
 		playerNodes[i].get_node("Label").set_text(players[i]) 
+		
+func _process(delta):
+	if get_tree().is_network_server():
+		if Network.gamelobbycode != "":
+			$LineEdit2.text = Network.gamelobbycode
+			Network.gamelobbycode = ""
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
