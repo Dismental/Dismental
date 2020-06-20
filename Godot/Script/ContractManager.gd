@@ -25,7 +25,7 @@ func _ready():
 	pointerScene = PointerClass.instance()
 	self.add_child(pointerScene)
 	pointer_control = pointerScene.get_node(".")
-	pointer_control.set_role_and_position(pointerScene.ROLE.HEADTHROTTLE, Vector2(pointer_start_x, pointer_start_y))
+	pointer_control.set_role_and_position(pointerScene.Role.HEADTHROTTLE, Vector2(pointer_start_x, pointer_start_y))
 	pointer_node = pointerScene.get_node("Pointer")
 
 	panel_contract = get_node("PanelContract")

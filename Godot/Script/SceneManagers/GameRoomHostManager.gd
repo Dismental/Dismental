@@ -18,30 +18,6 @@ func _ready():
 	Utils.add_scene("res://Scenes/VoiceStream.tscn", get_parent())
 	voice = get_parent().get_node("VoiceStream")
 	voice.start()
-	
-	if CONTRACT_REQUIRED:
-		var ContractClass = preload("res://Scenes/Contract.tscn")
-		contractScene = ContractClass.instance()
-		self.add_child(contractScene)
-		contract_control = contractScene.get_node(".")
-		contract_opened = true
-
-
-func _process(_delta):
-	if setRoomCode:
-		# add the roomcode to a lbl when it is available
-		if not Network.gamelobbycode == "":
-			get_node("lbl_roomcode_code").text = Network.gamelobbycode
-			if CONTRACT_REQUIRED:
-				contractScene.get_node("lbl_roomcode").text = "Roomcode: \n " + Network.gamelobbycode
-			setRoomCode = false
-
-	if contract_opened and CONTRACT_REQUIRED:
-		if contract_control.contract_is_signed:
-			self.remove_child(contractScene)
-			contract_opened = false
-			
-	update()
 
 func _on_BackButton_pressed():
 	stop_voip()
