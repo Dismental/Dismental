@@ -169,9 +169,16 @@ void VideoFaceDetector::detectFaceAllSizes(const cv::Mat &frame)
     if (m_allFaces.empty()) return;
 
     m_foundFace = true;
+    lost_tracking = false;
 
     // Locate biggest face
     m_trackedFace = biggestFace(m_allFaces);
+
+    if (m_trackedFace.height > (frame.rows / 3.0)) {
+        too_close = true;
+    } else {
+        too_close = false;
+    }
 
     // Copy face template
     m_faceTemplate = getFaceTemplate(frame, m_trackedFace);
@@ -230,6 +237,12 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
     // Get detected face
     m_trackedFace = biggestFace(m_allFaces);
 
+    if (m_trackedFace.height > (frame.rows / 3.0)) {
+        too_close = true;
+    } else {
+        too_close = false;
+    }
+
     // Add roi offset to face
     m_trackedFace.x += m_faceRoi.x;
     m_trackedFace.y += m_faceRoi.y;
@@ -251,6 +264,8 @@ void VideoFaceDetector::stopTemplateMatching()
     m_templateMatchingStartTime = m_templateMatchingCurrentTime = 0;
     m_facePosition.x = m_facePosition.y = 0;
     m_trackedFace.x = m_trackedFace.y = m_trackedFace.width = m_trackedFace.height = 0;
+    template_matching = false;
+    lost_tracking = true;
 }
 
 void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame, const cv::Mat &orgFrame)
@@ -258,6 +273,11 @@ void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame, const 
     // Calculate duration of template matching
     m_templateMatchingCurrentTime = cv::getTickCount();
     double duration = (double)(m_templateMatchingCurrentTime - m_templateMatchingStartTime) / TICK_FREQUENCY;
+
+
+    if (!template_matching && duration > (m_templateMatchingMaxDuration/2)) {
+        template_matching = true;
+    }
 
     // If template matching lasts for more than 2 seconds face is possibly lost
     // so disable it and redetect using cascades
@@ -317,6 +337,8 @@ cv::Point VideoFaceDetector::getFrameAndDetect(cv::Mat &frame)
         if (m_templateMatchingRunning) {
             printToFrameQueue.push(cv::Rect(0,0,100,100));
             detectFacesTemplateMatching(resizedFrame, frame); // Detect using template matching
+        } else {
+            template_matching = false;
         }
     }
 

@@ -1,6 +1,14 @@
 extends Control
 var voice: Node
 
+const LOADING_ROOM = "[loading]"
+const CONTRACT_REQUIRED = true
+
+var setRoomCode = true
+var contractScene
+var contract_control
+var contract_opened = false
+
 func _init():
 	Network.connect("player_list_changed", self, "refresh_lobby")
 
@@ -10,7 +18,6 @@ func _ready():
 	Utils.add_scene("res://Scenes/VoiceStream.tscn", get_parent())
 	voice = get_parent().get_node("VoiceStream")
 	voice.start()
-
 
 func _on_BackButton_pressed():
 	stop_voip()

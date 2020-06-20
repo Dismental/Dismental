@@ -6,7 +6,7 @@ extends Control
 # var b = "text"
 
 
-var players = ["Onno", "Kevin"]
+var players = []
 
 onready var playerNodes = [
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player1,
@@ -17,6 +17,10 @@ onready var playerNodes = [
 
 func add_player(name):
 	players.append(name)
+	
+func remove_player(name):
+	if name in players:
+		players.remove(name)
 	
 func refresh():
 	for i in range(len(playerNodes)):
@@ -30,6 +34,14 @@ func refresh():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var isHost = false
+	
+	$TeamNameInput.editable = isHost
+	$DifficultyBtn.disabled = not isHost
+	$WaitingForHostLbl.visible = not isHost
+	$StartMission.visible = isHost
+	$CancelMission.visible = isHost
+	
 	for i in range(len(players)):
 		playerNodes[i].visible = true
 		playerNodes[i].get_node("Label").set_text(players[i]) 

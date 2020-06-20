@@ -1,6 +1,12 @@
 extends Control
 var voice : Node
 
+var contractScene
+var contract_control
+
+const CONTRACT_REQUIRED = true
+var contract_opened = false
+
 func _ready():
 	Network.connect("player_list_changed", self, "refresh_lobby")
 	GameState.connect("update_difficulty", self, "update_difficulty")
