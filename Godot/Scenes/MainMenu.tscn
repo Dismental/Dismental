@@ -759,6 +759,5 @@ __meta__ = {
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
 [connection signal="pressed" from="CreateMissionButton" to="." method="_on_Button2_pressed"]
 [connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="MissionPanel/JoinMissionPanel" method="_on_JoinMissionBtn_pressed"]
-[connection signal="text_changed" from="MissionPanel/CreateMissionPanel/VBoxContainer/PlayerName/Input" to="MissionPanel/CreateMissionPanel" method="_on_Input_text_changed"]
 [connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="MissionPanel/CreateMissionPanel" method="_on_CreateMissionBtn_pressed"]
 [connection signal="pressed" from="CreateMissionBtn2" to="." method="_on_CreateMissionBtn2_pressed"]
