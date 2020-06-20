@@ -73,16 +73,21 @@ func connected(id):
 
 func disconnected():
 	print("Disconnected: %d: %s" % [code, reason])
+
 	if code == 4100:
 		print("host disconnect")
+		var curr_node = get_tree().get_current_scene().get_node("Lobby")
+		curr_node.stop_voip()
 		stop()
-		Utils.change_screen("res://Scenes/MainMenu.tscn",
-			get_tree().get_current_scene().get_node("Lobby"))
+		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
 		get_tree().get_current_scene().get_node("MainMenu").popup(
 			"Host disconnected")
+
 	elif code == 4004:
-		Utils.change_screen("res://Scenes/MainMenu.tscn",
-			get_tree().get_current_scene().get_node("Lobby"))
+		var curr_node = get_tree().get_current_scene().get_node("Lobby")
+		curr_node.stop_voip()
+		stop()
+		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
 		get_tree().get_current_scene().get_node("MainMenu").popup(
 			"Room with that name does not exist")
 
