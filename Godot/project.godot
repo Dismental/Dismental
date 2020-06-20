@@ -20,15 +20,20 @@ _global_script_class_icons={
 
 [application]
 
-config/name="DefuseTheBomb"
+config/name="Dismental"
 run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
+
+[audio]
+
+enable_audio_input=true
 
 [autoload]
 
 Network="*res://Script/Global/Network.gd"
 Utils="*res://Script/Global/Utils.gd"
 ScoreManager="*res://Script/Global/ScoreManager.gd"
+GameState="*res://Script/Global/GameState.gd"
 
 [display]
 
@@ -54,6 +59,10 @@ space={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[logging]
+
+file_logging/enable_file_logging=true
 
 [rendering]
 
