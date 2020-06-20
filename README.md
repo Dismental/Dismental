@@ -254,6 +254,30 @@ Run these scripts using `sh ./<script-name>.sh` when at the root of the reposito
 **gdnative_compile_run**
 
 This will compile the gdnative source files & directly run the main scene, easy for quick debugging when developing.
+# Exporting to MacOS
+
+## Set up export template
+The export preset has been included in the repo, but you need to install the export template as well before being able to export.
+
+Open Project > Export..., select the preset "MacOSX (Runnable)". You should see an error on the bottom saying there's no export template found.
+
+Click on the link next to "Export templates for this platform are missing:", a popup will be shown that asks you to download a template, do this.
+
+When that's downloaded, change the extension of the file from `.tpz` to `.zip` and extract it.
+
+The extracted directory contains the file that the export preset was looking for as shown in the error, move the file to the path indicated by the error.
+
+## Exporting the game
+The game can now be exported to a .dmg. Accessing the resources (res://) was not yet successful, thus a reference to a .xml file for face tracking is hardcoded for now. This also requires additional steps to get the .xml file at the right location.
+
+Before being able to export the game, you need to unzip the shipped dependencies found in `<root-repo>/Godot/bin/osx/deps_{version}`,
+simply extract them, and they should end up in a folder with the same name (such as `deps_10.14`).
+
+A script has been written to automate this process, which is `/export.sh`. It will perform the steps described below.
+To run the script go to the root of the repo in your terminal and run `sh ./export.sh` (prepend `sudo` if needed).
+You need to add the version for which you want to export the game, choose from `10.14` or `10.15`.
+
+Example usage: `sudo sh export.sh 10.15`.
 
 **double-the-trouble**
 
