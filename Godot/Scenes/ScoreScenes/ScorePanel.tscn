@@ -17,6 +17,7 @@ margin_right = 244.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 180, 20 )
 text = "1"
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -39,6 +40,7 @@ margin_right = 576.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 130, 0 )
 text = "-1"
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -50,6 +52,7 @@ margin_right = 768.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 130, 0 )
 text = "Easy"
+uppercase = true
 
 [node name="Time" type="Label" parent="."]
 margin_left = 768.0
@@ -58,6 +61,7 @@ margin_right = 960.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 100, 1 )
 text = "00:00"
+uppercase = true
 
 [node name="Date" type="Label" parent="."]
 margin_left = 960.0
@@ -66,6 +70,7 @@ margin_right = 1152.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 110, 0 )
 text = "02/02/2019"
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -150,6 +150,7 @@ custom_fonts/font = SubResource( 5 )
 text = "Scoreboard"
 align = 1
 valign = 1
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -162,6 +163,7 @@ margin_bottom = 240.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Rank"
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -174,6 +176,7 @@ margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Team"
+uppercase = true
 
 [node name="DifficultyLabel" type="Label" parent="."]
 margin_left = 961.149
@@ -183,6 +186,7 @@ margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Difficulty"
+uppercase = true
 
 [node name="DifficultyLabel2" type="Label" parent="."]
 margin_left = 769.149
@@ -192,6 +196,7 @@ margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Score"
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -204,6 +209,7 @@ margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Duration"
+uppercase = true
 
 [node name="DateLabel" type="Label" parent="."]
 margin_left = 1345.15
@@ -213,4 +219,5 @@ margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Date"
+uppercase = true
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
