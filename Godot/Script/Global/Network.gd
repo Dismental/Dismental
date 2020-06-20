@@ -10,6 +10,7 @@ var player_info = {}
 var players_ready = []
 var web_rtc : WebRTCMultiplayer = WebRTCMultiplayer.new()
 var sealed = false
+export var gamelobbycode = ""
 
 
 # Called when the node enters the scene tree for the first time.
@@ -53,6 +54,7 @@ func stop():
 
 
 func lobby_joined(lobby):
+	gamelobbycode = lobby
 	print(lobby)
 
 
