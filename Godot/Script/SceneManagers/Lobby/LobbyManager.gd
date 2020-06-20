@@ -16,9 +16,15 @@ func _ready():
 	$WaitingForHostLbl.visible = not is_host
 	$StartMission.visible = is_host
 	$CancelMission.visible = is_host
+	
+	Network.connect("lobby_joined", self, "lobby_joined")
 	for i in range(len(players)):
 		player_nodes[i].visible = true
 		player_nodes[i].get_node("Label").set_text(players[i])
+
+func lobby_joined(miss_id):
+	$MissionID.text = miss_id
+
 func add_player(name):
 	players.append(name)
 
