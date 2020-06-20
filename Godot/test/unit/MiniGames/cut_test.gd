@@ -6,13 +6,13 @@ func test_is_input_on_track():
 	stub(inst, '_is_input_on_viewport').to_return(true)
 	stub(inst, '_get_input_pos').to_return(Vector2(10, 10))
 	
-	stub(inst, '_get_map_pixel_color').to_return(Color(0, 0, 0))
+	stub(inst, '_get_map_pixel_color').to_return(Color(0, 0, 0, 1))
 	assert_true(inst._is_input_on_track())
 	
-	stub(inst, '_get_map_pixel_color').to_return(Color(0.5, 0.5, 0.5))
+	stub(inst, '_get_map_pixel_color').to_return(Color(0.5, 0.5, 0.5, 0.5))
 	assert_true(inst._is_input_on_track())
 	
-	stub(inst, '_get_map_pixel_color').to_return(Color(1, 1, 1))
+	stub(inst, '_get_map_pixel_color').to_return(Color(1, 1, 1, 0))
 	assert_false(inst._is_input_on_track())
 
 
