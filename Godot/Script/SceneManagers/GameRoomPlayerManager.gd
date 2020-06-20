@@ -1,10 +1,12 @@
 extends Control
-var voice : Node
-
-var contractScene
-var contract_control
 
 const CONTRACT_REQUIRED = true
+
+var voice : Node
+
+var contract_scene
+var contract_control
+
 var contract_opened = false
 
 func _ready():

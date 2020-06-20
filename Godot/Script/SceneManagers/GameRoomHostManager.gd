@@ -1,11 +1,10 @@
 extends Control
-var voice: Node
 
 const LOADING_ROOM = "[loading]"
 const CONTRACT_REQUIRED = true
 
-var setRoomCode = true
-var contractScene
+var voice: Node
+
 var contract_control
 var contract_opened = false
 
