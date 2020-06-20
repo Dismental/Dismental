@@ -333,16 +333,3 @@ func interaction_timer_is_finished():
 	if (ptimer_activated and time_to_interaction_total == 0):
 		return true
 	return false
-	
-func _on_HeadPos_multiface_changed(new_value):
-	print("Multiface detection is now " + str(new_value))
-	
-func _on_HeadPos_tooclose_changed(new_value):
-	print("Too Close detection is now " + str(new_value))
-	
-func _on_HeadPos_templatematching_changed(new_value):
-	print("Template Matching detection is now " + str(new_value))
-	
-func _on_HeadPos_losttracking_changed(new_value):
-	print("Lost tracking is now " + str(new_value))
-	
