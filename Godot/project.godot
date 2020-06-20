@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Dismental"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="res://Scenes/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -35,10 +35,10 @@ GameState="*res://Script/Global/GameState.gd"
 
 window/size/width=1920
 window/size/height=1080
-window/size/test_width=800
-window/size/test_height=450
+window/size/test_width=1440
+window/size/test_height=810
 window/stretch/mode="2d"
-window/stretch/aspect="keep"
+window/stretch/aspect="expand"
 
 [editor_plugins]
 
