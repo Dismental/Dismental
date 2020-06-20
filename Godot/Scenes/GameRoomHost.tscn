@@ -4,8 +4,9 @@
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
 [ext_resource path="res://Script/SceneManagers/GameRoomHostManager.gd" type="Script" id=3]
 [ext_resource path="res://Themes/LobbyTheme.tres" type="Theme" id=4]
-[ext_resource path="res://Scenes/TeamName.gd" type="Script" id=5]
+[ext_resource path="res://Script/SceneManagers/Lobby/TeamName.gd" type="Script" id=5]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 100

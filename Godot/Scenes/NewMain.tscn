@@ -1,11 +1,11 @@
 [gd_scene load_steps=31 format=2]
 
-[ext_resource path="res://Scenes/TestUI/ObserversPanel.gd" type="Script" id=1]
+[ext_resource path="res://Script/PanelGraphics.gd" type="Script" id=1]
 [ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=3]
-[ext_resource path="res://Scenes/Label.gd" type="Script" id=4]
+[ext_resource path="res://Script/SceneManagers/MainMenu/Label.gd" type="Script" id=4]
 [ext_resource path="res://Textures/main_menu_wires.png" type="Texture" id=5]
-[ext_resource path="res://Scenes/NewMain.gd" type="Script" id=6]
+[ext_resource path="res://Script/SceneManagers/MainMenu/NewMain.gd" type="Script" id=6]
 [ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=7]
 
 [sub_resource type="Theme" id=1]
@@ -80,25 +80,7 @@ border_width_bottom = 4
 border_color = Color( 0, 0, 0, 1 )
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id=22]
-content_margin_left = 12.0
-content_margin_right = 12.0
-content_margin_top = 6.0
-content_margin_bottom = 6.0
-bg_color = Color( 0.207843, 0.207843, 0.207843, 1 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-shadow_color = Color( 1, 0, 0, 0.32549 )
-shadow_size = 16
-
-[sub_resource type="StyleBoxFlat" id=23]
+[sub_resource type="StyleBoxFlat" id=12]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 6.0
@@ -119,6 +101,24 @@ shadow_size = 16
 [sub_resource type="StyleBoxFlat" id=13]
 content_margin_left = 12.0
 content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0.207843, 0.207843, 0.207843, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color( 1, 0, 0, 0.32549 )
+shadow_size = 16
+
+[sub_resource type="StyleBoxFlat" id=14]
+content_margin_left = 12.0
+content_margin_right = 12.0
 content_margin_top = 2.0
 content_margin_bottom = 2.0
 bg_color = Color( 0, 0, 0, 1 )
@@ -127,13 +127,13 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=15]
 size = 24
 font_data = ExtResource( 2 )
 
-[sub_resource type="Theme" id=15]
+[sub_resource type="Theme" id=16]
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=17]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 6.0
@@ -144,12 +144,12 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=18]
 size = 32
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 7 )
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=19]
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=20]
@@ -157,7 +157,7 @@ size = 24
 outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=21]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 6.0
@@ -175,12 +175,12 @@ corner_radius_bottom_left = 4
 shadow_color = Color( 1, 0, 0, 0.32549 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="DynamicFont" id=22]
 size = 24
 outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=19]
+[sub_resource type="DynamicFont" id=23]
 size = 128
 font_data = ExtResource( 2 )
 
@@ -419,7 +419,7 @@ margin_left = 212.809
 margin_top = 646.76
 margin_right = 442.809
 margin_bottom = 741.76
-custom_styles/normal = SubResource( 22 )
+custom_styles/normal = SubResource( 12 )
 custom_fonts/font = ExtResource( 3 )
 text = "JOIN MISSION"
 __meta__ = {
@@ -435,7 +435,7 @@ margin_left = 220.382
 margin_top = 805.383
 margin_right = 503.382
 margin_bottom = 892.383
-custom_styles/normal = SubResource( 23 )
+custom_styles/normal = SubResource( 13 )
 custom_fonts/font = ExtResource( 3 )
 text = "CREATE MISSION"
 __meta__ = {
@@ -487,7 +487,7 @@ margin_right = 308.0
 margin_bottom = 45.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
-custom_styles/normal = SubResource( 13 )
+custom_styles/normal = SubResource( 14 )
 custom_fonts/font = ExtResource( 3 )
 text = "JOIN MISSION"
 align = 1
@@ -505,7 +505,7 @@ margin_bottom = 114.0
 margin_top = 7.0
 margin_right = 218.0
 margin_bottom = 38.0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 text = "ENTER MISSION ID:"
 align = 1
 __meta__ = {
@@ -518,9 +518,9 @@ margin_right = 387.0
 margin_bottom = 45.0
 size_flags_horizontal = 10
 size_flags_vertical = 8
-theme = SubResource( 15 )
-custom_styles/normal = SubResource( 16 )
-custom_fonts/font = SubResource( 17 )
+theme = SubResource( 16 )
+custom_styles/normal = SubResource( 17 )
+custom_fonts/font = SubResource( 18 )
 custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
 placeholder_text = "0000"
 placeholder_alpha = 0.33
@@ -533,7 +533,7 @@ modulate = Color( 1, 1, 1, 0.501961 )
 margin_top = 138.0
 margin_right = 387.0
 margin_bottom = 183.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 19 )
 text = "ASK THE PERSON WHO CREATED A MISSION FOR THE MISSION ID"
 autowrap = true
 __meta__ = {
@@ -549,7 +549,7 @@ margin_bottom = 250.0
 margin_top = 6.0
 margin_right = 228.0
 margin_bottom = 37.0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 text = "ENTER YOUR NAME:"
 align = 1
 __meta__ = {
@@ -562,9 +562,9 @@ margin_right = 387.0
 margin_bottom = 43.0
 size_flags_horizontal = 10
 size_flags_vertical = 8
-theme = SubResource( 15 )
-custom_styles/focus = SubResource( 16 )
-custom_styles/normal = SubResource( 16 )
+theme = SubResource( 16 )
+custom_styles/focus = SubResource( 17 )
+custom_styles/normal = SubResource( 17 )
 custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_constants/minimum_spaces = 16
@@ -582,8 +582,8 @@ margin_bottom = 506.0
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 8
-custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 21 )
+custom_styles/normal = SubResource( 21 )
+custom_fonts/font = SubResource( 22 )
 text = "JOIN"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -615,7 +615,7 @@ margin_right = 335.0
 margin_bottom = 45.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
-custom_styles/normal = SubResource( 13 )
+custom_styles/normal = SubResource( 14 )
 custom_fonts/font = ExtResource( 3 )
 text = "CREATE MISSION"
 align = 1
@@ -633,7 +633,7 @@ margin_bottom = 114.0
 margin_top = 7.0
 margin_right = 208.0
 margin_bottom = 38.0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 text = "YOUR MISSION ID:"
 align = 1
 __meta__ = {
@@ -646,10 +646,10 @@ margin_right = 387.0
 margin_bottom = 45.0
 size_flags_horizontal = 10
 size_flags_vertical = 8
-theme = SubResource( 15 )
-custom_styles/read_only = SubResource( 16 )
-custom_styles/normal = SubResource( 16 )
-custom_fonts/font = SubResource( 17 )
+theme = SubResource( 16 )
+custom_styles/read_only = SubResource( 17 )
+custom_styles/normal = SubResource( 17 )
+custom_fonts/font = SubResource( 18 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_uneditable = Color( 1, 0.309804, 0.32549, 1 )
 text = "77354"
@@ -663,7 +663,7 @@ modulate = Color( 1, 1, 1, 0.501961 )
 margin_top = 138.0
 margin_right = 387.0
 margin_bottom = 183.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 19 )
 text = "YOUR MISSION ID IS COPIED TO YOUR CLIPBOARD. SHARE IT WITH YOUR FRIENDS!"
 autowrap = true
 __meta__ = {
@@ -679,7 +679,7 @@ margin_bottom = 250.0
 margin_top = 6.0
 margin_right = 228.0
 margin_bottom = 37.0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 text = "ENTER YOUR NAME:"
 align = 1
 __meta__ = {
@@ -692,9 +692,9 @@ margin_right = 387.0
 margin_bottom = 43.0
 size_flags_horizontal = 10
 size_flags_vertical = 8
-theme = SubResource( 15 )
-custom_styles/focus = SubResource( 16 )
-custom_styles/normal = SubResource( 16 )
+theme = SubResource( 16 )
+custom_styles/focus = SubResource( 17 )
+custom_styles/normal = SubResource( 17 )
 custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_constants/minimum_spaces = 16
@@ -712,8 +712,8 @@ margin_bottom = 506.0
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 8
-custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 21 )
+custom_styles/normal = SubResource( 21 )
+custom_fonts/font = SubResource( 22 )
 text = "CREATE"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -724,7 +724,7 @@ margin_left = 153.201
 margin_top = 101.348
 margin_right = 849.201
 margin_bottom = 390.348
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 23 )
 text = "DISMENTAL"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -735,7 +735,7 @@ margin_left = 779.297
 margin_top = 1651.91
 margin_right = 912.297
 margin_bottom = 1682.91
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 text = "CREATORS:"
 align = 1
 __meta__ = {
@@ -747,7 +747,7 @@ margin_left = 708.308
 margin_top = 1902.24
 margin_right = 983.308
 margin_bottom = 1933.24
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 text = "COPYRIGHT CG-01 2020"
 align = 1
 __meta__ = {
@@ -760,7 +760,7 @@ margin_left = 702.868
 margin_top = 1690.92
 margin_right = 983.868
 margin_bottom = 1891.92
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 text = "GEES BROUWERS
 JONAS DUIFS 
 ONNO GIELING
@@ -780,8 +780,8 @@ margin_bottom = 1148.65
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 8
-custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 21 )
+custom_styles/normal = SubResource( 21 )
+custom_fonts/font = SubResource( 22 )
 text = "BACK"
 __meta__ = {
 "_edit_use_anchors_": false

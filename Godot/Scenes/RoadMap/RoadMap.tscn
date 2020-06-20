@@ -2,12 +2,12 @@
 
 [ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://Scenes/TestUI/ObserversPanel.gd" type="Script" id=3]
+[ext_resource path="res://Script/PanelGraphics.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/RoadMap/hack.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/RoadMap/align.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/RoadMap/cut.png" type="Texture" id=6]
 [ext_resource path="res://Scenes/RoadMap/dissolve.png" type="Texture" id=7]
-[ext_resource path="res://Scenes/RoadMap/RoadMap.gd" type="Script" id=8]
+[ext_resource path="res://Script/SceneManagers/RoadMapManager.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/RoadMap/arrow.png" type="Texture" id=9]
 
 [sub_resource type="Theme" id=1]
