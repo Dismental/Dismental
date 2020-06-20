@@ -1,0 +1,395 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Scenes/TestUI/ObserversPanel.gd" type="Script" id=1]
+[ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=3]
+[ext_resource path="res://Scenes/Lobby.gd" type="Script" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 1
+
+[sub_resource type="DynamicFont" id=14]
+size = 24
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=15]
+
+[sub_resource type="StyleBoxFlat" id=26]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+bg_color = Color( 0, 0, 0, 0.501961 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 80
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 32
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=20]
+bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
+
+[sub_resource type="StyleBoxFlat" id=18]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=19]
+size = 32
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=23]
+size = 48
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=21]
+content_margin_left = 24.0
+content_margin_right = 24.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="DynamicFont" id=22]
+size = 32
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=24]
+content_margin_left = 24.0
+content_margin_right = 24.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 1, 0.309804, 0.32549, 1 )
+
+[sub_resource type="DynamicFont" id=25]
+size = 18
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 2 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = -0.000729036
+anchor_right = -0.000728989
+margin_left = -144.0
+margin_top = -97.0
+margin_right = 2105.0
+margin_bottom = 1221.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OperatorPanel2" type="PanelContainer" parent="."]
+margin_left = 0.615204
+margin_right = 1920.62
+margin_bottom = 1080.0
+rect_pivot_offset = Vector2( 493.364, 382.353 )
+rect_clip_content = true
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayersPanel" type="PanelContainer" parent="."]
+anchor_left = 0.0028464
+anchor_top = 0.00390026
+anchor_right = 0.0028464
+anchor_bottom = 0.00390026
+margin_left = 280.535
+margin_top = 280.788
+margin_right = 791.535
+margin_bottom = 818.788
+rect_pivot_offset = Vector2( 493.364, 382.353 )
+rect_clip_content = true
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 10 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayersPanel"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 507.0
+margin_bottom = 534.0
+custom_constants/margin_right = 24
+custom_constants/margin_top = 24
+custom_constants/margin_left = 24
+custom_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayersPanel/MarginContainer"]
+margin_left = 24.0
+margin_top = 24.0
+margin_right = 479.0
+margin_bottom = 506.0
+grow_horizontal = 0
+custom_constants/separation = 48
+
+[node name="Title" type="Label" parent="PlayersPanel/MarginContainer/VBoxContainer"]
+margin_right = 455.0
+margin_bottom = 31.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 14 )
+text = "WAITING FOR PLAYERS TO JOIN"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayersPanel/MarginContainer/VBoxContainer"]
+margin_top = 79.0
+margin_right = 455.0
+margin_bottom = 402.0
+rect_min_size = Vector2( 400, 200 )
+size_flags_vertical = 0
+theme = SubResource( 15 )
+custom_constants/separation = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="You" type="PanelContainer" parent="PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_right = 455.0
+margin_bottom = 55.0
+custom_styles/panel = SubResource( 26 )
+
+[node name="Label" type="Label" parent="PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/You"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 443.0
+margin_bottom = 43.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 14 )
+custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+text = "YOU"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player1" type="PanelContainer" parent="PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_top = 67.0
+margin_right = 455.0
+margin_bottom = 122.0
+custom_styles/panel = SubResource( 26 )
+
+[node name="Label" type="Label" parent="PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player1"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 443.0
+margin_bottom = 43.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 14 )
+text = "ONNO"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player2" type="PanelContainer" parent="PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_top = 134.0
+margin_right = 455.0
+margin_bottom = 189.0
+custom_styles/panel = SubResource( 26 )
+
+[node name="Label" type="Label" parent="PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player2"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 443.0
+margin_bottom = 43.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 14 )
+text = "ONNO"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player3" type="PanelContainer" parent="PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_top = 201.0
+margin_right = 455.0
+margin_bottom = 256.0
+custom_styles/panel = SubResource( 26 )
+
+[node name="Label" type="Label" parent="PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player3"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 443.0
+margin_bottom = 43.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 14 )
+text = "KEVERT"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player4" type="PanelContainer" parent="PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_top = 268.0
+margin_right = 455.0
+margin_bottom = 323.0
+custom_styles/panel = SubResource( 26 )
+
+[node name="Label" type="Label" parent="PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player4"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 443.0
+margin_bottom = 43.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 14 )
+text = "KEVERT"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 1189.27
+margin_top = 132.73
+margin_right = 1798.27
+margin_bottom = 232.73
+custom_fonts/font = SubResource( 16 )
+text = "LOBBY"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 1188.0
+margin_top = 322.426
+margin_right = 1391.0
+margin_bottom = 363.426
+custom_fonts/font = SubResource( 17 )
+text = "TEAM NAME: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="."]
+margin_left = 1191.58
+margin_top = 470.943
+margin_right = 1394.58
+margin_bottom = 511.943
+custom_fonts/font = SubResource( 17 )
+text = "MISSION ID:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 1191.58
+margin_top = 603.366
+margin_right = 1406.58
+margin_bottom = 644.366
+custom_fonts/font = SubResource( 17 )
+text = "DIFFICULTY: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_left = 1429.0
+margin_top = 308.426
+margin_right = 1692.0
+margin_bottom = 381.426
+custom_styles/focus = SubResource( 20 )
+custom_styles/normal = SubResource( 18 )
+custom_fonts/font = SubResource( 19 )
+text = "BITs"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit2" type="LineEdit" parent="."]
+margin_left = 1429.0
+margin_top = 456.943
+margin_right = 1692.0
+margin_bottom = 529.943
+custom_styles/focus = SubResource( 20 )
+custom_styles/normal = SubResource( 18 )
+custom_fonts/font = SubResource( 23 )
+custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+custom_colors/font_color_uneditable = Color( 1, 0.309804, 0.32549, 1 )
+text = "772689"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_left = 1421.43
+margin_top = 899.874
+margin_right = 1710.43
+margin_bottom = 964.874
+custom_styles/normal = SubResource( 21 )
+custom_fonts/font = SubResource( 22 )
+text = "START MISSION"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="."]
+margin_left = 1179.28
+margin_top = 918.254
+margin_right = 1377.28
+margin_bottom = 965.254
+custom_styles/normal = SubResource( 24 )
+custom_fonts/font = SubResource( 25 )
+custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
+text = "CANCEL MISSION"
+__meta__ = {
+"_edit_use_anchors_": false
+}
