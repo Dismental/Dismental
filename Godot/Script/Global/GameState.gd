@@ -24,10 +24,7 @@ var defusers = []
 var last_label_update
 
 var difficulty = Difficulty.keys()[0]
-var team_name = "Bomb Squad"
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+var team_name = "BITs"
 
 
 func _process(_delta):
