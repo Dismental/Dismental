@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/main_menu_wires.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Scenes/MainMenu.gd" type="Script" id=5]
 [ext_resource path="res://Script/PanelGraphics.gd" type="Script" id=6]
 [ext_resource path="res://Script/SceneManagers/MainMenu/Label.gd" type="Script" id=7]
+[ext_resource path="res://Script/CreateMissionPanel.gd" type="Script" id=8]
 
 [sub_resource type="Theme" id=1]
 
@@ -598,6 +599,7 @@ custom_constants/margin_right = 48
 custom_constants/margin_top = 24
 custom_constants/margin_left = 48
 custom_constants/margin_bottom = 24
+script = ExtResource( 8 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MissionPanel/CreateMissionPanel"]
 margin_left = 48.0
@@ -670,12 +672,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MissionPanel/CreateMissionPanel/VBoxContainer"]
+[node name="PlayerName" type="HBoxContainer" parent="MissionPanel/CreateMissionPanel/VBoxContainer"]
 margin_top = 207.0
 margin_right = 387.0
 margin_bottom = 250.0
 
-[node name="Label5" type="Label" parent="MissionPanel/CreateMissionPanel/VBoxContainer/HBoxContainer3"]
+[node name="Label5" type="Label" parent="MissionPanel/CreateMissionPanel/VBoxContainer/PlayerName"]
 margin_top = 6.0
 margin_right = 228.0
 margin_bottom = 37.0
@@ -686,7 +688,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LineEdit" type="LineEdit" parent="MissionPanel/CreateMissionPanel/VBoxContainer/HBoxContainer3"]
+[node name="Input" type="LineEdit" parent="MissionPanel/CreateMissionPanel/VBoxContainer/PlayerName"]
 margin_left = 251.0
 margin_right = 387.0
 margin_bottom = 43.0
@@ -790,4 +792,6 @@ __meta__ = {
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Label" method="_on_HSlider_value_changed"]
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
 [connection signal="pressed" from="CreateMissionButton" to="." method="_on_Button2_pressed"]
+[connection signal="text_changed" from="MissionPanel/CreateMissionPanel/VBoxContainer/PlayerName/Input" to="MissionPanel/CreateMissionPanel" method="_on_Input_text_changed"]
+[connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="MissionPanel/CreateMissionPanel" method="_on_CreateMissionBtn_pressed"]
 [connection signal="pressed" from="CreateMissionBtn2" to="." method="_on_CreateMissionBtn2_pressed"]
