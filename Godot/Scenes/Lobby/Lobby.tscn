@@ -421,7 +421,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TeamNameInput" type="LineEdit" parent="."]
+[node name="TeamName" type="LineEdit" parent="."]
 margin_left = 1429.0
 margin_top = 308.426
 margin_right = 1692.0
@@ -430,6 +430,7 @@ custom_styles/focus = SubResource( 9 )
 custom_styles/normal = SubResource( 10 )
 custom_fonts/font = SubResource( 11 )
 text = "BITs"
+max_length = 24
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -516,4 +517,6 @@ margin_left = 1470.38
 margin_top = 719.198
 margin_right = 1546.38
 margin_bottom = 759.198
+pressed = true
 flat = true
+[connection signal="text_changed" from="TeamName" to="." method="_on_TeamName_text_changed"]
