@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=1]
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Script/SceneManagers/WinSceneManager.gd" type="Script" id=3]
+[ext_resource path="res://Fonts/LobbyFont.tres" type="DynamicFont" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 100
@@ -12,6 +13,14 @@ font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 39
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 40
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 40
 font_data = ExtResource( 2 )
 
 [node name="WinRoom" type="Control"]
@@ -54,13 +63,57 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -354.0
+margin_left = -335.0
 margin_top = -300.0
-margin_right = 324.0
+margin_right = 343.0
 margin_bottom = -200.0
 custom_fonts/font = SubResource( 2 )
 text = "Main menu"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ScoreBoardButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -335.0
+margin_top = -420.0
+margin_right = 343.0
+margin_bottom = -320.0
+custom_fonts/font = SubResource( 2 )
+text = "Scoreboard"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Squad" type="Label" parent="."]
+margin_left = 705.44
+margin_top = 322.428
+margin_right = 1222.44
+margin_bottom = 423.428
+custom_fonts/font = SubResource( 3 )
+text = "Squad"
+
+[node name="Label" type="Label" parent="Squad"]
+margin_top = 50.0
+margin_right = 116.0
+margin_bottom = 81.0
+custom_fonts/font = ExtResource( 4 )
+text = "Members:"
+
+[node name="Members" type="ItemList" parent="Squad"]
+margin_top = 85.0
+margin_right = 250.0
+margin_bottom = 285.0
+
+[node name="Score" type="Label" parent="Squad"]
+margin_left = 270.0
+margin_top = 80.0
+margin_right = 516.0
+margin_bottom = 139.0
+custom_fonts/font = SubResource( 4 )
+text = "Time left:"
 [connection signal="pressed" from="MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
+[connection signal="pressed" from="ScoreBoardButton" to="." method="_on_ScoreBoardButton_pressed"]

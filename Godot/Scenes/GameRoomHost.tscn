@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
 [ext_resource path="res://Script/SceneManagers/GameRoomHostManager.gd" type="Script" id=3]
 [ext_resource path="res://Themes/LobbyTheme.tres" type="Theme" id=4]
+[ext_resource path="res://Scenes/TeamName.gd" type="Script" id=5]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
 
 [sub_resource type="DynamicFont" id=1]
@@ -116,9 +117,9 @@ __meta__ = {
 
 [node name="Players" type="Panel" parent="."]
 margin_left = 620.0
-margin_top = 326.0
+margin_top = 325.0
 margin_right = 1298.0
-margin_bottom = 720.0
+margin_bottom = 719.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -137,14 +138,70 @@ margin_right = 485.0
 margin_bottom = 373.0
 
 [node name="SealButton" type="Button" parent="."]
-margin_left = 1307.0
+margin_left = 1310.0
 margin_top = 325.0
-margin_right = 1470.0
+margin_right = 1473.0
 margin_bottom = 377.0
 text = "Close room"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Team" type="Label" parent="."]
+margin_left = 1310.0
+margin_top = 385.0
+margin_right = 1452.0
+margin_bottom = 416.0
+text = "Team name:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TeamName" type="TextEdit" parent="Team"]
+margin_left = 3.37048
+margin_top = 31.2608
+margin_right = 315.37
+margin_bottom = 78.2608
+text = "Bomb Squad"
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 1310.0
+margin_top = 475.0
+margin_right = 1422.0
+margin_bottom = 506.0
+text = "Difficulty:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton" type="OptionButton" parent="Label"]
+margin_top = 35.0
+margin_right = 154.0
+margin_bottom = 77.0
+text = "Easy"
+items = [ "Easy", null, false, 0, null, "Medium", null, false, 1, null, "Hard", null, false, 2, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Microphone" type="CheckButton" parent="."]
+margin_left = 1313.0
+margin_top = 572.0
+margin_right = 1460.0
+margin_bottom = 615.0
+pressed = true
+text = "Microphone:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="StartGameButton" to="." method="_on_StartGameButton_pressed"]
 [connection signal="pressed" from="SealButton" to="." method="_on_SealButton_pressed"]
+[connection signal="text_changed" from="Team/TeamName" to="Team/TeamName" method="_on_TeamName_text_changed"]
+[connection signal="item_selected" from="Label/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="toggled" from="Microphone" to="." method="_on_Microphone_toggled"]

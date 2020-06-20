@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=2]
 [ext_resource path="res://Script/SceneManagers/CreateGameRoomManager.gd" type="Script" id=3]
+[ext_resource path="res://Themes/LobbyTheme.tres" type="Theme" id=4]
 [ext_resource path="res://Fonts/Roboto/Roboto-Bold.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
 
@@ -60,6 +61,7 @@ corner_radius_bottom_left = 100
 [node name="CreateGameRoom" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 4 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -133,5 +135,32 @@ icon = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PlayerName" type="Label" parent="."]
+margin_left = 623.563
+margin_top = 679.096
+margin_right = 772.563
+margin_bottom = 710.096
+text = "Player name:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Input" type="TextEdit" parent="PlayerName"]
+margin_left = 0.0506287
+margin_top = 35.3973
+margin_right = 392.051
+margin_bottom = 80.3973
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+visible = true
+margin_left = 784.987
+margin_top = 425.213
+margin_right = 1135.99
+margin_bottom = 612.213
 [connection signal="pressed" from="CreateRoomButton" to="." method="_on_CreateRoomButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="text_changed" from="PlayerName/Input" to="." method="_on_Input_text_changed"]

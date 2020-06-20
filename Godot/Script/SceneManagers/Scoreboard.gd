@@ -6,11 +6,13 @@ func _ready():
 
 
 func _on_BackButton_pressed():
-	Utils.change_screen("res://Scenes/MainMenu.tscn", self)
+	get_parent().remove_child(self)
+	self.queue_free()
 
 
 # Makes ScorePanels based on the scores that currently exist within ScoreManager.
 func instance_panels():
+	ScoreManager.sort_scores()
 	var scores = ScoreManager.get_scores()
 	var Scorepanel = preload("res://Scenes/ScoreScenes/ScorePanel.tscn")
 	var pos = 1
@@ -22,8 +24,8 @@ func instance_panels():
 				= "[center]Team:\n" + score.team + "[/center]"
 		n_panel.get_node("HBoxContainer/Time").bbcode_text \
 				= "[center]Time:\n" + score.time + "[/center]"
-		n_panel.get_node("HBoxContainer/Level").bbcode_text \
-				= "[center]Level:\n" + score.level + "[/center]"
+		n_panel.get_node("HBoxContainer/Difficulty").bbcode_text \
+				= "[center]Difficulty:\n" + score.difficulty + "[/center]"
 		n_panel.get_node("HBoxContainer/Position").bbcode_text \
 				= "[center]Pos:\n" + str(pos) + "[/center]"
 		$ScrollContainer/VBoxContainer.add_child(n_panel)
