@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=3]
@@ -39,6 +39,10 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
+[sub_resource type="DynamicFont" id=5]
+size = 56
+font_data = ExtResource( 1 )
+
 [sub_resource type="DynamicFont" id=4]
 size = 22
 font_data = ExtResource( 1 )
@@ -54,21 +58,41 @@ __meta__ = {
 [node name="Background" type="ColorRect" parent="."]
 margin_right = 1920.0
 margin_bottom = 1080.0
-color = Color( 0.137255, 0.121569, 0.12549, 1 )
+color = Color( 0.0470588, 0.0431373, 0.0470588, 1 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_left = 360.0
-margin_top = 192.0
-margin_right = 1576.0
-margin_bottom = 992.0
-rect_pivot_offset = Vector2( 216, 40 )
-color = Color( 0.4, 0.376471, 0.376471, 1 )
+margin_left = 256.0
+margin_right = 1672.0
+margin_bottom = 1080.0
+color = Color( 0.196078, 0.196078, 0.196078, 1 )
 __meta__ = {
 "_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreBoardBorder" type="ColorRect" parent="."]
+margin_left = 344.0
+margin_top = 168.0
+margin_right = 1576.0
+margin_bottom = 1000.0
+rect_pivot_offset = Vector2( 216, 40 )
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreBoardContainer" type="ColorRect" parent="."]
+margin_left = 352.0
+margin_top = 176.0
+margin_right = 1568.0
+margin_bottom = 992.0
+rect_pivot_offset = Vector2( 216, 40 )
+color = Color( 0.12549, 0.12549, 0.12549, 1 )
+__meta__ = {
 "_edit_use_anchors_": false
 }
 
@@ -115,38 +139,56 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -328.0
+margin_top = 56.0
+margin_right = 328.0
+margin_bottom = 127.0
+custom_fonts/font = SubResource( 5 )
+text = "Scoreboard"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RankLabel" type="Label" parent="."]
 margin_left = 448.0
-margin_top = 216.0
+margin_top = 208.0
 margin_right = 576.0
-margin_bottom = 248.0
+margin_bottom = 240.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Rank"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TeamLabel" type="Label" parent="."]
-margin_left = 576.0
-margin_top = 216.0
-margin_right = 768.0
-margin_bottom = 248.0
+margin_left = 577.149
+margin_top = 207.0
+margin_right = 769.149
+margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Team"
 
 [node name="DifficultyLabel" type="Label" parent="."]
-margin_left = 960.0
-margin_top = 216.0
-margin_right = 1152.0
-margin_bottom = 248.0
+margin_left = 961.149
+margin_top = 207.0
+margin_right = 1153.15
+margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Difficulty"
 
 [node name="DifficultyLabel2" type="Label" parent="."]
-margin_left = 768.0
-margin_top = 216.0
-margin_right = 960.0
-margin_bottom = 248.0
+margin_left = 769.149
+margin_top = 207.0
+margin_right = 961.149
+margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Score"
@@ -155,19 +197,19 @@ __meta__ = {
 }
 
 [node name="DurationLabel" type="Label" parent="."]
-margin_left = 1152.0
-margin_top = 216.0
-margin_right = 1344.0
-margin_bottom = 248.0
+margin_left = 1153.15
+margin_top = 207.0
+margin_right = 1345.15
+margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Duration"
 
 [node name="DateLabel" type="Label" parent="."]
-margin_left = 1344.0
-margin_top = 216.0
-margin_right = 1536.0
-margin_bottom = 248.0
+margin_left = 1345.15
+margin_top = 207.0
+margin_right = 1537.15
+margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
 custom_fonts/font = SubResource( 4 )
 text = "Date"
