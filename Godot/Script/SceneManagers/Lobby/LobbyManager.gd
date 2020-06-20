@@ -59,6 +59,10 @@ func _on_StartMission_pressed():
 	get_parent().remove_child(self) 
 
 
+func _on_MuteBtn_toggled(button_pressed):
+	voice.set_recording(button_pressed)
+
+
 func update_team_name(name):
 	$TeamName.text = str(name)
 
