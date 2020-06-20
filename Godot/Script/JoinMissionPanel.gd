@@ -3,10 +3,10 @@ extends MarginContainer
 
 func _on_JoinMissionBtn_pressed():
 	if get_input_gameid().empty():
-		popup("Lobby name can't be empty!")
+		get_parent().get_parent().popup("Lobby name can't be empty!")
 	else:
 		if get_input_playername().empty():
-			popup("Playername can't be empty!")
+			get_parent().get_parent().popup("Playername can't be empty!")
 		else:
 			Network.player_name = get_input_playername()
 			_create_client()
@@ -16,11 +16,6 @@ func _on_JoinMissionBtn_pressed():
 
 func _create_client():
 	Network.create_client(get_input_gameid())
-
-func popup(text: String):
-	var p_up = get_parent().get_parent().get_node("Popup")
-	p_up.change_text(text)
-	p_up.popup_centered()
 
 
 func get_input_gameid():

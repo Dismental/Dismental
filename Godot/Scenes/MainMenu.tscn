@@ -734,6 +734,7 @@ __meta__ = {
 }
 
 [node name="Popup" parent="." instance=ExtResource( 9 )]
+visible = false
 margin_left = 543.749
 margin_top = 1197.99
 margin_right = 1143.75

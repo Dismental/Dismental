@@ -50,3 +50,9 @@ func _on_JoinMissionButton_pressed():
 
 func _on_CreateMissionBtn2_pressed():
 	startScrollAnimation(false)
+
+
+func popup(text: String):
+	var p_up = $Popup
+	p_up.change_text(text)
+	p_up.popup_centered()
