@@ -119,6 +119,37 @@ func _process(_delta):
 				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
 		pointer_pos = pointer_pos_current
+		
+		
+#		print ("lost: " + var2str(tracking_node.losttracking))
+#		print ("multi: " + var2str(tracking_node.multiface))
+#		print ("template matching: " + var2str(tracking_node.templatematching))
+		if (lost_tracking):
+			$Lbl_pickup_pointer.visible = true
+		else:
+			$Lbl_pickup_pointer.visible = false
+
+		if (tracking_node.templatematching):
+			$Lbl_template_matching.visible = true
+		else:
+			$Lbl_template_matching.visible = false
+		
+		if (tracking_node.tooclose):
+			$Lbl_too_close.visible = true
+		else:
+			$Lbl_too_close.visible = false
+		
+		if (tracking_node.losttracking):
+			$Lbl_lost_tracking.visible = true
+		else:
+			$Lbl_lost_tracking.visible = false
+		
+		if (($HeadPos.templatematching || $HeadPos.tooclose || $HeadPos.multiface || $HeadPos.losttracking || lost_tracking) && !$Lbl_warning.visible):
+			$Lbl_warning.visible = true
+		else:
+			$Lbl_warning.visible = false
+		
+		print ("too close: " + var2str(tracking_node.tooclose))
 	elif (player_role == Role.HEAD):
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos
@@ -174,13 +205,14 @@ func set_role(_player_role):
 		else:
 			print ("initiating head tracking")
 
-		var HeadtrackingScene = load("res://Scenes/Tracking/HeadTracking.tscn")
-		var tracking = HeadtrackingScene.instance()
-		self.add_child(tracking)
-		tracking_node = tracking.get_node("HeadPos")
-		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
-		pointer_node.position = _map_tracking_position(Vector2(0.5,0.5))
-		pointer_pos = pointer_node.position
+		tracking_node = $HeadPos
+		print ("lost: " + var2str(tracking_node.losttracking))
+		print ("multi: " + var2str(tracking_node.multiface))
+		print ("template matching: " + var2str(tracking_node.templatematching))
+		print ("too close: " + var2str(tracking_node.tooclose))
+		tracking_pos = _map_tracking_position(start_pos)
+		pointer_node.position = _map_tracking_position(start_pos)
+		pointer_pos = pointer_node.position 
 		pointer_pos_current = pointer_node.position
 		player_role = _player_role
 
@@ -232,3 +264,40 @@ func _draw():
 		Color(255,0,0),
 		4
 	)
+
+func set_pointer_radius(rad):
+	p_rad = rad
+
+func set_pointer_color(col):
+	p_color = col
+
+func interaction_timer_activate(_timer):
+	if (_timer > 0):
+		time_to_interaction_total = _timer
+		time_to_interaction = 0
+		ptimer_activated = true
+
+func interaction_timer_deactivate():
+	time_to_interaction_total = 0
+	ptimer_activated = false
+
+func interaction_timer_is_active():
+	return ptimer_activated
+
+func interaction_timer_is_finished():
+	if (ptimer_activated and time_to_interaction_total == 0):
+		return true
+	return false
+	
+func _on_HeadPos_multiface_changed(new_value):
+	print("Multiface detection is now " + str(new_value))
+	
+func _on_HeadPos_tooclose_changed(new_value):
+	print("Too Close detection is now " + str(new_value))
+	
+func _on_HeadPos_templatematching_changed(new_value):
+	print("Template Matching detection is now " + str(new_value))
+	
+func _on_HeadPos_losttracking_changed(new_value):
+	print("Lost tracking is now " + str(new_value))
+	
