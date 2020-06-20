@@ -29,6 +29,7 @@ var num_of_components = 6
 var components = []
 
 var vacuum_remove_threshold = 50
+var remove_radius = 2
 
 var blinking_threshold = 80
 var blink_light
@@ -266,9 +267,8 @@ func _check_vacuum():
 # Check if a component is removable in a small range 
 # instead of only the center opf the component
 func _check_removable(sector_row, sector_column):
-	var radius = 2
-	for x in range(-radius, radius + 1):
-		for y in range(-radius, radius + 1):
+	for x in range(-remove_radius, remove_radius + 1):
+		for y in range(-remove_radius, remove_radius + 1):
 			if matrix[sector_row + x][sector_column + y] > vacuum_remove_threshold:
 				return true
 	return false
