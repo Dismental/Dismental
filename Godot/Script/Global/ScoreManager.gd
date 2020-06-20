@@ -5,6 +5,7 @@ var scores = []
 
 func _ready():
 	load_scores()
+	first_run()
 	scores.sort_custom(CustomSort, "sort")
 
 
@@ -41,25 +42,23 @@ func load_scores():
 
 #This is for testing purposes, should be removed before building!
 func first_run():
-	scores.append(Score.new("tst2", "lvltst", "00:00:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "00:00:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "00:00:01", "01/01/2000"))
-	scores.append(Score.new("tst", "lvltst", "00:00:00", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "00:00:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "00:00:01", "01/01/2000"))
-	scores.append(Score.new("tst", "lvltst", "00:00:00", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "00:00:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "00:00:03", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "00:00:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "00:00:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "00:00:03", "01/01/2000"))
-	scores.append(Score.new("laatste", "lvltst", "00:00:06", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "00:00:02", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst", "lvltst", "03:00", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst", "lvltst", "03:00", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:03", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:03", "01/01/2000"))
+	scores.append(Score.new("laatste", "lvltst", "03:06", "01/01/2000"))
+	scores.append(Score.new("tst2", "lvltst", "03:02", "01/01/2000"))
 	save_scores()
 
 
 class CustomSort:
 	static func sort(a, b):
-		if a["time"] < b["time"]:
-			return true
-		return false
+		return a["time"] < b["time"]
