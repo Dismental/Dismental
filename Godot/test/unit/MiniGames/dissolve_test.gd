@@ -2,11 +2,12 @@ extends "res://addons/gut/test.gd"
 
 
 func test_defuser_state():
-	var inst = partial_double('res://Script/MiniGames/DissolveGameManager.gd').new()
-	inst.iron_label = double(Label).new()
-	inst.vacuum_label = double(Label).new()
-	inst.soldering_iron_indicator = double(ColorRect).new()
-	inst.vacuum_indicator = double(ColorRect).new()
+	var inst = load('res://Script/MiniGames/DissolveGameManager.gd').new()
+	inst.select_player = AudioStreamPlayer.new()
+	inst.iron_label = Label.new()
+	inst.vacuum_label = Label.new()
+	inst.soldering_iron_indicator = ColorRect.new()
+	inst.vacuum_indicator = ColorRect.new()
 	
 	inst._vacuum_entered()
 	assert_true(inst.defuse_state == inst.DefuserState.VACUUM )
