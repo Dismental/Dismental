@@ -28,8 +28,10 @@ var component_height: int = 30
 var num_of_components: int = 6
 var components: Array = []
 
-var vacuum_remove_threshold = 40
+var vacuum_remove_threshold = 50
+var remove_radius = 2
 
+var blinking_threshold = 80
 var blink_light
 var is_blinking: bool = false
 
@@ -90,7 +92,7 @@ func _ready():
 		_generate_components()
 
 	elif player_role == Role.DEFUSER:
-		# Initialize the pointer scene for this user
+		# Initialize the pointer scene for the defuser
 		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
 		var pointer = PointerScene.instance()
 		self.add_child(pointer)
@@ -238,41 +240,43 @@ func _increase_matrix_input(delta):
 							var ratio = (radius - dis + 1) / (radius + 1)
 							matrix[x][y] += increase_factor * delta * ratio
 
-							if matrix[x][y] > 75 and not is_blinking:
+							if matrix[x][y] > blinking_threshold and not is_blinking:
 								is_blinking = true
 								_blink_light()
-							if matrix[x][y] > 100 and not completed:
+								
+							if matrix[x][y] > 100:
 								matrix[x][y] = 100
 								_game_over()
-								completed = true
 								return
 
 
 # Checks if the input cursor is in range of destroyable components
 # Removes a component when the temperature is above the threshold
 func _check_vacuum():
+	var pixel_distance_check = 70
 	var input = _get_input_pos()
 	var id = 0
 	for item in components:
 		var com_pos = item[1]
-		if com_pos.distance_to(input) < 70:
+		if com_pos.distance_to(input) < pixel_distance_check:
 			var sector = _get_sector(com_pos.x, com_pos.y)
 			var input_row = sector.get("row")
 			var input_column = sector.get("column")
 			
-			if _check_overheat(input_row, input_column):
+			if _check_removable(input_row, input_column):
 				rpc("_destroy_component", id)
-				if len(components) == 0 and not completed:
+				if len(components) == 0:
 					_game_completed()
-					completed = true
 					return
 			break
 		id += 1
 
 
-func _check_overheat(sector_row, sector_column):
-	for x in range(-2, 3):
-		for y in range(-2, 3):
+# Check if a component is removable in a small range 
+# instead of only the center opf the component
+func _check_removable(sector_row, sector_column):
+	for x in range(-remove_radius, remove_radius + 1):
+		for y in range(-remove_radius, remove_radius + 1):
 			if matrix[sector_row + x][sector_column + y] > vacuum_remove_threshold:
 				return true
 	return false

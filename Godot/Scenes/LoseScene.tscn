@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Textures/metal-background.jpg" type="Texture" id=1]
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Script/SceneManagers/LoseSceneManager.gd" type="Script" id=3]
+[ext_resource path="res://Fonts/LobbyFont.tres" type="DynamicFont" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 100
@@ -12,6 +13,10 @@ font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 39
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 40
 font_data = ExtResource( 2 )
 
 [node name="LoseScreen" type="Control"]
@@ -54,13 +59,58 @@ anchor_left = 0.5
 anchor_top = 1.00168
 anchor_right = 0.5
 anchor_bottom = 1.00168
-margin_left = -340.452
+margin_left = -335.0
 margin_top = -300.0
-margin_right = 337.548
+margin_right = 343.0
 margin_bottom = -200.0
 custom_fonts/font = SubResource( 2 )
 text = "Main menu"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ScoreBoardButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.00168
+anchor_right = 0.5
+anchor_bottom = 1.00168
+margin_left = -335.0
+margin_top = -421.814
+margin_right = 343.0
+margin_bottom = -321.814
+custom_fonts/font = SubResource( 2 )
+text = "Scoreboard"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Squad" type="Label" parent="."]
+margin_left = 766.0
+margin_top = 318.0
+margin_right = 1246.0
+margin_bottom = 405.0
+custom_fonts/font = SubResource( 3 )
+text = "Squad:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Members" type="ItemList" parent="Squad"]
+margin_left = 1.0
+margin_top = 94.0
+margin_right = 251.0
+margin_bottom = 294.0
+custom_fonts/font = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Squad"]
+margin_left = 1.80493
+margin_top = 59.835
+margin_right = 109.805
+margin_bottom = 90.835
+custom_fonts/font = ExtResource( 4 )
+text = "Members:"
 [connection signal="pressed" from="MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
+[connection signal="pressed" from="ScoreBoardButton" to="." method="_on_ScoreBoardButton_pressed"]

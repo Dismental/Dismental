@@ -17,7 +17,6 @@ using namespace cv;
 using namespace std;
 using namespace godot;
 
-const cv::String CASCADE_FILE("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
 const bool debug_mode = true;
 
 void GDExample::_register_methods() {
@@ -35,6 +34,16 @@ GDExample::~GDExample() {
     // add your cleanup here
 }
 
+string get_env_var( std::string const & key ) {                                 
+    char * val;
+    val = getenv( key.c_str() );
+    std::string retval = "";
+    if (val != NULL) {
+        retval = val;
+    }
+    return retval;
+}
+
 void GDExample::_init() {
     // initialize any variables here
     cursorPos = Point(frame.cols / 4, frame.rows / 4);
@@ -43,9 +52,19 @@ void GDExample::_init() {
 
     bbox = Rect2d(100,200,200,300);
 
-    face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml");
-    if(!face_cascase.load("../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml")) {
-        cerr << "Error XML" << endl;
+    // TODO get .xml from res:// instead of a hardcoded path
+    std::string path = "../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml";
+    if(!face_cascase.load(path)) {
+        // Load XML file in from the game being installed at the root applications
+        path = "/Applications/Dismental.app/Contents/Resources/haarcascade_frontalface_default.xml";
+        if (!face_cascase.load(path)) {
+            // If not found there, load from ~/Applications
+            path = get_env_var("HOME") + "/Applications/Dismental.app/Contents/Resources/haarcascade_frontalface_default.xml";
+            // If still not found, cout error
+            if (!face_cascase.load(path)) {
+                cerr << "Error XML!!" << endl;
+            }
+        }
     }
 
     camera.open(0); //open camera
@@ -54,7 +73,7 @@ void GDExample::_init() {
     // Set the handtracking Detector with the camera
     detector.setVideoCapture(camera);
     // Set the haarcascade classifier for the tracking method.
-    detector.setFaceCascade(CASCADE_FILE);
+    detector.setFaceCascade(path);
 }
 
 void GDExample::_process(float delta) {
