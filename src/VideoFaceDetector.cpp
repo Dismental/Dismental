@@ -174,11 +174,7 @@ void VideoFaceDetector::detectFaceAllSizes(const cv::Mat &frame)
     // Locate biggest face
     m_trackedFace = biggestFace(m_allFaces);
 
-    if (m_trackedFace.height > (frame.rows / 3.0)) {
-        too_close = true;
-    } else {
-        too_close = false;
-    }
+    too_close = m_trackedFace.height > (frame.rows / 2.5);
 
     // Copy face template
     m_faceTemplate = getFaceTemplate(frame, m_trackedFace);

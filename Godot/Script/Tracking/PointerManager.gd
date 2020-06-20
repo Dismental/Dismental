@@ -53,7 +53,7 @@ var movement_speed = Vector2(0,0)
 func _ready():
 	pointer_node = get_node("Pointer")
 	lost_tracking = true
-	
+
 	p_visible = false
 	t_visible = false
 
@@ -68,7 +68,7 @@ func _process(_delta):
 		time_to_interaction = 0
 
 	_update_loading_interaction()
-	
+
 	if player_role == Role.HEADTHROTTLE:
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
 
@@ -152,11 +152,7 @@ func _process(_delta):
 				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
 		pointer_pos = pointer_pos_current
-		
-		
-#		print ("lost: " + var2str(tracking_node.losttracking))
-#		print ("multi: " + var2str(tracking_node.multiface))
-#		print ("template matching: " + var2str(tracking_node.templatematching))
+
 		if (lost_tracking):
 			$Lbl_pickup_pointer.visible = true
 		else:
@@ -166,18 +162,19 @@ func _process(_delta):
 			$Lbl_template_matching.visible = true
 		else:
 			$Lbl_template_matching.visible = false
-		
+
 		if (tracking_node.tooclose):
 			$Lbl_too_close.visible = true
 		else:
 			$Lbl_too_close.visible = false
-		
+
 		if (tracking_node.losttracking):
 			$Lbl_lost_tracking.visible = true
 		else:
 			$Lbl_lost_tracking.visible = false
-		
-		if ($HeadPos.templatematching || $HeadPos.tooclose || $HeadPos.multiface || $HeadPos.losttracking || lost_tracking):
+
+		if ($HeadPos.templatematching || $HeadPos.tooclose ||
+			$HeadPos.multiface || $HeadPos.losttracking || lost_tracking):
 			$Lbl_warning.visible = true
 		else:
 			$Lbl_warning.visible = false
@@ -186,7 +183,7 @@ func _process(_delta):
 		pointer_node.position = tracking_pos
 	elif (player_role == Role.MOUSE):
 		pointer_node.position = get_global_mouse_position()
-		
+
 	update()
 
 func _update_loading_interaction():
@@ -248,7 +245,7 @@ func set_role_and_position(_player_role, start_pos):
 		tracking_node = $HeadPos
 		tracking_pos = _map_tracking_position(start_pos)
 		pointer_node.position = _map_tracking_position(start_pos)
-		pointer_pos = pointer_node.position 
+		pointer_pos = pointer_node.position
 		pointer_pos_current = pointer_node.position
 		player_role = _player_role
 		p_visible = true
@@ -302,11 +299,11 @@ func _draw():
 			t_color,
 			4
 		)
-	
+
 	if (ptimer_activated):
 		draw_circle(pointer_node.position , ptimer_rad_loading, ptimer_color)
-	
-	# Draw the pointer	
+
+	# Draw the pointer
 	if (p_visible):
 		draw_circle(pointer_node.position , p_rad, p_color)
 
@@ -333,3 +330,4 @@ func interaction_timer_is_finished():
 	if (ptimer_activated and time_to_interaction_total == 0):
 		return true
 	return false
+
