@@ -1,10 +1,20 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scenes/TestUI/ObserversPanel.gd" type="Script" id=2]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=3]
 [ext_resource path="res://Script/SceneManagers/ScoreBoard.gd" type="Script" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.12549, 0.12549, 0.12549, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -16,7 +26,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -28,7 +38,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=4]
 border_width_left = 10
 border_width_top = 10
 border_width_right = 12
@@ -43,7 +53,7 @@ corner_radius_bottom_left = 100
 size = 56
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=6]
 size = 22
 font_data = ExtResource( 1 )
 
@@ -74,24 +84,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScoreBoardBorder" type="ColorRect" parent="."]
-margin_left = 344.0
-margin_top = 168.0
-margin_right = 1576.0
-margin_bottom = 1000.0
-rect_pivot_offset = Vector2( 216, 40 )
-color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScoreBoardContainer" type="ColorRect" parent="."]
-margin_left = 352.0
-margin_top = 176.0
-margin_right = 1568.0
-margin_bottom = 992.0
-rect_pivot_offset = Vector2( 216, 40 )
-color = Color( 0.12549, 0.12549, 0.12549, 1 )
+[node name="OperatorPanel4" type="PanelContainer" parent="."]
+anchor_left = 2.69572e-05
+anchor_top = -0.00064994
+anchor_right = 2.69572e-05
+anchor_bottom = -0.000649911
+margin_left = 343.948
+margin_top = 168.702
+margin_right = 1575.95
+margin_bottom = 1000.7
+rect_clip_content = true
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -131,9 +136,9 @@ margin_top = 40.0
 margin_right = 1070.0
 margin_bottom = 1070.0
 rect_scale = Vector2( 0.12, 0.12 )
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
 icon = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -161,7 +166,7 @@ margin_top = 208.0
 margin_right = 576.0
 margin_bottom = 240.0
 rect_pivot_offset = Vector2( 72, 8 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 text = "Rank"
 uppercase = true
 __meta__ = {
@@ -174,7 +179,7 @@ margin_top = 207.0
 margin_right = 769.149
 margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 text = "Team"
 uppercase = true
 
@@ -184,7 +189,7 @@ margin_top = 207.0
 margin_right = 1153.15
 margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 text = "Difficulty"
 uppercase = true
 
@@ -194,7 +199,7 @@ margin_top = 207.0
 margin_right = 961.149
 margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 text = "Score"
 uppercase = true
 __meta__ = {
@@ -207,7 +212,7 @@ margin_top = 207.0
 margin_right = 1345.15
 margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 text = "Duration"
 uppercase = true
 
@@ -217,7 +222,7 @@ margin_top = 207.0
 margin_right = 1537.15
 margin_bottom = 239.0
 rect_pivot_offset = Vector2( 72, 8 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 text = "Date"
 uppercase = true
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
