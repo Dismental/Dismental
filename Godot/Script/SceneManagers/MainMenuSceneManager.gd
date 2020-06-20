@@ -14,4 +14,4 @@ func _on_SettingsButton_pressed():
 
 
 func _on_ScoreBoardButton_pressed():
-	return Utils.change_screen("res://Scenes/ScoreScenes/Scoreboard.tscn", self)
+	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)

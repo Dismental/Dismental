@@ -46,4 +46,11 @@ func _defused():
 remotesync func _on_defuse():
 	GameState.defused()
 	$Control/VBoxContainer/HBoxContainer/ExampleBomb/Title.text = "Defused"
+
+	var date = OS.get_date().get("day")
+	date += "/" + OS.get_date().get("month")
+	date += "/" + OS.get_date().get("year")
+	ScoreManager.add_score(Score.new(GameState.team_name,
+		GameState.difficulty, GameState.timer.get_time_left(), date))
+
 	return Utils.change_screen("res://Scenes/WinScene.tscn", self)
