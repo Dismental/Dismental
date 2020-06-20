@@ -4,6 +4,7 @@ var scores = []
 
 
 func _ready():
+	print(OS.get_user_data_dir())
 	load_scores()
 	first_run()
 	scores.sort_custom(CustomSort, "sort")
@@ -34,28 +35,32 @@ func load_scores():
 	save_file.open("user://scoresave.save", File.READ)
 	while save_file.get_position() < save_file.get_len():
 		var score_data = parse_json(save_file.get_line())
-		var score = Score.new(score_data["team"], score_data["level"],
-				score_data["time"], score_data["date"])
+		var score = Score.new(
+				score_data["team"],
+				score_data["difficulty"],
+				score_data["time"],
+				score_data["date"]
+			)
 		scores.append(score)
 	save_file.close()
 
 
 #This is for testing purposes, should be removed before building!
 func first_run():
-	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
-	scores.append(Score.new("tst", "lvltst", "03:00", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
-	scores.append(Score.new("tst", "lvltst", "03:00", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "03:03", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "03:01", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "03:03", "01/01/2000"))
-	scores.append(Score.new("laatste", "lvltst", "03:06", "01/01/2000"))
-	scores.append(Score.new("tst2", "lvltst", "03:02", "01/01/2000"))
+	scores.append(Score.new("tst2", "easy", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2","easy", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "easy", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst", "medium", "03:00", "01/01/2000"))
+	scores.append(Score.new("tst2", "medium", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "hard", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst", "hard", "03:00", "01/01/2000"))
+	scores.append(Score.new("tst2", "easy", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "medium", "03:03", "01/01/2000"))
+	scores.append(Score.new("tst2", "medium", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "hard", "03:01", "01/01/2000"))
+	scores.append(Score.new("tst2", "easy", "03:03", "01/01/2000"))
+	scores.append(Score.new("laatste", "hard", "03:06", "01/01/2000"))
+	scores.append(Score.new("tst2", "easy", "03:02", "01/01/2000"))
 	save_scores()
 
 
