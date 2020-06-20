@@ -5,39 +5,54 @@ extends Control
 # var a = 2
 # var b = "text"
 
-var scrollDownAnimating = false
-var scrollDownProgress = 0
-var scrollDownAmount = 0
+var scrollAnimating = false
+var scrollProgress = 0
+var scrollAmount = 0
+# true = down
+# false = up
+var scrollDirection = true
+
+func startScrollAnimation(direction):
+	scrollDirection = direction
+	scrollProgress = 0
+	scrollAnimating = true
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	scrollDownAmount = $Background.get_rect().size.y - self.get_rect().size.y
+	scrollAmount = $Background.get_rect().size.y - self.get_rect().size.y
 	pass # Replace with function body.
 	
 func calc_scroll_pos(progress):
 	var frac = (1.0 - pow(1.0 - progress, 6))
-	return scrollDownAmount * frac
+	if scrollDirection:
+		return scrollAmount * frac
+	else:
+		return scrollAmount * (1-frac)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if scrollDownAnimating and scrollDownProgress <= 1:
-		scrollDownProgress += 1 * delta
-		self.margin_top = -calc_scroll_pos(scrollDownProgress)
+	if scrollAnimating and scrollProgress <= 1:
+		scrollProgress += 1 * delta
+		self.margin_top = -calc_scroll_pos(scrollProgress)
 		$SettingsPanel.margin_top = 515 - self.margin_top / 2
 		$SettingsPanel.margin_bottom = 515 - self.margin_top / 2 + $SettingsPanel.get_rect().size.y
-		if scrollDownProgress >= 1:
-			scrollDownAnimating = false
+		if scrollProgress >= 1:
+			scrollAnimating = false
 
 
 func _on_Button2_pressed():
 	$MissionPanel/CreateMissionPanel.visible = true
 	$MissionPanel/JoinMissionPanel.visible = false
-	scrollDownAnimating = true
+	startScrollAnimation(true)
 
 
 func _on_JoinMissionButton_pressed():
 	$MissionPanel/CreateMissionPanel.visible = false
 	$MissionPanel/JoinMissionPanel.visible = true
-	scrollDownAnimating = true
+	startScrollAnimation(true)
+
+
+func _on_CreateMissionBtn2_pressed():
+	startScrollAnimation(false)
