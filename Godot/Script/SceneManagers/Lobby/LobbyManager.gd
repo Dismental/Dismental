@@ -1,7 +1,5 @@
 extends Control
 
-var players = []
-
 onready var player_nodes = [
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player1,
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player2,
@@ -11,10 +9,10 @@ onready var player_nodes = [
 
 func _ready():
 	Network.connect("lobby_joined", self, "lobby_joined")
-
-	for i in range(len(players)):
-		player_nodes[i].visible = true
-		player_nodes[i].get_node("Label").set_text(players[i])
+	Network.connect("player_list_changed", self, "refresh_lobby")
+	
+	var name = Network.player_name + " (You)"
+	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/You/Label.text = name
 
 
 func lobby_joined(miss_id):
@@ -26,14 +24,11 @@ func lobby_joined(miss_id):
 	$StartMission.visible = is_host
 	$CancelMission.visible = is_host
 
-func add_player(name):
-	players.append(name)
 
-func remove_player(name):
-	if name in players:
-		players.remove(name)
-
-func refresh():
+func refresh_lobby():
+	var players = Network.get_players().values()
+	players.sort()
+	
 	for i in range(len(player_nodes)):
 		player_nodes[i].visible = false
 
