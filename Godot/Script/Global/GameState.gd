@@ -5,6 +5,7 @@ signal update_remaining_text(text)
 signal defused
 signal update_difficulty
 signal update_team_name
+signal load_roadmap
 
 enum Difficulty {
 	EASY,
@@ -83,6 +84,10 @@ func _set_timer_label(sec):
 		sec = str(sec)
 
 	timer_label.text = minutes + ":" + sec
+
+
+func load_roadmap():
+	emit_signal("load_roadmap")
 
 
 func _on_timer_timeout():

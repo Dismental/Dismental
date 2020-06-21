@@ -1,9 +1,6 @@
 extends Control
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 const COUNT_DOWN_DURATION = 20
 
 var is_host = true
@@ -19,6 +16,8 @@ var instruction_show_progress = 1
 # false = move panel to the right
 # true = move panel to the left
 var instruction_show_dir = false
+
+signal wait_time_lobby_over
 
 onready var minigame_previews = [
 	$CenterContainer/HBoxContainer/Hack,
@@ -39,10 +38,11 @@ onready var instruction_show_move = $InstructionPanel.get_rect().size.x / 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	is_host = get_tree().is_network_server()
 	$StartNextTask.visible = is_host
 	$WaitingForHost.visible = not is_host
 	init_screen(upcoming_minigame)
-		
+
 
 func init_screen(upcoming_minigame_index):
 	# reset timer
@@ -60,6 +60,7 @@ func init_screen(upcoming_minigame_index):
 	opening_progress = 0
 	$InstructionPanel.visible = false
 	$Line2D.visible = false
+
 
 func init_instruction_animation():
 	for i in instruction_panels:
@@ -82,7 +83,8 @@ func init_instruction_animation():
 	$Line2D.clear_points()
 	for i in range(0,4):
 		$Line2D.add_point(anim_line_pos)
-	
+
+
 func draw_instruction_line():
 	var start = $Line2D.get_point_position(0)
 	var to = $InstructionPanel.rect_global_position + Vector2(0, $InstructionPanel.get_rect().size.y / 2)
@@ -92,17 +94,23 @@ func draw_instruction_line():
 	$Line2D.set_point_position(2, start + (to - start) / Vector2(2,1))
 	$Line2D.set_point_position(3, to)
 
-func start_next_minigame():
-	print("Next!")
-	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+func show_next_minigame():
+	upcoming_minigame += 1
+	init_screen(upcoming_minigame)
+
+
+func _start_countdown(next_game_index):
+	pass
+
+
 func _process(_delta):
 	count_down_timer -= _delta
-	if count_down_timer <= 0:
-		upcoming_minigame += 1
-		init_screen(upcoming_minigame)
-		start_next_minigame()
+	#if count_down_timer <= 0:
+#		upcoming_minigame += 1
+#		init_screen(upcoming_minigame)
+		#emit_signal("wait_time_lobby_over")
+#		start_next_minigame()
 		
 	$ProgressBar.set_size(
 		Vector2(self.get_rect().size.x * (1.0 - count_down_timer / COUNT_DOWN_DURATION), 12)
@@ -117,7 +125,6 @@ func _process(_delta):
 		
 		if opening_progress >= 1:
 			init_instruction_animation()
-		
 
 	var upcoming_minigame_node = minigame_previews[upcoming_minigame]
 	var upcoming_minigame_img = upcoming_minigame_node.get_node("VBoxContainer/Container/TextureRect")

@@ -2,20 +2,31 @@ extends Node
 
 var next_scene
 
-onready var puzzle_label = $Control/VBoxContainer/PanelContainer/PuzzlesLeft
-onready var bottom_button = $Control/VBoxContainer/PanelContainer/Button
+#onready var puzzle_label = $Control/VBoxContainer/PanelContainer/PuzzlesLeft
+onready var roadmap_control = $Control
+onready var bottom_button = $Control/Button
 
 
 func _ready():
-	puzzle_label.text = "Minigames remaining: " + str(len(GameState.minigames))
-
-	GameState.start_timer(get_node("CanvasLayer/TimeCounter"))
+#	puzzle_label.text = "Minigames remaining: " + str(len(GameState.minigames))
+	GameState.start_timer(get_node("CanvasLayer/Timer/MarginContainer/TimeCounter"))
 	GameState.connect("timer_timeout", self, "_on_timer_timeout")
 	GameState.connect("update_remaining_text", self, "_update_remaining_text")
 	GameState.connect("defused", self, "_defused")
+	GameState.connect("load_roadmap", self, "_load_roadmap")
+	$Control.connect("wait_time_lobby_over", self, "_on_wait_time_lobby_over")
 
+	# If current player is not the host
 	if not get_tree().is_network_server():
-		get_node("Control/VBoxContainer/PanelContainer/Button").hide()
+		get_node("Control/Button").hide()
+
+
+func _on_wait_time_lobby_over():
+	print("WAIT TIME OVER!")
+
+
+func _load_roadmap():
+	$Control.show_next_minigame()
 
 
 func _on_timer_timeout():
@@ -31,12 +42,12 @@ func game_over():
 	return Utils.change_screen("res://Scenes/LoseScene.tscn", self)
 
 
-func _update_remaining_text(text):
-	rpc("_update_minigames_remaing_text", text)
+#func _update_remaining_text(text):
+#	rpc("_update_minigames_remaing_text", text)
 
 
-remotesync func _update_minigames_remaing_text(num):
-	puzzle_label.text = "Minigames remaining: " + num
+#remotesync func _update_minigames_remaing_text(num):
+#	puzzle_label.text = "Minigames remaining: " + num
 
 
 func _defused():

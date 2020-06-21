@@ -4,7 +4,7 @@ puppet var puppet_mouse = Vector2()
 
 const Role = preload("res://Script/Role.gd")
 
-var password = "Test_word"
+var password = "test_word"
 var online = true
 
 var num_of_collectables
@@ -228,6 +228,7 @@ func _on_GameOver_body_entered(_body):
 
 
 remotesync func _game_completed():
+	GameState.load_roadmap()
 	get_parent().call_deferred("remove_child", self)
 
 
