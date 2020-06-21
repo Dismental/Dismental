@@ -144,16 +144,16 @@ __meta__ = {
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 margin_right = 1920.0
-margin_bottom = 1080.0
+margin_bottom = 900.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
 margin_left = 176.0
-margin_top = 148.0
+margin_top = 58.0
 margin_right = 1744.0
-margin_bottom = 931.0
+margin_bottom = 841.0
 custom_constants/separation = 96
 
 [node name="Hack" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
@@ -602,6 +602,7 @@ __meta__ = {
 }
 
 [node name="StartNextTask" type="Button" parent="."]
+visible = false
 margin_left = 792.031
 margin_top = 984.253
 margin_right = 1123.03
