@@ -16,6 +16,26 @@ var tracking_pos
 var pointer_pos
 var pointer_pos_current
 
+# Properties for the drawing of the pointer
+var p_visible = true
+var p_color = Color(0, 0, 1)
+var p_rad = 25
+
+# Properties for the drawing of the pointer
+var ptimer_activated = false
+var ptimer_color = Color(1, 0, 0)
+var ptimer_rad = 50
+var ptimer_rad_loading = 50
+
+# Properties for the drawing of the tracked position
+var t_visible = true
+var t_color = Color(255, 0, 0)
+var t_rad = 10
+
+# Properties for the interaction timer of the pointer
+var time_to_interaction = 0
+var time_to_interaction_total = 0
+
 var distance_from_free_zone
 
 var lost_tracking
@@ -34,8 +54,21 @@ func _ready():
 	pointer_node = get_node("Pointer")
 	lost_tracking = true
 
+	p_visible = false
+	t_visible = false
+
 
 func _process(_delta):
+	# Update interaction timer if a timer total is set (time > 0)
+	if (time_to_interaction_total > 0):
+		time_to_interaction += _delta
+	# Check if the timer passed the limit
+	if (time_to_interaction > time_to_interaction_total):
+		time_to_interaction_total = 0
+		time_to_interaction = 0
+
+	_update_loading_interaction()
+
 	if player_role == Role.HEADTHROTTLE:
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
 
@@ -119,13 +152,29 @@ func _process(_delta):
 				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
 		pointer_pos = pointer_pos_current
+
+		$Lbl_pickup_pointer.visible = lost_tracking
+		$Lbl_template_matching.visible = tracking_node.templatematching
+		$Lbl_too_close.visible = tracking_node.tooclose
+		$Lbl_lost_tracking.visible = tracking_node.losttracking
+		$Lbl_warning.visible = (
+			$HeadPos.templatematching || $HeadPos.tooclose ||
+			$HeadPos.multiface || $HeadPos.losttracking || lost_tracking
+		)
+
 	elif (player_role == Role.HEAD):
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos
 	elif (player_role == Role.MOUSE):
 		pointer_node.position = get_global_mouse_position()
+
 	update()
 
+func _update_loading_interaction():
+	if (time_to_interaction_total > 0):
+		var time_passed = time_to_interaction / time_to_interaction_total
+		var rad_diff = ptimer_rad - p_rad
+		ptimer_rad_loading = p_rad + (rad_diff * time_passed)
 
 func _within_free_movement_zone(pos, pos_new):
 	var distance = pos.distance_to(pos_new)
@@ -168,22 +217,23 @@ func _distance_to_free_zone_edge():
 
 
 func set_role(_player_role):
+	set_role_and_position(_player_role, Vector2(0.5,0.5))
+
+func set_role_and_position(_player_role, start_pos):
 	if _player_role == Role.HEADTHROTTLE or _player_role == Role.HEAD:
 		if _player_role == Role.HEADTHROTTLE:
 			print ("initiating head tracking with throttle")
 		else:
 			print ("initiating head tracking")
 
-		var HeadtrackingScene = load("res://Scenes/Tracking/HeadTracking.tscn")
-		var tracking = HeadtrackingScene.instance()
-		self.add_child(tracking)
-		tracking_node = tracking.get_node("HeadPos")
-		tracking_pos = _map_tracking_position(Vector2(0.5,0.5))
-		pointer_node.position = _map_tracking_position(Vector2(0.5,0.5))
+		tracking_node = $HeadPos
+		tracking_pos = _map_tracking_position(start_pos)
+		pointer_node.position = _map_tracking_position(start_pos)
 		pointer_pos = pointer_node.position
 		pointer_pos_current = pointer_node.position
 		player_role = _player_role
-
+		p_visible = true
+		t_visible = true
 	elif _player_role == Role.MOUSE:
 		print ("initiating mouse as pointer")
 		player_role = _player_role
@@ -224,11 +274,44 @@ func distance_from_origin(point):
 
 
 func _draw():
-#	# draw free_movement_zone region
-	draw_circle(_map_tracking_position(tracking_node.position), 10, Color(255, 0, 0))
-	draw_line(
-		_map_tracking_position(tracking_node.position),
-		tracking_pos,
-		Color(255,0,0),
-		4
-	)
+	# Draw the tracked position
+	if (t_visible):
+		draw_circle(_map_tracking_position(tracking_node.position), t_rad, t_color)
+		draw_line(
+			_map_tracking_position(tracking_node.position),
+			tracking_pos,
+			t_color,
+			4
+		)
+
+	if (ptimer_activated):
+		draw_circle(pointer_node.position , ptimer_rad_loading, ptimer_color)
+
+	# Draw the pointer
+	if (p_visible):
+		draw_circle(pointer_node.position , p_rad, p_color)
+
+func set_pointer_radius(rad):
+	p_rad = rad
+
+func set_pointer_color(col):
+	p_color = col
+
+func interaction_timer_activate(_timer):
+	if (_timer > 0):
+		time_to_interaction_total = _timer
+		time_to_interaction = 0
+		ptimer_activated = true
+
+func interaction_timer_deactivate():
+	time_to_interaction_total = 0
+	ptimer_activated = false
+
+func interaction_timer_is_active():
+	return ptimer_activated
+
+func interaction_timer_is_finished():
+	if (ptimer_activated and time_to_interaction_total == 0):
+		return true
+	return false
+
