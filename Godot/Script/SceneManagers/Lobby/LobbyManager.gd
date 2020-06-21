@@ -16,13 +16,13 @@ func _ready():
 	Network.connect("player_list_changed", self, "refresh_lobby")
 	GameState.connect("update_difficulty", self, "update_difficulty")
 	GameState.connect("update_team_name", self , "update_team_name")
-	
+
 	var name = Network.player_name + " (You)"
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/You/Label.text = name
-	
+
 	if get_tree().root.has_node("VoiceStream"):
 		voice = get_tree().root.find_node("VoiceStream", true, false)
-		_set_MuteBtn(voice.is_recording())
+		_set_mute_btn(voice.is_recording())
 	else:
 		Utils.add_scene("res://Scenes/VoiceStream.tscn", get_tree().root)
 		voice = get_tree().root.get_node("VoiceStream")
@@ -74,9 +74,9 @@ func _on_MuteBtn_toggled(button_pressed):
 	voice.set_recording(button_pressed)
 
 
-func _set_MuteBtn(b : bool):
+func _set_mute_btn(b : bool):
 	$MuteBtn.pressed = b
-	
+
 
 func update_difficulty(diff):
 	$DifficultyBtn.selected = diff

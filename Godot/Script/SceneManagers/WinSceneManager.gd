@@ -6,9 +6,9 @@ var success_progress = 0
 func _ready():
 	$SuccessBackground.visible = true
 	$SuccessLabel.visible = true
-	
+
 	$PlayAgainButton.disabled = get_tree().get_network_unique_id() != Network.host
-	
+
 	var score : Score = ScoreManager.get_scores().back()
 	ScoreManager.sort_scores()
 	var score_pos = ScoreManager.get_scores().find(score) + 1

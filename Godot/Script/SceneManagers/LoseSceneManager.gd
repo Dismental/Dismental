@@ -12,7 +12,7 @@ func _ready():
 	$Squad.text = $Squad.text + GameState.team_name
 	for player in Network.player_info.values():
 		$Squad/Members.add_item(player)
-		
+
 	$PlayAgainButton.disabled = get_tree().get_network_unique_id() != Network.host
 
 func _process(_delta):
