@@ -19,10 +19,16 @@ func _ready():
 	
 	var name = Network.player_name + " (You)"
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/You/Label.text = name
+	
+	if get_tree().root.has_node("VoiceStream"):
+		voice = get_tree().root.find_node("VoiceStream", true, false)
+		_set_MuteBtn(voice.is_recording())
+	else:
+		Utils.add_scene("res://Scenes/VoiceStream.tscn", get_tree().root)
+		voice = get_tree().root.get_node("VoiceStream")
+		voice.start()
 
-	Utils.add_scene("res://Scenes/VoiceStream.tscn", get_parent())
-	voice = get_parent().get_node("VoiceStream")
-	voice.start()
+
 
 
 func lobby_joined(miss_id):

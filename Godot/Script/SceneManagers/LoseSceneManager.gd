@@ -13,7 +13,7 @@ func _ready():
 	for player in Network.player_info.values():
 		$Squad/Members.add_item(player)
 		
-	$PlayAgainButton.disabled = get_tree().get_network_unique_id() != Network.host
+#	$PlayAgainButton.disabled = get_tree().get_network_unique_id() != Network.host
 
 func _process(_delta):
 	if explosion_progress < 1:
@@ -25,8 +25,8 @@ func _process(_delta):
 		$ExplodeLabel.visible = false
 
 func _on_MainMenuButton_pressed():
-	if get_parent().has_node("VoiceStream"):
-		var voice = get_parent().get_node("VoiceStream")
+	if get_tree().root.has_node("VoiceStream"):
+		var voice = get_tree().root.find_node("VoiceStream", true, false)
 		voice.stop()
 		voice.get_parent().remove_child(voice)
 		voice.queue_free()
