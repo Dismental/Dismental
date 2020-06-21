@@ -1,5 +1,7 @@
 extends Control
 
+var voice: Node
+
 onready var player_nodes = [
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player1,
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player2,
@@ -7,16 +9,14 @@ onready var player_nodes = [
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player4
 ]
 
-var voice: Node
-
 
 func _ready():
 	Network.connect("lobby_joined", self, "lobby_joined")
 	Network.connect("player_list_changed", self, "refresh_lobby")
-	
+
 	var name = Network.player_name + " (You)"
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/You/Label.text = name
-	
+
 	Utils.add_scene("res://Scenes/VoiceStream.tscn", get_parent())
 	voice = get_parent().get_node("VoiceStream")
 	voice.start()
@@ -43,7 +43,7 @@ func stop_voip():
 func refresh_lobby():
 	var players = Network.get_players().values()
 	players.sort()
-	
+
 	for i in range(len(player_nodes)):
 		player_nodes[i].visible = false
 
@@ -57,7 +57,7 @@ func _on_StartMission_pressed():
 		Network.seal_lobby()
 
 	Network.begin_game_pressed()
-	get_parent().remove_child(self) 
+	get_parent().remove_child(self)
 
 
 func _on_DifficultyBtn_item_selected(id):
