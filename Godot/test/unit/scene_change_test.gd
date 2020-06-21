@@ -31,6 +31,7 @@ func test_back_button_pressed():
 	var doubled = double(MainMenuPath).new()
 	
 	stub(doubled, '_on_BackButton_pressed').to_call_super()
+	stub(doubled, 'start_scroll_animation').to_call_super()
 	doubled._on_BackButton_pressed()
 	assert_called(doubled, "start_scroll_animation", [false])
 
