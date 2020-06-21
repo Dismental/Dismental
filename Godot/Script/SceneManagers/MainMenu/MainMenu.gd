@@ -36,14 +36,14 @@ func _process(delta):
 
 
 func _on_CreateMissionButton_pressed():
-	set_panel_visible($MissionPanel/CreateMissionPanel, true)
-	set_panel_visible($MissionPanel/JoinMissionPanel, false)
+	set_panel_visible("MissionPanel/CreateMissionPanel", true)
+	set_panel_visible("MissionPanel/JoinMissionPanel", false)
 	start_scroll_animation(true)
 
 
 func _on_JoinMissionButton_pressed():
-	set_panel_visible($MissionPanel/CreateMissionPanel, false)
-	set_panel_visible($MissionPanel/JoinMissionPanel, true)
+	set_panel_visible("MissionPanel/CreateMissionPanel", false)
+	set_panel_visible("MissionPanel/JoinMissionPanel", true)
 	start_scroll_animation(true)
 
 
@@ -58,4 +58,4 @@ func popup(text: String):
 
 
 func set_panel_visible(node, vis):
-	node.visible = vis
+	get_node(node).visible = vis
