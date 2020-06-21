@@ -98,7 +98,7 @@ func disconnected():
 		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
 		get_tree().get_current_scene().get_node("MainMenu").popup(
 			"That room is currently full!")
-	
+
 	elif not sealed:
 		stop() #Unexpected disconnect
 

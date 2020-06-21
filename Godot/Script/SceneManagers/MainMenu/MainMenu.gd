@@ -4,12 +4,10 @@ extends Control
 var scroll_animating = false
 var scroll_progress = 0
 var scroll_amount = 0
-# true = down
-# false = up
-var scroll_direction = true
+var scroll_down = true
 
 func start_scroll_animation(direction):
-	scroll_direction = direction
+	scroll_down = direction
 	scroll_progress = 0
 	scroll_animating = true
 
@@ -19,7 +17,7 @@ func _ready():
 
 func calc_scroll_pos(progress):
 	var frac = (1.0 - pow(1.0 - progress, 6))
-	if scroll_direction:
+	if scroll_down:
 		return scroll_amount * frac
 	else:
 		return scroll_amount * (1-frac)
