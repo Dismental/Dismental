@@ -100,7 +100,6 @@ func defused():
 
 
 func stop_running():
-#	timer = new Timer()
 	running = false
 
 
