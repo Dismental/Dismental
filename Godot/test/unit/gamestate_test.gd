@@ -33,3 +33,9 @@ func test_update_difficulty():
 	assert_signal_emitted_with_parameters(GameState, "update_difficulty", [2], 2)
 	# INSANE difficulty does not exist so no extra signal emit
 	assert_signal_emit_count(GameState, "update_difficulty", 3)
+
+
+func test_update_squadname():
+	assert_eq(GameState.squadname, "")
+	GameState.update_squad_name("test_squad")
+	assert_eq(GameState.squadname, "test_squad")
