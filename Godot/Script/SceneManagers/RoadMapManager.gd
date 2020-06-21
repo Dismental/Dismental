@@ -1,12 +1,11 @@
 extends Control
 
-
-const COUNT_DOWN_DURATION = 20
+#const COUNT_DOWN_DURATION = 5
 
 var is_host = true
 
 var upcoming_minigame = 0
-var count_down_timer = COUNT_DOWN_DURATION
+#var count_down_timer = COUNT_DOWN_DURATION
 
 var opening_animating = true
 var opening_progress = 0
@@ -33,6 +32,8 @@ onready var instruction_panels = [
 	$InstructionPanel/DissolveInstructions
 ]
 
+onready var countdown_timer = $CountDown
+
 onready var instruction_show_init_pos = self.get_rect().size/2 - $InstructionPanel.get_rect().size / 2
 onready var instruction_show_move = $InstructionPanel.get_rect().size.x / 2
 
@@ -45,8 +46,10 @@ func _ready():
 
 
 func init_screen(upcoming_minigame_index):
-	# reset timer
-	count_down_timer = COUNT_DOWN_DURATION
+	# Start timer
+	countdown_timer.start()
+#	count_down_timer = COUNT_DOWN_DURATION
+	
 	
 	upcoming_minigame = min(upcoming_minigame_index, len(minigame_previews) - 1)
 	for i in range(0, 4):
@@ -105,15 +108,8 @@ func _start_countdown(next_game_index):
 
 
 func _process(_delta):
-	count_down_timer -= _delta
-	#if count_down_timer <= 0:
-#		upcoming_minigame += 1
-#		init_screen(upcoming_minigame)
-		#emit_signal("wait_time_lobby_over")
-#		start_next_minigame()
-		
 	$ProgressBar.set_size(
-		Vector2(self.get_rect().size.x * (1.0 - count_down_timer / COUNT_DOWN_DURATION), 12)
+		Vector2(self.get_rect().size.x * (1.0 - countdown_timer.time_left / countdown_timer.wait_time), 12)
 	)
 	
 	if opening_animating and opening_progress < 1:
