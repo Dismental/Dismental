@@ -48,6 +48,16 @@ func assign_roles():
 			defusers.append(-1)
 
 
+func reset_gamestate():
+	wait_time = 60 * 10
+	minigame_index = 0
+	minigames = ["Hack", "Align", "Cut", "Dissolve"]
+	defusers = []
+	Network.clear_ready_players()
+	update_difficulty(difficulty)
+	update_team_name(team_name)
+
+
 func start_timer(timer_node):
 	timer_label = timer_node
 	last_label_update = wait_time

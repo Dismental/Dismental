@@ -14,7 +14,9 @@ onready var player_nodes = [
 func _ready():
 	Network.connect("lobby_joined", self, "lobby_joined")
 	Network.connect("player_list_changed", self, "refresh_lobby")
-
+	GameState.connect("update_difficulty", self, "update_difficulty")
+	GameState.connect("update_team_name", self , "update_team_name")
+	
 	var name = Network.player_name + " (You)"
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/You/Label.text = name
 
@@ -30,9 +32,6 @@ func lobby_joined(miss_id):
 	$DifficultyBtn.disabled = not is_host
 	$WaitingForHostLbl.visible = not is_host
 	$StartMission.visible = is_host
-	if !is_host:
-		GameState.connect("update_difficulty", self, "update_difficulty")
-		GameState.connect("update_team_name", self , "update_team_name")
 
 
 func stop_voip():

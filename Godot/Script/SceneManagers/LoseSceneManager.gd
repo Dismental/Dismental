@@ -34,3 +34,9 @@ func _on_MainMenuButton_pressed():
 
 func _on_ScoreBoardButton_pressed():
 	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)
+
+
+func _on_PlayAgainButton_pressed():
+	var success = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
+	GameState.reset_gamestate()
+	return success
