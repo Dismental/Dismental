@@ -5,7 +5,7 @@ puppet var puppet_mouse = Vector2()
 const Role = preload("res://Script/Role.gd")
 
 
-var password
+var password = "Test"
 
 var online = true
 
