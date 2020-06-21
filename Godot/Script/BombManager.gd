@@ -5,6 +5,7 @@ var next_scene
 #onready var puzzle_label = $Control/VBoxContainer/PanelContainer/PuzzlesLeft
 onready var roadmap_control = $Control
 onready var bottom_button = $Control/Button
+onready var countdown_timer = $Control/CountDown
 
 
 func _ready():
@@ -22,7 +23,8 @@ func _ready():
 
 
 func _on_wait_time_lobby_over():
-	print("WAIT TIME OVER!")
+	print("TIMER OVER")
+	GameState.start_minigame(bottom_button)
 
 
 func _load_roadmap():
@@ -34,6 +36,7 @@ func _on_timer_timeout():
 
 
 func _on_start_minigame_pressed():
+	countdown_timer.stop()
 	GameState.start_minigame(bottom_button)
 	bottom_button.release_focus()
 
