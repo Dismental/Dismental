@@ -1,103 +1,74 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Themes/ScorePanelTheme.tres" type="Theme" id=1]
+[ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=2]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.0941176, 0.0941176, 0.0941176, 1 )
+[sub_resource type="DynamicFont" id=1]
+size = 22
+font_data = ExtResource( 2 )
 
 [node name="ScorePanel" type="Control"]
-margin_right = 750.0
-margin_bottom = 100.0
+margin_right = 1152.0
+margin_bottom = 64.0
 theme = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Background" type="Panel" parent="."]
-margin_right = 750.0
-margin_bottom = 90.0
-custom_styles/panel = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 25.0
-margin_top = 10.0
-margin_right = 775.0
-margin_bottom = 95.0
-custom_constants/separation = 30
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Position" type="RichTextLabel" parent="HBoxContainer"]
-margin_right = 50.0
-margin_bottom = 85.0
-rect_min_size = Vector2( 50, 50 )
-bbcode_enabled = true
-bbcode_text = "[center] Pos: 
-123 [/center]"
-text = " Pos: 
-123 "
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TeamName" type="RichTextLabel" parent="HBoxContainer"]
-margin_left = 80.0
-margin_right = 260.0
-margin_bottom = 85.0
+[node name="Position" type="Label" parent="."]
+margin_left = 96.0
+margin_top = 24.0
+margin_right = 288.0
+margin_bottom = 52.0
 rect_min_size = Vector2( 180, 20 )
-bbcode_enabled = true
-bbcode_text = "[center]Team:
-InsertTeamName[/center]"
-text = "Team:
-InsertTeamName"
+custom_fonts/font = SubResource( 1 )
+text = "1"
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Difficulty" type="RichTextLabel" parent="HBoxContainer"]
-margin_left = 290.0
-margin_right = 420.0
-margin_bottom = 85.0
+[node name="TeamName" type="Label" parent="."]
+margin_left = 288.0
+margin_top = 24.0
+margin_right = 480.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 180, 20 )
+custom_fonts/font = SubResource( 1 )
+text = "InsertTeamName"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Difficulty" type="Label" parent="."]
+margin_left = 480.0
+margin_top = 24.0
+margin_right = 672.0
+margin_bottom = 52.0
 rect_min_size = Vector2( 130, 0 )
-bbcode_enabled = true
-bbcode_text = "[center]Level:
-TheSuperCool Level [/center]"
-text = "Difficulty:
-Superhard"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_fonts/font = SubResource( 1 )
+text = "Easy"
+uppercase = true
 
-[node name="Time" type="RichTextLabel" parent="HBoxContainer"]
-margin_left = 450.0
-margin_right = 550.0
-margin_bottom = 85.0
+[node name="Time" type="Label" parent="."]
+margin_left = 672.0
+margin_top = 24.0
+margin_right = 864.0
+margin_bottom = 52.0
 rect_min_size = Vector2( 100, 1 )
-bbcode_enabled = true
-bbcode_text = "[center]Time:
-00:00:00
-[/center]"
-text = "Time:
-00:00:00
-"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_fonts/font = SubResource( 1 )
+text = "00:00"
+uppercase = true
 
-[node name="Date" type="RichTextLabel" parent="HBoxContainer"]
-margin_left = 580.0
-margin_right = 690.0
-margin_bottom = 85.0
+[node name="Date" type="Label" parent="."]
+margin_left = 864.0
+margin_top = 24.0
+margin_right = 1056.0
+margin_bottom = 52.0
 rect_min_size = Vector2( 110, 0 )
-bbcode_enabled = true
-bbcode_text = "[center]Date:
-01/01/2000 [/center]"
-text = "Date:
-01/01/2000 "
+custom_fonts/font = SubResource( 1 )
+text = "02/02/2019"
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
