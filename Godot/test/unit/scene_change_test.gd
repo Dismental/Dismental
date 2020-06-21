@@ -17,8 +17,7 @@ func test_join_mission_button_pressed():
 	var doubled = double(MainMenuPath).new()
 
 	stub(doubled, '_on_JoinMissionButton_pressed').to_call_super()
-	stub(doubled, 'get_create_mission_panel').to_call_super()
-	stub(doubled, 'get_join_mission_panel').to_call_super()
+	stub(doubled, 'set_panel_visible').to_do_nothing()
 	doubled._on_JoinMissionButton_pressed()
 	assert_called(doubled, "set_panel_visible", [$MissionPanel/CreateMissionPanel, false])
 	assert_called(doubled, "set_panel_visible", [$MissionPanel/JoinMissionPanel, true])
