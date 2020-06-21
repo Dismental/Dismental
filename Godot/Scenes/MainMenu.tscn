@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/main_menu_wires.png" type="Texture" id=2]
@@ -430,6 +430,22 @@ margin_bottom = 741.76
 custom_styles/normal = SubResource( 12 )
 custom_fonts/font = ExtResource( 4 )
 text = "JOIN MISSION"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreBoardButton" type="Button" parent="."]
+anchor_left = -0.00112165
+anchor_top = 0.000902868
+anchor_right = -0.00112165
+anchor_bottom = 0.000902868
+margin_left = 1466.34
+margin_top = 180.984
+margin_right = 1705.34
+margin_bottom = 275.984
+custom_styles/normal = SubResource( 12 )
+custom_fonts/font = ExtResource( 4 )
+text = "SCOREBOARD"
 __meta__ = {
 "_edit_use_anchors_": false
 }

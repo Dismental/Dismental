@@ -56,3 +56,7 @@ func popup(text: String):
 	var p_up = $Popup
 	p_up.change_text(text)
 	p_up.popup_centered()
+
+
+func _on_ScoreBoardButton_pressed():
+		Utils.add_scene("res://Scenes/ScoreScenes/ScoreBoard.tscn", get_parent())
