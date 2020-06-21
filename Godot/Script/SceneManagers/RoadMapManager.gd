@@ -95,15 +95,15 @@ func show_next_minigame():
 	upcoming_minigame += 1
 	init_screen(upcoming_minigame)
 
-
-func _process(_delta):
+func update_progress_bar():
 	$ProgressBar.set_size(
 		Vector2(self.get_rect().size.x *
 			(1.0 - countdown_timer.time_left / countdown_timer.wait_time), 12)
 	)
-
+	
+func update_opening_animation(delta):
 	if opening_animating and opening_progress < 1:
-		opening_progress += .01
+		opening_progress += delta
 		$CenterContainer/HBoxContainer.set(
 			"custom_constants/separation",
 			(1.0 - pow(1.0 - opening_progress, 6)) * 192 - 96
@@ -111,7 +111,8 @@ func _process(_delta):
 
 		if opening_progress >= 1:
 			init_instruction_animation()
-
+			
+func update_blinking_animation(delta):
 	var upcoming_minigame_node = minigame_previews[upcoming_minigame]
 	var upcoming_minigame_img = upcoming_minigame_node.get_node("VBoxContainer/Container/TextureRect")
 	var upcoming_minigame_arrow = upcoming_minigame_node.get_node("VBoxContainer/Arrow")
@@ -120,12 +121,13 @@ func _process(_delta):
 	upcoming_minigame_img.modulate = Color(1,1,1, alpha_val)
 	upcoming_minigame_arrow.modulate = Color(1,1,1, alpha_val)
 
-	blink_progress = (blink_progress + .01)
+	blink_progress = (blink_progress + delta)
 	if blink_progress >= 1:
 		blink_progress = 0
-
+		
+func update_instruction_animation(delta):
 	if instruction_show_progress < 1:
-		instruction_show_progress += .0075
+		instruction_show_progress += delta * .5
 
 		var anim_val = 1.0 - pow(1.0 - instruction_show_progress, 6)
 		$InstructionPanel.modulate = Color(1,1,1, anim_val)
@@ -140,3 +142,13 @@ func _process(_delta):
 		)
 
 		draw_instruction_line()
+
+
+func _process(_delta):
+	update_progress_bar()
+
+	update_opening_animation(_delta)
+
+	update_blinking_animation(_delta)
+
+	update_instruction_animation(_delta)
