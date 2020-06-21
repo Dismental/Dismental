@@ -298,6 +298,7 @@ remotesync func _game_completed():
 
 
 remotesync func _next_minigame():
+	GameState.load_roadmap()
 	get_parent().call_deferred("remove_child", self)
 
 

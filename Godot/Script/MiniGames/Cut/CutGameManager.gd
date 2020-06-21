@@ -32,12 +32,13 @@ onready var supervisor_vision = $"Control/X-rayVision"
 
 func _ready():
 	_adjust_for_difficulties()
+
+	rpc("_on_update_running", true)
 	supervisor_vision.visible = true
 	
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 	
 	if player_role == Role.DEFUSER:
-		start_dialog.popup()
 		_load_map(map_index, false)
 		
 		# Initialize the HeadTracking scene for this user
@@ -70,24 +71,24 @@ func _process(_delta):
 
 
 func _draw():
-	# Draw finish rect
-	draw_rect(finish_rect, Color(0.5, 0.5, 0.5), 10)
-	if running and not waitForStartingPosition:
+	if waitForStartingPosition:
+		$Control/StartCuttingHere.set_position(_calc_start_position() - $Control/StartCuttingHere.get_rect().size/2)
+		
+	if not waitForStartingPosition and running:
 		var input_pos = _get_input_pos()
+		$LaserPointer.set_position(input_pos - $LaserPointer.get_rect().size / 2)
+		$LaserPointer.show()
 
 		# Add input pos to list of past input position
 		# If the previous input position wasn't close
 		if len(dots) == 0 or (dots[len(dots)-1].distance_to(input_pos) > 15):
 			dots.append(input_pos)
-
-		# Draw line
-		for i in range(2, len(dots) - 1):
-			draw_line(dots[i], dots[i+1],  Color(1, 0, 0), 10)
+			$CuttingLine.add_point(input_pos)
 
 	# Draw current pointer
-	var rad = 25
-	var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(0, 1, 0)
-
+	var rad = 12
+	var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(1, 0, 0)
+	
 	draw_circle(_get_input_pos(), rad, col)
 
 
@@ -147,14 +148,14 @@ func _calc_finish_line():
 	var sp = Vector2(vp_rect.x * start_x_ratio, vp_rect.y/2)
 
 	# Find min x
-	while(_get_map_pixel_color(sp) != Color(1, 1, 1)):
+	while(_get_map_pixel_color(sp).a > 0):
 		sp.x -= 1
 	var min_x = sp.x
 
 	sp.x  = vp_rect.x * start_x_ratio
 
 	# Find max x
-	while(_get_map_pixel_color(sp) != Color(1, 1, 1)):
+	while(_get_map_pixel_color(sp).a > 0):
 		sp.x += 1
 	var max_x = sp.x
 
@@ -165,8 +166,10 @@ func _calc_finish_line():
 func _update_game_state():
 	if waitForStartingPosition:
 		var start_position_input = _calc_start_position()
-		var distance_from_start = (start_position_input*2).distance_to(_get_input_pos())
+		var distance_from_start = (start_position_input).distance_to(_get_input_pos())
 		if distance_from_start < 10:
+			$Control/StartCuttingHere.visible = false
+			$LaserPointer.visible = true
 			waitForStartingPosition = false
 			dots.clear()
 	else:
@@ -211,7 +214,7 @@ func _move_input_to_start():
 
 func _load_map(index=null, visible=true):
 	# if no index is given -> generate an random index
-	map_sprite = Sprite.new()
+	map_sprite = $Control/Map
 	randomize()
 	if not index:
 		var map_path = "res://Scenes/Mini Games/Cut/Maps/"
@@ -220,20 +223,12 @@ func _load_map(index=null, visible=true):
 		print(map_count)
 		index = randi() % map_count + 1
 
-	var map = "res://Scenes/Mini Games/Cut/Maps/Map%s.jpeg" % index
+	var map = "res://Scenes/Mini Games/Cut/Maps/Map%s.png" % index
 	map_sprite.texture = load(map)
-	if visible:
-		_add_sprite_to_scene(map_sprite)
-	else:
-		var metal_sprite = Sprite.new()
-		metal_sprite.texture = load("res://Textures/metal-background.jpg")
-		_add_sprite_to_scene(metal_sprite)
-
-
-func _add_sprite_to_scene(sprite):
-	sprite.centered = false
-	sprite.show_behind_parent = true
-	add_child(sprite)
+	map_sprite.visible = visible
+	$Control/NoCuttingZoneRect.visible = visible
+	$Control/MetalPlate.visible = not visible
+	$Control/StartCuttingHere.visible = not visible
 
 
 func _is_input_on_viewport():
@@ -247,7 +242,7 @@ func _is_input_on_viewport():
 func _is_input_on_track():
 	if _is_input_on_viewport():
 		var pixelcolor = _get_map_pixel_color(_get_input_pos())
-		return pixelcolor != Color(1, 1, 1)
+		return pixelcolor.a > 0
 	return false
 
 
@@ -292,11 +287,9 @@ remotesync func _on_game_over():
 
 
 remotesync func _on_game_completed():
+	GameState.load_roadmap()
 	get_parent().call_deferred("remove_child", self)
-
-
-func _on_StartDialog_confirmed():
-	rpc("_on_update_running", true)
+	
 
 
 func _on_GameOverDialog_confirmed():
