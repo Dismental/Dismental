@@ -161,7 +161,7 @@ func _process(_delta):
 			$HeadPos.templatematching || $HeadPos.tooclose ||
 			$HeadPos.multiface || $HeadPos.losttracking || lost_tracking
 		)
-		
+
 	elif (player_role == Role.HEAD):
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos

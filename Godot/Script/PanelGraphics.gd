@@ -16,7 +16,7 @@ func _draw_screws(rect):
 	var screw_offset_edge = 16
 	var x = rect.position.x
 	var y = rect.position.y
-	
+
 	# Iterate through every corner
 	# Top left
 	draw_circle(
