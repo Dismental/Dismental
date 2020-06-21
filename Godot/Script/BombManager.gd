@@ -40,6 +40,7 @@ func _on_start_minigame_pressed():
 
 
 func game_over():
+	GameState.stop_running()
 	return Utils.change_screen("res://Scenes/LoseScene.tscn", self)
 
 
