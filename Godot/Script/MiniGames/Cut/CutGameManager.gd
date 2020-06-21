@@ -266,10 +266,14 @@ func _get_map_pixel_color(pos):
 	return pixelcolor
 
 
-func _game_over():
-	if player_role == Role.DEFUSER:
-		game_over_dialog.popup()
-	rpc("_on_update_running", false)
+#func _game_over():
+#	if player_role == Role.DEFUSER:
+#		game_over_dialog.popup()
+#	rpc("_on_update_running", false)
+
+remotesync func _game_over():
+	get_tree().get_root().get_node("GameScene").game_over()
+	get_parent().call_deferred("remove_child", self)
 
 
 func _game_completed():
