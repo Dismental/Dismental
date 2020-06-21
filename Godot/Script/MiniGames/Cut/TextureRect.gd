@@ -9,7 +9,7 @@ func _process(_delta):
 	# By looping this, the red lines in the pattern appear to be constantly moving to the right
 	pattern_movement = int(pattern_movement + 1) % PATTERN_SIZE - PATTERN_SIZE
 	self.margin_left = pattern_movement
-	
+
 	# Use the movement value of the pattern to let the pattern blink slowly
 	# by setting the alpha value to a sin function of the movement.
 	# This leads in the pattern slowly blinking between alpha=1/3 and alpha=2/3
