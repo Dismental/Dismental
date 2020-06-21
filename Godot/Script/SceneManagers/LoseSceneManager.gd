@@ -8,7 +8,7 @@ onready var explosion_movement = $ExplodeLabel.get_rect().size.x + self.get_rect
 func _ready():
 	$ExplodeBackground.visible = true
 	$ExplodeLabel.visible = true
-		
+
 	$Squad.text = $Squad.text + GameState.team_name
 	for player in Network.player_info.values():
 		$Squad/Members.add_item(player)
@@ -18,7 +18,7 @@ func _process(_delta):
 		explosion_progress += _delta * .33
 		var explosion_pos = pow(explosion_progress, 2)
 		$ExplodeLabel.margin_left = -explosion_movement * explosion_pos * 2
-	else: 
+	else:
 		$ExplodeBackground.visible = false
 		$ExplodeLabel.visible = false
 
