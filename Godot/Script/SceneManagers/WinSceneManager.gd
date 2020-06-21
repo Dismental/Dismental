@@ -6,7 +6,7 @@ var success_progress = 0
 func _ready():
 	$SuccessBackground.visible = true
 	$SuccessLabel.visible = true
-		
+	
 	var score : Score = ScoreManager.get_scores().back()
 	ScoreManager.sort_scores()
 	var score_pos = ScoreManager.get_scores().find(score) + 1
@@ -30,7 +30,7 @@ func _process(_delta):
 		success_progress += _delta * .5
 		var explosion_pos = pow(success_progress, 2)
 		$SuccessLabel.set_scale(Vector2(.5 + success_progress, .5 + success_progress))
-	else: 
+	else:
 		$SuccessBackground.visible = false
 		$SuccessLabel.visible = false
 
