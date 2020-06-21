@@ -1,16 +1,11 @@
-<<<<<<< HEAD
-[gd_scene load_steps=8 format=2]
-=======
-[gd_scene load_steps=14 format=2]
->>>>>>> be82668fe0c88c6e1addd4c97d388c41790430a7
+
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Script/MiniGames/Cut/CutGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Textures/x-rayshadow.png" type="Texture" id=2]
-<<<<<<< HEAD
 [ext_resource path="res://Sounds/go_signal.ogg" type="AudioStream" id=3]
 [ext_resource path="res://Sounds/game_cleared.ogg" type="AudioStream" id=4]
 [ext_resource path="res://Sounds/game_over.ogg" type="AudioStream" id=5]
-=======
 [ext_resource path="res://Scenes/Mini Games/Cut/no_cut_pattern.png" type="Texture" id=3]
 [ext_resource path="res://Script/MiniGames/Cut/TextureRect.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Mini Games/Cut/start_finish.png" type="Texture" id=7]
@@ -19,7 +14,6 @@
 [ext_resource path="res://Scenes/Mini Games/Cut/pointer.png" type="Texture" id=10]
 [ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=11]
 [ext_resource path="res://Script/MiniGames/Cut/LaserPointer.gd" type="Script" id=12]
->>>>>>> be82668fe0c88c6e1addd4c97d388c41790430a7
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.364238, 0.668874, 0.827815, 1 )
@@ -199,7 +193,6 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-<<<<<<< HEAD
 
 [node name="AudioStreamPlayers" type="Node" parent="."]
 
@@ -211,10 +204,7 @@ stream = ExtResource( 4 )
 
 [node name="GameOver" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
 stream = ExtResource( 5 )
-[connection signal="confirmed" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
-[connection signal="popup_hide" from="Control/StartDialog" to="." method="_on_StartDialog_confirmed"]
-=======
->>>>>>> be82668fe0c88c6e1addd4c97d388c41790430a7
+
 [connection signal="confirmed" from="Control/GameOverDialog" to="." method="_on_GameOverDialog_confirmed"]
 [connection signal="confirmed" from="Control/CompletedDialog" to="." method="_on_CompletedDialog_confirmed"]
 [connection signal="popup_hide" from="Control/CompletedDialog" to="." method="_on_CompletedDialog_confirmed"]
