@@ -14,6 +14,8 @@ func stop():
 func set_recording(b: bool):
 	$Output.recording =  b
 
+func is_recording():
+	return $Output.recording
 "
 
 [sub_resource type="AudioStreamMicrophone" id=2]

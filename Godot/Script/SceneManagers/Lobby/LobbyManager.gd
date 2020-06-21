@@ -74,6 +74,10 @@ func _on_MuteBtn_toggled(button_pressed):
 	voice.set_recording(button_pressed)
 
 
+func _set_MuteBtn(b : bool):
+	$MuteBtn.pressed = b
+	
+
 func update_difficulty(diff):
 	$DifficultyBtn.selected = diff
 
