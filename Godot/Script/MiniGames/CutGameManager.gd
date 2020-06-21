@@ -22,6 +22,7 @@ var finish_rect
 # -1 is counterclockwise
 var finish_state = 0
 var player_role
+var map_index
 
 onready var start_dialog = $Control/StartDialog
 onready var game_over_dialog = $Control/GameOverDialog
@@ -37,7 +38,7 @@ func _ready():
 	
 	if player_role == Role.DEFUSER:
 		start_dialog.popup()
-		_load_map(1, false)
+		_load_map(map_index, false)
 		
 		# Initialize the HeadTracking scene for this user
 		print("start tracking scene")
@@ -51,7 +52,7 @@ func _ready():
 		# Turn the x-ray vision OFF for the operator
 		supervisor_vision.visible = false
 	else:
-		_load_map(1)
+		_load_map(map_index)
 		# Turn the x-ray vision ON for the operator
 		supervisor_vision.visible = true
 		# Center the x-ray vision
@@ -92,14 +93,11 @@ func _draw():
 
 func _adjust_for_difficulties():
 	if GameState.difficulty == GameState.Difficulty.EASY:
-		#TODO load an easy map
-		pass
+		map_index = 2
 	elif GameState.difficulty == GameState.Difficulty.MEDIUM:
-		#TODO load a medium map
-		pass
+		map_index = 1
 	elif GameState.difficulty == GameState.Difficulty.HARD:
-		#TODO load a hard map
-		pass
+		map_index = 1
 
 
 func _supervisor_vision_update(pos):

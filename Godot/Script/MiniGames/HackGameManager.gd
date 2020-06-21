@@ -4,12 +4,12 @@ puppet var puppet_mouse = Vector2()
 
 const Role = preload("res://Script/Role.gd")
 
-var password = "Test_word"
+var password
 var online = true
 
 var num_of_collectables
 var spawned_collectables = 0
-var collectables_interval = 2
+var collectables_interval
 var collectable_time = 0
 var collectables = []
 var collected = 0
@@ -64,10 +64,16 @@ func _process(delta):
 
 func _adjust_for_difficulties():
 	if GameState.difficulty == GameState.Difficulty.EASY:
+		password = "Exploding"
+		collectables_interval = 4
 		moving_speed = 8
 	elif GameState.difficulty == GameState.Difficulty.MEDIUM:
+		password = "TikTokTik"
+		collectables_interval = 3
 		moving_speed = 9
 	elif GameState.difficulty == GameState.Difficulty.HARD:
+		password = "HurryUp123"
+		collectables_interval = 2
 		moving_speed = 10
 
 
