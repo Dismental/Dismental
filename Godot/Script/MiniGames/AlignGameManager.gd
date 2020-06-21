@@ -53,7 +53,7 @@ onready var game_over_player = $AudioStreamPlayers/GameOver
 
 func _ready():
 	randomize()
-
+	_adjust_for_difficulties()
 	_init_random_input_params()
 	_count_num_of_players()
 	_set_num_of_rings()
@@ -116,6 +116,15 @@ func _init_rings():
 			rings.append(node)
 		else:
 			_remove_node(node)
+
+
+func _adjust_for_difficulties():
+	if GameState.difficulty == "EASY":
+		timer_wait_time = 60
+	elif GameState.difficulty == "MEDIUM":
+		timer_wait_time = 50
+	elif GameState.difficulty == "HARD":
+		timer_wait_time = 40
 
 
 func _get_ring_node(i):

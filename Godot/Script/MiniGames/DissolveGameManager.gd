@@ -20,18 +20,18 @@ var defuse_state = DefuserState.OFF
 var pointer_node
 
 # Increase/decrease factor of temperature
-var increase_factor: int = 22
-var decrease_factor: int = 2.5
+var increase_factor = 24
+var decrease_factor
 
 var component_width: int = 120
 var component_height: int = 30
 var num_of_components: int = 6
 var components: Array = []
 
-var vacuum_remove_threshold = 50
+var vacuum_remove_threshold
 var remove_radius = 2
 
-var blinking_threshold = 80
+var blinking_threshold
 var blink_light
 var is_blinking: bool = false
 
@@ -81,6 +81,7 @@ onready var select_player = $AudioStreamPlayers/Select
 onready var game_over_player = $AudioStreamPlayers/GameOver
 
 func _ready():
+	_adjust_for_difficulties()
 	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 
 	# Generate the heatmap for the supervisor only
@@ -128,6 +129,23 @@ func _init_matrix():
 		for _j in range(columns):
 			row.append(0)
 		matrix.append(row)
+
+
+func _adjust_for_difficulties():
+	if GameState.difficulty == "EASY":
+		blinking_threshold = 70
+		vacuum_remove_threshold = 40
+		decrease_factor = 2.5
+
+	elif GameState.difficulty == "MEDIUM":
+		blinking_threshold = 75
+		vacuum_remove_threshold = 50
+		decrease_factor = 2.7
+
+	elif GameState.difficulty == "HARD":
+		blinking_threshold = 80
+		vacuum_remove_threshold = 60
+		decrease_factor = 3
 
 
 func _generate_colors():
