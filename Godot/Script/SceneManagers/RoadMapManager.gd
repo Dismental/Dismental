@@ -100,7 +100,7 @@ func update_progress_bar():
 		Vector2(self.get_rect().size.x *
 			(1.0 - countdown_timer.time_left / countdown_timer.wait_time), 12)
 	)
-	
+
 func update_opening_animation(delta):
 	if opening_animating and opening_progress < 1:
 		opening_progress += delta
@@ -111,7 +111,7 @@ func update_opening_animation(delta):
 
 		if opening_progress >= 1:
 			init_instruction_animation()
-			
+
 func update_blinking_animation(delta):
 	var upcoming_minigame_node = minigame_previews[upcoming_minigame]
 	var upcoming_minigame_img = upcoming_minigame_node.get_node("VBoxContainer/Container/TextureRect")
@@ -124,7 +124,7 @@ func update_blinking_animation(delta):
 	blink_progress = (blink_progress + delta)
 	if blink_progress >= 1:
 		blink_progress = 0
-		
+
 func update_instruction_animation(delta):
 	if instruction_show_progress < 1:
 		instruction_show_progress += delta * .5
