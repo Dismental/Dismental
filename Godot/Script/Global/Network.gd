@@ -91,6 +91,14 @@ func disconnected():
 		get_tree().get_current_scene().get_node("MainMenu").popup(
 			"Room with that name does not exist")
 
+	elif code == 4444:
+		var curr_node = get_tree().get_current_scene().get_node("Lobby")
+		curr_node.stop_voip()
+		stop()
+		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
+		get_tree().get_current_scene().get_node("MainMenu").popup(
+			"That room is currently full!")
+	
 	elif not sealed:
 		stop() #Unexpected disconnect
 

@@ -517,8 +517,8 @@ __meta__ = {
 }
 
 [node name="Input" type="LineEdit" parent="MissionPanel/JoinMissionPanel/VBoxContainer/GameID"]
-margin_left = 267.0
-margin_right = 387.0
+margin_left = 250.0
+margin_right = 385.0
 margin_bottom = 45.0
 size_flags_horizontal = 10
 size_flags_vertical = 8
@@ -527,7 +527,7 @@ custom_styles/normal = SubResource( 17 )
 custom_fonts/font = SubResource( 18 )
 custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
 max_length = 6
-placeholder_text = "0000"
+placeholder_text = "000000"
 placeholder_alpha = 0.33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -573,6 +573,7 @@ custom_styles/normal = SubResource( 17 )
 custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_constants/minimum_spaces = 16
+max_length = 16
 placeholder_text = "NAME"
 placeholder_alpha = 0.33
 __meta__ = {
