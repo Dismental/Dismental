@@ -92,11 +92,11 @@ func _draw():
 
 
 func _adjust_for_difficulties():
-	if GameState.difficulty == GameState.Difficulty.EASY:
+	if GameState.difficulty == "EASY":
 		map_index = 2
-	elif GameState.difficulty == GameState.Difficulty.MEDIUM:
+	elif GameState.difficulty == "MEDIUM":
 		map_index = 1
-	elif GameState.difficulty == GameState.Difficulty.HARD:
+	elif GameState.difficulty == "HARD":
 		map_index = 1
 
 

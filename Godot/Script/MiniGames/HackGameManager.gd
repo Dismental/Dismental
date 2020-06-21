@@ -63,15 +63,15 @@ func _process(delta):
 
 
 func _adjust_for_difficulties():
-	if GameState.difficulty == GameState.Difficulty.EASY:
+	if GameState.difficulty == "EASY":
 		password = "Exploding"
 		collectables_interval = 4
 		moving_speed = 8
-	elif GameState.difficulty == GameState.Difficulty.MEDIUM:
+	elif GameState.difficulty == "MEDIUM":
 		password = "TikTokTik"
 		collectables_interval = 3
 		moving_speed = 9
-	elif GameState.difficulty == GameState.Difficulty.HARD:
+	elif GameState.difficulty == "HARD":
 		password = "HurryUp123"
 		collectables_interval = 2
 		moving_speed = 10

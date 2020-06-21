@@ -124,17 +124,17 @@ func _init_matrix():
 
 
 func _adjust_for_difficulties():
-	if GameState.difficulty == GameState.Difficulty.EASY:
+	if GameState.difficulty == "EASY":
 		blinking_threshold = 70
 		vacuum_remove_threshold = 40
 		decrease_factor = 2.5
 
-	elif GameState.difficulty == GameState.Difficulty.MEDIUM:
+	elif GameState.difficulty == "MEDIUM":
 		blinking_threshold = 75
 		vacuum_remove_threshold = 50
 		decrease_factor = 2.7
 
-	elif GameState.difficulty == GameState.Difficulty.HARD:
+	elif GameState.difficulty == "HARD":
 		blinking_threshold = 80
 		vacuum_remove_threshold = 60
 		decrease_factor = 3

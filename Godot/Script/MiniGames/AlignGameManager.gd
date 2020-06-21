@@ -115,11 +115,11 @@ func _init_rings():
 
 
 func _adjust_for_difficulties():
-	if GameState.difficulty == GameState.Difficulty.EASY:
+	if GameState.difficulty == "EASY":
 		timer_wait_time = 60
-	elif GameState.difficulty == GameState.Difficulty.MEDIUM:
+	elif GameState.difficulty == "MEDIUM":
 		timer_wait_time = 50
-	elif GameState.difficulty == GameState.Difficulty.HARD:
+	elif GameState.difficulty == "HARD":
 		timer_wait_time = 40
 
 
