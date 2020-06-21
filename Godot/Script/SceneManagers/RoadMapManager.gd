@@ -1,20 +1,15 @@
 extends Control
 
-#const COUNT_DOWN_DURATION = 5
-
 var is_host = true
 
 var upcoming_minigame = 0
-#var count_down_timer = COUNT_DOWN_DURATION
 
 var opening_animating = true
 var opening_progress = 0
 var blink_progress = 0.0
 
 var instruction_show_progress = 1
-# false = move panel to the right
-# true = move panel to the left
-var instruction_show_dir = false
+var instruction_show_dir_left = false
 
 signal wait_time_lobby_over
 
@@ -48,8 +43,6 @@ func _ready():
 func init_screen(upcoming_minigame_index):
 	# Start timer
 	countdown_timer.start()
-#	count_down_timer = COUNT_DOWN_DURATION
-	
 	
 	upcoming_minigame = min(upcoming_minigame_index, len(minigame_previews) - 1)
 	for i in range(0, 4):
@@ -70,7 +63,7 @@ func init_instruction_animation():
 		i.visible = false
 	instruction_panels[upcoming_minigame].visible = true
 	
-	instruction_show_dir = upcoming_minigame > 1
+	instruction_show_dir_left = upcoming_minigame > 1
 	instruction_show_progress = 0
 	$InstructionPanel.visible = true
 	$Line2D.visible = true
@@ -78,7 +71,7 @@ func init_instruction_animation():
 	var minigame_instruction_label = minigame_previews[upcoming_minigame].get_node("VBoxContainer/LABEL")
 	var anim_line_pos = minigame_instruction_label.rect_global_position 
 	
-	if instruction_show_dir:
+	if instruction_show_dir_left:
 		anim_line_pos += Vector2(0, minigame_instruction_label.get_rect().size.y / 2)
 	else:
 		anim_line_pos += minigame_instruction_label.get_rect().size / Vector2(1,2)
@@ -91,7 +84,7 @@ func init_instruction_animation():
 func draw_instruction_line():
 	var start = $Line2D.get_point_position(0)
 	var to = $InstructionPanel.rect_global_position + Vector2(0, $InstructionPanel.get_rect().size.y / 2)
-	if instruction_show_dir:
+	if instruction_show_dir_left:
 		to += Vector2($InstructionPanel.get_rect().size.x, 0)
 	$Line2D.set_point_position(1, start + Vector2((to.x - start.x) / 2, 0))
 	$Line2D.set_point_position(2, start + (to - start) / Vector2(2,1))
@@ -101,10 +94,6 @@ func draw_instruction_line():
 func show_next_minigame():
 	upcoming_minigame += 1
 	init_screen(upcoming_minigame)
-
-
-func _start_countdown(next_game_index):
-	pass
 
 
 func _process(_delta):
@@ -142,7 +131,7 @@ func _process(_delta):
 		$Line2D.modulate = Color(1,1,1, anim_val)
 		
 		var anim_movement = Vector2(instruction_show_move,0) * anim_val
-		if instruction_show_dir:
+		if instruction_show_dir_left:
 			anim_movement = -anim_movement
 		
 		$InstructionPanel.set_position(
