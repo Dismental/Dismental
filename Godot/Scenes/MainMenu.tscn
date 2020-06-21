@@ -6,10 +6,11 @@
 [ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Script/SceneManagers/MainMenu/MainMenu.gd" type="Script" id=5]
 [ext_resource path="res://Script/PanelGraphics.gd" type="Script" id=6]
-[ext_resource path="res://Script/SceneManagers/MainMenu/Label.gd" type="Script" id=7]
+[ext_resource path="res://Script/SceneManagers/MainMenu/Volume.gd" type="Script" id=7]
 [ext_resource path="res://Script/CreateMissionPanel.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/PopupDialog.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Script/JoinMissionPanel.gd" type="Script" id=10]
+[ext_resource path="res://Script/SceneManagers/MainMenu/MicVolume.gd" type="Script" id=11]
 
 [sub_resource type="Theme" id=1]
 
@@ -296,14 +297,16 @@ margin_right = 180.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 180, 0 )
 size_flags_horizontal = 2
-value = 90.0
+max_value = 2.0
+step = 0.01
+value = 1.0
 
-[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 235.0
+[node name="Volume" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 224.0
 margin_right = 270.0
 margin_bottom = 26.0
 custom_fonts/font = SubResource( 8 )
-text = "75%"
+text = "100%"
 script = ExtResource( 7 )
 
 [node name="Label2" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
@@ -328,15 +331,17 @@ margin_right = 180.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 180, 0 )
 size_flags_horizontal = 2
-value = 90.0
+max_value = 2.0
+step = 0.01
+value = 1.0
 
-[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 235.0
+[node name="Volume" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 224.0
 margin_right = 270.0
 margin_bottom = 26.0
 custom_fonts/font = SubResource( 9 )
-text = "75%"
-script = ExtResource( 7 )
+text = "100%"
+script = ExtResource( 11 )
 
 [node name="OperatorPanel2" type="PanelContainer" parent="."]
 anchor_left = 0.00186075
@@ -464,7 +469,6 @@ __meta__ = {
 }
 
 [node name="JoinMissionPanel" type="MarginContainer" parent="MissionPanel"]
-visible = false
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 487.003
@@ -517,8 +521,8 @@ __meta__ = {
 }
 
 [node name="Input" type="LineEdit" parent="MissionPanel/JoinMissionPanel/VBoxContainer/GameID"]
-margin_left = 250.0
-margin_right = 385.0
+margin_left = 267.0
+margin_right = 387.0
 margin_bottom = 45.0
 size_flags_horizontal = 10
 size_flags_vertical = 8
@@ -756,8 +760,8 @@ text = "BACK"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/Label" method="_on_HSlider_value_changed"]
-[connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Label" method="_on_HSlider_value_changed"]
+[connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/Volume" method="_on_HSlider_value_changed"]
+[connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Volume" method="_on_HSlider_value_changed"]
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
 [connection signal="pressed" from="CreateMissionButton" to="." method="_on_Button2_pressed"]
 [connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="MissionPanel/JoinMissionPanel" method="_on_JoinMissionBtn_pressed"]
