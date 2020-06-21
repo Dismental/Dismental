@@ -43,6 +43,7 @@ func test_update_game_state_game_over():
 	stub(inst, '_calc_start_position').to_return(Vector2(0, 0))
 	stub(inst, '_update_game_state').to_call_super()
 	stub(inst, '_is_input_on_track').to_return(false)
+	stub(inst, '_game_over').to_do_nothing()
 	inst.waitForStartingPosition = false
 	inst._update_game_state()
 	
