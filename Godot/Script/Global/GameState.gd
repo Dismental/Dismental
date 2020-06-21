@@ -18,7 +18,6 @@ var wait_time = 60 * 10
 var timer_label
 var running = false
 
-var squadname = ""
 var minigame_index = 0
 var minigames = ["Hack", "Align", "Cut", "Dissolve"]
 var defusers = []
@@ -108,10 +107,6 @@ func start_minigame(button_reference):
 			button_reference.text = "Defuse Bomb"
 	else:
 		emit_signal("defused")
-
-
-remotesync func update_squad_name(new_name):
-	squadname = new_name
 
 
 func init_lobby_options(id: int):
