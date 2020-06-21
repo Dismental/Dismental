@@ -1,10 +1,11 @@
 class_name Score
 extends Object
 
-var _team : String
-var _difficulty : String
-var _time : String
-var _date : String
+
+var _team: String
+var _difficulty: String
+var _time: String
+var _date: String
 
 
 func _init(team_name: String, diff: String, completed_time: String, completed_date: String):
