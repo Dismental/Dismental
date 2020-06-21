@@ -24,13 +24,13 @@ func instance_score(score: Score, score_pos : int):
 	var Scorepanel = preload("res://Scenes/ScoreScenes/ScorePanel.tscn")
 	var n_panel = Scorepanel.instance()
 	n_panel.get_node("HBoxContainer/Date").bbcode_text \
-		= "[center]Date:\n" + score.date + "[/center]"
+		= "[center]Date:\n" + score.get_date() + "[/center]"
 	n_panel.get_node("HBoxContainer/TeamName").bbcode_text \
-		= "[center]Team:\n" + score.team + "[/center]"
+		= "[center]Team:\n" + score.get_team() + "[/center]"
 	n_panel.get_node("HBoxContainer/Time").bbcode_text \
-		= "[center]Time:\n" + score.time + "[/center]"
+		= "[center]Time:\n" + score.get_time() + "[/center]"
 	n_panel.get_node("HBoxContainer/Difficulty").bbcode_text \
-		= "[center]Difficulty:\n" + score.difficulty + "[/center]"
+		= "[center]Difficulty:\n" + score.get_difficulty() + "[/center]"
 	n_panel.get_node("HBoxContainer/Position").bbcode_text \
 		= "[center]Pos:\n" + str(score_pos) + "[/center]"
 	add_child(n_panel)
