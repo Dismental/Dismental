@@ -6,7 +6,9 @@ onready var player_nodes = [
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player1,
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player2,
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player3,
-	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player4
+	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player4,
+	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player5,
+	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player6
 ]
 
 
