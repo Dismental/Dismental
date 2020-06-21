@@ -26,7 +26,7 @@ func _process(_delta):
 
 func _on_MainMenuButton_pressed():
 	if get_tree().root.has_node("VoiceStream"):
-		var voice = get_tree().root.find_node("VoiceStream", true, false)
+		var voice = get_tree().get_root().find_node("VoiceStream", true, false)
 		voice.stop()
 		voice.get_parent().remove_child(voice)
 		voice.queue_free()

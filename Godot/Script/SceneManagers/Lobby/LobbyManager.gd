@@ -21,7 +21,7 @@ func _ready():
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/You/Label.text = name
 
 	if get_tree().root.has_node("VoiceStream"):
-		voice = get_tree().root.find_node("VoiceStream", true, false)
+		voice = get_tree().get_root().find_node("VoiceStream", true, false)
 		_set_mute_btn(voice.is_recording())
 	else:
 		Utils.add_scene("res://Scenes/VoiceStream.tscn", get_tree().root)
