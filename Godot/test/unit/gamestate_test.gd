@@ -19,3 +19,17 @@ func test_update_team_name():
 	GameState.update_team_name("test")
 	assert_signal_emitted(GameState, "update_team_name")
 	assert_eq(GameState.team_name, "test")
+
+
+func test_update_difficulty():
+	watch_signals(GameState)
+	GameState.update_difficulty("EASY")
+	GameState.update_difficulty("MEDIUM")
+	GameState.update_difficulty("HARD")
+	GameState.update_difficulty("INSANE")
+
+	assert_signal_emitted_with_parameters(GameState, "update_difficulty", [0], 0)
+	assert_signal_emitted_with_parameters(GameState, "update_difficulty", [1], 1)
+	assert_signal_emitted_with_parameters(GameState, "update_difficulty", [2], 2)
+	# INSANE difficulty does not exist so no extra signal emit
+	assert_signal_emit_count(GameState, "update_difficulty", 3)
