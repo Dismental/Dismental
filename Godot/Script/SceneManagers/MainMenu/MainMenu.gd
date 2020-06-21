@@ -1,10 +1,6 @@
 extends Control
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 var scroll_animating = false
 var scroll_progress = 0
 var scroll_amount = 0
@@ -18,7 +14,6 @@ func start_scroll_animation(direction):
 	scroll_animating = true
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	scroll_amount = $Background.get_rect().size.y - self.get_rect().size.y
 
@@ -40,15 +35,24 @@ func _process(delta):
 		if scroll_progress >= 1:
 			scroll_animating = false
 
+
 func _on_Button2_pressed():
 	$MissionPanel/CreateMissionPanel.visible = true
 	$MissionPanel/JoinMissionPanel.visible = false
 	start_scroll_animation(true)
+
 
 func _on_JoinMissionButton_pressed():
 	$MissionPanel/CreateMissionPanel.visible = false
 	$MissionPanel/JoinMissionPanel.visible = true
 	start_scroll_animation(true)
 
+
 func _on_CreateMissionBtn2_pressed():
 	start_scroll_animation(false)
+
+
+func popup(text: String):
+	var p_up = $Popup
+	p_up.change_text(text)
+	p_up.popup_centered()

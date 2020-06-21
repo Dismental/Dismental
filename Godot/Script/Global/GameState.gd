@@ -24,10 +24,7 @@ var defusers = []
 var last_label_update
 
 var difficulty = Difficulty.keys()[0]
-var team_name = "Bomb Squad"
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+var team_name = "BITs"
 
 
 func _process(_delta):
@@ -124,7 +121,15 @@ func difficulty_changed(id: int):
 
 remote func update_difficulty(diff):
 	difficulty = diff
-	emit_signal("update_difficulty", difficulty)
+	match diff:
+		"EASY":
+			emit_signal("update_difficulty", 0)
+		"MEDIUM":
+			emit_signal("update_difficulty", 1)
+		"HARD":
+			emit_signal("update_difficulty", 2)
+		_:
+			print("Difficulty not found!")
 
 
 func team_name_changed(name: String):

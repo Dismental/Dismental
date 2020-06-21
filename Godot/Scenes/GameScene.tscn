@@ -10,7 +10,6 @@
 [ext_resource path="res://Fonts/ds_digital.tres" type="DynamicFont" id=9]
 [ext_resource path="res://Script/Timer.gd" type="Script" id=10]
 
-
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
 border_width_left = 10
@@ -205,7 +204,7 @@ __meta__ = {
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 232.0
-margin_bottom = 125.001
+margin_bottom = 125.0
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
