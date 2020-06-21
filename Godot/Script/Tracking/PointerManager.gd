@@ -153,31 +153,15 @@ func _process(_delta):
 			tracking_pos = tracking_pos
 		pointer_pos = pointer_pos_current
 
-		if (lost_tracking):
-			$Lbl_pickup_pointer.visible = true
-		else:
-			$Lbl_pickup_pointer.visible = false
-
-		if (tracking_node.templatematching):
-			$Lbl_template_matching.visible = true
-		else:
-			$Lbl_template_matching.visible = false
-
-		if (tracking_node.tooclose):
-			$Lbl_too_close.visible = true
-		else:
-			$Lbl_too_close.visible = false
-
-		if (tracking_node.losttracking):
-			$Lbl_lost_tracking.visible = true
-		else:
-			$Lbl_lost_tracking.visible = false
-
-		if ($HeadPos.templatematching || $HeadPos.tooclose ||
-			$HeadPos.multiface || $HeadPos.losttracking || lost_tracking):
-			$Lbl_warning.visible = true
-		else:
-			$Lbl_warning.visible = false
+		$Lbl_pickup_pointer.visible = lost_tracking
+		$Lbl_template_matching.visible = tracking_node.templatematching
+		$Lbl_too_close.visible = tracking_node.tooclose
+		$Lbl_lost_tracking.visible = tracking_node.losttracking
+		$Lbl_warning.visible = (
+			$HeadPos.templatematching || $HeadPos.tooclose ||
+			$HeadPos.multiface || $HeadPos.losttracking || lost_tracking
+		)
+		
 	elif (player_role == Role.HEAD):
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos

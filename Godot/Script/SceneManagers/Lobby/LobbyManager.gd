@@ -1,11 +1,5 @@
 extends Control
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
 var players = []
 
 onready var player_nodes = [
@@ -15,12 +9,15 @@ onready var player_nodes = [
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player4
 ]
 
+
 func add_player(name):
 	players.append(name)
+
 
 func remove_player(name):
 	if name in players:
 		players.remove(name)
+
 
 func refresh():
 	for i in range(len(player_nodes)):
@@ -31,7 +28,6 @@ func refresh():
 		player_nodes[i].get_node("Label").set_text(players[i])
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	var is_host = false
 
@@ -44,6 +40,7 @@ func _ready():
 	for i in range(len(players)):
 		player_nodes[i].visible = true
 		player_nodes[i].get_node("Label").set_text(players[i])
+
 
 func _process(_delta):
 	if get_tree().is_network_server():
