@@ -311,12 +311,12 @@ script = ExtResource( 7 )
 
 [node name="Label2" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 182.0
-margin_right = 118.0
+margin_right = 142.0
 margin_bottom = 208.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 7 )
-text = "MIC VOLUME"
+text = "VOICE VOLUME"
 __meta__ = {
 "_edit_use_anchors_": false
 }

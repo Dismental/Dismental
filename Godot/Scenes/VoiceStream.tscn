@@ -22,6 +22,7 @@ func set_recording(b: bool):
 script = SubResource( 1 )
 
 [node name="Output" type="AudioStreamPlayer" parent="."]
+bus = "VoiceChat"
 script = ExtResource( 1 )
 
 [node name="Input" type="AudioStreamPlayer" parent="."]
