@@ -151,18 +151,18 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
 margin_left = 176.0
-margin_top = 131.0
+margin_top = 148.0
 margin_right = 1744.0
-margin_bottom = 948.0
+margin_bottom = 931.0
 custom_constants/separation = 96
 
 [node name="Hack" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
 margin_right = 320.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Hack"]
 margin_right = 320.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/separation = 24
 
 [node name="Arrow" type="TextureRect" parent="CenterContainer/HBoxContainer/Hack/VBoxContainer"]
@@ -213,13 +213,13 @@ __meta__ = {
 margin_left = 60.0
 margin_top = 418.0
 margin_right = 260.0
-margin_bottom = 529.0
+margin_bottom = 495.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 custom_styles/normal = SubResource( 7 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "DESCRIPTION OF HACK MINIGAME"
+text = "Catch the password"
 align = 1
 autowrap = true
 uppercase = true
@@ -230,13 +230,13 @@ __meta__ = {
 [node name="Cut" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
 margin_left = 416.0
 margin_right = 736.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/margin_top = 96
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Cut"]
 margin_top = 96.0
 margin_right = 320.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/separation = 24
 
 [node name="Arrow" type="TextureRect" parent="CenterContainer/HBoxContainer/Cut/VBoxContainer"]
@@ -286,13 +286,13 @@ __meta__ = {
 margin_left = 60.0
 margin_top = 418.0
 margin_right = 260.0
-margin_bottom = 529.0
+margin_bottom = 495.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 custom_styles/normal = SubResource( 7 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "DESCRIPTION OF CUT MINIGAME"
+text = "Open the bomb"
 align = 1
 autowrap = true
 uppercase = true
@@ -303,13 +303,13 @@ __meta__ = {
 [node name="Align" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
 margin_left = 832.0
 margin_right = 1152.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/margin_top = 192
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Align"]
 margin_top = 192.0
 margin_right = 320.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/separation = 24
 
 [node name="Arrow" type="TextureRect" parent="CenterContainer/HBoxContainer/Align/VBoxContainer"]
@@ -359,13 +359,13 @@ __meta__ = {
 margin_left = 60.0
 margin_top = 418.0
 margin_right = 260.0
-margin_bottom = 529.0
+margin_bottom = 495.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 custom_styles/normal = SubResource( 7 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "DESCRIPTION OF ALIGN MINIGAME"
+text = "Unlock the vault"
 align = 1
 autowrap = true
 uppercase = true
@@ -376,13 +376,13 @@ __meta__ = {
 [node name="Dissolve" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
 margin_left = 1248.0
 margin_right = 1568.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/margin_top = 288
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Dissolve"]
 margin_top = 288.0
 margin_right = 320.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/separation = 24
 
 [node name="Arrow" type="TextureRect" parent="CenterContainer/HBoxContainer/Dissolve/VBoxContainer"]
@@ -432,13 +432,13 @@ __meta__ = {
 margin_left = 60.0
 margin_top = 418.0
 margin_right = 260.0
-margin_bottom = 529.0
+margin_bottom = 495.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 custom_styles/normal = SubResource( 7 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "DESCRIPTION OF DISSOLVE MINIGAME"
+text = "Remove the chip"
 align = 1
 autowrap = true
 uppercase = true
