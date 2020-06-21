@@ -37,23 +37,6 @@ func _process(_delta):
 		$SuccessLabel.visible = false
 
 
-func instance_score(score: Score, score_pos : int):
-	var Scorepanel = preload("res://Scenes/ScoreScenes/ScorePanel.tscn")
-	var n_panel = Scorepanel.instance()
-	n_panel.get_node("HBoxContainer/Date").bbcode_text \
-		= "[center]Date:\n" + score.date + "[/center]"
-	n_panel.get_node("HBoxContainer/TeamName").bbcode_text \
-		= "[center]Team:\n" + score.team + "[/center]"
-	n_panel.get_node("HBoxContainer/Time").bbcode_text \
-		= "[center]Time:\n" + score.time + "[/center]"
-	n_panel.get_node("HBoxContainer/Difficulty").bbcode_text \
-		= "[center]Difficulty:\n" + score.difficulty + "[/center]"
-	n_panel.get_node("HBoxContainer/Position").bbcode_text \
-		= "[center]Pos:\n" + str(score_pos) + "[/center]"
-	add_child(n_panel)
-	n_panel.set_position(Vector2(600, 500))
-
-
 func _on_MainMenuButton_pressed():
 	if get_tree().root.has_node("VoiceStream"):
 		var voice = get_tree().root.find_node("VoiceStream", true, false)
