@@ -78,9 +78,7 @@ void GDExample::_init() {
 }
 
 void GDExample::_process(float delta) {
-    if(detector.isFaceFound()) {
-    }
-    
+    if (camera.isOpened()) {
     detector >> frame;
 
     // handTracker.update(frame, bbox);
@@ -115,4 +113,11 @@ void GDExample::_process(float delta) {
     too_close = detector.too_close;
     lost_tracking = detector.lost_tracking;
     template_matching = detector.template_matching;
+    } else {
+        retry_timer += delta;
+        if (retry_timer > 2) {
+            retry_timer = 0;
+            camera.open(0);
+    }
+}
 }

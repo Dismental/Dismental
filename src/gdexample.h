@@ -35,6 +35,7 @@ private:
     bool too_close;
     bool template_matching;
     bool lost_tracking;
+    float retry_timer = 0.0;
 
 public:
     static void _register_methods();
