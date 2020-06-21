@@ -11,6 +11,7 @@ func _ready():
 	ScoreManager.sort_scores()
 	var score_pos = ScoreManager.get_scores().find(score) + 1
 	$Squad.text = GameState.team_name
+	$Squad/Members.add_item(Network.player_name)
 	for player in Network.player_info.values():
 		$Squad/Members.add_item(player)
 	$Squad/Score.text += "\n" + str(score.time) + "\n"
