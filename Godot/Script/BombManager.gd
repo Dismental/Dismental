@@ -12,7 +12,7 @@ func _ready():
 	GameState.connect("timer_timeout", self, "_on_timer_timeout")
 	GameState.connect("defused", self, "_defused")
 	GameState.connect("load_roadmap", self, "_load_roadmap")
-	
+
 	Network.connect("player_disconnected", self, "_player_disconnect")
 
 	if get_tree().is_network_server():
@@ -61,7 +61,7 @@ func _player_disconnect(id, name):
 		GameState.reset_gamestate()
 		var tree = get_tree()
 		var succes = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
-		
+
 		tree.get_root().find_node("Lobby", true, false).popup(
 			name + " disconnected\nLobby is closed, no new players can join")
 

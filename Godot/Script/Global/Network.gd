@@ -88,7 +88,7 @@ func disconnected():
 		if GameState.running:
 			curr_node = get_tree().get_root().get_node("GameScene")
 			GameState.reset_gamestate()
-		
+
 		else:
 			curr_node = get_tree().get_root().find_node("Lobby", true, false)
 
