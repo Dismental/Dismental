@@ -202,9 +202,8 @@ func _generate_color_scale():
 func _check_components_removable():
 	for item in components:
 		var component_pos = item[1]
-		var input_col = component_pos["column"]
-		var input_row = component_pos["row"]
-		if matrix[input_row][input_col] > vacuum_remove_threshold:
+		var sector = _get_sector(component_pos.x, component_pos.y)
+		if matrix[sector["row"]][sector["column"]] > vacuum_remove_threshold:
 			item[0].color = component_removable_color
 		else:
 			item[0].color = component_base_color
