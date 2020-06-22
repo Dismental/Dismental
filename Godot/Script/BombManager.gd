@@ -21,7 +21,7 @@ func _ready():
 
 	# If current player is not the host
 	if not get_tree().is_network_server():
-		get_node("Control/Button").hide()
+		bottom_button.hide()
 
 
 func _on_wait_time_lobby_over():
