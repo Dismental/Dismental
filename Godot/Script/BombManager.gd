@@ -54,8 +54,9 @@ func _player_disconnect(id, name):
 			voice.get_parent().remove_child(voice)
 			voice.queue_free()
 		Network.stop()
+		var tree = get_tree()
 		var succes = Utils.change_screen("res://Scenes/MainMenu.tscn", self)
-		get_tree().get_root().find_node("MainMenu", true, false).popup(
+		tree.get_root().find_node("MainMenu", true, false).popup(
 			"Host disconnected")
 	else:
 		GameState.reset_gamestate()
