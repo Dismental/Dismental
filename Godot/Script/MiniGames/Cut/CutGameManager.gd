@@ -24,7 +24,6 @@ var finish_state = 0
 var player_role
 var map_index
 
-onready var start_dialog = $Control/StartDialog
 onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
 onready var supervisor_vision = $"Control/X-rayVision"
@@ -40,10 +39,13 @@ func _ready():
 
 	rpc("_on_update_running", true)
 	supervisor_vision.visible = true
-	
-	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
-	
+
+	var defuser_id = GameState.defusers[GameState.minigame_index]
+	var is_defuser = defuser_id == get_tree().get_network_unique_id()
+	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
+
 	if player_role == Role.DEFUSER:
+		rpc("_on_game_completed")
 		_load_map(map_index, false)
 		
 		# Initialize the HeadTracking scene for this user
@@ -179,7 +181,7 @@ func _update_game_state():
 			dots.clear()
 			go_signal_player.play()
 	else:
-		if len(dots) > 2:
+		if len(dots) > 2 and player_role == Role.DEFUSER:
 			if not _is_input_on_track():
 				_game_over()
 			else:
@@ -302,7 +304,3 @@ remotesync func _on_game_completed():
 
 func _on_GameOverDialog_confirmed():
 	rpc("_on_game_over")
-
-
-func _on_CompletedDialog_confirmed():
-	rpc("_on_game_completed")

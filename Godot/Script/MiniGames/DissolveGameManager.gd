@@ -83,16 +83,18 @@ onready var game_over_player = $AudioStreamPlayers/GameOver
 
 onready var fire_sign = $FireSignControl
 onready var fire_sign_bg = $FireSignControl/fire_sign_bg
+
 const fire_sign_color_blink = Color(210.0 / 255, 69.0 / 255, 69.0 / 255)
 const fire_sign_color_def = Color(0.0, 0.0, 0.0)
-var is_blinking = false
 const blinking_frames = 3
-var blinking_threshold
 
 
 func _ready():
 	_adjust_for_difficulties()
-	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
+	
+	var defuser_id = GameState.defusers[GameState.minigame_index]
+	var is_defuser = defuser_id == get_tree().get_network_unique_id()
+	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
 
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
@@ -106,6 +108,7 @@ func _ready():
 		heatmap_sprite = _init_heatmap_sprite()
 
 	elif player_role == Role.DEFUSER:
+		rpc("_on_game_completed")
 		# Hide fire sign layer for defuser
 		fire_sign.visible = false
 		# Initialize the pointer scene for the defuser

@@ -35,7 +35,6 @@ func test_update_difficulty():
 	assert_signal_emit_count(GameState, "update_difficulty", 3)
 
 
-func test_update_squadname():
-	assert_eq(GameState.squadname, "")
-	GameState.update_squad_name("test_squad")
-	assert_eq(GameState.squadname, "test_squad")
+func test_update_teamname():
+	GameState.update_team_name("test_squad")
+	assert_eq(GameState.team_name, "test_squad")

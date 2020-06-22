@@ -3,21 +3,24 @@ extends Node
 var next_scene
 
 onready var roadmap_control = $Control
-onready var bottom_button = $Control/Button
+onready var bottom_button = $Control/StartNextTask
 onready var countdown_timer = $Control/CountDown
 
 
 func _ready():
 	GameState.start_timer(get_node("CanvasLayer/Timer/MarginContainer/TimeCounter"))
 	GameState.connect("timer_timeout", self, "_on_timer_timeout")
-	GameState.connect("update_remaining_text", self, "_update_remaining_text")
 	GameState.connect("defused", self, "_defused")
 	GameState.connect("load_roadmap", self, "_load_roadmap")
+
+	if get_tree().is_network_server():
+		GameState.assign_roles()
+
 	$Control.connect("wait_time_lobby_over", self, "_on_wait_time_lobby_over")
 
 	# If current player is not the host
 	if not get_tree().is_network_server():
-		get_node("Control/Button").hide()
+		bottom_button.hide()
 
 
 func _on_wait_time_lobby_over():
@@ -51,12 +54,11 @@ func _defused():
 
 remotesync func _on_defuse():
 	GameState.defused()
-	$Control/VBoxContainer/HBoxContainer/ExampleBomb/Title.text = "Defused"
 
-	var date = OS.get_date().get("day")
-	date += "/" + OS.get_date().get("month")
-	date += "/" + OS.get_date().get("year")
+	var date = str(OS.get_date().get("day"))
+	date += "/" + str(OS.get_date().get("month"))
+	date += "/" + str(OS.get_date().get("year"))
 	ScoreManager.add_score(Score.new(GameState.team_name,
-		GameState.difficulty, GameState.timer.get_time_left(), date))
+		GameState.difficulty, str(GameState.timer.get_time_left()), date))
 
 	return Utils.change_screen("res://Scenes/WinScene.tscn", self)

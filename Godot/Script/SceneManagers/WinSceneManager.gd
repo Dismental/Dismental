@@ -57,6 +57,10 @@ func _on_ScoreBoardButton_pressed():
 
 
 func _on_PlayAgainButton_pressed():
+	return rpc("_play_again")
+
+
+remotesync func _play_again():
 	var success = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
 	GameState.reset_gamestate()
 	return success

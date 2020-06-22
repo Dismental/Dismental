@@ -10,6 +10,7 @@ var online = true
 
 var num_of_collectables
 var spawned_collectables = 0
+var collectables_interval_initial
 var collectables_interval
 var collectable_time = 0
 var collectables = []
@@ -43,10 +44,14 @@ onready var game_over_player = $AudioStreamPlayers/GameOver
 func _ready():
 	_adjust_for_difficulties()
 	num_of_collectables = len(password)
-	player_role = Role.DEFUSER if !online or get_tree().is_network_server() else Role.SUPERVISOR
 	_update_password_label()
 	randomize()
-	
+
+	var defuser_id = GameState.defusers[GameState.minigame_index]
+	print("Id is defuser: " + str(defuser_id))
+	var is_defuser = defuser_id == get_tree().get_network_unique_id()
+	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
+
 	if player_role == Role.DEFUSER:
 		# Initialize the pointer scene for this user
 		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
@@ -70,20 +75,23 @@ func _process(delta):
 
 func _adjust_for_difficulties():
 	if GameState.difficulty == "EASY":
-		password = "Exploding"
-		collectables_interval = 6
+		password = "Exp"
+		collectables_interval_initial = 6
+		collectables_interval = collectables_interval_initial
 		moving_speed = 8
 		spawn_chance = 12
 		
 	elif GameState.difficulty == "MEDIUM":
 		password = "TikTokTik"
-		collectables_interval = 5
+		collectables_interval_initial = 5
+		collectables_interval = collectables_interval_initial
 		moving_speed = 9
 		spawn_chance = 14
 		
 	elif GameState.difficulty == "HARD":
 		password = "HurryUp123"
-		collectables_interval = 4
+		collectables_interval_initial = 4
+		collectables_interval = collectables_interval_initial
 		moving_speed = 10
 		spawn_chance = 15
 
@@ -123,7 +131,9 @@ remotesync func _spawn_labels(delta):
 		
 		if collectable_time > collectables_interval and spawned_collectables < num_of_collectables:
 			collectable_time = 0
-			collectables_interval = rand_range(2, 6)
+			var low = collectables_interval_initial - 1
+			var high = collectables_interval_initial + 1
+			collectables_interval = rand_range(low, high)
 			collectable_index = randi() % rows
 				
 		for i in range(rows):
