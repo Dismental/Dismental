@@ -76,7 +76,14 @@ func _on_StartMission_pressed():
 		Network.seal_lobby()
 
 	Network.begin_game_pressed()
+	rpc("_remove_self")
 	get_parent().remove_child(self)
+	self.queue_free()
+
+
+remote func _remove_self():
+		get_parent().remove_child(self)
+		self.queue_free()
 
 
 func _on_DifficultyBtn_item_selected(id):
