@@ -73,14 +73,20 @@ func refresh_lobby():
 func _on_StartMission_pressed():
 	button_click_sound.play()
 	if(Network.player_info.empty()):
-		$PopupDialog.change_text("Can't start a game by yourself!")
-		$PopupDialog.popup_centered()
+		popup("Can't start a game by yourself!")
 	else:
 		if(!Network.sealed):
 			Network.seal_lobby()
 
 		Network.begin_game_pressed()
+		rpc("_remove_self")
 		get_parent().remove_child(self)
+		self.queue_free()
+
+
+remote func _remove_self():
+		get_parent().remove_child(self)
+		self.queue_free()
 
 
 func _on_DifficultyBtn_item_selected(id):
@@ -133,3 +139,9 @@ func _on_ActivatePointer_pressed():
 func _on_CloseInstructions_pressed():
 	$InstructionsPanel.visible = false
 	$OpenInstructions.pressed = false
+
+
+func popup(text: String):
+	var p_up = $PopupDialog
+	p_up.change_text(text)
+	p_up.popup_centered()
