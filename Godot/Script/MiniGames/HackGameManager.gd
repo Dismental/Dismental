@@ -10,6 +10,7 @@ var online = true
 
 var num_of_collectables
 var spawned_collectables = 0
+var collectables_interval_initial
 var collectables_interval
 var collectable_time = 0
 var collectables = []
@@ -71,19 +72,22 @@ func _process(delta):
 func _adjust_for_difficulties():
 	if GameState.difficulty == "EASY":
 		password = "Exploding"
-		collectables_interval = 6
+		collectables_interval_initial = 6
+		collectables_interval = collectables_interval_initial
 		moving_speed = 8
 		spawnchange = 12
 		
 	elif GameState.difficulty == "MEDIUM":
 		password = "TikTokTik"
-		collectables_interval = 5
+		collectables_interval_initial = 5
+		collectables_interval = collectables_interval_initial
 		moving_speed = 9
 		spawnchange = 14
 		
 	elif GameState.difficulty == "HARD":
 		password = "HurryUp123"
-		collectables_interval = 4
+		collectables_interval_initial = 4
+		collectables_interval = collectables_interval_initial
 		moving_speed = 10
 		spawnchange = 15
 
@@ -123,7 +127,9 @@ remotesync func _spawn_labels(delta):
 		
 		if collectable_time > collectables_interval and spawned_collectables < num_of_collectables:
 			collectable_time = 0
-			collectables_interval = rand_range(collectables_interval - 1, collectables_interval + 1)
+			var low = collectables_interval_initial - 1
+			var high = collectables_interval_initial + 1
+			collectables_interval = rand_range(low, high)
 			collectable_index = randi() % rows
 				
 		for i in range(rows):
