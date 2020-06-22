@@ -43,6 +43,9 @@ func _on_CreateMissionButton_pressed():
 	set_panel_visible("MissionPanel/CreateMissionPanel", true)
 	set_panel_visible("MissionPanel/JoinMissionPanel", false)
 	start_scroll_animation(true)
+	$CreateMissionButton.disabled = true
+	$JoinMissionButton.disabled = true
+	$ScoreBoardButton.disabled = true
 
 
 func _on_JoinMissionButton_pressed():
@@ -50,10 +53,16 @@ func _on_JoinMissionButton_pressed():
 	set_panel_visible("MissionPanel/CreateMissionPanel", false)
 	set_panel_visible("MissionPanel/JoinMissionPanel", true)
 	start_scroll_animation(true)
+	$CreateMissionButton.disabled = true
+	$JoinMissionButton.disabled = true
+	$ScoreBoardButton.disabled = true
 
 
 func _on_BackButton_pressed():
 	_play_button_click_sound()
+	$CreateMissionButton.disabled = false
+	$JoinMissionButton.disabled = false
+	$ScoreBoardButton.disabled = false
 	start_scroll_animation(false)
 
 
