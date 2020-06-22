@@ -148,7 +148,7 @@ func _process(_delta):
 				pointer_node.position = tracking_pos
 		# tracking is lost
 		else:
-			if not (pickup_pointer):
+			if not pickup_pointer:
 				print("Lost" + ", " + var2str(pointer_pos_current))
 				_on_pickupointer(true)
 				throttle_zone_radius = 40
@@ -156,10 +156,10 @@ func _process(_delta):
 			tracking_pos = tracking_pos
 		pointer_pos = pointer_pos_current
 
-	elif (player_role == Role.HEAD):
+	elif player_role == Role.HEAD:
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos
-	elif (player_role == Role.MOUSE):
+	elif player_role == Role.MOUSE:
 		pointer_node.position = get_global_mouse_position()
 
 	if t_a_increase:
@@ -192,7 +192,7 @@ func _within_free_movement_zone(pos, pos_new):
 	)
 
 	# check if the distance of pos is smaller than the radius of the point on the ellipse
-	if (distance < ellipse_point.length()):
+	if distance < ellipse_point.length():
 		return true
 	return false
 
@@ -288,11 +288,11 @@ func _draw():
 			4
 		)
 
-	if (ptimer_activated):
+	if ptimer_activated:
 		draw_circle(pointer_node.position , ptimer_rad_loading, ptimer_color)
 
 	# Draw the pointer
-	if (p_visible):
+	if p_visible:
 		if not pickup_pointer:
 			draw_circle(pointer_node.position , p_rad, p_color)
 
@@ -309,7 +309,7 @@ func _get_warning_color():
 	return Color(1.0, 0.0, 0.0, abs(t_a/2.0)+0.5)
 
 func interaction_timer_activate(_timer):
-	if (_timer > 0):
+	if _timer > 0:
 		time_to_interaction_total = _timer
 		time_to_interaction = 0
 		ptimer_activated = true
@@ -322,7 +322,7 @@ func interaction_timer_is_active():
 	return ptimer_activated
 
 func interaction_timer_is_finished():
-	if (ptimer_activated and time_to_interaction_total == 0):
+	if ptimer_activated and time_to_interaction_total == 0:
 		return true
 	return false
 
