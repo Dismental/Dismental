@@ -618,7 +618,7 @@ You also need some space to move around. Watch your surroundings and
 keep a safe distance of 1,5 meters between you and the webcam. 
 
 The pointer needs to picked up before it will follow you. You can pick up 
-the pointer by moving the small red dot inside the blue cirkel. Once have 
+the pointer by moving the small red dot inside the blue circle. Once have 
 the pointer in your control, try to reach the edges of the window. 
 Standing might provide more freedom of movement. Don't forget to keep 
 looking straight towards the webcam.
@@ -643,6 +643,7 @@ __meta__ = {
 }
 
 [node name="PopupDialog" parent="." instance=ExtResource( 6 )]
+visible = false
 [connection signal="text_changed" from="TeamName" to="." method="_on_TeamName_text_changed"]
 [connection signal="pressed" from="StartMission" to="." method="_on_StartMission_pressed"]
 [connection signal="toggled" from="OpenInstructions" to="." method="_on_OpenInstructions_toggled"]
