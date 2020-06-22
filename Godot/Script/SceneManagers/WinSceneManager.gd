@@ -61,6 +61,9 @@ func _on_PlayAgainButton_pressed():
 
 
 remotesync func _play_again():
+	var tree = get_tree()
 	var success = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
 	GameState.reset_gamestate()
+	tree.get_root().find_node("Lobby", true, false).popup(
+			name + "Lobby is closed, no new players can join")
 	return success
