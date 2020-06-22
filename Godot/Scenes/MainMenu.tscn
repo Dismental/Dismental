@@ -207,9 +207,9 @@ anchor_left = 0.00120646
 anchor_top = 0.0036276
 anchor_right = 0.00120646
 anchor_bottom = 0.00362764
-margin_left = -985.679
+margin_left = -986.45
 margin_top = -2.63143
-margin_right = 2967.32
+margin_right = 2966.55
 margin_bottom = 1959.87
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
@@ -222,9 +222,9 @@ __meta__ = {
 
 [node name="SettingsPanel" type="PanelContainer" parent="."]
 margin_left = 1590.0
-margin_top = 515.0
+margin_top = 517.0
 margin_right = 1916.0
-margin_bottom = 1081.0
+margin_bottom = 1083.0
 rect_min_size = Vector2( 0, 566 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
@@ -361,10 +361,10 @@ anchor_left = 0.000875091
 anchor_top = -0.000343153
 anchor_right = 0.000875091
 anchor_bottom = -0.00034304
-margin_left = -85.4571
-margin_top = 763.647
-margin_right = 1501.55
-margin_bottom = 1965.65
+margin_left = 4.31983
+margin_top = 752.371
+margin_right = 1588.32
+margin_bottom = 1954.37
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
 custom_styles/panel = SubResource( 11 )
@@ -742,7 +742,7 @@ margin_top = 1197.99
 margin_right = 1143.75
 margin_bottom = 1407.99
 
-[node name="CreateMissionBtn2" type="Button" parent="."]
+[node name="BackButton" type="Button" parent="."]
 margin_left = 235.022
 margin_top = 1105.65
 margin_right = 355.022
@@ -759,7 +759,7 @@ __meta__ = {
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/Label" method="_on_HSlider_value_changed"]
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Label" method="_on_HSlider_value_changed"]
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
-[connection signal="pressed" from="CreateMissionButton" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="CreateMissionButton" to="." method="_on_CreateMissionButton_pressed"]
 [connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="MissionPanel/JoinMissionPanel" method="_on_JoinMissionBtn_pressed"]
 [connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="MissionPanel/CreateMissionPanel" method="_on_CreateMissionBtn_pressed"]
-[connection signal="pressed" from="CreateMissionBtn2" to="." method="_on_CreateMissionBtn2_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]

@@ -4,12 +4,11 @@ extends Control
 var scroll_animating = false
 var scroll_progress = 0
 var scroll_amount = 0
-# true = down
-# false = up
-var scroll_direction = true
+var scroll_down = true
+
 
 func start_scroll_animation(direction):
-	scroll_direction = direction
+	scroll_down = direction
 	scroll_progress = 0
 	scroll_animating = true
 
@@ -19,7 +18,7 @@ func _ready():
 
 func calc_scroll_pos(progress):
 	var frac = (1.0 - pow(1.0 - progress, 6))
-	if scroll_direction:
+	if scroll_down:
 		return scroll_amount * frac
 	else:
 		return scroll_amount * (1-frac)
@@ -36,19 +35,19 @@ func _process(delta):
 			scroll_animating = false
 
 
-func _on_Button2_pressed():
-	$MissionPanel/CreateMissionPanel.visible = true
-	$MissionPanel/JoinMissionPanel.visible = false
+func _on_CreateMissionButton_pressed():
+	set_panel_visible("MissionPanel/CreateMissionPanel", true)
+	set_panel_visible("MissionPanel/JoinMissionPanel", false)
 	start_scroll_animation(true)
 
 
 func _on_JoinMissionButton_pressed():
-	$MissionPanel/CreateMissionPanel.visible = false
-	$MissionPanel/JoinMissionPanel.visible = true
+	set_panel_visible("MissionPanel/CreateMissionPanel", false)
+	set_panel_visible("MissionPanel/JoinMissionPanel", true)
 	start_scroll_animation(true)
 
 
-func _on_CreateMissionBtn2_pressed():
+func _on_BackButton_pressed():
 	start_scroll_animation(false)
 
 
@@ -56,3 +55,7 @@ func popup(text: String):
 	var p_up = $Popup
 	p_up.change_text(text)
 	p_up.popup_centered()
+
+
+func set_panel_visible(node, vis):
+	get_node(node).visible = vis
