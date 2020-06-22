@@ -35,7 +35,6 @@ onready var go_signal_player = $AudioStreamPlayers/GoSignal
 onready var game_over_player = $AudioStreamPlayers/GameOver
 
 func _ready():
-	rpc("_on_game_completed")
 	_adjust_for_difficulties()
 
 	rpc("_on_update_running", true)
@@ -46,6 +45,7 @@ func _ready():
 	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
 
 	if player_role == Role.DEFUSER:
+		rpc("_on_game_completed")
 		_load_map(map_index, false)
 		
 		# Initialize the HeadTracking scene for this user
