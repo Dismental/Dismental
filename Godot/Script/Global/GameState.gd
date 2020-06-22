@@ -39,6 +39,9 @@ func assign_roles():
 	var players = get_tree().get_network_connected_peers()
 	players.append(1)
 	var index = randi() % len(players)
+	print("playerlen: " + str(len(players)))
+	print("index: " + str(index))
+	print("players: " + str(players))
 	for mg in minigames:
 		if mg != "Align":
 			defusers.append(players[index])
@@ -56,8 +59,9 @@ remotesync func set_defuser_roles(roles):
 func reset_gamestate():
 	wait_time = 60 * 10
 	minigame_index = 0
-	minigames = ["Hack", "Align", "Cut", "Dissolve"]
+	minigames = ["Hack", "Cut", "Align", "Dissolve"]
 	defusers = []
+	assign_roles()
 	Network.clear_ready_players()
 	update_difficulty(difficulty)
 	update_team_name(team_name)
