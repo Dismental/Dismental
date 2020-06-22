@@ -55,6 +55,7 @@ func init_screen(upcoming_minigame_index):
 	opening_progress = 0
 	$InstructionPanel.visible = false
 	$Line2D.visible = false
+	$StartNextTask.disabled = true
 
 
 func init_instruction_animation():
@@ -152,3 +153,7 @@ func _process(_delta):
 	update_blinking_animation(_delta)
 
 	update_instruction_animation(_delta)
+
+	# Enable next minigame button when the animations are finished
+	if $StartNextTask.disabled and opening_progress >= 1 and instruction_show_progress >= 1:
+		$StartNextTask.disabled = false
