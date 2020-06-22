@@ -284,22 +284,20 @@ func _get_input_pos():
 
 # Called when time's up
 func _on_timer_timeout():
-	if debug:
-		_game_over()
-	else:
-		rpc("_game_over")
+	_game_over()
+
 
 
 remotesync func _game_completed():
 	game_completed_player.play()
-	if (debug or get_tree().is_network_server()) and running:
-		$AcceptDialog.show()
 
 	$Title.text = "Completed"
 	$Title.visible = true
 
 	timer.stop()
 	running = false
+	
+	rpc("_next_minigame")
 
 
 remotesync func _next_minigame():
@@ -312,6 +310,3 @@ remotesync func _game_over():
 	yield(get_tree().create_timer(1.0), "timeout")
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
-
-func _on_AcceptDialog_confirmed():
-	rpc("_next_minigame")
