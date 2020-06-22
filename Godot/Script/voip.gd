@@ -34,15 +34,14 @@ func custom_play(id : int, audio_stream):
 			print("index not found!")
 
 
-remote func _play(id, audiopacket : PoolByteArray, format, mix_rate, stereo, size):
+remote func _play(id, audiopacket : PoolByteArray, format, mix_rate, stereo):
 	if(audiopacket.empty()):
 		print("EMPTY AUDIOPACKET")
 	else:
 		if(mute_players.has(id)):
 			return
-		var dec = audiopacket.decompress(size, 1)
 		var audio_stream = AudioStreamSample.new()
-		audio_stream.data = dec
+		audio_stream.data = audiopacket
 		audio_stream.set_format(format)
 		audio_stream.set_mix_rate(mix_rate)
 		audio_stream.set_stereo(stereo)
@@ -55,9 +54,8 @@ func _helper():
 	if (record == null):
 		print("recording is null!")
 	else:
-		var comp = record.get_data().compress(1)
-		rpc_unreliable("_play",get_tree().get_network_unique_id(), comp, record.get_format(),
-		record.get_mix_rate(), record.is_stereo(), record.get_data().size())
+		rpc("_play",get_tree().get_network_unique_id(), record.get_data(), record.get_format(),
+		record.get_mix_rate(), record.is_stereo())
 	time_elapsed = 0
 
 

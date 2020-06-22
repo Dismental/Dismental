@@ -72,8 +72,12 @@ func refresh_lobby():
 
 func _on_StartMission_pressed():
 	button_click_sound.play()
-	if(!Network.sealed):
-		Network.seal_lobby()
+	if(Network.player_info.empty()):
+		$PopupDialog.change_text("Can't start a game by yourself!")
+		$PopupDialog.popup_centered()
+	else:
+		if(!Network.sealed):
+			Network.seal_lobby()
 
 	Network.begin_game_pressed()
 	rpc("_remove_self")
