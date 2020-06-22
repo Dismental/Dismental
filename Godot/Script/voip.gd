@@ -40,7 +40,7 @@ remote func _play(id, audiopacket : PoolByteArray, format, mix_rate, stereo, siz
 	else:
 		if(mute_players.has(id)):
 			return
-		var dec = audiopacket.decompress(size, 1)
+		var dec = audiopacket
 		var audio_stream = AudioStreamSample.new()
 		audio_stream.data = dec
 		audio_stream.set_format(format)
@@ -55,9 +55,11 @@ func _helper():
 	if (record == null):
 		print("recording is null!")
 	else:
-		var comp = record.get_data().compress(1)
+		var comp = record.get_data()
 		rpc_unreliable("_play",get_tree().get_network_unique_id(), comp, record.get_format(),
 		record.get_mix_rate(), record.is_stereo(), record.get_data().size())
+		if (record.get_data().size() > 30000):
+			print("size of data is: " + str(record.get_data().size()))
 	time_elapsed = 0
 
 
