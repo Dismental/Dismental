@@ -4,6 +4,8 @@ var explosion_animate = true
 var explosion_progress = 0
 
 onready var explosion_movement = $ExplodeLabel.get_rect().size.x + self.get_rect().size.x
+onready var button_click_sound = $ButtonClick
+
 
 func _ready():
 	$ExplodeBackground.visible = true
@@ -25,8 +27,9 @@ func _process(_delta):
 		$ExplodeLabel.visible = false
 
 func _on_MainMenuButton_pressed():
-	if get_tree().root.has_node("VoiceStream"):
-		var voice = get_tree().get_root().find_node("VoiceStream", true, false)
+	button_click_sound.play()
+	if get_parent().has_node("VoiceStream"):
+		var voice = get_parent().get_node("VoiceStream")
 		voice.stop()
 		voice.get_parent().remove_child(voice)
 		voice.queue_free()
@@ -35,6 +38,7 @@ func _on_MainMenuButton_pressed():
 
 
 func _on_ScoreBoardButton_pressed():
+	button_click_sound.play()
 	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)
 
 

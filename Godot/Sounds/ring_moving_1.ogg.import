@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/ring_moving_1.ogg-97ed613f7e4cb0aee67d5d80cb80a08c.oggstr"
+
+[deps]
+
+source_file="res://Sounds/ring_moving_1.ogg"
+dest_files=[ "res://.import/ring_moving_1.ogg-97ed613f7e4cb0aee67d5d80cb80a08c.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

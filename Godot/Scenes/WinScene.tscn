@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Script/SceneManagers/WinSceneManager.gd" type="Script" id=3]
+[ext_resource path="res://Sounds/button_click.ogg" type="AudioStream" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 128
@@ -233,6 +234,9 @@ uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
 [connection signal="pressed" from="MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
 [connection signal="pressed" from="ScoreBoardButton" to="." method="_on_ScoreBoardButton_pressed"]
 [connection signal="pressed" from="PlayAgainButton" to="." method="_on_PlayAgainButton_pressed"]

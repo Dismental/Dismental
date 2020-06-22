@@ -10,6 +10,9 @@ onready var player_nodes = [
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player5
 ]
 
+# SFX
+onready var button_click_sound = $ButtonClick
+
 
 func _ready():
 	Network.connect("lobby_joined", self, "lobby_joined")
@@ -68,6 +71,7 @@ func refresh_lobby():
 
 
 func _on_StartMission_pressed():
+	button_click_sound.play()
 	if(!Network.sealed):
 		Network.seal_lobby()
 
@@ -76,10 +80,12 @@ func _on_StartMission_pressed():
 
 
 func _on_DifficultyBtn_item_selected(id):
+	button_click_sound.play()
 	GameState.difficulty_changed(id)
 
 
 func _on_MuteBtn_toggled(button_pressed):
+	button_click_sound.play()
 	voice.set_recording(button_pressed)
 
 
@@ -100,6 +106,7 @@ func _on_TeamName_text_changed(new_text):
 
 
 func _on_CancelMission_pressed():
+	button_click_sound.play()
 	stop_voip()
 	Network.stop()
 	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)

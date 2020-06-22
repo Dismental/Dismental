@@ -3,6 +3,9 @@ extends Control
 var success_animate = true
 var success_progress = 0
 
+onready var button_click_sound = $ButtonClick
+
+
 func _ready():
 	$SuccessBackground.visible = true
 	$SuccessLabel.visible = true
@@ -38,8 +41,9 @@ func _process(_delta):
 
 
 func _on_MainMenuButton_pressed():
-	if get_tree().root.has_node("VoiceStream"):
-		var voice = get_tree().get_root().find_node("VoiceStream", true, false)
+	button_click_sound.play()
+	if get_parent().has_node("VoiceStream"):
+		var voice = get_parent().get_node("VoiceStream")
 		voice.stop()
 		voice.get_parent().remove_child(voice)
 		voice.queue_free()
@@ -48,6 +52,7 @@ func _on_MainMenuButton_pressed():
 
 
 func _on_ScoreBoardButton_pressed():
+	button_click_sound.play()
 	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)
 
 
