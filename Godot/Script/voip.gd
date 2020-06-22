@@ -1,6 +1,6 @@
 extends Node
 
-const MIN_PACKET_LENGTH = 0.1
+const MIN_PACKET_LENGTH = 0.25
 
 var mic : AudioEffectRecord
 var record
