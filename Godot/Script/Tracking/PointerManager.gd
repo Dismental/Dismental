@@ -20,7 +20,7 @@ var pointer_pos_current
 
 # Properties for the drawing of the pointer
 var p_visible = true
-var p_color = Color(0, 1, 1, 1)
+var p_color = Color(0, 0, 1)
 var p_rad = 25
 
 # Properties for the drawing of the pointer
@@ -73,6 +73,9 @@ func _process(_delta):
 
 	if player_role == Role.HEADTHROTTLE:
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
+
+		tracking_pos_new.x = clamp(tracking_pos_new.x, 0, get_viewport_rect().size.x)
+		tracking_pos_new.y = clamp(tracking_pos_new.y, 0, get_viewport_rect().size.y)
 
 		# The distance between the last tracking position and the new tracking position
 		var distance_new = (tracking_pos_new.distance_to(tracking_pos))
@@ -280,11 +283,11 @@ func distance_from_origin(point):
 func _draw():
 	# Draw the tracked position
 	if pickup_pointer:
-		draw_circle(_map_tracking_position(tracking_node.position), t_rad, Color(1.0, 0.0, 0.0, -1))
+		draw_circle(_map_tracking_position(tracking_node.position), t_rad, Color(1.0, 0.0, 0.0))
 		draw_line(
 			_map_tracking_position(tracking_node.position),
 			tracking_pos,
-			Color(1.0, 0.0, 0.0, -0.5),
+			Color(1.0, 0.0, 0.0),
 			4
 		)
 

@@ -45,6 +45,9 @@ var inverted_y
 
 var rotating = true
 
+var pointer_control
+var pointer_node
+
 onready var timer_label = get_node("Timer")
 
 # SFX
@@ -67,6 +70,13 @@ func _ready():
 		_assign_random_rings()
 		if debug: _start_game()
 		else: rpc("_start_game")
+
+	var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
+	var pointer = PointerScene.instance()
+	self.add_child(pointer)
+	pointer_control = pointer.get_node(".")
+	pointer_control.set_role_and_position(pointer.Role.HEADTHROTTLE, Vector2(0.7,0.5))
+	pointer_node = pointer.get_node("Pointer")
 
 
 func _process(delta):
@@ -279,7 +289,7 @@ remotesync func _set_rings_angle(lst):
 
 # Returns the input position
 func _get_input_pos():
-	return get_viewport().get_mouse_position()
+	return pointer_node.position
 
 
 # Called when time's up
