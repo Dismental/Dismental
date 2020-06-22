@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Script/SceneManagers/Lobby/LobbyManager.gd" type="Script" id=2]
@@ -645,7 +645,6 @@ __meta__ = {
 [node name="PopupDialog" parent="." instance=ExtResource( 6 )]
 [connection signal="text_changed" from="TeamName" to="." method="_on_TeamName_text_changed"]
 [connection signal="pressed" from="StartMission" to="." method="_on_StartMission_pressed"]
-[connection signal="pressed" from="OpenInstructions" to="." method="_on_OpenInstructions_pressed"]
 [connection signal="toggled" from="OpenInstructions" to="." method="_on_OpenInstructions_toggled"]
 [connection signal="pressed" from="CancelMission" to="." method="_on_CancelMission_pressed"]
 [connection signal="item_selected" from="DifficultyBtn" to="." method="_on_DifficultyBtn_item_selected"]
