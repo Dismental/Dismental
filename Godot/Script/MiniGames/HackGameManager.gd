@@ -75,21 +75,21 @@ func _process(delta):
 
 func _adjust_for_difficulties():
 	if GameState.difficulty == "EASY":
-		password = "Exp"
+		password = "Explode"
 		collectables_interval_initial = 6
 		collectables_interval = collectables_interval_initial
 		moving_speed = 8
 		spawn_chance = 12
 		
 	elif GameState.difficulty == "MEDIUM":
-		password = "TikTokTik"
+		password = "LetMeIn!!!"
 		collectables_interval_initial = 5
 		collectables_interval = collectables_interval_initial
 		moving_speed = 9
 		spawn_chance = 14
 		
 	elif GameState.difficulty == "HARD":
-		password = "HurryUp123"
+		password = "Hurry^Up123"
 		collectables_interval_initial = 4
 		collectables_interval = collectables_interval_initial
 		moving_speed = 10
