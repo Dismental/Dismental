@@ -6,6 +6,9 @@ var scroll_progress = 0
 var scroll_amount = 0
 var scroll_down = true
 
+# SFX
+onready var button_click_sound = $AudioStreamPlayers/ButtonClick
+
 
 func start_scroll_animation(direction):
 	scroll_down = direction
@@ -36,20 +39,25 @@ func _process(delta):
 
 
 func _on_CreateMissionButton_pressed():
+	button_click_sound.play()
 	set_panel_visible("MissionPanel/CreateMissionPanel", true)
 	set_panel_visible("MissionPanel/JoinMissionPanel", false)
 	start_scroll_animation(true)
 
 
 func _on_JoinMissionButton_pressed():
+	button_click_sound.play()
 	set_panel_visible("MissionPanel/CreateMissionPanel", false)
 	set_panel_visible("MissionPanel/JoinMissionPanel", true)
 	start_scroll_animation(true)
 
 
 func _on_BackButton_pressed():
+	button_click_sound.play()
 	start_scroll_animation(false)
 
+func _on_JoinLobbyButton_pressed():
+	button_click_sound.play()
 
 func popup(text: String):
 	var p_up = $Popup

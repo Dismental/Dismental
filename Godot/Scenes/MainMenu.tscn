@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/main_menu_wires.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Script/CreateMissionPanel.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/PopupDialog.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Script/JoinMissionPanel.gd" type="Script" id=10]
+[ext_resource path="res://Sounds/button_click.ogg" type="AudioStream" id=11]
 
 [sub_resource type="Theme" id=1]
 
@@ -756,10 +757,16 @@ text = "BACK"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AudioStreamPlayers" type="Node" parent="."]
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 11 )
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/Label" method="_on_HSlider_value_changed"]
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Label" method="_on_HSlider_value_changed"]
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
 [connection signal="pressed" from="CreateMissionButton" to="." method="_on_CreateMissionButton_pressed"]
+[connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="." method="_on_JoinLobbyButton_pressed"]
 [connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="MissionPanel/JoinMissionPanel" method="_on_JoinMissionBtn_pressed"]
 [connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="MissionPanel/CreateMissionPanel" method="_on_CreateMissionBtn_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
