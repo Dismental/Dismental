@@ -135,6 +135,7 @@ func test_collecting_label():
 	inst.num_of_collectables = 10
 	inst.password_label = Label.new()
 	inst.label_collected_player = AudioStreamPlayer.new()
+	inst.password = "test"
 	
 	var node1 = Node.new()
 	var node2 = Node.new()

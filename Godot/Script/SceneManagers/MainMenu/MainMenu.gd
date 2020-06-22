@@ -39,31 +39,34 @@ func _process(delta):
 
 
 func _on_CreateMissionButton_pressed():
-	button_click_sound.play()
+	_play_button_click_sound()
 	set_panel_visible("MissionPanel/CreateMissionPanel", true)
 	set_panel_visible("MissionPanel/JoinMissionPanel", false)
 	start_scroll_animation(true)
 
 
 func _on_JoinMissionButton_pressed():
-	button_click_sound.play()
+	_play_button_click_sound()
 	set_panel_visible("MissionPanel/CreateMissionPanel", false)
 	set_panel_visible("MissionPanel/JoinMissionPanel", true)
 	start_scroll_animation(true)
 
 
 func _on_BackButton_pressed():
-	button_click_sound.play()
+	_play_button_click_sound()
 	start_scroll_animation(false)
 
 
 func _on_JoinLobbyButton_pressed():
-	button_click_sound.play()
+	_play_button_click_sound()
 
 
 func _on_CreateLobbyButton_pressed():
-	button_click_sound.play()
+	_play_button_click_sound()
 
+
+func _play_button_click_sound():
+	button_click_sound.play()
 
 func popup(text: String):
 	var p_up = $Popup
