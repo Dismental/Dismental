@@ -1,16 +1,18 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Script/MiniGames/Cut/CutGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Textures/x-rayshadow.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Mini Games/Cut/no_cut_pattern.png" type="Texture" id=3]
 [ext_resource path="res://Script/MiniGames/Cut/TextureRect.gd" type="Script" id=4]
 [ext_resource path="res://Sounds/game_over.ogg" type="AudioStream" id=5]
+[ext_resource path="res://Sounds/game_cleared.ogg" type="AudioStream" id=6]
 [ext_resource path="res://Scenes/Mini Games/Cut/start_finish.png" type="Texture" id=7]
 [ext_resource path="res://Script/MiniGames/Cut/StartFinish.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Mini Games/Cut/background.png" type="Texture" id=9]
 [ext_resource path="res://Scenes/Mini Games/Cut/pointer.png" type="Texture" id=10]
 [ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=11]
 [ext_resource path="res://Script/MiniGames/Cut/LaserPointer.gd" type="Script" id=12]
+[ext_resource path="res://Sounds/go_signal.ogg" type="AudioStream" id=13]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.364238, 0.668874, 0.827815, 1 )
@@ -194,8 +196,10 @@ __meta__ = {
 [node name="AudioStreamPlayers" type="Node" parent="."]
 
 [node name="GoSignal" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 13 )
 
 [node name="GameCompleted" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 6 )
 
 [node name="GameOver" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
 stream = ExtResource( 5 )

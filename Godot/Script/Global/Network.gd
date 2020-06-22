@@ -265,3 +265,6 @@ func deregister_player(id):
 
 func get_players():
 	return player_info
+
+func clear_ready_players():
+	players_ready.clear()

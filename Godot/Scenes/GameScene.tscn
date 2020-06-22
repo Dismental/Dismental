@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Script/SceneManagers/GameSceneManager.gd" type="Script" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://Scenes/RoadMap/cut.png" type="Texture" id=5]
 [ext_resource path="res://Script/BombManager.gd" type="Script" id=6]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
-[ext_resource path="res://Fonts/Roboto/Roboto-Regular.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://Fonts/ds_digital.tres" type="DynamicFont" id=9]
 [ext_resource path="res://Script/Timer.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/RoadMap/align.png" type="Texture" id=11]
@@ -117,11 +116,7 @@ size = 32
 outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
 font_data = ExtResource( 15 )
 
-[sub_resource type="DynamicFont" id=16]
-size = 37
-font_data = ExtResource( 8 )
-
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -133,7 +128,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id=18]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -145,7 +140,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id=19]
+[sub_resource type="StyleBoxFlat" id=18]
 border_width_left = 10
 border_width_top = 10
 border_width_right = 12
@@ -156,17 +151,17 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=19]
 size = 100
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="DynamicFont" id=20]
 size = 50
 font_data = ExtResource( 4 )
 
-[sub_resource type="StyleBoxFlat" id=22]
+[sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -175,7 +170,7 @@ border_width_bottom = 4
 border_color = Color( 0, 0, 0, 1 )
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id=23]
+[sub_resource type="StyleBoxFlat" id=22]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 0.0
@@ -221,25 +216,25 @@ __meta__ = {
 
 [node name="CenterContainer" type="CenterContainer" parent="Control"]
 margin_right = 1920.0
-margin_bottom = 1080.0
+margin_bottom = 938.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CenterContainer"]
 margin_left = 176.0
-margin_top = 131.0
+margin_top = 77.0
 margin_right = 1744.0
-margin_bottom = 948.0
+margin_bottom = 860.0
 custom_constants/separation = 96
 
 [node name="Hack" type="MarginContainer" parent="Control/CenterContainer/HBoxContainer"]
 margin_right = 320.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Hack"]
 margin_right = 320.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/separation = 24
 
 [node name="Arrow" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Hack/VBoxContainer"]
@@ -290,13 +285,13 @@ __meta__ = {
 margin_left = 60.0
 margin_top = 418.0
 margin_right = 260.0
-margin_bottom = 529.0
+margin_bottom = 495.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 custom_styles/normal = SubResource( 7 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "DESCRIPTION OF HACK MINIGAME"
+text = "Catch the code"
 align = 1
 autowrap = true
 uppercase = true
@@ -307,13 +302,13 @@ __meta__ = {
 [node name="Cut" type="MarginContainer" parent="Control/CenterContainer/HBoxContainer"]
 margin_left = 416.0
 margin_right = 736.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/margin_top = 96
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Cut"]
 margin_top = 96.0
 margin_right = 320.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/separation = 24
 
 [node name="Arrow" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Cut/VBoxContainer"]
@@ -363,13 +358,13 @@ __meta__ = {
 margin_left = 60.0
 margin_top = 418.0
 margin_right = 260.0
-margin_bottom = 529.0
+margin_bottom = 495.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 custom_styles/normal = SubResource( 7 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "DESCRIPTION OF CUT MINIGAME"
+text = "Open the bomb"
 align = 1
 autowrap = true
 uppercase = true
@@ -380,13 +375,13 @@ __meta__ = {
 [node name="Align" type="MarginContainer" parent="Control/CenterContainer/HBoxContainer"]
 margin_left = 832.0
 margin_right = 1152.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/margin_top = 192
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Align"]
 margin_top = 192.0
 margin_right = 320.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/separation = 24
 
 [node name="Arrow" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Align/VBoxContainer"]
@@ -436,13 +431,13 @@ __meta__ = {
 margin_left = 60.0
 margin_top = 418.0
 margin_right = 260.0
-margin_bottom = 529.0
+margin_bottom = 495.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 custom_styles/normal = SubResource( 7 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "DESCRIPTION OF ALIGN MINIGAME"
+text = "Unlock the vault"
 align = 1
 autowrap = true
 uppercase = true
@@ -453,13 +448,13 @@ __meta__ = {
 [node name="Dissolve" type="MarginContainer" parent="Control/CenterContainer/HBoxContainer"]
 margin_left = 1248.0
 margin_right = 1568.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/margin_top = 288
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Dissolve"]
 margin_top = 288.0
 margin_right = 320.0
-margin_bottom = 817.0
+margin_bottom = 783.0
 custom_constants/separation = 24
 
 [node name="Arrow" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Dissolve/VBoxContainer"]
@@ -509,13 +504,13 @@ __meta__ = {
 margin_left = 60.0
 margin_top = 418.0
 margin_right = 260.0
-margin_bottom = 529.0
+margin_bottom = 495.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 custom_styles/normal = SubResource( 7 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "DESCRIPTION OF DISSOLVE MINIGAME"
+text = "Remove the chip"
 align = 1
 autowrap = true
 uppercase = true
@@ -537,7 +532,7 @@ __meta__ = {
 [node name="WaitingForHost" type="Label" parent="Control"]
 margin_left = 744.311
 margin_top = 1020.38
-margin_right = 1232.31
+margin_right = 1250.31
 margin_bottom = 1051.38
 custom_fonts/font = SubResource( 11 )
 text = "WAITING FOR HOST TO START NEXT TASK..."
@@ -546,7 +541,6 @@ __meta__ = {
 }
 
 [node name="InstructionPanel" type="Panel" parent="Control"]
-visible = false
 anchor_left = -0.00100009
 anchor_right = -0.00100009
 margin_left = 1005.92
@@ -560,8 +554,12 @@ __meta__ = {
 
 [node name="HackInstructions" type="MarginContainer" parent="Control/InstructionPanel"]
 visible = false
-margin_right = 739.0
-margin_bottom = 710.0
+anchor_top = 0.00171947
+anchor_bottom = 0.00171947
+margin_left = -2.55835
+margin_top = -0.779175
+margin_right = 742.442
+margin_bottom = 709.221
 custom_constants/margin_right = 24
 custom_constants/margin_top = 24
 custom_constants/margin_left = 24
@@ -571,24 +569,34 @@ __meta__ = {
 }
 
 [node name="LABEL3" type="Label" parent="Control/InstructionPanel/HackInstructions"]
-margin_left = 220.0
+margin_left = 28.0
 margin_top = 24.0
-margin_right = 519.0
-margin_bottom = 77.0
+margin_right = 716.0
+margin_bottom = 525.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "INSTRUCTIONS"
-align = 1
+text = "The suspect Sergio has gone mad
+and planted a bomb. 
+
+As the Bomb Intervention Team
+it is our task to stop him.
+
+Hack his computer to find out 
+where he has planted the bomb
+and where he has hidden his plans."
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CutInstructions" type="MarginContainer" parent="Control/InstructionPanel"]
 visible = false
-margin_right = 739.0
-margin_bottom = 710.0
+anchor_bottom = 0.00985915
+margin_left = 1.22095
+margin_top = -1.22083
+margin_right = 740.221
+margin_bottom = 708.779
 custom_constants/margin_right = 24
 custom_constants/margin_top = 24
 custom_constants/margin_left = 24
@@ -598,16 +606,23 @@ __meta__ = {
 }
 
 [node name="LABEL3" type="Label" parent="Control/InstructionPanel/CutInstructions"]
-margin_left = 220.0
+margin_left = 32.0
 margin_top = 24.0
-margin_right = 519.0
-margin_bottom = 77.0
+margin_right = 707.0
+margin_bottom = 525.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "INSTRUCTIONS"
-align = 1
+text = "The bomb has been found, but 
+the timer is protected by a metal 
+plate.
+
+Use a high precision laser
+to cut an opening in the plate. 
+Be careful not to damage the 
+sensitive components underneath.
+Use the X-ray vision as a guide."
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -625,16 +640,18 @@ __meta__ = {
 }
 
 [node name="LABEL3" type="Label" parent="Control/InstructionPanel/AlignInstructions"]
-margin_left = 220.0
+margin_left = 55.0
 margin_top = 24.0
-margin_right = 519.0
-margin_bottom = 77.0
+margin_right = 684.0
+margin_bottom = 245.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "INSTRUCTIONS"
-align = 1
+text = "The bomb timer is exposed, but 
+the design is unknown. Get the
+design plans from the vault to
+known how to stop the timer."
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -652,16 +669,18 @@ __meta__ = {
 }
 
 [node name="LABEL3" type="Label" parent="Control/InstructionPanel/DissolveInstructions"]
-margin_left = 220.0
+margin_left = 36.0
 margin_top = 24.0
-margin_right = 519.0
-margin_bottom = 77.0
+margin_right = 703.0
+margin_bottom = 245.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "INSTRUCTIONS"
-align = 1
+text = "The bomb design plans show that
+removing this chip will stop the 
+timer. Dismantle the timer and 
+defuse the bomb."
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -679,11 +698,14 @@ __meta__ = {
 }
 
 [node name="StartNextTask" type="Button" parent="Control"]
-visible = false
-margin_left = 792.031
-margin_top = 984.253
-margin_right = 1123.03
-margin_bottom = 1049.25
+anchor_left = 0.4992
+anchor_top = 1.08084
+anchor_right = 0.4992
+anchor_bottom = 1.08084
+margin_left = -126.38
+margin_top = -169.946
+margin_right = 233.62
+margin_bottom = -104.946
 custom_styles/normal = SubResource( 14 )
 custom_fonts/font = SubResource( 15 )
 text = "START NEXT TASK"
@@ -691,23 +713,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="Control"]
-anchor_left = 0.4992
-anchor_top = 1.08084
-anchor_right = 0.4992
-anchor_bottom = 1.08084
-margin_left = -247.506
-margin_top = -210.055
-margin_right = 255.494
-margin_bottom = -98.0553
-custom_fonts/font = SubResource( 16 )
-text = "Start next MiniGame"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="CountDown" type="Timer" parent="Control"]
-wait_time = 3.0
+wait_time = 20.0
 one_shot = true
 
 [node name="OldControl" type="Control" parent="."]
@@ -738,15 +745,16 @@ margin_top = 40.0
 margin_right = 1086.0
 margin_bottom = 1086.0
 rect_scale = Vector2( 0.12, 0.12 )
-custom_styles/hover = SubResource( 17 )
-custom_styles/pressed = SubResource( 18 )
-custom_styles/normal = SubResource( 19 )
+custom_styles/hover = SubResource( 16 )
+custom_styles/pressed = SubResource( 17 )
+custom_styles/normal = SubResource( 18 )
 icon = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ExampleBomb" type="TextureRect" parent="OldControl/VBoxContainer/HBoxContainer"]
+visible = false
 margin_left = 304.0
 margin_right = 1624.0
 margin_bottom = 900.0
@@ -764,7 +772,7 @@ margin_left = -335.0
 margin_top = 40.0
 margin_right = 327.0
 margin_bottom = 166.0
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 19 )
 text = "Game Scene"
 align = 1
 __meta__ = {
@@ -796,7 +804,7 @@ margin_top = 51.6982
 margin_right = 566.021
 margin_bottom = 111.698
 rect_pivot_offset = Vector2( 1, 0 )
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 20 )
 text = "Minigames remaining: 2"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -812,7 +820,7 @@ margin_right = 1912.84
 margin_bottom = 1067.35
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 22 )
+custom_styles/panel = SubResource( 21 )
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -833,13 +841,13 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 208.0
 margin_bottom = 101.0
-custom_styles/normal = SubResource( 23 )
+custom_styles/normal = SubResource( 22 )
 custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
 text = "10:00"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="pressed" from="Control/Button" to="." method="_on_start_minigame_pressed"]
+[connection signal="pressed" from="Control/StartNextTask" to="." method="_on_start_minigame_pressed"]
 [connection signal="timeout" from="Control/CountDown" to="." method="_on_wait_time_lobby_over"]
 [connection signal="pressed" from="OldControl/VBoxContainer/HBoxContainer/Panel/BackButton" to="OldControl" method="_on_BackButton_pressed"]

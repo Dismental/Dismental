@@ -30,6 +30,11 @@ onready var completed_dialog = $Control/CompletedDialog
 onready var supervisor_vision = $"Control/X-rayVision"
 
 
+# SFX
+onready var game_completed_player = $AudioStreamPlayers/GameCompleted
+onready var go_signal_player = $AudioStreamPlayers/GoSignal
+onready var game_over_player = $AudioStreamPlayers/GameOver
+
 func _ready():
 	_adjust_for_difficulties()
 
@@ -174,6 +179,7 @@ func _update_game_state():
 			$LaserPointer.visible = true
 			waitForStartingPosition = false
 			dots.clear()
+			go_signal_player.play()
 	else:
 		if len(dots) > 2:
 			if not _is_input_on_track():
@@ -283,11 +289,15 @@ remotesync func _on_update_running(newValue):
 
 
 remotesync func _on_game_over():
+	game_over_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")	
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
 
 
 remotesync func _on_game_completed():
+	game_completed_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")
 	GameState.load_roadmap()
 	get_parent().call_deferred("remove_child", self)
 

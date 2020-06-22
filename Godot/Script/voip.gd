@@ -1,4 +1,4 @@
-extends AudioStreamPlayer
+extends Node
 
 const MIN_PACKET_LENGTH = 0.2
 
@@ -11,17 +11,28 @@ var mute_players : Dictionary
 func _ready():
 	mic = AudioServer.get_bus_effect(AudioServer.get_bus_index("Record"), 1)
 
-# Allows for multiple inputs to be played at the same time
-func play(from_position=0.0):
-		if !playing:
-			.play(from_position)
-		else:
-			var audio_player = self.duplicate(DUPLICATE_USE_INSTANCING)
-			get_parent().add_child(audio_player)
-			audio_player.stream = stream
-			audio_player.play()
-			yield(audio_player, "finished")
-			audio_player.queue_free()
+# Allows for playing of audiopackets of multiple players at the same time
+func custom_play(id : int, audio_stream):
+	var index = Network.player_info.keys().find(id)
+	match index:
+		0:
+			$Player.stream = audio_stream
+			$Player.play()
+		1:
+			$Player1.stream = audio_stream
+			$Player1.play()
+		2:
+			$Player2.stream = audio_stream
+			$Player2.play()
+		3:
+			$Player3.stream = audio_stream
+			$Playe3.play()
+		4:
+			$Player4.stream = audio_stream
+			$Player4.play()
+		_:
+			print("index not found!")
+
 
 remote func _play(id, audiopacket : PoolByteArray, format, mix_rate, stereo, size):
 	if(audiopacket.empty()):
@@ -35,8 +46,8 @@ remote func _play(id, audiopacket : PoolByteArray, format, mix_rate, stereo, siz
 		audio_stream.set_format(format)
 		audio_stream.set_mix_rate(mix_rate)
 		audio_stream.set_stereo(stereo)
-		stream = audio_stream
-		play()
+		custom_play(id, audio_stream)
+
 
 func _helper():
 	record = mic.get_recording()
@@ -48,6 +59,7 @@ func _helper():
 		rpc_unreliable("_play",get_tree().get_network_unique_id(), comp, record.get_format(),
 		record.get_mix_rate(), record.is_stereo(), record.get_data().size())
 	time_elapsed = 0
+
 
 func _process(delta: float) -> void:
 	if recording:

@@ -4,6 +4,8 @@ var explosion_animate = true
 var explosion_progress = 0
 
 onready var explosion_movement = $ExplodeLabel.get_rect().size.x + self.get_rect().size.x
+onready var button_click_sound = $ButtonClick
+
 
 func _ready():
 	$ExplodeBackground.visible = true
@@ -12,6 +14,8 @@ func _ready():
 	$Squad.text = $Squad.text + GameState.team_name
 	for player in Network.player_info.values():
 		$Squad/Members.add_item(player)
+
+	$PlayAgainButton.disabled = get_tree().get_network_unique_id() != Network.host
 
 func _process(_delta):
 	if explosion_progress < 1:
@@ -23,6 +27,7 @@ func _process(_delta):
 		$ExplodeLabel.visible = false
 
 func _on_MainMenuButton_pressed():
+	button_click_sound.play()
 	if get_parent().has_node("VoiceStream"):
 		var voice = get_parent().get_node("VoiceStream")
 		voice.stop()
@@ -33,4 +38,15 @@ func _on_MainMenuButton_pressed():
 
 
 func _on_ScoreBoardButton_pressed():
+	button_click_sound.play()
 	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)
+
+
+func _on_PlayAgainButton_pressed():
+	return rpc("_play_again")
+
+
+remotesync func _play_again():
+	var success = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
+	GameState.reset_gamestate()
+	return success

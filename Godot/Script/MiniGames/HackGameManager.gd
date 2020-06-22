@@ -27,7 +27,7 @@ var row_height = (screen_height - 2 * padding_top_bottom) / rows
 
 var moving_speed
 var cur_time = -3
-var spawnchange
+var spawn_chance
 
 var player_role
 var pointer_node
@@ -36,6 +36,10 @@ onready var bar = $Bar
 onready var password_label = $PasswordLabel
 onready var label_nodes = $LabelNodes
 
+# SFX
+onready var label_collected_player = $AudioStreamPlayers/LabelCollected
+onready var game_completed_player = $AudioStreamPlayers/GameCompleted
+onready var game_over_player = $AudioStreamPlayers/GameOver
 
 func _ready():
 	_adjust_for_difficulties()
@@ -75,21 +79,21 @@ func _adjust_for_difficulties():
 		collectables_interval_initial = 6
 		collectables_interval = collectables_interval_initial
 		moving_speed = 8
-		spawnchange = 12
+		spawn_chance = 12
 		
 	elif GameState.difficulty == "MEDIUM":
 		password = "TikTokTik"
 		collectables_interval_initial = 5
 		collectables_interval = collectables_interval_initial
 		moving_speed = 9
-		spawnchange = 14
+		spawn_chance = 14
 		
 	elif GameState.difficulty == "HARD":
 		password = "HurryUp123"
 		collectables_interval_initial = 4
 		collectables_interval = collectables_interval_initial
 		moving_speed = 10
-		spawnchange = 15
+		spawn_chance = 15
 
 
 func _update_password_label():
@@ -143,7 +147,7 @@ remotesync func _spawn_labels(delta):
 					_create_collectable_label(pos,  password[spawned_collectables])
 				spawned_collectables += 1
 					
-			elif rand < spawnchange:
+			elif rand < spawn_chance:
 				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
 				if online:
 					rpc("_create_label_node", pos, _generate_random_char())
@@ -244,6 +248,7 @@ func _on_Bar_body_entered(body):
 
 # Called when a collectable char is collected
 remotesync func _collected_body(i):
+	label_collected_player.play()
 	label_nodes.remove_child(collectables[i])
 	collectables.remove(i)
 
@@ -261,10 +266,14 @@ func _on_GameOver_body_entered(_body):
 
 
 remotesync func _game_completed():
+	game_completed_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")
 	GameState.load_roadmap()
 	get_parent().call_deferred("remove_child", self)
 
 
 remotesync func _game_over():
+	game_over_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")	
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)

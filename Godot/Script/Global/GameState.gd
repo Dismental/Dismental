@@ -18,9 +18,8 @@ var wait_time = 60 * 10
 var timer_label
 var running = false
 
-var squadname = ""
 var minigame_index = 0
-var minigames = ["Hack", "Align", "Cut", "Dissolve"]
+var minigames = ["Hack", "Cut", "Align", "Dissolve"]
 var defusers = []
 var last_label_update
 
@@ -53,6 +52,16 @@ func assign_roles():
 
 remotesync func set_defuser_roles(roles):
 	defusers = roles
+
+func reset_gamestate():
+	wait_time = 60 * 10
+	minigame_index = 0
+	minigames = ["Hack", "Align", "Cut", "Dissolve"]
+	defusers = []
+	Network.clear_ready_players()
+	update_difficulty(difficulty)
+	update_team_name(team_name)
+
 
 func start_timer(timer_node):
 	timer_label = timer_node
@@ -117,10 +126,6 @@ func start_minigame(button_reference):
 			button_reference.text = "Defuse Bomb"
 	else:
 		emit_signal("defused")
-
-
-remotesync func update_squad_name(new_name):
-	squadname = new_name
 
 
 func init_lobby_options(id: int):
