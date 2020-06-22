@@ -77,10 +77,10 @@ __meta__ = {
 script = ExtResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 16.0291
-margin_top = 777.602
-margin_right = 700.029
-margin_bottom = 1058.6
+margin_left = 16.0
+margin_top = 778.0
+margin_right = 597.0
+margin_bottom = 1059.0
 grow_vertical = 2
 alignment = 2
 __meta__ = {
@@ -88,7 +88,7 @@ __meta__ = {
 }
 
 [node name="Lbl_lost_tracking" type="Label" parent="VBoxContainer"]
-margin_right = 684.0
+margin_right = 581.0
 margin_bottom = 53.0
 custom_styles/normal = SubResource( 1 )
 custom_fonts/font = SubResource( 2 )
@@ -99,7 +99,7 @@ __meta__ = {
 
 [node name="Lbl_pickup_pointer" type="Label" parent="VBoxContainer"]
 margin_top = 57.0
-margin_right = 684.0
+margin_right = 581.0
 margin_bottom = 110.0
 custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 2 )
@@ -110,7 +110,7 @@ __meta__ = {
 
 [node name="Lbl_lighting" type="Label" parent="VBoxContainer"]
 margin_top = 114.0
-margin_right = 684.0
+margin_right = 581.0
 margin_bottom = 167.0
 custom_styles/normal = SubResource( 4 )
 custom_fonts/font = SubResource( 2 )
@@ -121,7 +121,7 @@ __meta__ = {
 
 [node name="Lbl_template_matching" type="Label" parent="VBoxContainer"]
 margin_top = 171.0
-margin_right = 684.0
+margin_right = 581.0
 margin_bottom = 224.0
 custom_styles/normal = SubResource( 4 )
 custom_fonts/font = SubResource( 2 )
@@ -132,7 +132,7 @@ __meta__ = {
 
 [node name="Lbl_too_close" type="Label" parent="VBoxContainer"]
 margin_top = 228.0
-margin_right = 684.0
+margin_right = 581.0
 margin_bottom = 281.0
 custom_styles/normal = SubResource( 5 )
 custom_fonts/font = SubResource( 2 )
