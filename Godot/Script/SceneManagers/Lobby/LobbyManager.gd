@@ -78,7 +78,7 @@ func _on_StartMission_pressed():
 	else:
 		if(!Network.sealed):
 			Network.seal_lobby()
-	
+
 		Network.begin_game_pressed()
 		get_parent().remove_child(self)
 
