@@ -6,12 +6,6 @@
 
 const double VideoFaceDetector::TICK_FREQUENCY = cv::getTickFrequency();
 
-// VideoFaceDetector::VideoFaceDetector(const std::string cascadeFilePath, cv::VideoCapture &videoCapture)
-// {
-//     setFaceCascade(cascadeFilePath);
-//     setVideoCapture(videoCapture);
-// }
-
 VideoFaceDetector::VideoFaceDetector() {
     
 }
@@ -232,11 +226,8 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
     // Get detected face
     m_trackedFace = biggestFace(m_allFaces);
 
-    if (m_trackedFace.height > (frame.rows / 3.0)) {
-        too_close = true;
-    } else {
-        too_close = false;
-    }
+    if (!too_close) too_close = m_trackedFace.height > (frame.rows / 2.5);
+    if (too_close) too_close = m_trackedFace.height > (frame.rows / 3.5);
 
     // Add roi offset to face
     m_trackedFace.x += m_faceRoi.x;
@@ -277,8 +268,10 @@ void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame)
     // If template matching lasts for more than 2 seconds face is possibly lost
     // so disable it and redetect using cascades
     if (duration > m_templateMatchingMaxDuration) {
-        stopTemplateMatching();
-		return;
+        m_foundFace = false;
+        detectFaceAllSizes(frame);
+        if (m_foundFace) return;
+        m_foundFace = true;
     }
 
 	// Edge case when face exits frame while 

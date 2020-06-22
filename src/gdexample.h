@@ -8,7 +8,6 @@
 #include <opencv2/objdetect.hpp>
 #include <opencv2/tracking.hpp>
 #include "VideoFaceDetector.h"
-#include "VideoHandDetector.h"
 
 namespace godot {
 
@@ -28,6 +27,7 @@ private:
     bool too_close;
     bool template_matching;
     bool lost_tracking;
+    bool camera_access;
     float retry_timer = 0.0;
 
 public:

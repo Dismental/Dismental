@@ -9,7 +9,6 @@
 #include <sstream>
 #include <string>
 #include "VideoFaceDetector.h"
-#include "VideoHandDetector.h"
 #include <queue>
 #include <math.h>
 
@@ -26,6 +25,12 @@ void GDExample::_register_methods() {
 	register_property<GDExample, bool>("tooclose", &GDExample::too_close, false);
     register_property<GDExample, bool>("templatematching", &GDExample::template_matching, false);
     register_property<GDExample, bool>("losttracking", &GDExample::lost_tracking, false);
+
+    register_signal<GDExample>((char*)"multiface_changed", "value", GODOT_VARIANT_TYPE_BOOL);
+    register_signal<GDExample>((char*)"tooclose_changed", "value", GODOT_VARIANT_TYPE_BOOL);
+    register_signal<GDExample>((char*)"templatematching_changed", "value", GODOT_VARIANT_TYPE_BOOL);
+    register_signal<GDExample>((char*)"losttracking_changed", "value", GODOT_VARIANT_TYPE_BOOL);
+    register_signal<GDExample>((char*)"cameraaccess_changed", "value", GODOT_VARIANT_TYPE_BOOL);
 }
 
 GDExample::GDExample() {
@@ -45,6 +50,7 @@ string get_env_var( std::string const & key ) {
 }
 
 void GDExample::_init() {
+    camera_access = false;
 
     // TODO get .xml from res:// instead of a hardcoded path
     std::string path = "../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml";
@@ -70,6 +76,10 @@ void GDExample::_init() {
 }
 
 void GDExample::_process(float delta) {
+    if (!camera_access && camera.isOpened()) {
+        camera_access = camera.isOpened();
+        emit_signal("cameraaccess_changed", camera.isOpened());
+    }
     if (camera.isOpened()) {
         detector >> frame;
 
@@ -92,10 +102,22 @@ void GDExample::_process(float delta) {
             imshow("", flipFrame); // Uncomment this line to show the webcam frames in a seperate window
         }
 
-        multiple_faces = detector.multiple_faces;
-        too_close = detector.too_close;
-        lost_tracking = detector.lost_tracking;
-        template_matching = detector.template_matching;
+        if (multiple_faces != detector.multiple_faces) {
+             multiple_faces = detector.multiple_faces;
+            emit_signal("multiface_changed", detector.multiple_faces);
+        }
+        if (too_close != detector.too_close) {
+            too_close = detector.too_close;
+            emit_signal("tooclose_changed", detector.too_close);
+        }
+        if (template_matching != detector.template_matching) {
+            template_matching = detector.template_matching;
+            emit_signal("templatematching_changed", template_matching);
+        }
+        if (lost_tracking != detector.lost_tracking) {
+            lost_tracking = detector.lost_tracking;
+            emit_signal("losttracking_changed", detector.lost_tracking);
+        }
     } else {
         retry_timer += delta;
         if (retry_timer > 2) {

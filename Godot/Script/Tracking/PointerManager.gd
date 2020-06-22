@@ -8,6 +8,8 @@ enum Role {
 	HEADTHROTTLE,
 }
 
+export var pickup_pointer = true;
+
 var player_role
 
 var tracking_node
@@ -18,7 +20,7 @@ var pointer_pos_current
 
 # Properties for the drawing of the pointer
 var p_visible = true
-var p_color = Color(0, 0, 1)
+var p_color = Color(0, 1, 1, 1)
 var p_rad = 25
 
 # Properties for the drawing of the pointer
@@ -29,16 +31,16 @@ var ptimer_rad_loading = 50
 
 # Properties for the drawing of the tracked position
 var t_visible = true
-var t_color = Color(255, 0, 0)
+var t_a = 1.0
+var t_a_increase = false;
 var t_rad = 10
+
 
 # Properties for the interaction timer of the pointer
 var time_to_interaction = 0
 var time_to_interaction_total = 0
 
 var distance_from_free_zone
-
-var lost_tracking
 
 var free_movement_zone_radius = 100
 var throttle_zone_radius = 200
@@ -52,7 +54,7 @@ var movement_speed = Vector2(0,0)
 
 func _ready():
 	pointer_node = get_node("Pointer")
-	lost_tracking = true
+	_on_pickupointer(true)
 
 	p_visible = false
 	t_visible = false
@@ -104,7 +106,7 @@ func _process(_delta):
 		# warped according to the movement speed
 
 		# Defining the warping of the free movement zone and the throttle zone
-		if lost_tracking:
+		if pickup_pointer:
 			free_movement_zone_warp = 1
 			throttle_zone_warp = 1
 		else:
@@ -115,8 +117,8 @@ func _process(_delta):
 
 		# Check if the new tracking position is inside of the free movement zone
 		if _within_free_movement_zone(tracking_pos, tracking_pos_new):
-			if (lost_tracking):
-				lost_tracking = false
+			if (pickup_pointer):
+				_on_pickupointer(false)
 				free_movement_zone_radius = 100
 				throttle_zone_radius = 200
 
@@ -140,34 +142,36 @@ func _process(_delta):
 			var position_offset = tracking_pos_new - tracking_pos
 			var position_offset_norm = position_offset.normalized()
 
-			if not lost_tracking:
+			if not pickup_pointer:
 				var pos_offset_edge = position_offset_norm * _distance_to_free_zone_edge()
 				tracking_pos += pos_offset_edge/4
 				pointer_node.position = tracking_pos
 		# tracking is lost
 		else:
-			if not (lost_tracking):
+			if not pickup_pointer:
 				print("Lost" + ", " + var2str(pointer_pos_current))
-				lost_tracking = true
-				throttle_zone_radius = 100
+				_on_pickupointer(true)
+				throttle_zone_radius = 40
+				free_movement_zone_radius = 40
 			tracking_pos = tracking_pos
 		pointer_pos = pointer_pos_current
 
-		$Lbl_pickup_pointer.visible = lost_tracking
-		$Lbl_template_matching.visible = tracking_node.templatematching
-		$Lbl_too_close.visible = tracking_node.tooclose
-		$Lbl_lost_tracking.visible = tracking_node.losttracking
-		$Lbl_warning.visible = (
-			$HeadPos.templatematching || $HeadPos.tooclose ||
-			$HeadPos.multiface || $HeadPos.losttracking || lost_tracking
-		)
-
-	elif (player_role == Role.HEAD):
+	elif player_role == Role.HEAD:
 		tracking_pos = _map_tracking_position(tracking_node.position)
 		pointer_node.position = tracking_pos
-	elif (player_role == Role.MOUSE):
+	elif player_role == Role.MOUSE:
 		pointer_node.position = get_global_mouse_position()
 
+	if t_a_increase:
+		t_a += 0.1
+		t_a_increase = t_a <= 1;
+	else:
+		t_a -= 0.1
+		t_a_increase = t_a <= -1;
+	$Pointer/Lbl_warning.add_color_override("font_color", _get_warning_color())
+	$Pointer/Sprite.rotation_degrees += 1
+	if $Pointer/Sprite.rotation_degrees > 17:
+		$Pointer/Sprite.rotation_degrees = 0
 	update()
 
 func _update_loading_interaction():
@@ -188,7 +192,7 @@ func _within_free_movement_zone(pos, pos_new):
 	)
 
 	# check if the distance of pos is smaller than the radius of the point on the ellipse
-	if (distance < ellipse_point.length()):
+	if distance < ellipse_point.length():
 		return true
 	return false
 
@@ -242,7 +246,7 @@ func set_role_and_position(_player_role, start_pos):
 func _map_tracking_position(track_pos):
 	# Add a margin/multiplier so the user's movement is amplified.
 	# The makes it easy for the user to reach the edges of the game screen with the pointer
-	var margin = 0.7
+	var margin = 0.6
 	var windowmarginx = (get_viewport_rect().size.x)*margin
 	var windowmarginy = (get_viewport_rect().size.y)*margin
 
@@ -275,21 +279,22 @@ func distance_from_origin(point):
 
 func _draw():
 	# Draw the tracked position
-	if (t_visible):
-		draw_circle(_map_tracking_position(tracking_node.position), t_rad, t_color)
+	if pickup_pointer:
+		draw_circle(_map_tracking_position(tracking_node.position), t_rad, Color(1.0, 0.0, 0.0, -1))
 		draw_line(
 			_map_tracking_position(tracking_node.position),
 			tracking_pos,
-			t_color,
+			Color(1.0, 0.0, 0.0, -0.5),
 			4
 		)
 
-	if (ptimer_activated):
+	if ptimer_activated:
 		draw_circle(pointer_node.position , ptimer_rad_loading, ptimer_color)
 
 	# Draw the pointer
-	if (p_visible):
-		draw_circle(pointer_node.position , p_rad, p_color)
+	if p_visible:
+		if not pickup_pointer:
+			draw_circle(pointer_node.position , p_rad, p_color)
 
 func set_pointer_radius(rad):
 	p_rad = rad
@@ -297,8 +302,14 @@ func set_pointer_radius(rad):
 func set_pointer_color(col):
 	p_color = col
 
+func _get_t_color():
+	return Color(1.0, 0.0, 0.0, -0.5)
+
+func _get_warning_color():
+	return Color(1.0, 0.0, 0.0, abs(t_a/2.0)+0.5)
+
 func interaction_timer_activate(_timer):
-	if (_timer > 0):
+	if _timer > 0:
 		time_to_interaction_total = _timer
 		time_to_interaction = 0
 		ptimer_activated = true
@@ -311,7 +322,28 @@ func interaction_timer_is_active():
 	return ptimer_activated
 
 func interaction_timer_is_finished():
-	if (ptimer_activated and time_to_interaction_total == 0):
+	if ptimer_activated and time_to_interaction_total == 0:
 		return true
 	return false
 
+func _on_pickupointer(value):
+	$VBoxContainer/Lbl_pickup_pointer.visible = value
+	$Pickuppointershadow.visible = value
+	pickup_pointer = value
+	$Pointer/Sprite.visible = value
+
+
+func _on_HeadPos_losttracking_changed(value):
+	$VBoxContainer/Lbl_lost_tracking.visible = value
+	$Pointer/Lbl_warning.visible = value
+
+
+func _on_HeadPos_templatematching_changed(value):
+	$VBoxContainer/Lbl_template_matching.visible = value
+	$VBoxContainer/Lbl_lighting.visible = value
+	$Pointer/Lbl_warning.visible = value
+
+
+func _on_HeadPos_tooclose_changed(value):
+	$VBoxContainer/Lbl_too_close.visible = value
+	$Pointer/Lbl_warning.visible = value
