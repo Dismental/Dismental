@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 		if mic.is_recording_active():
 			if time_elapsed >= MIN_PACKET_LENGTH:
 				mic.set_recording_active(false)
-				call_deferred("_helper")
+				_helper()
 			time_elapsed += delta
 		else:
 			mic.set_recording_active(true)
