@@ -44,18 +44,18 @@ func _ready():
 	var is_defuser = defuser_id == get_tree().get_network_unique_id()
 	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
 
+	# Initialize the HeadTracking scene for this user
+	var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
+	var pointer = PointerScene.instance()
+	self.add_child(pointer)
+	var pointer_control = pointer.get_node(".")
+	pointer_control.set_role(pointer.Role.HEADTHROTTLE)
+	pointer_node = pointer.get_node("Pointer")
+	pointer_control.p_rad = 1
+	
 	if player_role == Role.DEFUSER:
 		_load_map(map_index, false)
-		
-		# Initialize the HeadTracking scene for this user
-		print("start tracking scene")
-		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
-		var pointer = PointerScene.instance()
-		self.add_child(pointer)
-		var pointer_control = pointer.get_node(".")
-		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
-		pointer_node = pointer.get_node("Pointer")
-		
+
 		# Turn the x-ray vision OFF for the operator
 		supervisor_vision.visible = false
 	else:
@@ -187,7 +187,7 @@ func _update_game_state():
 				_check_finish()
 	# Move the 'vision' of the Supervisor
 	if running and not player_role == Role.DEFUSER:
-		_supervisor_vision_update(get_global_mouse_position())
+		_supervisor_vision_update(pointer_node.position)
 
 
 func _check_finish():
