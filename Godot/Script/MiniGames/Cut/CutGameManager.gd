@@ -265,14 +265,16 @@ func _get_map_pixel_color(pos):
 	map_tex.unlock()
 	return pixelcolor
 
+
 remotesync func _game_over():
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
 
+
 func _game_completed():
 	rpc("_on_update_running", false)
 	rpc("_on_game_completed")
-	
+
 
 remotesync func _on_update_running(newValue):
 	running = newValue
@@ -286,7 +288,6 @@ remotesync func _on_game_over():
 remotesync func _on_game_completed():
 	GameState.load_roadmap()
 	get_parent().call_deferred("remove_child", self)
-	
 
 
 func _on_GameOverDialog_confirmed():
