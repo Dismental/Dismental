@@ -26,7 +26,7 @@ var row_height = (screen_height - 2 * padding_top_bottom) / rows
 
 var moving_speed
 var cur_time = -3
-var spawnchange
+var spawn_chance
 
 var player_role
 var pointer_node
@@ -73,19 +73,19 @@ func _adjust_for_difficulties():
 		password = "Exploding"
 		collectables_interval = 6
 		moving_speed = 8
-		spawnchange = 12
+		spawn_chance = 12
 		
 	elif GameState.difficulty == "MEDIUM":
 		password = "TikTokTik"
 		collectables_interval = 5
 		moving_speed = 9
-		spawnchange = 14
+		spawn_chance = 14
 		
 	elif GameState.difficulty == "HARD":
 		password = "HurryUp123"
 		collectables_interval = 4
 		moving_speed = 10
-		spawnchange = 15
+		spawn_chance = 15
 
 
 func _update_password_label():
@@ -137,7 +137,7 @@ remotesync func _spawn_labels(delta):
 					_create_collectable_label(pos,  password[spawned_collectables])
 				spawned_collectables += 1
 					
-			elif rand < spawnchange:
+			elif rand < spawn_chance:
 				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
 				if online:
 					rpc("_create_label_node", pos, _generate_random_char())
