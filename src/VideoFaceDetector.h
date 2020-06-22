@@ -60,5 +60,5 @@ private:
     void        stopTemplateMatching();
     void        detectFaceAllSizes(const cv::Mat &frame);
     void        detectFaceAroundRoi(const cv::Mat &frame);
-    void        detectFacesTemplateMatching(const cv::Mat &frame, const cv::Mat &orgFrame);
+    void        detectFacesTemplateMatching(const cv::Mat &frame);
 };
