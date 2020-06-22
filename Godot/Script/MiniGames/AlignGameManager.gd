@@ -70,7 +70,7 @@ func _ready():
 		_assign_random_rings()
 		if debug: _start_game()
 		else: rpc("_start_game")
-		
+
 	var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
 	var pointer = PointerScene.instance()
 	self.add_child(pointer)
