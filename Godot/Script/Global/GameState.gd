@@ -36,6 +36,7 @@ func _process(_delta):
 
 
 func assign_roles():
+	randomize()
 	var players = get_tree().get_network_connected_peers()
 	players.append(1)
 	var index = randi() % len(players)
