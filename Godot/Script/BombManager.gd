@@ -55,9 +55,9 @@ func _defused():
 remotesync func _on_defuse():
 	GameState.defused()
 
-	var date = OS.get_date().get("day")
-	date += "/" + OS.get_date().get("month")
-	date += "/" + OS.get_date().get("year")
+	var date = str(OS.get_date().get("day"))
+	date += "/" + str(OS.get_date().get("month"))
+	date += "/" + str(OS.get_date().get("year"))
 	ScoreManager.add_score(Score.new(GameState.team_name,
 		GameState.difficulty, GameState.timer.get_time_left(), date))
 
