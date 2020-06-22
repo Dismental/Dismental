@@ -32,7 +32,6 @@ GDExample::GDExample() {
 }
 
 GDExample::~GDExample() {
-    // add your cleanup here
 }
 
 string get_env_var( std::string const & key ) {                                 

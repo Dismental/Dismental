@@ -73,18 +73,31 @@ func connected(id):
 
 func disconnected():
 	print("Disconnected: %d: %s" % [code, reason])
+
 	if code == 4100:
 		print("host disconnect")
+		var curr_node = get_tree().get_current_scene().get_node("Lobby")
+		curr_node.stop_voip()
 		stop()
-		Utils.change_screen("res://Scenes/JoinGameRoom.tscn",
-			get_tree().get_current_scene().get_node("GameRoomPlayer"))
-		get_tree().get_current_scene().get_node("JoinGameRoom").popup(
+		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
+		get_tree().get_current_scene().get_node("MainMenu").popup(
 			"Host disconnected")
+
 	elif code == 4004:
-		Utils.change_screen("res://Scenes/JoinGameRoom.tscn",
-			get_tree().get_current_scene().get_node("GameRoomPlayer"))
-		get_tree().get_current_scene().get_node("JoinGameRoom").popup(
+		var curr_node = get_tree().get_current_scene().get_node("Lobby")
+		curr_node.stop_voip()
+		stop()
+		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
+		get_tree().get_current_scene().get_node("MainMenu").popup(
 			"Room with that name does not exist")
+
+	elif code == 4444:
+		var curr_node = get_tree().get_current_scene().get_node("Lobby")
+		curr_node.stop_voip()
+		stop()
+		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
+		get_tree().get_current_scene().get_node("MainMenu").popup(
+			"That room is currently full!")
 
 	elif not sealed:
 		stop() #Unexpected disconnect
@@ -106,7 +119,6 @@ func _player_connected(id):
 	print("We connected player with id: " + str(id))
 	player_info[id] = str(id)
 	print(get_tree().get_network_connected_peers())
-	rpc_id(id, "register_player")
 	rpc_id(id, "register_player", player_name)
 	if get_tree().get_network_unique_id() == host:
 		GameState.init_lobby_options(id)
