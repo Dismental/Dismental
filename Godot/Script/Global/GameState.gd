@@ -19,7 +19,7 @@ var timer_label
 var running = false
 
 var minigame_index = 0
-var minigames = ["Cut", "Hack", "Align", "Dissolve"]
+var minigames = ["Hack", "Cut", "Align", "Dissolve"]
 var defusers = []
 var last_label_update
 
