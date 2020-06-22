@@ -72,7 +72,6 @@ func refresh_lobby():
 
 func _on_StartMission_pressed():
 	button_click_sound.play()
-	var test = Network.player_info.empty()
 	if(Network.player_info.empty()):
 		$PopupDialog.change_text("Can't start a game by yourself!")
 		$PopupDialog.popup_centered()
