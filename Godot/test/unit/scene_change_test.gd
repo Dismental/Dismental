@@ -38,11 +38,3 @@ func test_back_button_pressed():
 	doubled._on_BackButton_pressed()
 	assert_called(doubled, "start_scroll_animation", [false])
 
-
-func test_settings_scene_change():
-	var path = 'res://Script/SceneManagers/SettingsSceneManager.gd'
-
-	var doubled = double(path).new()
-
-	stub(doubled, '_on_BackButton_pressed').to_call_super()
-	assert_true(doubled._on_BackButton_pressed())
