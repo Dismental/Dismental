@@ -75,7 +75,7 @@ func _process(delta):
 
 func _adjust_for_difficulties():
 	if GameState.difficulty == "EASY":
-		password = "Exploding"
+		password = "Exp"
 		collectables_interval_initial = 6
 		collectables_interval = collectables_interval_initial
 		moving_speed = 8
