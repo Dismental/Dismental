@@ -6,6 +6,9 @@ var scroll_progress = 0
 var scroll_amount = 0
 var scroll_down = true
 
+# SFX
+onready var button_click_sound = $AudioStreamPlayers/ButtonClick
+
 
 func start_scroll_animation(direction):
 	scroll_down = direction
@@ -36,25 +39,44 @@ func _process(delta):
 
 
 func _on_CreateMissionButton_pressed():
+	_play_button_click_sound()
 	set_panel_visible("MissionPanel/CreateMissionPanel", true)
 	set_panel_visible("MissionPanel/JoinMissionPanel", false)
 	start_scroll_animation(true)
 
 
 func _on_JoinMissionButton_pressed():
+	_play_button_click_sound()
 	set_panel_visible("MissionPanel/CreateMissionPanel", false)
 	set_panel_visible("MissionPanel/JoinMissionPanel", true)
 	start_scroll_animation(true)
 
 
 func _on_BackButton_pressed():
+	_play_button_click_sound()
 	start_scroll_animation(false)
 
+
+func _on_JoinLobbyButton_pressed():
+	_play_button_click_sound()
+
+
+func _on_CreateLobbyButton_pressed():
+	_play_button_click_sound()
+
+
+func _play_button_click_sound():
+	button_click_sound.play()
 
 func popup(text: String):
 	var p_up = $Popup
 	p_up.change_text(text)
 	p_up.popup_centered()
+
+
+func _on_ScoreBoardButton_pressed():
+	button_click_sound.play()
+	Utils.add_scene("res://Scenes/ScoreScenes/ScoreBoard.tscn", get_parent())
 
 
 func set_panel_visible(node, vis):

@@ -3,9 +3,14 @@ extends Control
 var success_animate = true
 var success_progress = 0
 
+onready var button_click_sound = $ButtonClick
+
+
 func _ready():
 	$SuccessBackground.visible = true
 	$SuccessLabel.visible = true
+
+	$PlayAgainButton.disabled = get_tree().get_network_unique_id() != Network.host
 
 	var score : Score = ScoreManager.get_scores().back()
 	ScoreManager.sort_scores()
@@ -14,7 +19,7 @@ func _ready():
 	$Squad/Members.add_item(Network.player_name)
 	for player in Network.player_info.values():
 		$Squad/Members.add_item(player)
-	$Squad/Score.text += "\n" + str(score.time) + "\n"
+	$Squad/Score.text += "\n" + str(score.get_time()) + "\n"
 	match score_pos:
 		1:
 			$Squad/Score.text +=  str(score_pos)  + "st on scoreboard"
@@ -35,24 +40,8 @@ func _process(_delta):
 		$SuccessLabel.visible = false
 
 
-func instance_score(score: Score, score_pos : int):
-	var Scorepanel = preload("res://Scenes/ScoreScenes/ScorePanel.tscn")
-	var n_panel = Scorepanel.instance()
-	n_panel.get_node("HBoxContainer/Date").bbcode_text \
-		= "[center]Date:\n" + score.get_date() + "[/center]"
-	n_panel.get_node("HBoxContainer/TeamName").bbcode_text \
-		= "[center]Team:\n" + score.get_team() + "[/center]"
-	n_panel.get_node("HBoxContainer/Time").bbcode_text \
-		= "[center]Time:\n" + score.get_time() + "[/center]"
-	n_panel.get_node("HBoxContainer/Difficulty").bbcode_text \
-		= "[center]Difficulty:\n" + score.get_difficulty() + "[/center]"
-	n_panel.get_node("HBoxContainer/Position").bbcode_text \
-		= "[center]Pos:\n" + str(score_pos) + "[/center]"
-	add_child(n_panel)
-	n_panel.set_position(Vector2(600, 500))
-
-
 func _on_MainMenuButton_pressed():
+	button_click_sound.play()
 	if get_parent().has_node("VoiceStream"):
 		var voice = get_parent().get_node("VoiceStream")
 		voice.stop()
@@ -63,4 +52,15 @@ func _on_MainMenuButton_pressed():
 
 
 func _on_ScoreBoardButton_pressed():
+	button_click_sound.play()
 	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)
+
+
+func _on_PlayAgainButton_pressed():
+	return rpc("_play_again")
+
+
+remotesync func _play_again():
+	var success = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
+	GameState.reset_gamestate()
+	return success

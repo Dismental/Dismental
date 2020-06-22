@@ -105,7 +105,6 @@ func disconnected():
 func peer_connected(id):
 	print("Peer connected %d" % id)
 	_create_peer(id)
-	player_info[id] = str(id)
 
 
 func peer_disconnected(id):
@@ -117,7 +116,6 @@ func peer_disconnected(id):
 
 func _player_connected(id):
 	print("We connected player with id: " + str(id))
-	player_info[id] = str(id)
 	print(get_tree().get_network_connected_peers())
 	rpc_id(id, "register_player", player_name)
 	if get_tree().get_network_unique_id() == host:
@@ -217,8 +215,11 @@ remote func pre_configure_minigame(minigame):
 	get_tree().set_pause(true)
 	print("res://Scenes/Mini Games/%s/%s.tscn" % [minigame, minigame])
 	var game = load("res://Scenes/Mini Games/%s/%s.tscn" % [minigame, minigame]).instance()
-	get_tree().get_root().add_child(game)
+	if GameState.defusers[GameState.minigame_index] != -1:
+		var defuser_id = GameState.defusers[GameState.minigame_index]
+		game.set_network_master(defuser_id)
 
+	get_tree().get_root().add_child(game)
 	if not get_tree().is_network_server():
 		var self_peer_id = get_tree().get_network_unique_id()
 		rpc_id(1, "done_pre_configuring_minigame", self_peer_id)
@@ -262,3 +263,6 @@ func deregister_player(id):
 
 func get_players():
 	return player_info
+
+func clear_ready_players():
+	players_ready.clear()

@@ -10,30 +10,47 @@ onready var player_nodes = [
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/Player5
 ]
 
+# SFX
+onready var button_click_sound = $ButtonClick
+
 
 func _ready():
 	Network.connect("lobby_joined", self, "lobby_joined")
 	Network.connect("player_list_changed", self, "refresh_lobby")
+	GameState.connect("update_difficulty", self, "update_difficulty")
+	GameState.connect("update_team_name", self , "update_team_name")
 
 	var name = Network.player_name + " (You)"
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/You/Label.text = name
 
-	Utils.add_scene("res://Scenes/VoiceStream.tscn", get_parent())
-	voice = get_parent().get_node("VoiceStream")
-	voice.start()
+	# If we have a network peer already we are in "play again" mode
+	if get_tree().has_network_peer():
+		_update_ui()
+		refresh_lobby()
+
+	if get_tree().root.has_node("VoiceStream"):
+		voice = get_tree().get_root().find_node("VoiceStream", true, false)
+		_set_mute_btn(voice.is_recording())
+	else:
+		Utils.add_scene("res://Scenes/VoiceStream.tscn", get_tree().root)
+		voice = get_tree().root.get_node("VoiceStream")
+		voice.start()
+
+
 
 
 func lobby_joined(miss_id):
 	$MissionID.text = miss_id
+	_update_ui()
+
+
+
+func _update_ui():
 	var is_host = Network.host == get_tree().get_network_unique_id()
 	$TeamName.editable = is_host
 	$DifficultyBtn.disabled = not is_host
 	$WaitingForHostLbl.visible = not is_host
 	$StartMission.visible = is_host
-	if !is_host:
-		GameState.connect("update_difficulty", self, "update_difficulty")
-		GameState.connect("update_team_name", self , "update_team_name")
-
 
 func stop_voip():
 	voice.stop()
@@ -54,6 +71,7 @@ func refresh_lobby():
 
 
 func _on_StartMission_pressed():
+	button_click_sound.play()
 	if(!Network.sealed):
 		Network.seal_lobby()
 
@@ -62,11 +80,17 @@ func _on_StartMission_pressed():
 
 
 func _on_DifficultyBtn_item_selected(id):
+	button_click_sound.play()
 	GameState.difficulty_changed(id)
 
 
 func _on_MuteBtn_toggled(button_pressed):
+	button_click_sound.play()
 	voice.set_recording(button_pressed)
+
+
+func _set_mute_btn(b : bool):
+	$MuteBtn.pressed = b
 
 
 func update_difficulty(diff):
@@ -82,6 +106,7 @@ func _on_TeamName_text_changed(new_text):
 
 
 func _on_CancelMission_pressed():
+	button_click_sound.play()
 	stop_voip()
 	Network.stop()
 	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)

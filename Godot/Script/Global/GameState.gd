@@ -18,9 +18,8 @@ var wait_time = 60 * 10
 var timer_label
 var running = false
 
-var squadname = ""
 var minigame_index = 0
-var minigames = ["Hack", "Align", "Cut", "Dissolve"]
+var minigames = ["Hack", "Cut", "Align", "Dissolve"]
 var defusers = []
 var last_label_update
 
@@ -37,7 +36,9 @@ func _process(_delta):
 
 
 func assign_roles():
+	randomize()
 	var players = get_tree().get_network_connected_peers()
+	players.append(1)
 	var index = randi() % len(players)
 	for mg in minigames:
 		if mg != "Align":
@@ -47,6 +48,21 @@ func assign_roles():
 				index = 0
 		else:
 			defusers.append(-1)
+	rpc('set_defuser_roles', defusers)
+
+
+remotesync func set_defuser_roles(roles):
+	defusers = roles
+
+func reset_gamestate():
+	wait_time = 60 * 10
+	minigame_index = 0
+	minigames = ["Hack", "Cut", "Align", "Dissolve"]
+	defusers = []
+	assign_roles()
+	Network.clear_ready_players()
+	update_difficulty(difficulty)
+	update_team_name(team_name)
 
 
 func start_timer(timer_node):
@@ -106,17 +122,14 @@ func stop_running():
 func start_minigame(button_reference):
 	if len(minigames) - minigame_index > 0:
 		Network.start_minigame(minigames[minigame_index])
-		minigame_index += 1
-		emit_signal("update_remaining_text", str(len(minigames) - minigame_index))
+		rpc("increment_minigame_index")
 		if len(minigames) - minigame_index == 0:
 			button_reference.text = "Defuse Bomb"
 	else:
 		emit_signal("defused")
 
-
-remotesync func update_squad_name(new_name):
-	squadname = new_name
-
+remotesync func increment_minigame_index():
+	minigame_index += 1
 
 func init_lobby_options(id: int):
 	rpc_id(id, "update_difficulty", difficulty)

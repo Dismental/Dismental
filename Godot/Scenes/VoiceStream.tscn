@@ -14,6 +14,8 @@ func stop():
 func set_recording(b: bool):
 	$Output.recording =  b
 
+func is_recording():
+	return $Output.recording
 "
 
 [sub_resource type="AudioStreamMicrophone" id=2]
@@ -21,8 +23,23 @@ func set_recording(b: bool):
 [node name="VoiceStream" type="Node"]
 script = SubResource( 1 )
 
-[node name="Output" type="AudioStreamPlayer" parent="."]
+[node name="Output" type="Node" parent="."]
 script = ExtResource( 1 )
+
+[node name="Player" type="AudioStreamPlayer" parent="Output"]
+bus = "VoiceChat"
+
+[node name="Player1" type="AudioStreamPlayer" parent="Output"]
+bus = "VoiceChat"
+
+[node name="Player2" type="AudioStreamPlayer" parent="Output"]
+bus = "VoiceChat"
+
+[node name="Player3" type="AudioStreamPlayer" parent="Output"]
+bus = "VoiceChat"
+
+[node name="Player4" type="AudioStreamPlayer" parent="Output"]
+bus = "VoiceChat"
 
 [node name="Input" type="AudioStreamPlayer" parent="."]
 stream = SubResource( 2 )

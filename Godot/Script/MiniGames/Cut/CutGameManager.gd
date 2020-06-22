@@ -24,21 +24,28 @@ var finish_state = 0
 var player_role
 var map_index
 
-onready var start_dialog = $Control/StartDialog
 onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
 onready var supervisor_vision = $"Control/X-rayVision"
 
+
+# SFX
+onready var game_completed_player = $AudioStreamPlayers/GameCompleted
+onready var go_signal_player = $AudioStreamPlayers/GoSignal
+onready var game_over_player = $AudioStreamPlayers/GameOver
 
 func _ready():
 	_adjust_for_difficulties()
 
 	rpc("_on_update_running", true)
 	supervisor_vision.visible = true
-	
-	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
-	
+
+	var defuser_id = GameState.defusers[GameState.minigame_index]
+	var is_defuser = defuser_id == get_tree().get_network_unique_id()
+	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
+
 	if player_role == Role.DEFUSER:
+		rpc("_on_game_completed")
 		_load_map(map_index, false)
 		
 		# Initialize the HeadTracking scene for this user
@@ -172,8 +179,9 @@ func _update_game_state():
 			$LaserPointer.visible = true
 			waitForStartingPosition = false
 			dots.clear()
+			go_signal_player.play()
 	else:
-		if len(dots) > 2:
+		if len(dots) > 2 and player_role == Role.DEFUSER:
 			if not _is_input_on_track():
 				_game_over()
 			else:
@@ -281,18 +289,18 @@ remotesync func _on_update_running(newValue):
 
 
 remotesync func _on_game_over():
+	game_over_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")	
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
 
 
 remotesync func _on_game_completed():
+	game_completed_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")
 	GameState.load_roadmap()
 	get_parent().call_deferred("remove_child", self)
 
 
 func _on_GameOverDialog_confirmed():
 	rpc("_on_game_over")
-
-
-func _on_CompletedDialog_confirmed():
-	rpc("_on_game_completed")
