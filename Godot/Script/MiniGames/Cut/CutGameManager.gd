@@ -180,7 +180,7 @@ func _update_game_state():
 			dots.clear()
 			go_signal_player.play()
 	else:
-		if len(dots) > 2:
+		if len(dots) > 2 and player_role == Role.DEFUSER:
 			if not _is_input_on_track():
 				_game_over()
 			else:
@@ -303,7 +303,3 @@ remotesync func _on_game_completed():
 
 func _on_GameOverDialog_confirmed():
 	rpc("_on_game_over")
-
-
-func _on_CompletedDialog_confirmed():
-	rpc("_on_game_completed")
