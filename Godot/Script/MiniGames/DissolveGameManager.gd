@@ -27,13 +27,11 @@ var component_width = 120
 var component_height = 30
 var num_of_components = 6
 var components = []
+const component_base_color = Color(0.4, 0.4, 0.4)
+const component_removable_color = Color(0.8, 0.4, 0.4)
 
 var vacuum_remove_threshold
 var remove_radius = 2
-
-var blinking_threshold
-var blink_light
-var is_blinking = false
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
@@ -71,6 +69,14 @@ onready var title_label = $CanvasLayer/Title
 
 onready var pointer_dot = $red_dot
 
+onready var fire_sign = $FireSignControl
+onready var fire_sign_bg = $FireSignControl/fire_sign_bg
+const fire_sign_color_blink = Color(210.0 / 255, 69.0 / 255, 69.0 / 255)
+const fire_sign_color_def = Color(0.0, 0.0, 0.0)
+var is_blinking = false
+const blinking_frames = 3
+var blinking_threshold
+
 
 func _ready():
 	_adjust_for_difficulties()
@@ -78,14 +84,18 @@ func _ready():
 
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
+		# Hide vacuum & soldering iron in GUI
+		vacuum_indicator.visible = false
+		soldering_iron_indicator.visible = false
+		
 		_init_matrix()
-		_generate_blink_light()
 		_generate_colors()
 		_generate_color_scale()
 		heatmap_sprite = _init_heatmap_sprite()
-		_generate_components()
 
 	elif player_role == Role.DEFUSER:
+		# Hide fire sign layer for defuser
+		fire_sign.visible = false
 		# Initialize the pointer scene for the defuser
 		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
 		var pointer = PointerScene.instance()
@@ -93,7 +103,8 @@ func _ready():
 		var pointer_control = pointer.get_node(".")
 		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
-		_generate_components()
+	
+	_generate_components()
 
 
 func _process(delta):
@@ -103,6 +114,7 @@ func _process(delta):
 		elif defuse_state == DefuserState.VACUUM:
 			_check_vacuum()
 		_refresh_heatmap(delta)
+		_check_components_removable()
 	else:
 		_check_input()
 	
@@ -161,25 +173,17 @@ func _generate_colors():
 	background_color.a = 0.4
 
 
-func _generate_blink_light():
-	blink_light = ColorRect.new()
-	blink_light.color = Color(0.5, 0.5, 0.5, 1)
-
-	var width = 100
-	blink_light.set_begin(Vector2(110, 900))
-	blink_light.set_end(Vector2(110 + width, 900 + width))
-
-	get_node("CanvasLayer").add_child(blink_light)
-
-
 func _blink_light():
-	blink_light.color = Color(1, 0, 0, 0.5)
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	blink_light.color.a = 1
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	blink_light.color = Color(0.5, 0.5, 0.5, 1)
+	fire_sign_bg.modulate = fire_sign_color_blink
+	# Wait five frames
+	for _i in range(blinking_frames):
+		yield(get_tree(), "idle_frame")
+
+	# Reset to inital position
+	fire_sign_bg.modulate = fire_sign_color_def;
+	for _i in range(blinking_frames):
+		yield(get_tree(), "idle_frame")
+
 	is_blinking = false
 
 
@@ -193,6 +197,16 @@ func _generate_color_scale():
 		rec.set_end(Vector2(30 + (n + 1) * width, 30 + width))
 		get_node("CanvasLayer").add_child(rec)
 		n += 1
+
+
+func _check_components_removable():
+	for item in components:
+		var component_pos = item[1]
+		var sector = _get_sector(component_pos.x, component_pos.y)
+		if matrix[sector["row"]][sector["column"]] > vacuum_remove_threshold:
+			item[0].color = component_removable_color
+		else:
+			item[0].color = component_base_color
 
 
 # Decreases the matrix temperatures and creates a new image afterwards
@@ -360,7 +374,7 @@ func _generate_components():
 			yi = 0
 
 		var rec = ColorRect.new()
-		rec.color = Color(0.4, 0.4, 0.4)
+		rec.color = component_base_color
 
 		var x = start_x + xi * seperation_x
 		var y = start_y + yi * seperation_y
