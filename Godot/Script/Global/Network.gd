@@ -1,6 +1,7 @@
 extends "../webrtc.gd"
 
 signal player_list_changed()
+signal player_disconnected()
 
 const DEFAULT_SERVER = 'wss://signaling-server-bomb.herokuapp.com/'
 
@@ -31,6 +32,7 @@ func _init():
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
+	get_tree().connect("network_peer_disconnected", self, "peer_disconnected")
 
 
 func create_server(url = DEFAULT_SERVER):
@@ -125,6 +127,7 @@ func peer_disconnected(id):
 	if web_rtc.has_peer(id):
 		print("removing peer")
 		web_rtc.remove_peer(id)
+	emit_signal("player_disconnected", id, player_info[id])
 	deregister_player(id)
 
 
