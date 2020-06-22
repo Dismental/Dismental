@@ -144,6 +144,7 @@ margin_right = 279.0
 margin_bottom = 363.0
 custom_styles/bg = SubResource( 5 )
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
