@@ -274,7 +274,7 @@ __meta__ = {
 [node name="SettingsPanel" type="PanelContainer" parent="."]
 margin_left = 1590.0
 margin_top = 515.0
-margin_right = 1916.0
+margin_right = 1914.0
 margin_bottom = 1081.0
 rect_min_size = Vector2( 0, 566 )
 rect_clip_content = true
@@ -288,7 +288,7 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="SettingsPanel"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 322.0
+margin_right = 320.0
 margin_bottom = 562.0
 custom_constants/margin_right = 24
 custom_constants/margin_top = 24
@@ -298,13 +298,13 @@ custom_constants/margin_bottom = 24
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/MarginContainer"]
 margin_left = 24.0
 margin_top = 24.0
-margin_right = 294.0
+margin_right = 292.0
 margin_bottom = 534.0
 custom_constants/separation = 24
 
 [node name="Label3" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
-margin_left = 75.0
-margin_right = 194.0
+margin_left = 74.0
+margin_right = 193.0
 margin_bottom = 30.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -318,7 +318,7 @@ __meta__ = {
 
 [node name="HSeparator" type="HSeparator" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 54.0
-margin_right = 270.0
+margin_right = 268.0
 margin_bottom = 58.0
 custom_styles/separator = SubResource( 6 )
 __meta__ = {
@@ -339,7 +339,7 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 132.0
-margin_right = 270.0
+margin_right = 268.0
 margin_bottom = 158.0
 
 [node name="HSlider" type="HSlider" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -352,8 +352,8 @@ step = 0.01
 value = 1.0
 
 [node name="Volume" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 224.0
-margin_right = 270.0
+margin_left = 222.0
+margin_right = 268.0
 margin_bottom = 26.0
 custom_fonts/font = SubResource( 8 )
 text = "100%"
@@ -373,7 +373,7 @@ __meta__ = {
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 232.0
-margin_right = 270.0
+margin_right = 268.0
 margin_bottom = 258.0
 
 [node name="HSlider" type="HSlider" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
@@ -386,8 +386,8 @@ step = 0.01
 value = 1.0
 
 [node name="Volume" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 224.0
-margin_right = 270.0
+margin_left = 222.0
+margin_right = 268.0
 margin_bottom = 26.0
 custom_fonts/font = SubResource( 9 )
 text = "100%"
@@ -395,14 +395,14 @@ script = ExtResource( 11 )
 
 [node name="Microphone" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 282.0
-margin_right = 270.0
+margin_right = 268.0
 margin_bottom = 308.0
 custom_fonts/font = SubResource( 7 )
 text = "MICROPHONE"
 
 [node name="MicBtn" type="OptionButton" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 332.0
-margin_right = 270.0
+margin_right = 268.0
 margin_bottom = 375.0
 theme = SubResource( 11 )
 custom_styles/hover = SubResource( 12 )
@@ -438,14 +438,14 @@ __meta__ = {
 }
 
 [node name="OperatorPanel3" type="PanelContainer" parent="."]
-anchor_left = 0.000875091
+anchor_left = 0.000671005
 anchor_top = -0.000343153
-anchor_right = 0.000875091
+anchor_right = 0.000671005
 anchor_bottom = -0.00034304
-margin_left = -85.4571
-margin_top = 763.647
-margin_right = 1501.55
-margin_bottom = 1965.65
+margin_left = 3.71167
+margin_top = 752.371
+margin_right = 1587.71
+margin_bottom = 1959.37
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
 custom_styles/panel = SubResource( 19 )
@@ -460,9 +460,9 @@ anchor_top = -0.00064994
 anchor_right = 2.69572e-05
 anchor_bottom = -0.000649911
 margin_left = 1233.95
-margin_top = 9.37075
+margin_top = 9.70193
 margin_right = 1913.95
-margin_bottom = 517.371
+margin_bottom = 515.702
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
 custom_styles/panel = SubResource( 19 )
