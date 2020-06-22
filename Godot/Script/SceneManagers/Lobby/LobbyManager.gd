@@ -79,10 +79,10 @@ func _on_StartMission_pressed():
 		if(!Network.sealed):
 			Network.seal_lobby()
 
-	Network.begin_game_pressed()
-	rpc("_remove_self")
-	get_parent().remove_child(self)
-	self.queue_free()
+		Network.begin_game_pressed()
+		rpc("_remove_self")
+		get_parent().remove_child(self)
+		self.queue_free()
 
 
 remote func _remove_self():
