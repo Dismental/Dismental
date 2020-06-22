@@ -120,12 +120,14 @@ func stop_running():
 func start_minigame(button_reference):
 	if len(minigames) - minigame_index > 0:
 		Network.start_minigame(minigames[minigame_index])
-		minigame_index += 1
+		rpc("increment_minigame_index")
 		if len(minigames) - minigame_index == 0:
 			button_reference.text = "Defuse Bomb"
 	else:
 		emit_signal("defused")
 
+remotesync func increment_minigame_index():
+	minigame_index += 1
 
 func init_lobby_options(id: int):
 	rpc_id(id, "update_difficulty", difficulty)
