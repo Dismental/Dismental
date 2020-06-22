@@ -133,7 +133,7 @@ remotesync func _spawn_labels(delta):
 					_create_collectable_label(pos,  password[spawned_collectables])
 				spawned_collectables += 1
 					
-			elif rand < spawnchance:
+			elif rand < spawnchange:
 				var pos = Vector2(-char_width, padding_top_bottom + row_height * i)
 				if online:
 					rpc("_create_label_node", pos, _generate_random_char())
