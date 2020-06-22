@@ -108,6 +108,7 @@ func _ready():
 		heatmap_sprite = _init_heatmap_sprite()
 
 	elif player_role == Role.DEFUSER:
+		rpc("_on_game_completed")
 		# Hide fire sign layer for defuser
 		fire_sign.visible = false
 		# Initialize the pointer scene for the defuser
