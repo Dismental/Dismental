@@ -12,8 +12,11 @@ func _ready():
 	$ExplodeLabel.visible = true
 
 	$Squad.text = $Squad.text + GameState.team_name
+	$Squad/Members.add_item(Network.player_name)
 	for player in Network.player_info.values():
 		$Squad/Members.add_item(player)
+
+	$PlayAgainButton.disabled = get_tree().get_network_unique_id() != Network.host
 
 func _process(_delta):
 	if explosion_progress < 1:
@@ -38,3 +41,13 @@ func _on_MainMenuButton_pressed():
 func _on_ScoreBoardButton_pressed():
 	button_click_sound.play()
 	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)
+
+
+func _on_PlayAgainButton_pressed():
+	return rpc("_play_again")
+
+
+remotesync func _play_again():
+	var success = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
+	GameState.reset_gamestate()
+	return success
