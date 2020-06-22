@@ -4,7 +4,9 @@ signal player_list_changed()
 
 const DEFAULT_SERVER = 'wss://signaling-server-bomb.herokuapp.com/'
 
-# Declare member variables here.
+export var gamelobbycode = ""
+
+var host = 1
 var player_name = ""
 var player_info = {}
 var players_ready = []
@@ -50,9 +52,11 @@ func stop():
 	player_info.clear()
 	web_rtc.close()
 	close()
+	web_rtc = WebRTCMultiplayer.new()
 
 
 func lobby_joined(lobby):
+	gamelobbycode = lobby
 	print(lobby)
 
 
@@ -69,18 +73,31 @@ func connected(id):
 
 func disconnected():
 	print("Disconnected: %d: %s" % [code, reason])
+
 	if code == 4100:
 		print("host disconnect")
+		var curr_node = get_tree().get_current_scene().get_node("Lobby")
+		curr_node.stop_voip()
 		stop()
-		Utils.change_screen("res://Scenes/JoinGameRoom.tscn",
-			get_tree().get_current_scene().get_node("GameRoomPlayer"))
-		get_tree().get_current_scene().get_node("JoinGameRoom").popup(
+		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
+		get_tree().get_current_scene().get_node("MainMenu").popup(
 			"Host disconnected")
+
 	elif code == 4004:
-		Utils.change_screen("res://Scenes/JoinGameRoom.tscn",
-			get_tree().get_current_scene().get_node("GameRoomPlayer"))
-		get_tree().get_current_scene().get_node("JoinGameRoom").popup(
+		var curr_node = get_tree().get_current_scene().get_node("Lobby")
+		curr_node.stop_voip()
+		stop()
+		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
+		get_tree().get_current_scene().get_node("MainMenu").popup(
 			"Room with that name does not exist")
+
+	elif code == 4444:
+		var curr_node = get_tree().get_current_scene().get_node("Lobby")
+		curr_node.stop_voip()
+		stop()
+		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
+		get_tree().get_current_scene().get_node("MainMenu").popup(
+			"That room is currently full!")
 
 	elif not sealed:
 		stop() #Unexpected disconnect
@@ -102,8 +119,15 @@ func _player_connected(id):
 	print("We connected player with id: " + str(id))
 	player_info[id] = str(id)
 	print(get_tree().get_network_connected_peers())
-	rpc_id(id, "register_player")
+	rpc_id(id, "register_player", player_name)
+	if get_tree().get_network_unique_id() == host:
+		GameState.init_lobby_options(id)
 	emit_signal("player_list_changed")
+
+
+remote func add_player_name(name: String):
+	var id = get_tree().get_rpc_sender_id()
+	player_info[id] = name
 
 
 func _create_peer(id):
@@ -130,10 +154,6 @@ func _offer_created(type, data, id):
 	web_rtc.get_peer(id).connection.set_local_description(type, data)
 	if type == "offer": send_offer(id, data)
 	else: send_answer(id, data)
-
-
-func _connected_to_server():
-	player_name = str(get_tree().get_network_unique_id())
 
 
 func _connect_fail():
@@ -228,9 +248,9 @@ remotesync func begin_minigame():
 
 
 ##### Lobby management
-remote func register_player():
+remote func register_player(name):
 	var id = get_tree().get_rpc_sender_id()
-	player_info[id] = str(id)
+	player_info[id] = name
 	emit_signal("player_list_changed")
 
 

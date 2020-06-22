@@ -20,15 +20,20 @@ _global_script_class_icons={
 
 [application]
 
-config/name="DefuseTheBomb"
+config/name="Dismental"
 run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
+
+[audio]
+
+enable_audio_input=true
 
 [autoload]
 
 Network="*res://Script/Global/Network.gd"
 Utils="*res://Script/Global/Utils.gd"
 ScoreManager="*res://Script/Global/ScoreManager.gd"
+GameState="*res://Script/Global/GameState.gd"
 
 [display]
 

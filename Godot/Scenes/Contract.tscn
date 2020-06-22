@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Textures/pointer.png" type="Texture" id=3]
 [ext_resource path="res://Textures/arrow_up.png" type="Texture" id=4]
+[ext_resource path="res://Script/ContractManager.gd" type="Script" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
@@ -37,7 +38,11 @@ border_width_bottom = 4
 border_color = Color( 0.705882, 0.705882, 0.705882, 1 )
 corner_detail = 9
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0, 0, 0, 0.568627 )
+
+[node name="Control" type="Node2D"]
+script = ExtResource( 5 )
 
 [node name="Panel" type="Panel" parent="."]
 margin_top = 0.93869
@@ -60,38 +65,86 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="Panel"]
-margin_left = 1473.13
-margin_top = 674.796
-margin_right = 1577.13
-margin_bottom = 705.796
+margin_left = 1446.27
+margin_top = 688.227
+margin_right = 1550.27
+margin_bottom = 719.227
 custom_fonts/font = SubResource( 2 )
 text = "POINTER"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="lblInstrPointer" type="Label" parent="Panel"]
+margin_left = 350.797
+margin_top = 227.98
+margin_right = 1354.8
+margin_bottom = 530.98
+custom_fonts/font = SubResource( 2 )
+text = "Glad you want to join the team!
+ Before we get into action, you need to sign the contract. 
+The contract below can be opened with the Pointer, which is at the right of the screen. 
+Grab the pointer by moving your head towards the pointer. 
+Use the red line as an indication of where your head is currently located. 
+If you lose your pointer, use the red line again to pick it up."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lblInstrPointerPickedUp" type="Label" parent="Panel"]
+margin_left = 352.589
+margin_top = 475.646
+margin_right = 1060.59
+margin_bottom = 554.646
+custom_fonts/font = SubResource( 2 )
+text = "Good job! Now move the pointer over the contract to open it.
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Label3" type="Label" parent="Panel"]
-margin_left = 348.965
-margin_top = 454.195
-margin_right = 564.965
-margin_bottom = 485.195
+visible = false
+margin_left = 357.435
+margin_top = 460.548
+margin_right = 573.435
+margin_bottom = 491.548
 custom_fonts/font = SubResource( 2 )
 text = "WEBCAM EXAMPLE"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel2" type="Panel" parent="."]
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1499.7, 634.658 )
+scale = Vector2( 1.88731, 1.88731 )
+texture = ExtResource( 4 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 1501.98, 530.756 )
+texture = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 354.418
+margin_top = 509.29
+margin_right = 613.418
+margin_bottom = 674.29
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContract" type="Panel" parent="."]
 margin_left = 343.0
-margin_top = 794.0
+margin_top = 792.641
 margin_right = 1579.0
-margin_bottom = 3058.0
+margin_bottom = 3056.64
 custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label3" type="Label" parent="Panel2"]
+[node name="Label3" type="Label" parent="PanelContract"]
 margin_left = 531.079
 margin_top = 125.283
 margin_right = 705.079
@@ -104,13 +157,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="Panel2"]
-anchor_top = 0.000765393
-anchor_bottom = 0.000765393
-margin_left = 495.0
-margin_top = 49.2672
-margin_right = 747.0
-margin_bottom = 110.267
+[node name="Label2" type="Label" parent="PanelContract"]
+margin_left = 494.746
+margin_top = 49.1058
+margin_right = 746.746
+margin_bottom = 110.106
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "CONTRACT"
@@ -118,7 +169,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label4" type="Label" parent="Panel2"]
+[node name="Label4" type="Label" parent="PanelContract"]
 margin_left = 545.906
 margin_top = 870.38
 margin_right = 717.906
@@ -130,7 +181,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label5" type="Label" parent="Panel2"]
+[node name="Label5" type="Label" parent="PanelContract"]
 margin_left = 558.411
 margin_top = 1466.0
 margin_right = 705.411
@@ -142,7 +193,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label6" type="Label" parent="Panel2"]
+[node name="Label6" type="Label" parent="PanelContract"]
 margin_left = 169.0
 margin_top = 517.0
 margin_right = 980.0
@@ -159,7 +210,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContract"]
 margin_left = 108.0
 margin_top = 961.0
 margin_right = 538.0
@@ -169,18 +220,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContract/VBoxContainer"]
 margin_right = 430.0
 margin_bottom = 128.0
 custom_constants/separation = 23
 
-[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="PanelContract/VBoxContainer/HBoxContainer"]
 margin_right = 128.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 128, 128 )
 color = Color( 0.862745, 0.862745, 0.862745, 1 )
 
-[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="PanelContract/VBoxContainer/HBoxContainer"]
 margin_left = 151.0
 margin_top = 52.0
 margin_right = 200.0
@@ -189,19 +240,19 @@ custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "NAME"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContract/VBoxContainer"]
 margin_top = 140.0
 margin_right = 430.0
 margin_bottom = 268.0
 custom_constants/separation = 23
 
-[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer/HBoxContainer2"]
+[node name="ColorRect" type="ColorRect" parent="PanelContract/VBoxContainer/HBoxContainer2"]
 margin_right = 128.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 128, 128 )
 color = Color( 0.862745, 0.862745, 0.862745, 1 )
 
-[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="PanelContract/VBoxContainer/HBoxContainer2"]
 margin_left = 151.0
 margin_top = 52.0
 margin_right = 200.0
@@ -210,19 +261,19 @@ custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "NAME"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContract/VBoxContainer"]
 margin_top = 280.0
 margin_right = 430.0
 margin_bottom = 408.0
 custom_constants/separation = 23
 
-[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer/HBoxContainer3"]
+[node name="ColorRect" type="ColorRect" parent="PanelContract/VBoxContainer/HBoxContainer3"]
 margin_right = 128.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 128, 128 )
 color = Color( 0.862745, 0.862745, 0.862745, 1 )
 
-[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="PanelContract/VBoxContainer/HBoxContainer3"]
 margin_left = 151.0
 margin_top = 52.0
 margin_right = 200.0
@@ -231,7 +282,7 @@ custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "NAME"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Panel2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContract"]
 margin_left = 693.0
 margin_top = 958.0
 margin_right = 1207.0
@@ -241,18 +292,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel2/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContract/VBoxContainer2"]
 margin_right = 514.0
 margin_bottom = 128.0
 custom_constants/separation = 23
 
-[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer2/HBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="PanelContract/VBoxContainer2/HBoxContainer"]
 margin_right = 128.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 128, 128 )
 color = Color( 0.862745, 0.862745, 0.862745, 1 )
 
-[node name="Label" type="Label" parent="Panel2/VBoxContainer2/HBoxContainer"]
+[node name="Label" type="Label" parent="PanelContract/VBoxContainer2/HBoxContainer"]
 margin_left = 151.0
 margin_top = 52.0
 margin_right = 200.0
@@ -261,19 +312,19 @@ custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "NAME"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Panel2/VBoxContainer2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContract/VBoxContainer2"]
 margin_top = 140.0
 margin_right = 514.0
 margin_bottom = 268.0
 custom_constants/separation = 23
 
-[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer2/HBoxContainer2"]
+[node name="ColorRect" type="ColorRect" parent="PanelContract/VBoxContainer2/HBoxContainer2"]
 margin_right = 128.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 128, 128 )
 color = Color( 0.862745, 0.862745, 0.862745, 1 )
 
-[node name="Label" type="Label" parent="Panel2/VBoxContainer2/HBoxContainer2"]
+[node name="Label" type="Label" parent="PanelContract/VBoxContainer2/HBoxContainer2"]
 margin_left = 151.0
 margin_top = 52.0
 margin_right = 200.0
@@ -282,20 +333,20 @@ custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "NAME"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Panel2/VBoxContainer2"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContract/VBoxContainer2"]
 margin_top = 280.0
 margin_right = 514.0
 margin_bottom = 408.0
 custom_constants/separation = 23
 
-[node name="ColorRect" type="ColorRect" parent="Panel2/VBoxContainer2/HBoxContainer3"]
+[node name="ColorRect" type="ColorRect" parent="PanelContract/VBoxContainer2/HBoxContainer3"]
 margin_right = 128.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 128, 128 )
 rect_pivot_offset = Vector2( 696.476, -147.176 )
 color = Color( 0.862745, 0.862745, 0.862745, 1 )
 
-[node name="Label" type="Label" parent="Panel2/VBoxContainer2/HBoxContainer3"]
+[node name="Label" type="Label" parent="PanelContract/VBoxContainer2/HBoxContainer3"]
 margin_left = 151.0
 margin_top = 52.0
 margin_right = 200.0
@@ -304,31 +355,47 @@ custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "NAME"
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 1524.64, 626.983 )
-scale = Vector2( 1.88731, 1.88731 )
-texture = ExtResource( 4 )
-
-[node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 1524.73, 522.627 )
-texture = ExtResource( 3 )
-
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_left = 341.712
-margin_top = 519.878
-margin_right = 600.712
-margin_bottom = 684.878
-color = Color( 0, 0, 0, 1 )
+[node name="SignHere" type="Panel" parent="PanelContract"]
+margin_left = 244.331
+margin_top = 1548.2
+margin_right = 1029.33
+margin_bottom = 2102.2
+custom_styles/panel = SubResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel3" type="Panel" parent="."]
-margin_left = 587.331
-margin_top = 2340.84
-margin_right = 1372.33
-margin_bottom = 2894.84
-custom_styles/panel = SubResource( 7 )
+[node name="ScrollDown" type="Panel" parent="."]
+visible = false
+margin_left = 461.0
+margin_top = 944.0
+margin_right = 1493.0
+margin_bottom = 1079.0
+custom_styles/panel = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="txt_scrolldown" type="Label" parent="ScrollDown"]
+margin_left = 377.809
+margin_top = 56.642
+margin_right = 669.809
+margin_bottom = 135.642
+custom_fonts/font = SubResource( 2 )
+text = "V V Sroll down V V
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_roomcode" type="Label" parent="."]
+margin_left = 33.723
+margin_top = 9.97717
+margin_right = 325.723
+margin_bottom = 88.9772
+custom_fonts/font = SubResource( 2 )
+text = "Roomcode
+"
 __meta__ = {
 "_edit_use_anchors_": false
 }

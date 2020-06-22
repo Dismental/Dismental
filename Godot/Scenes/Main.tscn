@@ -1,13 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/MainMenu.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Script/Main.gd" type="Script" id=3]
+[ext_resource path="res://Script/Main.gd" type="Script" id=2]
 
 [node name="Main" type="Node"]
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 
-[node name="MainMenu" parent="." instance=ExtResource( 1 )]
-anchor_left = 0.00094595
-anchor_right = 1.00095
-margin_left = -1.81628
-margin_right = -1.81628
+[node name="Control" parent="." instance=ExtResource( 1 )]

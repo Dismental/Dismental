@@ -9,7 +9,6 @@ enum DefuserState {
 puppet var puppet_mouse = Vector2()
 
 const Role = preload("res://Script/Role.gd")
-const DEBUG_OFFLINE = false # Toggle to be able to debug offline
 
 var matrix
 var columns = 90
@@ -22,7 +21,7 @@ var pointer_node
 
 # Increase/decrease factor of temperature
 var increase_factor = 24
-var decrease_factor = 3
+var decrease_factor
 
 var component_width = 120
 var component_height = 30
@@ -31,7 +30,8 @@ var components = []
 const component_base_color = Color(0.4, 0.4, 0.4)
 const component_removable_color = Color(0.8, 0.4, 0.4)
 
-var vacuum_remove_threshold = 50
+var vacuum_remove_threshold
+var remove_radius = 2
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
@@ -75,13 +75,12 @@ const fire_sign_color_blink = Color(210.0 / 255, 69.0 / 255, 69.0 / 255)
 const fire_sign_color_def = Color(0.0, 0.0, 0.0)
 var is_blinking = false
 const blinking_frames = 3
+var blinking_threshold
 
 
 func _ready():
-	if (!DEBUG_OFFLINE):
-		player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
-	else:
-		player_role = Role.SUPERVISOR
+	_adjust_for_difficulties()
+	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
 
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
@@ -134,6 +133,23 @@ func _init_matrix():
 		for _j in range(columns):
 			row.append(0)
 		matrix.append(row)
+
+
+func _adjust_for_difficulties():
+	if GameState.difficulty == "EASY":
+		blinking_threshold = 70
+		vacuum_remove_threshold = 40
+		decrease_factor = 2.5
+
+	elif GameState.difficulty == "MEDIUM":
+		blinking_threshold = 75
+		vacuum_remove_threshold = 50
+		decrease_factor = 2.7
+
+	elif GameState.difficulty == "HARD":
+		blinking_threshold = 80
+		vacuum_remove_threshold = 60
+		decrease_factor = 3
 
 
 func _generate_colors():
@@ -249,29 +265,31 @@ func _increase_matrix_input(delta):
 							var ratio = (radius - dis + 1) / (radius + 1)
 							matrix[x][y] += increase_factor * delta * ratio
 
-							if matrix[x][y] > 80 and not is_blinking:
+							if matrix[x][y] > blinking_threshold and not is_blinking:
 								is_blinking = true
 								_blink_light()
+								
 							if matrix[x][y] > 100:
 								matrix[x][y] = 100
-								rpc("_game_over")
+								_game_over()
+								return
 
 
 # Checks if the input cursor is in range of destroyable components
 # Removes a component when the temperature is above the threshold
 func _check_vacuum():
+	var pixel_distance_check = 70
 	var input = _get_input_pos()
-	var input_sector = _get_sector(input.x, input.y)
 	var id = 0
 	for item in components:
-		var component_pos = item[1]
-		var input_col = input_sector["column"]
-		var input_row = input_sector["row"]
-		if _is_in_range(component_pos, input_col, input_row):
-			if matrix[input_row][input_col] > vacuum_remove_threshold:
-				print("Remove component" + str(id))
-				_destroy_component(id)
-				rpc_id(1, "_destroy_component", id)
+		var com_pos = item[1]
+		if com_pos.distance_to(input) < pixel_distance_check:
+			var sector = _get_sector(com_pos.x, com_pos.y)
+			var input_row = sector.get("row")
+			var input_column = sector.get("column")
+			
+			if _check_removable(input_row, input_column):
+				rpc("_destroy_component", id)
 				if len(components) == 0:
 					_game_completed()
 					return
@@ -279,17 +297,14 @@ func _check_vacuum():
 		id += 1
 
 
-# Give a component position & sector
-# Returns true if in range, otherwise false
-func _is_in_range(component_position, input_col, input_row):
-	var input_sector_range = 2
-	
-	return (
-		input_col >= component_position["column"] - input_sector_range and
-		input_col <= component_position["column"] + input_sector_range and
-		input_row >= component_position["row"] - input_sector_range and
-		input_row <= component_position["row"] + input_sector_range
-	)
+# Check if a component is removable in a small range 
+# instead of only the center opf the component
+func _check_removable(sector_row, sector_column):
+	for x in range(-remove_radius, remove_radius + 1):
+		for y in range(-remove_radius, remove_radius + 1):
+			if matrix[sector_row + x][sector_column + y] > vacuum_remove_threshold:
+				return true
+	return false
 
 
 # Give percentage in the range of 100%, returns the right color
@@ -369,7 +384,7 @@ func _generate_components():
 
 		var global_x_center = motherboard.rect_position.x + x + component_width / 2
 		var global_y_center =  motherboard.rect_position.y + y + component_height / 2
-		components.append([rec, _get_sector(global_x_center, global_y_center)])
+		components.append([rec, Vector2(global_x_center, global_y_center)])
 		motherboard.add_child(rec)
 		yi += 1
 
@@ -377,12 +392,6 @@ func _generate_components():
 remotesync func _destroy_component(id):
 	motherboard.remove_child(components[id][0])
 	components.remove(id)
-
-
-func _destroy_components():
-	components = []
-	for x in components:
-		motherboard.remove_child(x[0])
 
 
 func _get_input_pos():

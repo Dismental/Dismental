@@ -31,6 +31,11 @@ private:
     VideoFaceDetector detector;
     VideoHandDetector handTracker;
 
+    bool multiple_faces;
+    bool too_close;
+    bool template_matching;
+    bool lost_tracking;
+
 public:
     static void _register_methods();
 
