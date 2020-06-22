@@ -125,8 +125,7 @@ func _ready():
 func _process(delta):
 	if player_role == Role.SUPERVISOR:
 		if defuse_state == DefuserState.SOLDERING_IRON:
-			if not pointer_control.pickup_pointer:
-				_increase_matrix_input(delta)
+			_increase_matrix_input(delta)
 		elif defuse_state == DefuserState.VACUUM:
 			_check_vacuum()
 		_refresh_heatmap(delta)
