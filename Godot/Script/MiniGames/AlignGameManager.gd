@@ -296,11 +296,7 @@ remotesync func _game_completed():
 
 	timer.stop()
 	running = false
-	
-	rpc("_next_minigame")
 
-
-remotesync func _next_minigame():
 	GameState.load_roadmap()
 	get_parent().call_deferred("remove_child", self)
 
