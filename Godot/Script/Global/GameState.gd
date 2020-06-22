@@ -40,9 +40,6 @@ func assign_roles():
 	var players = get_tree().get_network_connected_peers()
 	players.append(1)
 	var index = randi() % len(players)
-	print("playerlen: " + str(len(players)))
-	print("index: " + str(index))
-	print("players: " + str(players))
 	for mg in minigames:
 		if mg != "Align":
 			defusers.append(players[index])
@@ -52,7 +49,7 @@ func assign_roles():
 		else:
 			defusers.append(-1)
 	rpc('set_defuser_roles', defusers)
-	print("Defusers: " + str(defusers))
+
 
 remotesync func set_defuser_roles(roles):
 	defusers = roles
