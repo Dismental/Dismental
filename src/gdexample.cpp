@@ -9,7 +9,6 @@
 #include <sstream>
 #include <string>
 #include "VideoFaceDetector.h"
-#include "VideoHandDetector.h"
 #include <queue>
 #include <math.h>
 

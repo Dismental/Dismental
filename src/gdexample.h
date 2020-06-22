@@ -8,7 +8,6 @@
 #include <opencv2/objdetect.hpp>
 #include <opencv2/tracking.hpp>
 #include "VideoFaceDetector.h"
-#include "VideoHandDetector.h"
 
 namespace godot {
 
