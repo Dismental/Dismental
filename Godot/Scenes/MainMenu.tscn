@@ -737,7 +737,6 @@ __meta__ = {
 }
 
 [node name="Popup" parent="." instance=ExtResource( 9 )]
-visible = false
 margin_left = 543.749
 margin_top = 1197.99
 margin_right = 1143.75
@@ -766,7 +765,7 @@ stream = ExtResource( 11 )
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Label" method="_on_HSlider_value_changed"]
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
 [connection signal="pressed" from="CreateMissionButton" to="." method="_on_CreateMissionButton_pressed"]
-[connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="." method="_on_JoinLobbyButton_pressed"]
 [connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="MissionPanel/JoinMissionPanel" method="_on_JoinMissionBtn_pressed"]
+[connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="." method="_on_JoinLobbyButton_pressed"]
 [connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="MissionPanel/CreateMissionPanel" method="_on_CreateMissionBtn_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
