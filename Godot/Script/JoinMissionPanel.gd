@@ -3,7 +3,7 @@ extends MarginContainer
 
 func _on_JoinMissionBtn_pressed():
 	if get_input_gameid().empty():
-		get_parent().get_parent().popup("Lobby name can't be empty!")
+		get_parent().get_parent().popup("Mission ID can't be empty!")
 	else:
 		if get_input_playername().empty():
 			get_parent().get_parent().popup("Playername can't be empty!")
