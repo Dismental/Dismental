@@ -212,7 +212,6 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
 
             // Add a rectangle to the debug display queue
             cv::Rect m_trackedFace_lastSeen = biggestFace(m_allFaces_lastSeen);
-            printToFrameQueue.push(m_trackedFace_lastSeen);
         }
     }
 
@@ -264,7 +263,7 @@ void VideoFaceDetector::stopTemplateMatching()
     lost_tracking = true;
 }
 
-void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame, const cv::Mat &orgFrame)
+void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame)
 {
     // Calculate duration of template matching
     m_templateMatchingCurrentTime = cv::getTickCount();
@@ -331,19 +330,12 @@ cv::Point VideoFaceDetector::getFrameAndDetect(cv::Mat &frame)
     else {
         detectFaceAroundRoi(resizedFrame); // Detect using cascades only in ROI
         if (m_templateMatchingRunning) {
-            printToFrameQueue.push(cv::Rect(0,0,100,100));
-            detectFacesTemplateMatching(resizedFrame, frame); // Detect using template matching
+            detectFacesTemplateMatching(resizedFrame); // Detect using template matching
         } else {
             template_matching = false;
         }
     }
 
-    // Display debug rectangle frame the frame
-    while (!printToFrameQueue.empty())
-    {
-        rectangle(frame, printToFrameQueue.front(), cv::Scalar(0,0,255), 4,8,0);
-        printToFrameQueue.pop();
-    }
 
     return m_facePosition;
 }
