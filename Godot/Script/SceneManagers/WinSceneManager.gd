@@ -53,7 +53,7 @@ func _on_MainMenuButton_pressed():
 
 func _on_ScoreBoardButton_pressed():
 	button_click_sound.play()
-	return Utils.add_scene("res://Scenes/ScoreScenes/ScoreBoard.tscn", self)
+	return Utils.add_scene("res://Scenes/ScoreScenes/ScoreBoardOverview.tscn", self)
 
 
 func _on_PlayAgainButton_pressed():
