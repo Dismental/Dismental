@@ -3,6 +3,9 @@ extends Control
 var success_animate = true
 var success_progress = 0
 
+onready var button_click_sound = $ButtonClick
+
+
 func _ready():
 	$SuccessBackground.visible = true
 	$SuccessLabel.visible = true
@@ -53,6 +56,7 @@ func instance_score(score: Score, score_pos : int):
 
 
 func _on_MainMenuButton_pressed():
+	button_click_sound.play()
 	if get_parent().has_node("VoiceStream"):
 		var voice = get_parent().get_node("VoiceStream")
 		voice.stop()
@@ -63,4 +67,5 @@ func _on_MainMenuButton_pressed():
 
 
 func _on_ScoreBoardButton_pressed():
+	button_click_sound.play()
 	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)
