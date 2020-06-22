@@ -36,6 +36,5 @@ func test_update_difficulty():
 
 
 func test_update_teamname():
-	assert_eq(GameState.team_name, "")
 	GameState.update_team_name("test_squad")
 	assert_eq(GameState.team_name, "test_squad")
