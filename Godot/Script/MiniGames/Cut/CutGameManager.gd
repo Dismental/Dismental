@@ -283,6 +283,7 @@ remotesync func _on_update_running(newValue):
 
 
 remotesync func _on_game_over():
+	running = false
 	game_over_player.play()
 	yield(get_tree().create_timer(1.0), "timeout")	
 	get_tree().get_root().get_node("GameScene").game_over()
