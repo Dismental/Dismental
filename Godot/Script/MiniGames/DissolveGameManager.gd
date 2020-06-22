@@ -118,6 +118,7 @@ func _ready():
 		pointer_control = pointer.get_node(".")
 		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
+		$red_dot.visible = false
 	
 	_generate_components()
 
