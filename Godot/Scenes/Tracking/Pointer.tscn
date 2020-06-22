@@ -5,28 +5,28 @@
 [ext_resource path="res://bin/gdexample.gdns" type="Script" id=3]
 [ext_resource path="res://Textures/pointer.png" type="Texture" id=4]
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
 content_margin_bottom = 6.0
 bg_color = Color( 0, 0, 0, 0.611765 )
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=2]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
 content_margin_bottom = 6.0
 bg_color = Color( 0, 0, 0, 0.470588 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
 content_margin_bottom = 6.0
 bg_color = Color( 0, 0, 0, 0.501961 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 6.0
@@ -82,7 +82,7 @@ __meta__ = {
 visible = false
 margin_right = 304.0
 margin_bottom = 26.0
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 1 )
 text = "Please look straight at the webcam"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -93,7 +93,7 @@ visible = false
 margin_top = 30.0
 margin_right = 304.0
 margin_bottom = 56.0
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 1 )
 text = "Ensure your face is well lit"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -103,7 +103,7 @@ __meta__ = {
 visible = false
 margin_right = 304.0
 margin_bottom = 26.0
-custom_styles/normal = SubResource( 3 )
+custom_styles/normal = SubResource( 2 )
 text = "Please keep 1,5 m distance from the webcam"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -114,7 +114,7 @@ visible = false
 margin_top = 60.0
 margin_right = 304.0
 margin_bottom = 86.0
-custom_styles/normal = SubResource( 4 )
+custom_styles/normal = SubResource( 3 )
 text = "Tracking lost"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -125,7 +125,7 @@ visible = false
 margin_top = 90.0
 margin_right = 304.0
 margin_bottom = 116.0
-custom_styles/normal = SubResource( 5 )
+custom_styles/normal = SubResource( 4 )
 text = "Pickup the pointer"
 __meta__ = {
 "_edit_use_anchors_": false

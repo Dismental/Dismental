@@ -20,7 +20,7 @@ var pointer_pos_current
 
 # Properties for the drawing of the pointer
 var p_visible = true
-var p_color = Color(0, 1, 1, 1)
+var p_color = Color(0, 0, 1)
 var p_rad = 25
 
 # Properties for the drawing of the pointer
