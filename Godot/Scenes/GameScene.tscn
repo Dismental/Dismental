@@ -553,6 +553,7 @@ __meta__ = {
 }
 
 [node name="HackInstructions" type="MarginContainer" parent="Control/InstructionPanel"]
+visible = false
 anchor_top = 0.00171947
 anchor_bottom = 0.00171947
 margin_left = -2.55835
@@ -590,6 +591,7 @@ __meta__ = {
 }
 
 [node name="CutInstructions" type="MarginContainer" parent="Control/InstructionPanel"]
+visible = false
 anchor_bottom = 0.00985915
 margin_left = 1.22095
 margin_top = -1.22083
@@ -604,7 +606,6 @@ __meta__ = {
 }
 
 [node name="LABEL3" type="Label" parent="Control/InstructionPanel/CutInstructions"]
-visible = false
 margin_left = 32.0
 margin_top = 24.0
 margin_right = 707.0
