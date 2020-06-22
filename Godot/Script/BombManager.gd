@@ -3,7 +3,7 @@ extends Node
 var next_scene
 
 onready var roadmap_control = $Control
-onready var bottom_button = $Control/Button
+onready var bottom_button = $Control/StartNextTask
 onready var countdown_timer = $Control/CountDown
 
 
