@@ -88,6 +88,7 @@ __meta__ = {
 }
 
 [node name="Lbl_lost_tracking" type="Label" parent="VBoxContainer"]
+visible = false
 margin_right = 581.0
 margin_bottom = 53.0
 custom_styles/normal = SubResource( 1 )
@@ -98,6 +99,7 @@ __meta__ = {
 }
 
 [node name="Lbl_pickup_pointer" type="Label" parent="VBoxContainer"]
+visible = false
 margin_top = 57.0
 margin_right = 581.0
 margin_bottom = 110.0
@@ -109,6 +111,7 @@ __meta__ = {
 }
 
 [node name="Lbl_lighting" type="Label" parent="VBoxContainer"]
+visible = false
 margin_top = 114.0
 margin_right = 581.0
 margin_bottom = 167.0
@@ -120,6 +123,7 @@ __meta__ = {
 }
 
 [node name="Lbl_template_matching" type="Label" parent="VBoxContainer"]
+visible = false
 margin_top = 171.0
 margin_right = 581.0
 margin_bottom = 224.0
@@ -131,6 +135,7 @@ __meta__ = {
 }
 
 [node name="Lbl_too_close" type="Label" parent="VBoxContainer"]
+visible = false
 margin_top = 228.0
 margin_right = 581.0
 margin_bottom = 281.0
