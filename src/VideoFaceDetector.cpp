@@ -271,8 +271,10 @@ void VideoFaceDetector::detectFacesTemplateMatching(const cv::Mat &frame)
     // If template matching lasts for more than 2 seconds face is possibly lost
     // so disable it and redetect using cascades
     if (duration > m_templateMatchingMaxDuration) {
-        stopTemplateMatching();
-		return;
+        m_foundFace = false;
+        detectFaceAllSizes(frame);
+        if (m_foundFace) return;
+        m_foundFace = true;
     }
 
 	// Edge case when face exits frame while 
