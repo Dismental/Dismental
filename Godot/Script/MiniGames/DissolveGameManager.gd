@@ -85,9 +85,7 @@ onready var fire_sign = $FireSignControl
 onready var fire_sign_bg = $FireSignControl/fire_sign_bg
 const fire_sign_color_blink = Color(210.0 / 255, 69.0 / 255, 69.0 / 255)
 const fire_sign_color_def = Color(0.0, 0.0, 0.0)
-var is_blinking = false
 const blinking_frames = 3
-var blinking_threshold
 
 
 func _ready():
