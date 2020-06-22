@@ -73,7 +73,7 @@ func _process(_delta):
 
 	if player_role == Role.HEADTHROTTLE:
 		var tracking_pos_new = _map_tracking_position(tracking_node.position)
-		
+
 		tracking_pos_new.x = clamp(tracking_pos_new.x, 0, get_viewport_rect().size.x)
 		tracking_pos_new.y = clamp(tracking_pos_new.y, 0, get_viewport_rect().size.y)
 
