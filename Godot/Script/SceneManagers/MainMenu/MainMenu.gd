@@ -4,13 +4,16 @@ extends Control
 var scroll_animating = false
 var scroll_progress = 0
 var scroll_amount = 0
-var scroll_down = true
+var scroll_down = false
 
 # SFX
 onready var button_click_sound = $AudioStreamPlayers/ButtonClick
 
 
 func start_scroll_animation(direction):
+	if scroll_down == direction:
+		return
+
 	scroll_down = direction
 	scroll_progress = 0
 	scroll_animating = true
