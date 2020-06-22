@@ -76,12 +76,27 @@ func disconnected():
 
 	if code == 4100:
 		print("host disconnect")
-		var curr_node = get_tree().get_current_scene().get_node("Lobby")
-		curr_node.stop_voip()
+		if get_tree().get_root().has_node("VoiceStream"):
+			var voice = get_tree().get_root().get_node("VoiceStream")
+			voice.stop()
+			voice.get_parent().remove_child(voice)
+			voice.queue_free()
+
+		var succes
+		var curr_node
+		
+		if GameState.running:
+			curr_node = get_tree().get_root().get_node("GameScene")
+			GameState.reset_gamestate()
+		
+		else:
+			curr_node = get_tree().get_root().find_node("Lobby", true, false)
+
 		stop()
-		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
-		get_tree().get_current_scene().get_node("MainMenu").popup(
+		succes = Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
+		get_tree().get_root().find_node("MainMenu", true, false).popup(
 			"Host disconnected")
+		return succes
 
 	elif code == 4004:
 		var curr_node = get_tree().get_current_scene().get_node("Lobby")
