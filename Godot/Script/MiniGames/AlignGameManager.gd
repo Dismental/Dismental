@@ -75,9 +75,8 @@ func _ready():
 	var pointer = PointerScene.instance()
 	self.add_child(pointer)
 	pointer_control = pointer.get_node(".")
-	pointer_control.set_role_and_position(pointer.ROLE.HEADTHROTTLE, Vector2(0.7,0.5))
+	pointer_control.set_role_and_position(pointer.Role.HEADTHROTTLE, Vector2(0.7,0.5))
 	pointer_node = pointer.get_node("Pointer")
-	pointer_control.set_pointer_radius(10)
 
 
 func _process(delta):
