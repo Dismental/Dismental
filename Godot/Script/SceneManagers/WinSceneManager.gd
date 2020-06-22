@@ -14,7 +14,7 @@ func _ready():
 	$Squad/Members.add_item(Network.player_name)
 	for player in Network.player_info.values():
 		$Squad/Members.add_item(player)
-	$Squad/Score.text += "\n" + str(score.time) + "\n"
+	$Squad/Score.text += "\n" + str(score.get_time()) + "\n"
 	match score_pos:
 		1:
 			$Squad/Score.text +=  str(score_pos)  + "st on scoreboard"
