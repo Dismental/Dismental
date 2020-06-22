@@ -152,3 +152,8 @@ func _process(_delta):
 	update_blinking_animation(_delta)
 
 	update_instruction_animation(_delta)
+
+
+	# Enable next minigame button when the animations are finished
+	if opening_progress >= 1 and instruction_show_progress >= 1:
+		$StartNextTask.disabled = false
