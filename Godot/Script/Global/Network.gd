@@ -217,8 +217,11 @@ remote func pre_configure_minigame(minigame):
 	get_tree().set_pause(true)
 	print("res://Scenes/Mini Games/%s/%s.tscn" % [minigame, minigame])
 	var game = load("res://Scenes/Mini Games/%s/%s.tscn" % [minigame, minigame]).instance()
+#	if GameState.defusers[GameState.minigame_index] != -1:
+#		var defuser_id = GameState.defusers[GameState.minigame_index]
+#		game.set_network_master(defuser_id)
+#		print("New network master: " + str(defuser_id))
 	get_tree().get_root().add_child(game)
-
 	if not get_tree().is_network_server():
 		var self_peer_id = get_tree().get_network_unique_id()
 		rpc_id(1, "done_pre_configuring_minigame", self_peer_id)
