@@ -18,6 +18,7 @@ var radius = 9
 var defuse_state = DefuserState.OFF
 
 var pointer_node
+var pointer_control
 
 # Increase/decrease factor of temperature
 var increase_factor = 24
@@ -90,7 +91,7 @@ func _ready():
 		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
 		var pointer = PointerScene.instance()
 		self.add_child(pointer)
-		var pointer_control = pointer.get_node(".")
+		pointer_control = pointer.get_node(".")
 		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
 		_generate_components()
@@ -99,7 +100,8 @@ func _ready():
 func _process(delta):
 	if player_role == Role.SUPERVISOR:
 		if defuse_state == DefuserState.SOLDERING_IRON:
-			_increase_matrix_input(delta)
+			if not pointer_control.pickup_pointer:
+				_increase_matrix_input(delta)
 		elif defuse_state == DefuserState.VACUUM:
 			_check_vacuum()
 		_refresh_heatmap(delta)

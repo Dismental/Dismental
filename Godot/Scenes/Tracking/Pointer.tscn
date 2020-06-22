@@ -1,14 +1,8 @@
 [gd_scene load_steps=8 format=2]
 
+[ext_resource path="res://Fonts/LobbyFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Script/Tracking/PointerManager.gd" type="Script" id=2]
 [ext_resource path="res://bin/gdexample.gdns" type="Script" id=3]
-
-[sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 6.0
-content_margin_right = 6.0
-content_margin_top = 6.0
-content_margin_bottom = 6.0
-bg_color = Color( 0, 0, 0, 0.737255 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 content_margin_left = 6.0
@@ -41,71 +35,98 @@ bg_color = Color( 0, 0, 0, 0.466667 )
 [node name="Control" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="Pickuppointershadow" type="ColorRect" parent="."]
+visible = false
+margin_left = -76.0
+margin_top = -73.0
+margin_right = 2107.0
+margin_bottom = 1168.0
+color = Color( 0, 0, 0, 0.239216 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Pointer" type="Position2D" parent="."]
+
+[node name="Lbl_warning" type="Label" parent="Pointer"]
+margin_left = -7.32368
+margin_top = -27.6391
+margin_right = 8.67632
+margin_bottom = 3.36089
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
+text = "!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HeadPos" type="Position2D" parent="."]
 script = ExtResource( 3 )
 
-[node name="Lbl_warning" type="Label" parent="."]
-margin_left = 766.479
-margin_top = 20.2419
-margin_right = 891.479
-margin_bottom = 46.2419
-rect_scale = Vector2( 2, 2 )
-custom_styles/normal = SubResource( 1 )
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-custom_colors/font_outline_modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "[Tracking warning]"
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 1089.0
+margin_top = 24.0
+margin_right = 1070.0
+margin_bottom = 135.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Lbl_template_matching" type="Label" parent="."]
-margin_left = 1101.02
-margin_top = 21.2392
-margin_right = 1338.02
-margin_bottom = 48.2392
-rect_scale = Vector2( 2, 2 )
+[node name="Lbl_template_matching" type="Label" parent="VBoxContainer"]
+visible = false
+margin_right = 304.0
+margin_bottom = 26.0
 custom_styles/normal = SubResource( 2 )
-text = "Please face directly to the webcam"
+text = "Please look straight at the webcam"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Lbl_too_close" type="Label" parent="."]
-margin_left = 1208.22
-margin_top = 161.068
-margin_right = 1389.22
-margin_bottom = 204.068
-rect_scale = Vector2( 2, 2 )
+[node name="Lbl_lighting" type="Label" parent="VBoxContainer"]
+visible = false
+margin_top = 30.0
+margin_right = 304.0
+margin_bottom = 56.0
+custom_styles/normal = SubResource( 2 )
+text = "Ensure your face is well lit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lbl_too_close" type="Label" parent="VBoxContainer"]
+visible = false
+margin_right = 304.0
+margin_bottom = 26.0
 custom_styles/normal = SubResource( 3 )
-text = "Too close to the webcam.
-Keep 1,5 m distance"
+text = "Please keep 1,5 m distance from the webcam"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Lbl_lost_tracking" type="Label" parent="."]
-margin_left = 1196.99
-margin_top = 97.4609
-margin_right = 1379.99
-margin_bottom = 123.461
-rect_scale = Vector2( 2, 2 )
+[node name="Lbl_lost_tracking" type="Label" parent="VBoxContainer"]
+visible = false
+margin_top = 60.0
+margin_right = 304.0
+margin_bottom = 86.0
 custom_styles/normal = SubResource( 4 )
-text = "Face could not be found!"
+text = "Tracking lost"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Lbl_pickup_pointer" type="Label" parent="."]
-margin_left = 1285.53
-margin_top = 265.844
-margin_right = 1426.53
-margin_bottom = 291.844
-rect_scale = Vector2( 2, 2 )
+[node name="Lbl_pickup_pointer" type="Label" parent="VBoxContainer"]
+visible = false
+margin_top = 90.0
+margin_right = 304.0
+margin_bottom = 116.0
 custom_styles/normal = SubResource( 5 )
 text = "Pickup the pointer"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="losttracking_changed" from="HeadPos" to="." method="_on_HeadPos_losttracking_changed"]
+[connection signal="multiface_changed" from="HeadPos" to="." method="_on_HeadPos_multiface_changed"]
+[connection signal="templatematching_changed" from="HeadPos" to="." method="_on_HeadPos_templatematching_changed"]
+[connection signal="tooclose_changed" from="HeadPos" to="." method="_on_HeadPos_tooclose_changed"]

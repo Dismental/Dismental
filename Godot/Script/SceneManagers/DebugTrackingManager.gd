@@ -26,7 +26,7 @@ func _draw():
 	# Draw current pointer at cursor position
 	var rad = 25
 	var col = Color(0, 1, 0)
-	draw_circle(input_pos, rad, col)
+#	draw_circle(input_pos, rad, col)
 
 
 func _unhandled_input(event):
