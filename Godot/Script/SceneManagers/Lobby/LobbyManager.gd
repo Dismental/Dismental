@@ -20,6 +20,11 @@ func _ready():
 	var name = Network.player_name + " (You)"
 	$PlayersPanel/MarginContainer/VBoxContainer/VBoxContainer/You/Label.text = name
 
+	# If we have a network peer already we are in "play again" mode
+	if get_tree().has_network_peer():
+		_update_ui()
+		refresh_lobby()
+
 	if get_tree().root.has_node("VoiceStream"):
 		voice = get_tree().get_root().find_node("VoiceStream", true, false)
 		_set_mute_btn(voice.is_recording())
@@ -33,12 +38,16 @@ func _ready():
 
 func lobby_joined(miss_id):
 	$MissionID.text = miss_id
+	_update_ui()
+
+
+
+func _update_ui():
 	var is_host = Network.host == get_tree().get_network_unique_id()
 	$TeamName.editable = is_host
 	$DifficultyBtn.disabled = not is_host
 	$WaitingForHostLbl.visible = not is_host
 	$StartMission.visible = is_host
-
 
 func stop_voip():
 	voice.stop()
