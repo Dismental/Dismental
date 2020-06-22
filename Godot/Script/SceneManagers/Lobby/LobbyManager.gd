@@ -130,5 +130,6 @@ func _on_ActivatePointer_pressed():
 	$InstructionsPanel/pointer.visible = true
 
 
-func _on_ActivatePointer2_pressed():
+func _on_CloseInstructions_pressed():
 	$InstructionsPanel.visible = false
+	$OpenInstructions.pressed = false

@@ -590,7 +590,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ActivatePointer2" type="Button" parent="InstructionsPanel"]
+[node name="CloseInstructions" type="Button" parent="InstructionsPanel"]
 margin_left = 614.231
 margin_top = 948.626
 margin_right = 764.231
@@ -650,4 +650,4 @@ __meta__ = {
 [connection signal="item_selected" from="DifficultyBtn" to="." method="_on_DifficultyBtn_item_selected"]
 [connection signal="toggled" from="MuteBtn" to="." method="_on_MuteBtn_toggled"]
 [connection signal="pressed" from="InstructionsPanel/ActivatePointer" to="." method="_on_ActivatePointer_pressed"]
-[connection signal="pressed" from="InstructionsPanel/ActivatePointer2" to="." method="_on_ActivatePointer2_pressed"]
+[connection signal="pressed" from="InstructionsPanel/CloseInstructions" to="." method="_on_CloseInstructions_pressed"]
