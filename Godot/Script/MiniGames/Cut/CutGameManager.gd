@@ -45,7 +45,6 @@ func _ready():
 	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
 
 	if player_role == Role.DEFUSER:
-		rpc("_on_game_completed")
 		_load_map(map_index, false)
 		
 		# Initialize the HeadTracking scene for this user
