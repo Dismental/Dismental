@@ -56,7 +56,7 @@ func _helper():
 		print("recording is null!")
 	else:
 		var comp = record.get_data()
-		rpc_unreliable("_play",get_tree().get_network_unique_id(), comp, record.get_format(),
+		rpc("_play",get_tree().get_network_unique_id(), comp, record.get_format(),
 		record.get_mix_rate(), record.is_stereo(), record.get_data().size())
 		if (record.get_data().size() > 30000):
 			print("size of data is: " + str(record.get_data().size()))
