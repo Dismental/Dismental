@@ -53,12 +53,13 @@ func _defused():
 
 
 remotesync func _on_defuse():
+	var end_time = GameState.format_time(int(round(GameState.timer.get_time_left())))
 	GameState.defused()
 
 	var date = str(OS.get_date().get("day"))
 	date += "/" + str(OS.get_date().get("month"))
 	date += "/" + str(OS.get_date().get("year"))
 	ScoreManager.add_score(Score.new(GameState.team_name,
-		GameState.difficulty, str(GameState.timer.get_time_left()), date))
+		GameState.difficulty, end_time, date))
 
 	return Utils.change_screen("res://Scenes/WinScene.tscn", self)
