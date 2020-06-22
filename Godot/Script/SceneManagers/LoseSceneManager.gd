@@ -40,7 +40,7 @@ func _on_MainMenuButton_pressed():
 
 func _on_ScoreBoardButton_pressed():
 	button_click_sound.play()
-	return Utils.add_scene("res://Scenes/ScoreScenes/Scoreboard.tscn", self)
+	return Utils.add_scene("res://Scenes/ScoreScenes/ScoreBoardOverview.tscn", self)
 
 
 func _on_PlayAgainButton_pressed():
@@ -48,6 +48,9 @@ func _on_PlayAgainButton_pressed():
 
 
 remotesync func _play_again():
+	var tree = get_tree()
 	var success = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
 	GameState.reset_gamestate()
+	tree.get_root().find_node("Lobby", true, false).popup(
+			name + "Lobby is closed, no new players can join")
 	return success

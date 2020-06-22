@@ -1,6 +1,7 @@
 extends "../webrtc.gd"
 
 signal player_list_changed()
+signal player_disconnected()
 
 const DEFAULT_SERVER = 'wss://signaling-server-bomb.herokuapp.com/'
 
@@ -31,6 +32,7 @@ func _init():
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
+	get_tree().connect("network_peer_disconnected", self, "peer_disconnected")
 
 
 func create_server(url = DEFAULT_SERVER):
@@ -76,12 +78,25 @@ func disconnected():
 
 	if code == 4100:
 		print("host disconnect")
-		var curr_node = get_tree().get_current_scene().get_node("Lobby")
-		curr_node.stop_voip()
+		if get_tree().get_root().has_node("VoiceStream"):
+			var voice = get_tree().get_root().get_node("VoiceStream")
+			voice.stop()
+			voice.get_parent().remove_child(voice)
+			voice.queue_free()
+
+		var curr_node
+		if GameState.running:
+			curr_node = get_tree().get_root().get_node("GameScene")
+			GameState.reset_gamestate()
+
+		else:
+			curr_node = get_tree().get_root().find_node("Lobby", true, false)
+
 		stop()
-		Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
-		get_tree().get_current_scene().get_node("MainMenu").popup(
+		var succes = Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
+		get_tree().get_root().find_node("MainMenu", true, false).popup(
 			"Host disconnected")
+		return succes
 
 	elif code == 4004:
 		var curr_node = get_tree().get_current_scene().get_node("Lobby")
@@ -102,6 +117,7 @@ func disconnected():
 	elif not sealed:
 		stop() #Unexpected disconnect
 
+
 func peer_connected(id):
 	print("Peer connected %d" % id)
 	_create_peer(id)
@@ -111,6 +127,8 @@ func peer_disconnected(id):
 	if web_rtc.has_peer(id):
 		print("removing peer")
 		web_rtc.remove_peer(id)
+	if player_info.has(id):
+		emit_signal("player_disconnected", id, player_info[id])
 	deregister_player(id)
 
 
@@ -256,9 +274,10 @@ remote func register_player(name):
 
 
 func deregister_player(id):
-	player_info.erase(id)
-	print("removing player: " + str(id))
-	emit_signal("player_list_changed")
+	if player_info.has(id):
+		player_info.erase(id)
+		print("removing player: " + str(id))
+		emit_signal("player_list_changed")
 
 
 func get_players():

@@ -803,7 +803,7 @@ margin_top = 1902.24
 margin_right = 983.308
 margin_bottom = 1933.24
 custom_fonts/font = SubResource( 23 )
-text = "COPYRIGHT CG-01 2020"
+text = "CG-01 2020"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -816,12 +816,12 @@ margin_top = 1690.92
 margin_right = 983.868
 margin_bottom = 1891.92
 custom_fonts/font = SubResource( 23 )
-text = "GEES BROUWERS
+text = "GEES BROUWER
 JONAS DUIFS 
 ONNO GIELING
 PEPIJN KLOP
 JEROEN JANSSEN
-KEVERT VAN DER WERFF"
+KEVIN VAN DER WERFF"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

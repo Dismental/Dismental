@@ -76,7 +76,7 @@ func popup(text: String):
 
 func _on_ScoreBoardButton_pressed():
 	button_click_sound.play()
-	Utils.add_scene("res://Scenes/ScoreScenes/ScoreBoard.tscn", get_parent())
+	Utils.add_scene("res://Scenes/ScoreScenes/ScoreBoardOverview.tscn", get_parent())
 
 
 func set_panel_visible(node, vis):
