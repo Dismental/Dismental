@@ -56,8 +56,14 @@ func _on_BackButton_pressed():
 	button_click_sound.play()
 	start_scroll_animation(false)
 
+
 func _on_JoinLobbyButton_pressed():
 	button_click_sound.play()
+
+
+func _on_CreateLobbyButton_pressed():
+	button_click_sound.play()
+
 
 func popup(text: String):
 	var p_up = $Popup

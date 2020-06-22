@@ -767,5 +767,6 @@ stream = ExtResource( 11 )
 [connection signal="pressed" from="CreateMissionButton" to="." method="_on_CreateMissionButton_pressed"]
 [connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="MissionPanel/JoinMissionPanel" method="_on_JoinMissionBtn_pressed"]
 [connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="." method="_on_JoinLobbyButton_pressed"]
+[connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="." method="_on_CreateLobbyButton_pressed"]
 [connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="MissionPanel/CreateMissionPanel" method="_on_CreateMissionBtn_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
