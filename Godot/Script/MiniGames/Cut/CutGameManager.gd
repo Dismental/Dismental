@@ -189,6 +189,9 @@ func _update_game_state():
 	if running and not player_role == Role.DEFUSER:
 		_supervisor_vision_update(get_global_mouse_position())
 
+remotesync func _play_go_sound():
+
+
 
 func _check_finish():
 	if finish_state == 0:
