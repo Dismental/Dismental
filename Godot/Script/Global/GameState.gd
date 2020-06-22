@@ -99,6 +99,10 @@ func defused():
 	timer.stop()
 
 
+func stop_running():
+	running = false
+
+
 func start_minigame(button_reference):
 	if len(minigames) - minigame_index > 0:
 		Network.start_minigame(minigames[minigame_index])

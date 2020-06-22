@@ -22,7 +22,8 @@ func _ready():
 
 func _on_wait_time_lobby_over():
 	print("TIMER OVER")
-	GameState.start_minigame(bottom_button)
+	if get_tree().get_network_unique_id() == Network.host:
+		GameState.start_minigame(bottom_button)
 
 
 func _load_roadmap():
@@ -40,6 +41,7 @@ func _on_start_minigame_pressed():
 
 
 func game_over():
+	GameState.stop_running()
 	return Utils.change_screen("res://Scenes/LoseScene.tscn", self)
 
 
