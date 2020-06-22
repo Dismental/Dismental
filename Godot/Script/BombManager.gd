@@ -59,6 +59,6 @@ remotesync func _on_defuse():
 	date += "/" + str(OS.get_date().get("month"))
 	date += "/" + str(OS.get_date().get("year"))
 	ScoreManager.add_score(Score.new(GameState.team_name,
-		GameState.difficulty, GameState.timer.get_time_left(), date))
+		GameState.difficulty, str(GameState.timer.get_time_left()), date))
 
 	return Utils.change_screen("res://Scenes/WinScene.tscn", self)
