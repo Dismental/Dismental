@@ -82,9 +82,7 @@ func disconnected():
 			voice.get_parent().remove_child(voice)
 			voice.queue_free()
 
-		var succes
 		var curr_node
-		
 		if GameState.running:
 			curr_node = get_tree().get_root().get_node("GameScene")
 			GameState.reset_gamestate()
@@ -93,7 +91,7 @@ func disconnected():
 			curr_node = get_tree().get_root().find_node("Lobby", true, false)
 
 		stop()
-		succes = Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
+		var succes = Utils.change_screen("res://Scenes/MainMenu.tscn", curr_node)
 		get_tree().get_root().find_node("MainMenu", true, false).popup(
 			"Host disconnected")
 		return succes
@@ -116,6 +114,7 @@ func disconnected():
 
 	elif not sealed:
 		stop() #Unexpected disconnect
+
 
 func peer_connected(id):
 	print("Peer connected %d" % id)
@@ -271,9 +270,10 @@ remote func register_player(name):
 
 
 func deregister_player(id):
-	player_info.erase(id)
-	print("removing player: " + str(id))
-	emit_signal("player_list_changed")
+	if player_info.has(id):
+		player_info.erase(id)
+		print("removing player: " + str(id))
+		emit_signal("player_list_changed")
 
 
 func get_players():
