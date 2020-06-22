@@ -24,7 +24,6 @@ var finish_state = 0
 var player_role
 var map_index
 
-onready var start_dialog = $Control/StartDialog
 onready var game_over_dialog = $Control/GameOverDialog
 onready var completed_dialog = $Control/CompletedDialog
 onready var supervisor_vision = $"Control/X-rayVision"

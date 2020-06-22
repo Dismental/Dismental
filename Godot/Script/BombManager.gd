@@ -10,7 +10,6 @@ onready var countdown_timer = $Control/CountDown
 func _ready():
 	GameState.start_timer(get_node("CanvasLayer/Timer/MarginContainer/TimeCounter"))
 	GameState.connect("timer_timeout", self, "_on_timer_timeout")
-	GameState.connect("update_remaining_text", self, "_update_remaining_text")
 	GameState.connect("defused", self, "_defused")
 	GameState.connect("load_roadmap", self, "_load_roadmap")
 

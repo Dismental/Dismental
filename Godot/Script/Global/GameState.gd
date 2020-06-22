@@ -121,7 +121,6 @@ func start_minigame(button_reference):
 	if len(minigames) - minigame_index > 0:
 		Network.start_minigame(minigames[minigame_index])
 		minigame_index += 1
-		emit_signal("update_remaining_text", str(len(minigames) - minigame_index))
 		if len(minigames) - minigame_index == 0:
 			button_reference.text = "Defuse Bomb"
 	else:
