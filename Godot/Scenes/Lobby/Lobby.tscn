@@ -1,9 +1,10 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Script/SceneManagers/Lobby/LobbyManager.gd" type="Script" id=2]
 [ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Script/PanelGraphics.gd" type="Script" id=4]
+[ext_resource path="res://Sounds/button_click.ogg" type="AudioStream" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 1 )
@@ -535,6 +536,9 @@ margin_right = 1546.38
 margin_bottom = 759.198
 pressed = true
 flat = true
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
 [connection signal="text_changed" from="TeamName" to="." method="_on_TeamName_text_changed"]
 [connection signal="pressed" from="StartMission" to="." method="_on_StartMission_pressed"]
 [connection signal="pressed" from="CancelMission" to="." method="_on_CancelMission_pressed"]

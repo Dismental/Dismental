@@ -1,11 +1,14 @@
 extends Control
 
+onready var button_click_sound = $ButtonClick
+
 
 func _ready():
 	instance_panels()
 
 
 func _on_BackButton_pressed():
+	button_click_sound.play()
 	get_parent().remove_child(self)
 	self.queue_free()
 
