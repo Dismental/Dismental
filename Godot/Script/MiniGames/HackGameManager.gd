@@ -123,7 +123,7 @@ remotesync func _spawn_labels(delta):
 		
 		if collectable_time > collectables_interval and spawned_collectables < num_of_collectables:
 			collectable_time = 0
-			collectables_interval = rand_range(2, 6)
+			collectables_interval = rand_range(collectables_interval - 1, collectables_interval + 1)
 			collectable_index = randi() % rows
 				
 		for i in range(rows):
