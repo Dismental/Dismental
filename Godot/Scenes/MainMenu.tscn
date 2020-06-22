@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/main_menu_wires.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Script/JoinMissionPanel.gd" type="Script" id=10]
 [ext_resource path="res://Script/SceneManagers/MainMenu/MicVolume.gd" type="Script" id=11]
 [ext_resource path="res://Sounds/button_click.ogg" type="AudioStream" id=12]
+[ext_resource path="res://Script/Microphone.gd" type="Script" id=13]
 
 [sub_resource type="Theme" id=1]
 
@@ -61,6 +62,54 @@ font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=9]
 size = 20
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=24]
+size = 20
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=25]
+default_font = SubResource( 24 )
+
+[sub_resource type="StyleBoxFlat" id=26]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=27]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=28]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=29]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=30]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=31]
+size = 24
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
 font_data = ExtResource( 3 )
 
 [sub_resource type="StyleBoxFlat" id=10]
@@ -343,6 +392,32 @@ margin_bottom = 26.0
 custom_fonts/font = SubResource( 9 )
 text = "100%"
 script = ExtResource( 11 )
+
+[node name="Microphone" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+margin_top = 282.0
+margin_right = 270.0
+margin_bottom = 308.0
+custom_fonts/font = SubResource( 7 )
+text = "MICROPHONE"
+
+[node name="MicBtn" type="OptionButton" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+margin_top = 332.0
+margin_right = 270.0
+margin_bottom = 375.0
+theme = SubResource( 25 )
+custom_styles/hover = SubResource( 26 )
+custom_styles/pressed = SubResource( 27 )
+custom_styles/focus = SubResource( 28 )
+custom_styles/disabled = SubResource( 29 )
+custom_styles/normal = SubResource( 30 )
+custom_fonts/font = SubResource( 31 )
+custom_constants/hseparation = 10
+flat = true
+clip_text = true
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="OperatorPanel2" type="PanelContainer" parent="."]
 anchor_left = 0.00186075
@@ -779,6 +854,7 @@ __meta__ = {
 stream = ExtResource( 12 )
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/Volume" method="_on_HSlider_value_changed"]
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Volume" method="_on_HSlider_value_changed"]
+[connection signal="item_selected" from="SettingsPanel/MarginContainer/VBoxContainer/MicBtn" to="SettingsPanel/MarginContainer/VBoxContainer/MicBtn" method="_on_MicBtn_item_selected"]
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
 [connection signal="pressed" from="ScoreBoardButton" to="." method="_on_ScoreBoardButton_pressed"]
 [connection signal="pressed" from="CreateMissionButton" to="." method="_on_CreateMissionButton_pressed"]
