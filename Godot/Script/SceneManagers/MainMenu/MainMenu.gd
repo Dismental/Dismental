@@ -74,5 +74,10 @@ func popup(text: String):
 	p_up.popup_centered()
 
 
+func _on_ScoreBoardButton_pressed():
+	button_click_sound.play()
+	Utils.add_scene("res://Scenes/ScoreScenes/ScoreBoard.tscn", get_parent())
+
+
 func set_panel_visible(node, vis):
 	get_node(node).visible = vis

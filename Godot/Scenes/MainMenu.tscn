@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Fonts/DS-DIGIB.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/main_menu_wires.png" type="Texture" id=2]
@@ -6,11 +6,13 @@
 [ext_resource path="res://Fonts/righteous.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Script/SceneManagers/MainMenu/MainMenu.gd" type="Script" id=5]
 [ext_resource path="res://Script/PanelGraphics.gd" type="Script" id=6]
-[ext_resource path="res://Script/SceneManagers/MainMenu/Label.gd" type="Script" id=7]
+[ext_resource path="res://Script/SceneManagers/MainMenu/Volume.gd" type="Script" id=7]
 [ext_resource path="res://Script/CreateMissionPanel.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/PopupDialog.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Script/JoinMissionPanel.gd" type="Script" id=10]
-[ext_resource path="res://Sounds/button_click.ogg" type="AudioStream" id=11]
+[ext_resource path="res://Script/SceneManagers/MainMenu/MicVolume.gd" type="Script" id=11]
+[ext_resource path="res://Sounds/button_click.ogg" type="AudioStream" id=12]
+[ext_resource path="res://Script/Microphone.gd" type="Script" id=13]
 
 [sub_resource type="Theme" id=1]
 
@@ -62,7 +64,55 @@ font_data = ExtResource( 3 )
 size = 20
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="DynamicFont" id=10]
+size = 20
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=11]
+default_font = SubResource( 10 )
+
+[sub_resource type="StyleBoxFlat" id=12]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=13]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=14]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=15]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=16]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 24
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=18]
 bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -75,7 +125,7 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.196078, 0.196078, 0.196078, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -84,7 +134,7 @@ border_width_bottom = 4
 border_color = Color( 0, 0, 0, 1 )
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=20]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 6.0
@@ -101,65 +151,6 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 shadow_color = Color( 1, 0, 0, 0.32549 )
 shadow_size = 16
-
-[sub_resource type="StyleBoxFlat" id=13]
-content_margin_left = 12.0
-content_margin_right = 12.0
-content_margin_top = 6.0
-content_margin_bottom = 6.0
-bg_color = Color( 0.207843, 0.207843, 0.207843, 1 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-shadow_color = Color( 1, 0, 0, 0.32549 )
-shadow_size = 16
-
-[sub_resource type="StyleBoxFlat" id=14]
-content_margin_left = 12.0
-content_margin_right = 12.0
-content_margin_top = 2.0
-content_margin_bottom = 2.0
-bg_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[sub_resource type="DynamicFont" id=15]
-size = 24
-font_data = ExtResource( 3 )
-
-[sub_resource type="Theme" id=16]
-
-[sub_resource type="StyleBoxFlat" id=17]
-content_margin_left = 12.0
-content_margin_right = 12.0
-content_margin_top = 6.0
-content_margin_bottom = 6.0
-bg_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[sub_resource type="DynamicFont" id=18]
-size = 32
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=19]
-font_data = ExtResource( 3 )
-
-[sub_resource type="DynamicFont" id=20]
-size = 24
-outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
-font_data = ExtResource( 3 )
 
 [sub_resource type="StyleBoxFlat" id=21]
 content_margin_left = 12.0
@@ -177,14 +168,73 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 shadow_color = Color( 1, 0, 0, 0.32549 )
-shadow_size = 8
+shadow_size = 16
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="StyleBoxFlat" id=22]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="DynamicFont" id=23]
+size = 24
+font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=24]
+
+[sub_resource type="StyleBoxFlat" id=25]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="DynamicFont" id=26]
+size = 32
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=27]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=28]
 size = 24
 outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="StyleBoxFlat" id=29]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0.207843, 0.207843, 0.207843, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color( 1, 0, 0, 0.32549 )
+shadow_size = 8
+
+[sub_resource type="DynamicFont" id=30]
+size = 24
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=31]
 size = 128
 font_data = ExtResource( 3 )
 
@@ -208,9 +258,9 @@ anchor_left = 0.00120646
 anchor_top = 0.0036276
 anchor_right = 0.00120646
 anchor_bottom = 0.00362764
-margin_left = -986.45
+margin_left = -985.679
 margin_top = -2.63143
-margin_right = 2966.55
+margin_right = 2967.32
 margin_bottom = 1959.87
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
@@ -223,9 +273,9 @@ __meta__ = {
 
 [node name="SettingsPanel" type="PanelContainer" parent="."]
 margin_left = 1590.0
-margin_top = 517.0
+margin_top = 515.0
 margin_right = 1916.0
-margin_bottom = 1083.0
+margin_bottom = 1081.0
 rect_min_size = Vector2( 0, 566 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
@@ -277,12 +327,12 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 82.0
-margin_right = 138.0
+margin_right = 163.0
 margin_bottom = 108.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 7 )
-text = "GAME VOLUME"
+text = "MASTER VOLUME"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -297,24 +347,26 @@ margin_right = 180.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 180, 0 )
 size_flags_horizontal = 2
-value = 90.0
+max_value = 2.0
+step = 0.01
+value = 1.0
 
-[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 235.0
+[node name="Volume" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 224.0
 margin_right = 270.0
 margin_bottom = 26.0
 custom_fonts/font = SubResource( 8 )
-text = "75%"
+text = "100%"
 script = ExtResource( 7 )
 
 [node name="Label2" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
 margin_top = 182.0
-margin_right = 118.0
+margin_right = 142.0
 margin_bottom = 208.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 7 )
-text = "MIC VOLUME"
+text = "VOICE VOLUME"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -329,15 +381,43 @@ margin_right = 180.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 180, 0 )
 size_flags_horizontal = 2
-value = 90.0
+max_value = 2.0
+step = 0.01
+value = 1.0
 
-[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 235.0
+[node name="Volume" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 224.0
 margin_right = 270.0
 margin_bottom = 26.0
 custom_fonts/font = SubResource( 9 )
-text = "75%"
-script = ExtResource( 7 )
+text = "100%"
+script = ExtResource( 11 )
+
+[node name="Microphone" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+margin_top = 282.0
+margin_right = 270.0
+margin_bottom = 308.0
+custom_fonts/font = SubResource( 7 )
+text = "MICROPHONE"
+
+[node name="MicBtn" type="OptionButton" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+margin_top = 332.0
+margin_right = 270.0
+margin_bottom = 375.0
+theme = SubResource( 11 )
+custom_styles/hover = SubResource( 12 )
+custom_styles/pressed = SubResource( 13 )
+custom_styles/focus = SubResource( 14 )
+custom_styles/disabled = SubResource( 15 )
+custom_styles/normal = SubResource( 16 )
+custom_fonts/font = SubResource( 17 )
+custom_constants/hseparation = 10
+flat = true
+clip_text = true
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="OperatorPanel2" type="PanelContainer" parent="."]
 anchor_left = 0.00186075
@@ -351,7 +431,7 @@ margin_bottom = 753.815
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = SubResource( 18 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -362,13 +442,13 @@ anchor_left = 0.000875091
 anchor_top = -0.000343153
 anchor_right = 0.000875091
 anchor_bottom = -0.00034304
-margin_left = 4.31983
-margin_top = 752.371
-margin_right = 1588.32
-margin_bottom = 1954.37
+margin_left = -85.4571
+margin_top = 763.647
+margin_right = 1501.55
+margin_bottom = 1965.65
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 11 )
+custom_styles/panel = SubResource( 19 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -385,7 +465,7 @@ margin_right = 1913.95
 margin_bottom = 517.371
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 11 )
+custom_styles/panel = SubResource( 19 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -403,7 +483,7 @@ margin_bottom = 956.152
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = SubResource( 18 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -423,9 +503,21 @@ margin_left = 212.809
 margin_top = 646.76
 margin_right = 442.809
 margin_bottom = 741.76
-custom_styles/normal = SubResource( 12 )
+custom_styles/normal = SubResource( 20 )
 custom_fonts/font = ExtResource( 4 )
 text = "JOIN MISSION"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreBoardButton" type="Button" parent="."]
+margin_left = 1465.0
+margin_top = 180.0
+margin_right = 1705.0
+margin_bottom = 275.0
+custom_styles/normal = SubResource( 20 )
+custom_fonts/font = ExtResource( 4 )
+text = "SCOREBOARD"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -439,7 +531,7 @@ margin_left = 220.382
 margin_top = 805.383
 margin_right = 503.382
 margin_bottom = 892.383
-custom_styles/normal = SubResource( 13 )
+custom_styles/normal = SubResource( 21 )
 custom_fonts/font = ExtResource( 4 )
 text = "CREATE MISSION"
 __meta__ = {
@@ -458,14 +550,13 @@ margin_bottom = 1587.76
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = SubResource( 18 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="JoinMissionPanel" type="MarginContainer" parent="MissionPanel"]
-visible = false
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 487.003
@@ -492,7 +583,7 @@ margin_right = 308.0
 margin_bottom = 45.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
-custom_styles/normal = SubResource( 14 )
+custom_styles/normal = SubResource( 22 )
 custom_fonts/font = ExtResource( 4 )
 text = "JOIN MISSION"
 align = 1
@@ -510,7 +601,7 @@ margin_bottom = 114.0
 margin_top = 7.0
 margin_right = 218.0
 margin_bottom = 38.0
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 23 )
 text = "ENTER MISSION ID:"
 align = 1
 __meta__ = {
@@ -518,14 +609,14 @@ __meta__ = {
 }
 
 [node name="Input" type="LineEdit" parent="MissionPanel/JoinMissionPanel/VBoxContainer/GameID"]
-margin_left = 250.0
-margin_right = 385.0
+margin_left = 267.0
+margin_right = 387.0
 margin_bottom = 45.0
 size_flags_horizontal = 10
 size_flags_vertical = 8
-theme = SubResource( 16 )
-custom_styles/normal = SubResource( 17 )
-custom_fonts/font = SubResource( 18 )
+theme = SubResource( 24 )
+custom_styles/normal = SubResource( 25 )
+custom_fonts/font = SubResource( 26 )
 custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
 max_length = 6
 placeholder_text = "000000"
@@ -539,7 +630,7 @@ modulate = Color( 1, 1, 1, 0.501961 )
 margin_top = 138.0
 margin_right = 387.0
 margin_bottom = 183.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 27 )
 text = "ASK THE PERSON WHO CREATED A MISSION FOR THE MISSION ID"
 autowrap = true
 __meta__ = {
@@ -555,7 +646,7 @@ margin_bottom = 250.0
 margin_top = 6.0
 margin_right = 228.0
 margin_bottom = 37.0
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 23 )
 text = "ENTER YOUR NAME:"
 align = 1
 __meta__ = {
@@ -568,10 +659,10 @@ margin_right = 387.0
 margin_bottom = 43.0
 size_flags_horizontal = 10
 size_flags_vertical = 8
-theme = SubResource( 16 )
-custom_styles/focus = SubResource( 17 )
-custom_styles/normal = SubResource( 17 )
-custom_fonts/font = SubResource( 20 )
+theme = SubResource( 24 )
+custom_styles/focus = SubResource( 25 )
+custom_styles/normal = SubResource( 25 )
+custom_fonts/font = SubResource( 28 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_constants/minimum_spaces = 16
 max_length = 16
@@ -589,8 +680,8 @@ margin_bottom = 506.0
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 8
-custom_styles/normal = SubResource( 21 )
-custom_fonts/font = SubResource( 22 )
+custom_styles/normal = SubResource( 29 )
+custom_fonts/font = SubResource( 30 )
 text = "JOIN"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -624,7 +715,7 @@ margin_right = 335.0
 margin_bottom = 45.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
-custom_styles/normal = SubResource( 14 )
+custom_styles/normal = SubResource( 22 )
 custom_fonts/font = ExtResource( 4 )
 text = "CREATE MISSION"
 align = 1
@@ -642,7 +733,7 @@ margin_bottom = 112.0
 margin_top = 6.0
 margin_right = 228.0
 margin_bottom = 37.0
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 23 )
 text = "ENTER YOUR NAME:"
 align = 1
 __meta__ = {
@@ -655,10 +746,10 @@ margin_right = 387.0
 margin_bottom = 43.0
 size_flags_horizontal = 10
 size_flags_vertical = 8
-theme = SubResource( 16 )
-custom_styles/focus = SubResource( 17 )
-custom_styles/normal = SubResource( 17 )
-custom_fonts/font = SubResource( 20 )
+theme = SubResource( 24 )
+custom_styles/focus = SubResource( 25 )
+custom_styles/normal = SubResource( 25 )
+custom_fonts/font = SubResource( 28 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_constants/minimum_spaces = 16
 max_length = 16
@@ -676,8 +767,8 @@ margin_bottom = 506.0
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 8
-custom_styles/normal = SubResource( 21 )
-custom_fonts/font = SubResource( 22 )
+custom_styles/normal = SubResource( 29 )
+custom_fonts/font = SubResource( 30 )
 text = "CREATE"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -688,7 +779,7 @@ margin_left = 153.201
 margin_top = 101.348
 margin_right = 849.201
 margin_bottom = 390.348
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 31 )
 text = "DISMENTAL"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -699,7 +790,7 @@ margin_left = 779.297
 margin_top = 1651.91
 margin_right = 912.297
 margin_bottom = 1682.91
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 23 )
 text = "CREATORS:"
 align = 1
 __meta__ = {
@@ -711,7 +802,7 @@ margin_left = 708.308
 margin_top = 1902.24
 margin_right = 983.308
 margin_bottom = 1933.24
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 23 )
 text = "COPYRIGHT CG-01 2020"
 align = 1
 __meta__ = {
@@ -724,7 +815,7 @@ margin_left = 702.868
 margin_top = 1690.92
 margin_right = 983.868
 margin_bottom = 1891.92
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 23 )
 text = "GEES BROUWERS
 JONAS DUIFS 
 ONNO GIELING
@@ -750,8 +841,8 @@ margin_bottom = 1148.65
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 8
-custom_styles/normal = SubResource( 21 )
-custom_fonts/font = SubResource( 22 )
+custom_styles/normal = SubResource( 29 )
+custom_fonts/font = SubResource( 30 )
 text = "BACK"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -760,13 +851,15 @@ __meta__ = {
 [node name="AudioStreamPlayers" type="Node" parent="."]
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
-stream = ExtResource( 11 )
-[connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/Label" method="_on_HSlider_value_changed"]
-[connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Label" method="_on_HSlider_value_changed"]
+stream = ExtResource( 12 )
+[connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer/Volume" method="_on_HSlider_value_changed"]
+[connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Volume" method="_on_HSlider_value_changed"]
+[connection signal="item_selected" from="SettingsPanel/MarginContainer/VBoxContainer/MicBtn" to="SettingsPanel/MarginContainer/VBoxContainer/MicBtn" method="_on_MicBtn_item_selected"]
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
+[connection signal="pressed" from="ScoreBoardButton" to="." method="_on_ScoreBoardButton_pressed"]
 [connection signal="pressed" from="CreateMissionButton" to="." method="_on_CreateMissionButton_pressed"]
 [connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="MissionPanel/JoinMissionPanel" method="_on_JoinMissionBtn_pressed"]
 [connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="." method="_on_JoinLobbyButton_pressed"]
-[connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="." method="_on_CreateLobbyButton_pressed"]
 [connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="MissionPanel/CreateMissionPanel" method="_on_CreateMissionBtn_pressed"]
+[connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="." method="_on_CreateLobbyButton_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
