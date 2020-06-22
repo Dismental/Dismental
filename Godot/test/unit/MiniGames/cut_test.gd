@@ -49,7 +49,7 @@ func test_update_game_state_game_over():
 	inst.waitForStartingPosition = false
 	inst._update_game_state()
 
-	assert_call_count(inst, '_game_over', 1)
+	assert_call_count(inst, '_on_game_over', 1)
 	assert_call_count(inst, '_game_completed', 0)
 	
 
