@@ -1,7 +1,6 @@
 extends Node
 
 signal timer_timeout
-signal update_remaining_text(text)
 signal defused
 signal update_difficulty
 signal update_team_name
