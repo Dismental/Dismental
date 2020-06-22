@@ -122,6 +122,25 @@ func _on_CancelMission_pressed():
 	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)
 
 
+func _on_OpenInstructions_toggled(button_pressed):
+	$InstructionsPanel.visible = button_pressed
+
+
+func _on_ActivatePointer_pressed():
+	var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
+	var pointer = PointerScene.instance()
+	self.add_child(pointer)
+	var pointer_control = pointer.get_node(".")
+	pointer_control.set_role_and_position(pointer.Role.HEADTHROTTLE, Vector2(0.5, 0.55))
+	$InstructionsPanel/ActivatePointer.visible = false
+	$InstructionsPanel/pointer.visible = true
+
+
+func _on_CloseInstructions_pressed():
+	$InstructionsPanel.visible = false
+	$OpenInstructions.pressed = false
+
+
 func popup(text: String):
 	var p_up = $PopupDialog
 	p_up.change_text(text)
