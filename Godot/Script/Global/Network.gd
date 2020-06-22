@@ -127,7 +127,8 @@ func peer_disconnected(id):
 	if web_rtc.has_peer(id):
 		print("removing peer")
 		web_rtc.remove_peer(id)
-	emit_signal("player_disconnected", id, player_info[id])
+	if player_info.has(id):
+		emit_signal("player_disconnected", id, player_info[id])
 	deregister_player(id)
 
 
