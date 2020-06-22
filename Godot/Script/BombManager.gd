@@ -54,7 +54,6 @@ func _defused():
 
 remotesync func _on_defuse():
 	GameState.defused()
-	$Control/VBoxContainer/HBoxContainer/ExampleBomb/Title.text = "Defused"
 
 	var date = OS.get_date().get("day")
 	date += "/" + OS.get_date().get("month")
