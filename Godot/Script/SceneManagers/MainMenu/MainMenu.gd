@@ -6,6 +6,7 @@ var scroll_progress = 0
 var scroll_amount = 0
 var scroll_down = true
 
+
 func start_scroll_animation(direction):
 	scroll_down = direction
 	scroll_progress = 0
@@ -34,19 +35,19 @@ func _process(delta):
 			scroll_animating = false
 
 
-func _on_Button2_pressed():
-	$MissionPanel/CreateMissionPanel.visible = true
-	$MissionPanel/JoinMissionPanel.visible = false
+func _on_CreateMissionButton_pressed():
+	set_panel_visible("MissionPanel/CreateMissionPanel", true)
+	set_panel_visible("MissionPanel/JoinMissionPanel", false)
 	start_scroll_animation(true)
 
 
 func _on_JoinMissionButton_pressed():
-	$MissionPanel/CreateMissionPanel.visible = false
-	$MissionPanel/JoinMissionPanel.visible = true
+	set_panel_visible("MissionPanel/CreateMissionPanel", false)
+	set_panel_visible("MissionPanel/JoinMissionPanel", true)
 	start_scroll_animation(true)
 
 
-func _on_CreateMissionBtn2_pressed():
+func _on_BackButton_pressed():
 	start_scroll_animation(false)
 
 
@@ -58,3 +59,7 @@ func popup(text: String):
 
 func _on_ScoreBoardButton_pressed():
 		Utils.add_scene("res://Scenes/ScoreScenes/ScoreBoard.tscn", get_parent())
+
+
+func set_panel_visible(node, vis):
+	get_node(node).visible = vis

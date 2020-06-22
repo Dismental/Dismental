@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Fonts/BlackOpsOne-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Script/SceneManagers/GameSceneManager.gd" type="Script" id=2]
@@ -6,11 +6,108 @@
 [ext_resource path="res://Fonts/Roboto/Roboto-Light.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://Script/BombManager.gd" type="Script" id=6]
 [ext_resource path="res://Textures/back-arrow.png" type="Texture" id=7]
-[ext_resource path="res://Fonts/Roboto/Roboto-Regular.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://Fonts/ds_digital.tres" type="DynamicFont" id=9]
 [ext_resource path="res://Script/Timer.gd" type="Script" id=10]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 1
+
+[sub_resource type="Theme" id=4]
+
+[sub_resource type="StyleBoxFlat" id=5]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="DynamicFont" id=6]
+size = 32
+font_data = ExtResource( 15 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="DynamicFont" id=8]
+size = 24
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 15 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 32
+font_data = ExtResource( 15 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 80
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 15 )
+
+[sub_resource type="DynamicFont" id=11]
+size = 24
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 15 )
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color( 0, 0, 0, 0.501961 )
+shadow_size = 32
+
+[sub_resource type="DynamicFont" id=13]
+size = 42
+font_data = ExtResource( 15 )
+
+[sub_resource type="StyleBoxFlat" id=14]
+content_margin_left = 24.0
+content_margin_right = 24.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="DynamicFont" id=15]
+size = 32
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 15 )
+
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -22,7 +119,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.227451, 0.227451, 0.227451, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -34,7 +131,7 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=18]
 border_width_left = 10
 border_width_top = 10
 border_width_right = 12
@@ -45,21 +142,17 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=19]
 size = 100
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=20]
 size = 50
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=6]
-size = 37
-font_data = ExtResource( 8 )
-
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 0.133333, 0.133333, 0.133333, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -68,7 +161,7 @@ border_width_bottom = 4
 border_color = Color( 0, 0, 0, 1 )
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=22]
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_top = 0.0
@@ -79,6 +172,544 @@ bg_color = Color( 0, 0, 0, 1 )
 script = ExtResource( 6 )
 
 [node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 1 )
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Control"]
+anchor_left = -0.000729036
+anchor_right = -0.000728989
+margin_left = -144.0
+margin_top = -97.0
+margin_right = 2105.0
+margin_bottom = 1221.0
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OperatorPanel2" type="PanelContainer" parent="Control"]
+margin_left = 0.615204
+margin_right = 1920.62
+margin_bottom = 1080.0
+rect_pivot_offset = Vector2( 493.364, 382.353 )
+rect_clip_content = true
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 3 )
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+margin_right = 1920.0
+margin_bottom = 938.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/CenterContainer"]
+margin_left = 176.0
+margin_top = 77.0
+margin_right = 1744.0
+margin_bottom = 860.0
+custom_constants/separation = 96
+
+[node name="Hack" type="MarginContainer" parent="Control/CenterContainer/HBoxContainer"]
+margin_right = 320.0
+margin_bottom = 783.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Hack"]
+margin_right = 320.0
+margin_bottom = 783.0
+custom_constants/separation = 24
+
+[node name="Arrow" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Hack/VBoxContainer"]
+margin_right = 54.0
+margin_bottom = 50.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Hack/VBoxContainer"]
+margin_top = 74.0
+margin_right = 320.0
+margin_bottom = 394.0
+rect_min_size = Vector2( 320, 320 )
+size_flags_vertical = 0
+custom_constants/separation = -366
+
+[node name="TextureRect" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Hack/VBoxContainer/Container"]
+margin_right = 320.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 320, 320 )
+theme = SubResource( 4 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL" type="Label" parent="Control/CenterContainer/HBoxContainer/Hack/VBoxContainer/Container"]
+margin_left = 106.0
+margin_top = -46.0
+margin_right = 214.0
+margin_bottom = 7.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0.521569, 1, 0.4, 1 )
+text = "HACK"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL" type="Label" parent="Control/CenterContainer/HBoxContainer/Hack/VBoxContainer"]
+margin_left = 60.0
+margin_top = 418.0
+margin_right = 260.0
+margin_bottom = 495.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Catch the code"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cut" type="MarginContainer" parent="Control/CenterContainer/HBoxContainer"]
+margin_left = 416.0
+margin_right = 736.0
+margin_bottom = 783.0
+custom_constants/margin_top = 96
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Cut"]
+margin_top = 96.0
+margin_right = 320.0
+margin_bottom = 783.0
+custom_constants/separation = 24
+
+[node name="Arrow" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Cut/VBoxContainer"]
+margin_right = 54.0
+margin_bottom = 50.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Cut/VBoxContainer"]
+margin_top = 74.0
+margin_right = 320.0
+margin_bottom = 394.0
+rect_min_size = Vector2( 320, 320 )
+size_flags_vertical = 0
+custom_constants/separation = -366
+
+[node name="TextureRect" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Cut/VBoxContainer/Container"]
+margin_right = 320.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 320, 320 )
+theme = SubResource( 4 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL2" type="Label" parent="Control/CenterContainer/HBoxContainer/Cut/VBoxContainer/Container"]
+margin_left = 117.0
+margin_top = -46.0
+margin_right = 203.0
+margin_bottom = 7.0
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color = Color( 1, 0.4, 0.4, 1 )
+text = "CUT"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL" type="Label" parent="Control/CenterContainer/HBoxContainer/Cut/VBoxContainer"]
+margin_left = 60.0
+margin_top = 418.0
+margin_right = 260.0
+margin_bottom = 495.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Open the bomb"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Align" type="MarginContainer" parent="Control/CenterContainer/HBoxContainer"]
+margin_left = 832.0
+margin_right = 1152.0
+margin_bottom = 783.0
+custom_constants/margin_top = 192
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Align"]
+margin_top = 192.0
+margin_right = 320.0
+margin_bottom = 783.0
+custom_constants/separation = 24
+
+[node name="Arrow" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Align/VBoxContainer"]
+margin_right = 54.0
+margin_bottom = 50.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Align/VBoxContainer"]
+margin_top = 74.0
+margin_right = 320.0
+margin_bottom = 394.0
+rect_min_size = Vector2( 320, 320 )
+size_flags_vertical = 0
+custom_constants/separation = -366
+
+[node name="TextureRect" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Align/VBoxContainer/Container"]
+margin_right = 320.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 320, 320 )
+theme = SubResource( 4 )
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL3" type="Label" parent="Control/CenterContainer/HBoxContainer/Align/VBoxContainer/Container"]
+margin_left = 102.0
+margin_top = -46.0
+margin_right = 217.0
+margin_bottom = 7.0
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color = Color( 0.4, 0.67451, 1, 1 )
+text = "ALIGN"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL" type="Label" parent="Control/CenterContainer/HBoxContainer/Align/VBoxContainer"]
+margin_left = 60.0
+margin_top = 418.0
+margin_right = 260.0
+margin_bottom = 495.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Unlock the vault"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Dissolve" type="MarginContainer" parent="Control/CenterContainer/HBoxContainer"]
+margin_left = 1248.0
+margin_right = 1568.0
+margin_bottom = 783.0
+custom_constants/margin_top = 288
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Dissolve"]
+margin_top = 288.0
+margin_right = 320.0
+margin_bottom = 783.0
+custom_constants/separation = 24
+
+[node name="Arrow" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Dissolve/VBoxContainer"]
+margin_right = 54.0
+margin_bottom = 50.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="Control/CenterContainer/HBoxContainer/Dissolve/VBoxContainer"]
+margin_top = 74.0
+margin_right = 320.0
+margin_bottom = 394.0
+rect_min_size = Vector2( 320, 320 )
+size_flags_vertical = 0
+custom_constants/separation = -366
+
+[node name="TextureRect" type="TextureRect" parent="Control/CenterContainer/HBoxContainer/Dissolve/VBoxContainer/Container"]
+margin_right = 320.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 320, 320 )
+theme = SubResource( 4 )
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL4" type="Label" parent="Control/CenterContainer/HBoxContainer/Dissolve/VBoxContainer/Container"]
+margin_left = 73.0
+margin_top = -46.0
+margin_right = 247.0
+margin_bottom = 7.0
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = ExtResource( 17 )
+custom_colors/font_color = Color( 1, 0.615686, 0.4, 1 )
+text = "DISSOLVE"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL" type="Label" parent="Control/CenterContainer/HBoxContainer/Dissolve/VBoxContainer"]
+margin_left = 60.0
+margin_top = 418.0
+margin_right = 260.0
+margin_bottom = 495.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Remove the chip"
+align = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Control"]
+margin_left = 1187.88
+margin_top = 64.4646
+margin_right = 1796.88
+margin_bottom = 164.465
+custom_fonts/font = SubResource( 10 )
+text = "TASK OVERVIEW"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WaitingForHost" type="Label" parent="Control"]
+margin_left = 744.311
+margin_top = 1020.38
+margin_right = 1250.31
+margin_bottom = 1051.38
+custom_fonts/font = SubResource( 11 )
+text = "WAITING FOR HOST TO START NEXT TASK..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InstructionPanel" type="Panel" parent="Control"]
+anchor_left = -0.00100009
+anchor_right = -0.00100009
+margin_left = 1005.92
+margin_top = 238.0
+margin_right = 1743.92
+margin_bottom = 948.0
+custom_styles/panel = SubResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HackInstructions" type="MarginContainer" parent="Control/InstructionPanel"]
+visible = false
+anchor_top = 0.00171947
+anchor_bottom = 0.00171947
+margin_left = -2.55835
+margin_top = -0.779175
+margin_right = 742.442
+margin_bottom = 709.221
+custom_constants/margin_right = 24
+custom_constants/margin_top = 24
+custom_constants/margin_left = 24
+custom_constants/margin_bottom = 24
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL3" type="Label" parent="Control/InstructionPanel/HackInstructions"]
+margin_left = 28.0
+margin_top = 24.0
+margin_right = 716.0
+margin_bottom = 525.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 13 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "The suspect Sergio has gone mad
+and planted a bomb. 
+
+As the Bomb Intervention Team
+it is our task to stop him.
+
+Hack his computer to find out 
+where he has planted the bomb
+and where he has hidden his plans."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CutInstructions" type="MarginContainer" parent="Control/InstructionPanel"]
+visible = false
+anchor_bottom = 0.00985915
+margin_left = 1.22095
+margin_top = -1.22083
+margin_right = 740.221
+margin_bottom = 708.779
+custom_constants/margin_right = 24
+custom_constants/margin_top = 24
+custom_constants/margin_left = 24
+custom_constants/margin_bottom = 24
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL3" type="Label" parent="Control/InstructionPanel/CutInstructions"]
+margin_left = 32.0
+margin_top = 24.0
+margin_right = 707.0
+margin_bottom = 525.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 13 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "The bomb has been found, but 
+the timer is protected by a metal 
+plate.
+
+Use a high precision laser
+to cut an opening in the plate. 
+Be careful not to damage the 
+sensitive components underneath.
+Use the X-ray vision as a guide."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AlignInstructions" type="MarginContainer" parent="Control/InstructionPanel"]
+visible = false
+margin_right = 739.0
+margin_bottom = 710.0
+custom_constants/margin_right = 24
+custom_constants/margin_top = 24
+custom_constants/margin_left = 24
+custom_constants/margin_bottom = 24
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL3" type="Label" parent="Control/InstructionPanel/AlignInstructions"]
+margin_left = 55.0
+margin_top = 24.0
+margin_right = 684.0
+margin_bottom = 245.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 13 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "The bomb timer is exposed, but 
+the design is unknown. Get the
+design plans from the vault to
+known how to stop the timer."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DissolveInstructions" type="MarginContainer" parent="Control/InstructionPanel"]
+visible = false
+margin_right = 739.0
+margin_bottom = 710.0
+custom_constants/margin_right = 24
+custom_constants/margin_top = 24
+custom_constants/margin_left = 24
+custom_constants/margin_bottom = 24
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LABEL3" type="Label" parent="Control/InstructionPanel/DissolveInstructions"]
+margin_left = 36.0
+margin_top = 24.0
+margin_right = 703.0
+margin_bottom = 245.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 13 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "The bomb design plans show that
+removing this chip will stop the 
+timer. Dismantle the timer and 
+defuse the bomb."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Line2D" type="Line2D" parent="Control"]
+points = PoolVector2Array( 2270.21, 1027.1 )
+default_color = Color( 1, 1, 1, 1 )
+joint_mode = 2
+antialiased = true
+
+[node name="ProgressBar" type="ColorRect" parent="Control"]
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartNextTask" type="Button" parent="Control"]
+anchor_left = 0.4992
+anchor_top = 1.08084
+anchor_right = 0.4992
+anchor_bottom = 1.08084
+margin_left = -126.38
+margin_top = -169.946
+margin_right = 233.62
+margin_bottom = -104.946
+custom_styles/normal = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
+text = "START NEXT TASK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CountDown" type="Timer" parent="Control"]
+wait_time = 20.0
+one_shot = true
+
+[node name="OldControl" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
@@ -105,15 +736,16 @@ margin_top = 40.0
 margin_right = 1086.0
 margin_bottom = 1086.0
 rect_scale = Vector2( 0.12, 0.12 )
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+custom_styles/hover = SubResource( 16 )
+custom_styles/pressed = SubResource( 17 )
+custom_styles/normal = SubResource( 18 )
 icon = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ExampleBomb" type="TextureRect" parent="Control/VBoxContainer/HBoxContainer"]
+[node name="ExampleBomb" type="TextureRect" parent="OldControl/VBoxContainer/HBoxContainer"]
+visible = false
 margin_left = 304.0
 margin_right = 1624.0
 margin_bottom = 900.0
@@ -131,7 +763,7 @@ margin_left = -335.0
 margin_top = 40.0
 margin_right = 327.0
 margin_bottom = 166.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 19 )
 text = "Game Scene"
 align = 1
 __meta__ = {
@@ -163,7 +795,7 @@ margin_top = 51.6982
 margin_right = 566.021
 margin_bottom = 111.698
 rect_pivot_offset = Vector2( 1, 0 )
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 20 )
 text = "Minigames remaining: 2"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -194,7 +826,7 @@ margin_right = 1912.84
 margin_bottom = 1067.35
 rect_clip_content = true
 size_flags_stretch_ratio = 0.0
-custom_styles/panel = SubResource( 7 )
+custom_styles/panel = SubResource( 21 )
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -215,12 +847,13 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 208.0
 margin_bottom = 101.0
-custom_styles/normal = SubResource( 8 )
+custom_styles/normal = SubResource( 22 )
 custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 1, 0.309804, 0.32549, 1 )
 text = "10:00"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/Panel/BackButton" to="Control" method="_on_BackButton_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/PanelContainer/Button" to="." method="_on_start_minigame_pressed"]
+[connection signal="pressed" from="Control/StartNextTask" to="." method="_on_start_minigame_pressed"]
+[connection signal="timeout" from="Control/CountDown" to="." method="_on_wait_time_lobby_over"]
+[connection signal="pressed" from="OldControl/VBoxContainer/HBoxContainer/Panel/BackButton" to="OldControl" method="_on_BackButton_pressed"]

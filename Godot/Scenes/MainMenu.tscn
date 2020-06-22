@@ -758,7 +758,7 @@ margin_top = 1197.99
 margin_right = 1143.75
 margin_bottom = 1407.99
 
-[node name="CreateMissionBtn2" type="Button" parent="."]
+[node name="BackButton" type="Button" parent="."]
 margin_left = 235.022
 margin_top = 1105.65
 margin_right = 355.022
@@ -776,7 +776,7 @@ __meta__ = {
 [connection signal="value_changed" from="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/HSlider" to="SettingsPanel/MarginContainer/VBoxContainer/HBoxContainer2/Volume" method="_on_HSlider_value_changed"]
 [connection signal="pressed" from="JoinMissionButton" to="." method="_on_JoinMissionButton_pressed"]
 [connection signal="pressed" from="ScoreBoardButton" to="." method="_on_ScoreBoardButton_pressed"]
-[connection signal="pressed" from="CreateMissionButton" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="CreateMissionButton" to="." method="_on_CreateMissionButton_pressed"]
 [connection signal="pressed" from="MissionPanel/JoinMissionPanel/JoinMissionBtn" to="MissionPanel/JoinMissionPanel" method="_on_JoinMissionBtn_pressed"]
 [connection signal="pressed" from="MissionPanel/CreateMissionPanel/CreateMissionBtn" to="MissionPanel/CreateMissionPanel" method="_on_CreateMissionBtn_pressed"]
-[connection signal="pressed" from="CreateMissionBtn2" to="." method="_on_CreateMissionBtn2_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
