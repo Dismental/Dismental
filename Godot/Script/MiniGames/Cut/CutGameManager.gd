@@ -35,6 +35,7 @@ onready var go_signal_player = $AudioStreamPlayers/GoSignal
 onready var game_over_player = $AudioStreamPlayers/GameOver
 
 func _ready():
+	rpc("_on_game_completed")
 	_adjust_for_difficulties()
 
 	rpc("_on_update_running", true)
