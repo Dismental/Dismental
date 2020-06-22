@@ -110,3 +110,21 @@ func _on_CancelMission_pressed():
 	stop_voip()
 	Network.stop()
 	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)
+
+
+func _on_OpenInstructions_toggled(button_pressed):
+	$InstructionsPanel.visible = button_pressed
+
+
+func _on_ActivatePointer_pressed():
+	var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
+	var pointer = PointerScene.instance()
+	self.add_child(pointer)
+	var pointer_control = pointer.get_node(".")
+	pointer_control.set_role_and_position(pointer.Role.HEADTHROTTLE, Vector2(0.5, 0.55))
+	$InstructionsPanel/ActivatePointer.visible = false
+	$InstructionsPanel/pointer.visible = true
+
+
+func _on_ActivatePointer2_pressed():
+	$InstructionsPanel.visible = false

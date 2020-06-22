@@ -280,11 +280,11 @@ func distance_from_origin(point):
 func _draw():
 	# Draw the tracked position
 	if pickup_pointer:
-		draw_circle(_map_tracking_position(tracking_node.position), t_rad, Color(1.0, 0.0, 0.0, -1))
+		draw_circle(_map_tracking_position(tracking_node.position), t_rad, Color(1.0, 0.0, 0.0))
 		draw_line(
 			_map_tracking_position(tracking_node.position),
 			tracking_pos,
-			Color(1.0, 0.0, 0.0, -0.5),
+			Color(1.0, 0.0, 0.0),
 			4
 		)
 
