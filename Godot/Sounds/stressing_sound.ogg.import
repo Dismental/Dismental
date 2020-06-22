@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/stressing_sound.ogg-474201b9e7b907148dcf0963f3ce0e56.oggstr"
+
+[deps]
+
+source_file="res://Sounds/stressing_sound.ogg"
+dest_files=[ "res://.import/stressing_sound.ogg-474201b9e7b907148dcf0963f3ce0e56.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

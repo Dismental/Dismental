@@ -38,6 +38,7 @@ remote func _play(id, audiopacket : PoolByteArray, format, mix_rate, stereo, siz
 		stream = audio_stream
 		play()
 
+
 func _helper():
 	record = mic.get_recording()
 	mic.set_recording_active(true)
@@ -48,6 +49,7 @@ func _helper():
 		rpc_unreliable("_play",get_tree().get_network_unique_id(), comp, record.get_format(),
 		record.get_mix_rate(), record.is_stereo(), record.get_data().size())
 	time_elapsed = 0
+
 
 func _process(delta: float) -> void:
 	if recording:

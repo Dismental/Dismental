@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/remove_metal_bar.ogg-7919af4b8a557c3b4c4949c11876efde.oggstr"
+
+[deps]
+
+source_file="res://Sounds/remove_metal_bar.ogg"
+dest_files=[ "res://.import/remove_metal_bar.ogg-7919af4b8a557c3b4c4949c11876efde.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -47,6 +47,10 @@ var rotating = true
 
 onready var timer_label = get_node("Timer")
 
+# SFX
+onready var game_completed_player = $AudioStreamPlayers/GameCompleted
+onready var game_over_player = $AudioStreamPlayers/GameOver
+
 func _ready():
 	randomize()
 	_adjust_for_difficulties()
@@ -259,7 +263,7 @@ remotesync func _start_game():
 func _sync_set_random_angles():
 	var lst = []
 	for _x in rings:
-		lst.append((randi() % 360 - completion_range) + completion_range)
+		lst.append((randi() % (360 - (2 * completion_range))) + completion_range)
 
 	if debug: _set_rings_angle(lst)
 	else: rpc("_set_rings_angle", lst)
@@ -287,6 +291,7 @@ func _on_timer_timeout():
 
 
 remotesync func _game_completed():
+	game_completed_player.play()
 	if (debug or get_tree().is_network_server()) and running:
 		$AcceptDialog.show()
 
@@ -303,6 +308,8 @@ remotesync func _next_minigame():
 
 
 remotesync func _game_over():
+	game_over_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")
 	get_tree().get_root().get_node("GameScene").game_over()
 	get_parent().call_deferred("remove_child", self)
 
