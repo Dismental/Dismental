@@ -39,10 +39,13 @@ onready var label_nodes = $LabelNodes
 func _ready():
 	_adjust_for_difficulties()
 	num_of_collectables = len(password)
-	player_role = Role.DEFUSER if !online or get_tree().is_network_server() else Role.SUPERVISOR
 	_update_password_label()
 	randomize()
-	
+
+	var defuser_id = GameState.defusers[GameState.minigame_index - 1]
+	var is_defuser = defuser_id == get_tree().get_network_unique_id()
+	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
+
 	if player_role == Role.DEFUSER:
 		# Initialize the pointer scene for this user
 		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")

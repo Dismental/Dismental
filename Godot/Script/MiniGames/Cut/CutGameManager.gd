@@ -35,9 +35,11 @@ func _ready():
 
 	rpc("_on_update_running", true)
 	supervisor_vision.visible = true
-	
-	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
-	
+
+	var defuser_id = GameState.defusers[GameState.minigame_index - 1]
+	var is_defuser = defuser_id == get_tree().get_network_unique_id()
+	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
+
 	if player_role == Role.DEFUSER:
 		_load_map(map_index, false)
 		

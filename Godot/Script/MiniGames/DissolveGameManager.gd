@@ -80,7 +80,10 @@ var blinking_threshold
 
 func _ready():
 	_adjust_for_difficulties()
-	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
+	
+	var defuser_id = GameState.defusers[GameState.minigame_index - 1]
+	var is_defuser = defuser_id == get_tree().get_network_unique_id()
+	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
 
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:

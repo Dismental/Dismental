@@ -13,6 +13,10 @@ func _ready():
 	GameState.connect("update_remaining_text", self, "_update_remaining_text")
 	GameState.connect("defused", self, "_defused")
 	GameState.connect("load_roadmap", self, "_load_roadmap")
+
+	if get_tree().is_network_server():
+		GameState.assign_roles()
+
 	$Control.connect("wait_time_lobby_over", self, "_on_wait_time_lobby_over")
 
 	# If current player is not the host
