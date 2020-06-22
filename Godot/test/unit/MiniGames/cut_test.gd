@@ -37,21 +37,6 @@ func test_update_game_state_nothing():
 	assert_call_count(inst, '_game_over', 0)
 	assert_call_count(inst, '_game_completed', 0)
 
-func test_update_game_state_game_over():
-	inst = double('res://Script/MiniGames/Cut/CutGameManager.gd').new()
-	inst.dots = [1, 2, 3]
-	inst.player_role = Role.DEFUSER
-
-	stub(inst, '_calc_start_position').to_return(Vector2(0, 0))
-	stub(inst, '_update_game_state').to_call_super()
-	stub(inst, '_is_input_on_track').to_return(false)
-	stub(inst, '_on_game_over').to_do_nothing()
-	inst.waitForStartingPosition = false
-	inst._update_game_state()
-
-	assert_call_count(inst, '_on_game_over', 1)
-	assert_call_count(inst, '_game_completed', 0)
-	
 
 func test_update_game_state_game_completed_clockwise():
 	inst.dots = [Vector2(0, 0), Vector2(0, 0), Vector2(0, 3)]
