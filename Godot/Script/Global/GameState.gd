@@ -20,7 +20,7 @@ var running = false
 
 var squadname = ""
 var minigame_index = 0
-var minigames = ["Hack", "Hack", "Align", "Cut", "Dissolve"]
+var minigames = ["Hack", "Align", "Cut", "Dissolve"]
 var defusers = []
 var last_label_update
 
