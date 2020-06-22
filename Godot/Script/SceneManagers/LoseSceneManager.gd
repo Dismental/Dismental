@@ -10,6 +10,7 @@ func _ready():
 	$ExplodeLabel.visible = true
 
 	$Squad.text = $Squad.text + GameState.team_name
+	$Squad/Members.add_item(Network.player_name)
 	for player in Network.player_info.values():
 		$Squad/Members.add_item(player)
 
