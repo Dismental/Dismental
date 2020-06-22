@@ -53,6 +53,7 @@ var movement_speed = Vector2(0,0)
 func _ready():
 	pointer_node = get_node("Pointer")
 	lost_tracking = true
+	$VBoxContainer/Lbl_pickup_pointer.visible = lost_tracking
 
 	p_visible = false
 	t_visible = false
@@ -117,6 +118,7 @@ func _process(_delta):
 		if _within_free_movement_zone(tracking_pos, tracking_pos_new):
 			if (lost_tracking):
 				lost_tracking = false
+				$VBoxContainer/Lbl_pickup_pointer.visible = lost_tracking
 				free_movement_zone_radius = 100
 				throttle_zone_radius = 200
 
@@ -149,18 +151,10 @@ func _process(_delta):
 			if not (lost_tracking):
 				print("Lost" + ", " + var2str(pointer_pos_current))
 				lost_tracking = true
+				$VBoxContainer/Lbl_pickup_pointer.visible = lost_tracking
 				throttle_zone_radius = 100
 			tracking_pos = tracking_pos
 		pointer_pos = pointer_pos_current
-
-		$Lbl_pickup_pointer.visible = lost_tracking
-		$Lbl_template_matching.visible = tracking_node.templatematching
-		$Lbl_too_close.visible = tracking_node.tooclose
-		$Lbl_lost_tracking.visible = tracking_node.losttracking
-		$Lbl_warning.visible = (
-			$HeadPos.templatematching || $HeadPos.tooclose ||
-			$HeadPos.multiface || $HeadPos.losttracking || lost_tracking
-		)
 
 	elif (player_role == Role.HEAD):
 		tracking_pos = _map_tracking_position(tracking_node.position)
@@ -242,7 +236,7 @@ func set_role_and_position(_player_role, start_pos):
 func _map_tracking_position(track_pos):
 	# Add a margin/multiplier so the user's movement is amplified.
 	# The makes it easy for the user to reach the edges of the game screen with the pointer
-	var margin = 0.4
+	var margin = 0.6
 	var windowmarginx = (get_viewport_rect().size.x)*margin
 	var windowmarginy = (get_viewport_rect().size.y)*margin
 
@@ -275,7 +269,7 @@ func distance_from_origin(point):
 
 func _draw():
 	# Draw the tracked position
-	if (t_visible):
+	if (lost_tracking):
 		draw_circle(_map_tracking_position(tracking_node.position), t_rad, t_color)
 		draw_line(
 			_map_tracking_position(tracking_node.position),
@@ -315,3 +309,25 @@ func interaction_timer_is_finished():
 		return true
 	return false
 
+func _on_pickupointer(value):
+	$Pickupointershadow.visible = value
+
+
+func _on_HeadPos_losttracking_changed(value):
+	$VBoxContainer/Lbl_lost_tracking.visible = value
+	$Lbl_warning.visible = value
+
+
+func _on_HeadPos_multiface_changed(value):
+	pass # Replace with function body.
+
+
+func _on_HeadPos_templatematching_changed(value):
+	$VBoxContainer/Lbl_template_matching.visible = value
+	$VBoxContainer/Lbl_lighting.visible = value
+	$Lbl_warning.visible = value
+
+
+func _on_HeadPos_tooclose_changed(value):
+	$VBoxContainer/Lbl_too_close.visible = value
+	$Lbl_warning.visible = value

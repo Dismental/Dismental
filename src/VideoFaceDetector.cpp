@@ -226,7 +226,8 @@ void VideoFaceDetector::detectFaceAroundRoi(const cv::Mat &frame)
     // Get detected face
     m_trackedFace = biggestFace(m_allFaces);
 
-    too_close = m_trackedFace.height > (frame.rows / 3.0);
+    if (!too_close) too_close = m_trackedFace.height > (frame.rows / 2.5);
+    if (too_close) too_close = m_trackedFace.height > (frame.rows / 3.5);
 
     // Add roi offset to face
     m_trackedFace.x += m_faceRoi.x;
