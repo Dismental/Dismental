@@ -63,7 +63,7 @@ func _player_disconnect(id, name):
 		var succes = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
 		
 		tree.get_root().find_node("Lobby", true, false).popup(
-			name + " disconnected\nLobby is closed so no new players can join")
+			name + " disconnected\nLobby is closed, no new players can join")
 
 
 func game_over():
