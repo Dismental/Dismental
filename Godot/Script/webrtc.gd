@@ -36,7 +36,7 @@ func close():
 	client.disconnect_from_host()
 
 
-func _closed(was_clean = false):
+func _closed(_was_clean = false):
 	emit_signal("disconnected")
 
 
@@ -45,7 +45,7 @@ func _close_request(code, reason):
 	self.reason = reason
 
 
-func _connected(protocol = ""):
+func _connected(_protocol = ""):
 	client.get_peer(1).set_write_mode(WebSocketPeer.WRITE_MODE_TEXT)
 	if autojoin:
 		join_lobby(lobby)
@@ -123,7 +123,7 @@ func _send_msg(type, id, data) -> int:
 	return client.get_peer(1).put_packet(("%s: %d\n%s" % [type, id, data]).to_utf8())
 
 
-func _process(delta):
+func _process(_delta):
 	var status : int = client.get_connection_status()
 	if status == WebSocketClient.CONNECTION_CONNECTING or\
 			status == WebSocketClient.CONNECTION_CONNECTED:

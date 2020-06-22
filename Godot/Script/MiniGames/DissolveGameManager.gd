@@ -10,28 +10,32 @@ puppet var puppet_mouse = Vector2()
 
 const Role = preload("res://Script/Role.gd")
 
-var matrix
-var columns = 90
-var rows = 72
+var matrix: Array
+var columns: int = 90
+var rows: int = 72
 var heatmap_sprite
-var radius = 9
+var radius: int = 8
 var defuse_state = DefuserState.OFF
 
 var pointer_node
+var pointer_control
 
 # Increase/decrease factor of temperature
 var increase_factor = 24
-var decrease_factor = 3
+var decrease_factor
 
-var component_width = 120
-var component_height = 30
-var num_of_components = 6
-var components = []
+var component_width: int = 120
+var component_height: int = 30
+var num_of_components: int = 6
+var components: Array = []
+const component_base_color = Color(0.4, 0.4, 0.4)
+const component_removable_color = Color(0.8, 0.4, 0.4)
 
-var vacuum_remove_threshold = 50
+var vacuum_remove_threshold
+var remove_radius = 2
 
-var blink_light
-var is_blinking = false
+var blinking_threshold
+var is_blinking: bool = false
 
 # https://coolors.co/080c46-a51cad-d92e62-f8e03d-fefff9
 # HSB / HSV colors
@@ -55,6 +59,11 @@ var background_color
 
 var player_role
 
+var on_vacuum = false
+var on_soldering = false
+
+var completed = false
+
 onready var soldering_iron_indicator = $SolderingBackground/SolderingIron
 onready var iron_label = $SolderingBackground/SolderingIron/SolderingIronLabel
 
@@ -66,27 +75,51 @@ onready var title_label = $CanvasLayer/Title
 
 onready var pointer_dot = $red_dot
 
+# SFX
+onready var game_completed_player = $AudioStreamPlayers/GameCompleted
+onready var heat_warning_player = $AudioStreamPlayers/HeatWarning
+onready var remove_component_player = $AudioStreamPlayers/RemoveComponent
+onready var select_player = $AudioStreamPlayers/Select
+onready var game_over_player = $AudioStreamPlayers/GameOver
+
+onready var fire_sign = $FireSignControl
+onready var fire_sign_bg = $FireSignControl/fire_sign_bg
+
+const fire_sign_color_blink = Color(210.0 / 255, 69.0 / 255, 69.0 / 255)
+const fire_sign_color_def = Color(0.0, 0.0, 0.0)
+const blinking_frames = 3
+
+
 func _ready():
-	player_role = Role.DEFUSER if get_tree().is_network_server() else Role.SUPERVISOR
+	_adjust_for_difficulties()
+	
+	var defuser_id = GameState.defusers[GameState.minigame_index]
+	var is_defuser = defuser_id == get_tree().get_network_unique_id()
+	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
 
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
+		# Hide vacuum & soldering iron in GUI
+		vacuum_indicator.visible = false
+		soldering_iron_indicator.visible = false
+		
 		_init_matrix()
-		_generate_blink_light()
 		_generate_colors()
 		_generate_color_scale()
 		heatmap_sprite = _init_heatmap_sprite()
-		_generate_components()
 
 	elif player_role == Role.DEFUSER:
-		# Initialize the pointer scene for this user
+		# Hide fire sign layer for defuser
+		fire_sign.visible = false
+		# Initialize the pointer scene for the defuser
 		var PointerScene = preload("res://Scenes/Tracking/Pointer.tscn")
 		var pointer = PointerScene.instance()
 		self.add_child(pointer)
-		var pointer_control = pointer.get_node(".")
-		pointer_control.set_role(pointer.ROLE.HEADTHROTTLE)
+		pointer_control = pointer.get_node(".")
+		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
-		_generate_components()
+	
+	_generate_components()
 
 
 func _process(delta):
@@ -96,6 +129,7 @@ func _process(delta):
 		elif defuse_state == DefuserState.VACUUM:
 			_check_vacuum()
 		_refresh_heatmap(delta)
+		_check_components_removable()
 	else:
 		_check_input()
 	
@@ -106,6 +140,7 @@ func _process(delta):
 func _update_dot():
 	pointer_dot.position = _get_input_pos()
 
+
 func _init_matrix():
 	matrix = []
 	for _i in range(rows):
@@ -113,6 +148,24 @@ func _init_matrix():
 		for _j in range(columns):
 			row.append(0)
 		matrix.append(row)
+
+
+func _adjust_for_difficulties():
+	if GameState.difficulty == "EASY":
+		blinking_threshold = 70
+		vacuum_remove_threshold = 40
+		decrease_factor = 2.5
+
+	elif GameState.difficulty == "MEDIUM":
+		blinking_threshold = 75
+		vacuum_remove_threshold = 50
+		decrease_factor = 2.7
+
+	elif GameState.difficulty == "HARD":
+		blinking_threshold = 80
+		vacuum_remove_threshold = 60
+		decrease_factor = 3
+
 
 func _generate_colors():
 	# Convert H to percentage
@@ -134,25 +187,18 @@ func _generate_colors():
 	background_color = Color.from_hsv(colors[0][0], colors[0][1], colors[0][2])
 	background_color.a = 0.4
 
-func _generate_blink_light():
-	blink_light = ColorRect.new()
-	blink_light.color = Color(0.5, 0.5, 0.5, 1)
-
-	var width = 100
-	blink_light.set_begin(Vector2(110, 900))
-	blink_light.set_end(Vector2(110 + width, 900 + width))
-
-	get_node("CanvasLayer").add_child(blink_light)
 
 func _blink_light():
-	blink_light.color = Color(1, 0, 0, 0.5)
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	blink_light.color.a = 1
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	blink_light.color = Color(0.5, 0.5, 0.5, 1)
-	is_blinking = false
+	fire_sign_bg.modulate = fire_sign_color_blink
+	# Wait five frames
+	for _i in range(blinking_frames):
+		yield(get_tree(), "idle_frame")
+
+	# Reset to inital position
+	fire_sign_bg.modulate = fire_sign_color_def;
+	for _i in range(blinking_frames):
+		yield(get_tree(), "idle_frame")
+
 
 func _generate_color_scale():
 	var n = 0
@@ -164,6 +210,17 @@ func _generate_color_scale():
 		rec.set_end(Vector2(30 + (n + 1) * width, 30 + width))
 		get_node("CanvasLayer").add_child(rec)
 		n += 1
+
+
+func _check_components_removable():
+	for item in components:
+		var component_pos = item[1]
+		var sector = _get_sector(component_pos.x, component_pos.y)
+		if matrix[sector["row"]][sector["column"]] > vacuum_remove_threshold:
+			item[0].color = component_removable_color
+		else:
+			item[0].color = component_base_color
+
 
 # Decreases the matrix temperatures and creates a new image afterwards
 func _refresh_heatmap(delta):
@@ -195,6 +252,7 @@ func _refresh_heatmap(delta):
 	dyn_image.unlock()
 	heatmap_sprite.texture.create_from_image(dyn_image)
 
+
 # Increases matrix temperature values based on the input
 func _increase_matrix_input(delta):
 	var mb_position = motherboard.rect_position
@@ -219,38 +277,47 @@ func _increase_matrix_input(delta):
 							var ratio = (radius - dis + 1) / (radius + 1)
 							matrix[x][y] += increase_factor * delta * ratio
 
-							if matrix[x][y] > 80 and not is_blinking:
+							if matrix[x][y] > blinking_threshold and not is_blinking:
 								is_blinking = true
 								_blink_light()
+								
 							if matrix[x][y] > 100:
 								matrix[x][y] = 100
-								rpc("_game_over")
+								_game_over()
+								return
+
 
 # Checks if the input cursor is in range of destroyable components
 # Removes a component when the temperature is above the threshold
 func _check_vacuum():
-	var input_sector_range = 2
+	var pixel_distance_check = 70
 	var input = _get_input_pos()
-	var input_sector = _get_sector(input.x, input.y)
 	var id = 0
 	for item in components:
 		var com_pos = item[1]
-		var input_col = input_sector["column"]
-		var input_row = input_sector["row"]
-		if input_col >= com_pos["column"] - input_sector_range:
-			if input_col <= com_pos["column"] + input_sector_range:
-				if input_row >= com_pos["row"] - input_sector_range:
-					if input_row <= com_pos["row"] + input_sector_range:
-						if matrix[input_row][input_col] > vacuum_remove_threshold:
-							var node = item[0]
-							print("Remove component" + str(id))
-							_destroy_component(id)
-							rpc_id(1, "_destroy_component", id)
-							if len(components) == 0:
-								_game_completed()
-								return
-						break
+		if com_pos.distance_to(input) < pixel_distance_check:
+			var sector = _get_sector(com_pos.x, com_pos.y)
+			var input_row = sector.get("row")
+			var input_column = sector.get("column")
+			
+			if _check_removable(input_row, input_column):
+				rpc("_destroy_component", id)
+				if len(components) == 0:
+					_game_completed()
+					return
+			break
 		id += 1
+
+
+# Check if a component is removable in a small range 
+# instead of only the center opf the component
+func _check_removable(sector_row, sector_column):
+	for x in range(-remove_radius, remove_radius + 1):
+		for y in range(-remove_radius, remove_radius + 1):
+			if matrix[sector_row + x][sector_column + y] > vacuum_remove_threshold:
+				return true
+	return false
+
 
 # Give percentage in the range of 100%, returns the right color
 func _pick_color(percentage):
@@ -259,6 +326,7 @@ func _pick_color(percentage):
 	var s = s_low - percentage * s_range
 	var b = b_low + percentage * b_range
 	return Color.from_hsv(h, s, b)
+
 
 # Create the heatmap sprite and add it to the scene
 func _init_heatmap_sprite():
@@ -293,6 +361,7 @@ func _get_sector(input_x, input_y):
 	var column = floor((input_x - mb_position.x) / column_width)
 	return { "row": row, "column": column }
 
+
 # Generate destroyable components
 func _generate_components():
 	randomize()
@@ -312,13 +381,13 @@ func _generate_components():
 	var start_x = pros_pos.x - component_width - pros_size.x / 2
 	var start_y = pros_pos.y - pros_size.y / 2 + height_padding
 
-	for i in range(num_of_components):
+	for _i in range(num_of_components):
 		if yi >= num_of_components/2:
 			xi += 1
 			yi = 0
 
 		var rec = ColorRect.new()
-		rec.color = Color(0.4, 0.4, 0.4)
+		rec.color = component_base_color
 
 		var x = start_x + xi * seperation_x
 		var y = start_y + yi * seperation_y
@@ -327,18 +396,16 @@ func _generate_components():
 
 		var global_x_center = motherboard.rect_position.x + x + component_width / 2
 		var global_y_center =  motherboard.rect_position.y + y + component_height / 2
-		components.append([rec, _get_sector(global_x_center, global_y_center)])
+		components.append([rec, Vector2(global_x_center, global_y_center)])
 		motherboard.add_child(rec)
 		yi += 1
 
+
 remotesync func _destroy_component(id):
+	remove_component_player.play()
 	motherboard.remove_child(components[id][0])
 	components.remove(id)
-	
-func _destroy_components():
-	components = []
-	for x in components:
-		motherboard.remove_child(x[0])
+
 
 func _get_input_pos():
 	var cursorpos
@@ -351,14 +418,15 @@ func _get_input_pos():
 
 
 func _game_completed():
-	rpc_id(1, "_on_game_completed")
-	_on_game_completed()
-	
+	rpc("_on_game_completed")
+
+
 func _game_over():
-	rpc_id(1, "_on_game_over")
-	_on_game_over()
+	rpc("_on_game_over")
+
 
 remotesync func _soldering_entered():
+	select_player.play()
 	if defuse_state == DefuserState.SOLDERING_IRON:
 		defuse_state = DefuserState.OFF
 		soldering_iron_indicator.color = Color(1, 0, 0)
@@ -372,7 +440,9 @@ remotesync func _soldering_entered():
 		defuse_state = DefuserState.SOLDERING_IRON
 		soldering_iron_indicator.color = Color(0, 1, 0)
 
+
 remotesync func _vacuum_entered():
+	select_player.play()
 	if defuse_state == DefuserState.VACUUM:
 		defuse_state = DefuserState.OFF
 		vacuum_indicator.color = Color(1, 0, 0)
@@ -386,8 +456,6 @@ remotesync func _vacuum_entered():
 		vacuum_indicator.color = Color(0, 1, 0)
 		vacuum_label.text = "ON"
 
-var on_vacuum = false
-var on_soldering = false
 
 func _check_input():
 	var input = _get_input_pos()
@@ -420,23 +488,25 @@ func _check_input():
 	else:
 		on_vacuum = false
 
+
 func _on_soldering_entered():
 	if player_role == Role.DEFUSER:
-		print("Soldering entered")
 		rpc("_soldering_entered")
+
 
 func _on_vacuum_entered():
 	if player_role == Role.DEFUSER:
-		print("Vacuum entered")
 		rpc("_vacuum_entered")
 
+
 remotesync func _on_game_completed():
-	print("Remove self")
-	get_parent().remove_child(self)
-	
+	game_completed_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")
+	get_parent().call_deferred("remove_child", self)
+
+
 remotesync func _on_game_over():
-	if player_role == Role.SUPERVISOR:
-		_init_matrix()
-	_destroy_components()
-	_generate_components()
-	assert(len(components) == num_of_components)
+	game_over_player.play()
+	yield(get_tree().create_timer(1.0), "timeout")	
+	get_tree().get_root().get_node("GameScene").game_over()
+	get_parent().call_deferred("remove_child", self)

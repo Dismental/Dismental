@@ -1,52 +1,40 @@
 extends "res://addons/gut/test.gd"
 
-func test_main_menu_scene_change():
-	var MainMenuPath = 'res://Script/SceneManagers/MainMenuSceneManager.gd'
+func test_create_mission_button_pressed():
+	var MainMenuPath = 'res://Script/SceneManagers/MainMenu/MainMenu.gd'
+	var doubled = partial_double(MainMenuPath).new()
+	
+	stub(doubled, '_on_CreateMissionButton_pressed').to_call_super()
+	stub(doubled, 'set_panel_visible').to_do_nothing()
+	stub(doubled, 'start_scroll_animation').to_call_super()
+	stub(doubled, '_play_button_click_sound').to_do_nothing()
+	doubled._on_CreateMissionButton_pressed()
+	assert_called(doubled, "set_panel_visible", ["MissionPanel/CreateMissionPanel", true])
+	assert_called(doubled, "set_panel_visible", ["MissionPanel/JoinMissionPanel", false])
+	assert_called(doubled, "start_scroll_animation", [true])
+
+
+func test_join_mission_button_pressed():
+	var MainMenuPath = 'res://Script/SceneManagers/MainMenu/MainMenu.gd'
+	var doubled = double(MainMenuPath).new()
+
+	stub(doubled, '_on_JoinMissionButton_pressed').to_call_super()
+	stub(doubled, 'set_panel_visible').to_do_nothing()
+	stub(doubled, 'start_scroll_animation').to_call_super()
+	stub(doubled, '_play_button_click_sound').to_do_nothing()
+	doubled._on_JoinMissionButton_pressed()
+	assert_called(doubled, "set_panel_visible", ["MissionPanel/CreateMissionPanel", false])
+	assert_called(doubled, "set_panel_visible", ["MissionPanel/JoinMissionPanel", true])
+	assert_called(doubled, "start_scroll_animation", [true])
+
+
+func test_back_button_pressed():
+	var MainMenuPath = 'res://Script/SceneManagers/MainMenu/MainMenu.gd'
 	var doubled = double(MainMenuPath).new()
 	
-	stub(doubled, '_on_JoinRoomButton_pressed').to_call_super()
-	assert_true(doubled._on_JoinRoomButton_pressed())
-
-	stub(doubled, '_on_CreateRoomButton_pressed').to_call_super()
-	assert_true(doubled._on_CreateRoomButton_pressed())
-	
-	stub(doubled, '_on_SettingsButton_pressed').to_call_super()
-	assert_true(doubled._on_SettingsButton_pressed())
-
-
-func test_join_game_room_scene_change():
-	var path = 'res://Script/SceneManagers/JoinGameSceneManager.gd'
-
-	var doubled = double(path).new()
-
 	stub(doubled, '_on_BackButton_pressed').to_call_super()
-	assert_true(doubled._on_BackButton_pressed())
+	stub(doubled, 'start_scroll_animation').to_call_super()
+	stub(doubled, '_play_button_click_sound').to_do_nothing()
+	doubled._on_BackButton_pressed()
+	assert_called(doubled, "start_scroll_animation", [false])
 
-	
-	stub(doubled, '_on_JoinGameButton_pressed').to_call_super()
-	assert_true(doubled._on_JoinGameButton_pressed())
-
-
-func test_create_game_room_scene_change():
-	var path = 'res://Script/SceneManagers/CreateGameRoomManager.gd'
-
-	var doubled = double(path).new()
-
-	stub(doubled, '_on_BackButton_pressed').to_call_super()
-	assert_true(doubled._on_BackButton_pressed())
-
-	
-	stub(doubled, '_on_CreateRoomButton_pressed').to_call_super()
-	assert_true(doubled._on_CreateRoomButton_pressed())
-
-	
-
-func test_settings_scene_change():
-	var path = 'res://Script/SceneManagers/SettingsSceneManager.gd'
-
-	var doubled = double(path).new()
-
-	stub(doubled, '_on_BackButton_pressed').to_call_super()
-	assert_true(doubled._on_BackButton_pressed())
-
-	

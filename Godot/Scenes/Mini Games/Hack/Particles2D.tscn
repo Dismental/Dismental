@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=2]
+curve = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+trail_size_modifier = SubResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 25.77
+flag_disable_z = true
+gravity = Vector3( -40, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 3.0
+color = Color( 0, 1, 0.0156863, 1 )
+
+[node name="Particles2D" type="Particles2D"]
+modulate = Color( 1, 1, 1, 0.537255 )
+position = Vector2( -40, 40 )
+lifetime = 2.0
+process_material = SubResource( 3 )

@@ -1,15 +1,150 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/Tracking/PointerManager.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/Tracking/Sprite.gd" type="Script" id=3]
+[ext_resource path="res://Fonts/LobbyFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Script/Tracking/PointerManager.gd" type="Script" id=2]
+[ext_resource path="res://bin/gdexample.gdns" type="Script" id=3]
+[ext_resource path="res://Textures/pointer.png" type="Texture" id=4]
+[ext_resource path="res://Fonts/Righteous-Regular.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 0.501961 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+outline_color = Color( 0.560784, 0.458824, 0.4, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 0.466667 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 0.611765 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+bg_color = Color( 0, 0, 0, 0.470588 )
 
 [node name="Control" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="Pickuppointershadow" type="ColorRect" parent="."]
+visible = false
+margin_left = -76.0
+margin_top = -73.0
+margin_right = 2107.0
+margin_bottom = 1168.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.239216 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Pointer" type="Position2D" parent="."]
 
 [node name="Sprite" type="Sprite" parent="Pointer"]
+texture = ExtResource( 4 )
+
+[node name="Lbl_warning" type="Label" parent="Pointer"]
 visible = false
-texture = ExtResource( 1 )
+margin_left = -2.79446
+margin_top = -15.2868
+margin_right = 13.2055
+margin_bottom = 15.7132
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
+text = "!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HeadPos" type="Position2D" parent="."]
 script = ExtResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 16.0
+margin_top = 778.0
+margin_right = 597.0
+margin_bottom = 1059.0
+grow_vertical = 2
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lbl_lost_tracking" type="Label" parent="VBoxContainer"]
+visible = false
+margin_right = 581.0
+margin_bottom = 53.0
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Tracking lost"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lbl_pickup_pointer" type="Label" parent="VBoxContainer"]
+visible = false
+margin_top = 57.0
+margin_right = 581.0
+margin_bottom = 110.0
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
+text = "Pickup the pointer"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lbl_lighting" type="Label" parent="VBoxContainer"]
+visible = false
+margin_top = 114.0
+margin_right = 581.0
+margin_bottom = 167.0
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
+text = "Ensure your face is well lit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lbl_template_matching" type="Label" parent="VBoxContainer"]
+visible = false
+margin_top = 171.0
+margin_right = 581.0
+margin_bottom = 224.0
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
+text = "Please look straight at the webcam"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lbl_too_close" type="Label" parent="VBoxContainer"]
+visible = false
+margin_top = 228.0
+margin_right = 581.0
+margin_bottom = 281.0
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 2 )
+text = "Keep 1,5m distance from the webcam"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="losttracking_changed" from="HeadPos" to="." method="_on_HeadPos_losttracking_changed"]
+[connection signal="templatematching_changed" from="HeadPos" to="." method="_on_HeadPos_templatematching_changed"]
+[connection signal="tooclose_changed" from="HeadPos" to="." method="_on_HeadPos_tooclose_changed"]

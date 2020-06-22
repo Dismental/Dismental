@@ -1,0 +1,116 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Script/MiniGames/AlignGameManager.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring6.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring2.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring3.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/center.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring1.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring4.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/Mini Games/Align/AlignSprites/ring5.png" type="Texture" id=8]
+[ext_resource path="res://Fonts/Roboto/Roboto-Light.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://Fonts/Roboto/Roboto-Medium.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://Sounds/game_over.ogg" type="AudioStream" id=11]
+[ext_resource path="res://Sounds/game_cleared.ogg" type="AudioStream" id=12]
+
+[sub_resource type="DynamicFont" id=1]
+size = 53
+font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 80
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 10 )
+
+[node name="Control" type="Control"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.164706, 0.164706, 0.164706, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ring6" type="Sprite" parent="."]
+position = Vector2( 960, 545.153 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="ring5" type="Sprite" parent="."]
+position = Vector2( 960, 541.287 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 8 )
+
+[node name="ring4" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 7 )
+
+[node name="ring3" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="ring2" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+
+[node name="ring1" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+
+[node name="center" type="Sprite" parent="."]
+position = Vector2( 965.665, 551.587 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 5 )
+
+[node name="Timer" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -56.335
+margin_top = -38.847
+margin_right = 54.66
+margin_bottom = 41.153
+custom_fonts/font = SubResource( 1 )
+text = "60"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -242.203
+margin_top = 33.153
+margin_right = 245.797
+margin_bottom = 151.153
+custom_fonts/font = SubResource( 2 )
+text = "Completed"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayers" type="Node" parent="."]
+
+[node name="GameCompleted" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 12 )
+
+[node name="GameOver" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 11 )

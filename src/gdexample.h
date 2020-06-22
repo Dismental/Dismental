@@ -8,7 +8,6 @@
 #include <opencv2/objdetect.hpp>
 #include <opencv2/tracking.hpp>
 #include "VideoFaceDetector.h"
-#include "VideoHandDetector.h"
 
 namespace godot {
 
@@ -21,15 +20,15 @@ private:
     cv::Mat frame;
     cv::VideoCapture camera;
     cv::CascadeClassifier face_cascase;
-    cv::Point cursorPos;
-
-    // Hand tracking
-    cv::Ptr<cv::Tracker> tracker;
-    cv::Rect2d bbox;
-    cv::Mat handSample;
-
+    Vector2 cursorPos;
     VideoFaceDetector detector;
-    VideoHandDetector handTracker;
+
+    bool multiple_faces;
+    bool too_close;
+    bool template_matching;
+    bool lost_tracking;
+    bool camera_access;
+    float retry_timer = 0.0;
 
 public:
     static void _register_methods();

@@ -26,6 +26,11 @@ public:
     void                    setTemplateMatchingMaxDuration(const double s);
     double                  templateMatchingMaxDuration() const;
 
+    bool                    multiple_faces = false;
+    bool                    too_close = false;
+    bool                    template_matching = false;
+    bool                    lost_tracking = false;
+
 private:
     static const double     TICK_FREQUENCY;
 
@@ -55,5 +60,5 @@ private:
     void        stopTemplateMatching();
     void        detectFaceAllSizes(const cv::Mat &frame);
     void        detectFaceAroundRoi(const cv::Mat &frame);
-    void        detectFacesTemplateMatching(const cv::Mat &frame, const cv::Mat &orgFrame);
+    void        detectFacesTemplateMatching(const cv::Mat &frame);
 };

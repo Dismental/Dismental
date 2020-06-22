@@ -1,88 +1,89 @@
 extends Node
 
-var timer
-var wait_time = 180
-
-var timer_label
-var running = false
-var last_label_update
 var next_scene
 
-var minigame_index = 0
-var minigames = ["Cut", "Dissolve"]
+onready var roadmap_control = $Control
+onready var bottom_button = $Control/StartNextTask
+onready var countdown_timer = $Control/CountDown
 
-onready var puzzle_label = $Control/VBoxContainer/PanelContainer/PuzzlesLeft
-onready var bottom_button = $Control/VBoxContainer/PanelContainer/Button
 
 func _ready():
-	puzzle_label.text = "Minigames remaining: " + str(len(minigames))
-	last_label_update = wait_time
+	GameState.start_timer(get_node("CanvasLayer/Timer/MarginContainer/TimeCounter"))
+	GameState.connect("timer_timeout", self, "_on_timer_timeout")
+	GameState.connect("defused", self, "_defused")
+	GameState.connect("load_roadmap", self, "_load_roadmap")
 
-	timer_label = get_node("CanvasLayer/TimeCounter")
+	Network.connect("player_disconnected", self, "_player_disconnect")
 
-	timer = Timer.new()
-	timer.one_shot = true
+	if get_tree().is_network_server():
+		GameState.assign_roles()
 
-	timer.connect("timeout",self,"_on_timer_timeout")
-	add_child(timer)
-	timer.set_wait_time(wait_time)
-	_set_timer_label(wait_time)
+	$Control.connect("wait_time_lobby_over", self, "_on_wait_time_lobby_over")
 
-	running = true
-	timer.start()
-
+	# If current player is not the host
 	if not get_tree().is_network_server():
-		get_node("Control/VBoxContainer/PanelContainer/Button").hide()
+		bottom_button.hide()
 
 
-func _process(_delta):
-	if running:
-		var time_left = int(round(timer.get_time_left()))
-		if last_label_update != time_left:
-			last_label_update = time_left
-			_set_timer_label(time_left)
+func _on_wait_time_lobby_over():
+	print("TIMER OVER")
+	if get_tree().get_network_unique_id() == Network.host:
+		GameState.start_minigame(bottom_button)
 
 
-func _set_timer_label(sec):
-	var minutes = 0
-
-	while sec >= 60:
-		minutes += 1
-		sec -= 60
-
-	if minutes < 10:
-		minutes = "0" + str(minutes)
-	else:
-		minutes = str(minutes)
-
-	if sec < 10:
-		sec = "0" + str(sec)
-	else:
-		sec = str(sec)
-
-	timer_label.text = minutes + ":" + sec
+func _load_roadmap():
+	$Control.show_next_minigame()
 
 
 func _on_timer_timeout():
-	print("TIME'S UP")
-	print("BOOOOOOM")
-	print("Bomb exploded...")
+	return Utils.change_screen("res://Scenes/LoseScene.tscn", self)
 
 
 func _on_start_minigame_pressed():
-	if len(minigames) - minigame_index > 0:
-		Network.start_minigame(minigames[minigame_index])
-		minigame_index += 1
-		rpc("_update_minigames_remaing_text", str(len(minigames) - minigame_index))
-		if len(minigames) - minigame_index == 0:
-			bottom_button.text = "Defuse Bomb"
-	else:
-		rpc("_on_defuse")
+	countdown_timer.stop()
+	GameState.start_minigame(bottom_button)
+	bottom_button.release_focus()
 
-remotesync func _update_minigames_remaing_text(num):
-	puzzle_label.text = "Minigames remaining: " + num
+
+func _player_disconnect(id, name):
+	if Network.host == id:
+		GameState.reset_gamestate()
+		if get_tree().get_root().has_node("VoiceStream"):
+			var voice = get_tree().get_root().get_node("VoiceStream")
+			voice.stop()
+			voice.get_parent().remove_child(voice)
+			voice.queue_free()
+		Network.stop()
+		var tree = get_tree()
+		var succes = Utils.change_screen("res://Scenes/MainMenu.tscn", self)
+		tree.get_root().find_node("MainMenu", true, false).popup(
+			"Host disconnected")
+	else:
+		GameState.reset_gamestate()
+		var tree = get_tree()
+		var succes = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
+
+		tree.get_root().find_node("Lobby", true, false).popup(
+			name + " disconnected\nLobby is closed, no new players can join")
+
+
+func game_over():
+	GameState.stop_running()
+	return Utils.change_screen("res://Scenes/LoseScene.tscn", self)
+
+
+func _defused():
+	rpc("_on_defuse")
+
 
 remotesync func _on_defuse():
-	running = false
-	timer.stop()
-	$Control/VBoxContainer/HBoxContainer/ExampleBomb/Title.text = "Defused"
+	var end_time = GameState.format_time(int(round(GameState.timer.get_time_left())))
+	GameState.defused()
+
+	var date = str(OS.get_date().get("day"))
+	date += "/" + str(OS.get_date().get("month"))
+	date += "/" + str(OS.get_date().get("year"))
+	ScoreManager.add_score(Score.new(GameState.team_name,
+		GameState.difficulty, end_time, date))
+
+	return Utils.change_screen("res://Scenes/WinScene.tscn", self)
