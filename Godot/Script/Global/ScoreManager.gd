@@ -68,4 +68,4 @@ func first_run():
 
 class CustomSort:
 	static func sort(a, b):
-		return a["time"] < b["time"]
+		return a.get_time() < b.get_time()

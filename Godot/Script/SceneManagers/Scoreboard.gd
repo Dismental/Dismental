@@ -19,10 +19,10 @@ func instance_panels():
 	for score in scores:
 		var n_panel = Scorepanel.instance()
 		n_panel.get_node("Position").text = str(pos)
-		n_panel.get_node("TeamName").text = score.team
-		n_panel.get_node("Difficulty").text = score.difficulty
-		n_panel.get_node("Time").text = score.time
-		n_panel.get_node("Date").text = score.date
+		n_panel.get_node("TeamName").text = score.get_team()
+		n_panel.get_node("Difficulty").text = score.get_difficulty()
+		n_panel.get_node("Time").text = score.get_time()
+		n_panel.get_node("Date").text = score.get_date()
 		$ScrollBackground/ScoresContainer/VBoxContainer.add_child(n_panel)
 		pos += 1
 	# A last control node is added, as somehow the last node will not be shown.
