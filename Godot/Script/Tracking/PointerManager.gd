@@ -8,6 +8,8 @@ enum Role {
 	HEADTHROTTLE,
 }
 
+export var pickup_pointer = true;
+
 var player_role
 
 var tracking_node
@@ -39,8 +41,6 @@ var time_to_interaction = 0
 var time_to_interaction_total = 0
 
 var distance_from_free_zone
-
-export var pickup_pointer = true;
 
 var free_movement_zone_radius = 100
 var throttle_zone_radius = 200
@@ -161,7 +161,7 @@ func _process(_delta):
 		pointer_node.position = tracking_pos
 	elif (player_role == Role.MOUSE):
 		pointer_node.position = get_global_mouse_position()
-	
+
 	if t_a_increase:
 		t_a += 0.1
 		t_a_increase = t_a <= 1;
@@ -301,7 +301,7 @@ func set_pointer_radius(rad):
 
 func set_pointer_color(col):
 	p_color = col
-	
+
 func _get_t_color():
 	return Color(1.0, 0.0, 0.0, -0.5)
 
@@ -335,10 +335,6 @@ func _on_pickupointer(value):
 func _on_HeadPos_losttracking_changed(value):
 	$VBoxContainer/Lbl_lost_tracking.visible = value
 	$Pointer/Lbl_warning.visible = value
-
-
-func _on_HeadPos_multiface_changed(value):
-	pass # Replace with function body.
 
 
 func _on_HeadPos_templatematching_changed(value):

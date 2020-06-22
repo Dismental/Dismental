@@ -127,6 +127,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="losttracking_changed" from="HeadPos" to="." method="_on_HeadPos_losttracking_changed"]
-[connection signal="multiface_changed" from="HeadPos" to="." method="_on_HeadPos_multiface_changed"]
 [connection signal="templatematching_changed" from="HeadPos" to="." method="_on_HeadPos_templatematching_changed"]
 [connection signal="tooclose_changed" from="HeadPos" to="." method="_on_HeadPos_tooclose_changed"]
