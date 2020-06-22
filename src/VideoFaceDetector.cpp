@@ -6,12 +6,6 @@
 
 const double VideoFaceDetector::TICK_FREQUENCY = cv::getTickFrequency();
 
-// VideoFaceDetector::VideoFaceDetector(const std::string cascadeFilePath, cv::VideoCapture &videoCapture)
-// {
-//     setFaceCascade(cascadeFilePath);
-//     setVideoCapture(videoCapture);
-// }
-
 VideoFaceDetector::VideoFaceDetector() {
     
 }
