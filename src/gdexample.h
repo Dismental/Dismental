@@ -27,6 +27,7 @@ private:
     bool too_close;
     bool template_matching;
     bool lost_tracking;
+    bool camera_access;
     float retry_timer = 0.0;
 
 public:

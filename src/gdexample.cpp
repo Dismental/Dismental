@@ -30,6 +30,7 @@ void GDExample::_register_methods() {
     register_signal<GDExample>((char*)"tooclose_changed", "value", GODOT_VARIANT_TYPE_BOOL);
     register_signal<GDExample>((char*)"templatematching_changed", "value", GODOT_VARIANT_TYPE_BOOL);
     register_signal<GDExample>((char*)"losttracking_changed", "value", GODOT_VARIANT_TYPE_BOOL);
+    register_signal<GDExample>((char*)"cameraaccess_changed", "value", GODOT_VARIANT_TYPE_BOOL);
 }
 
 GDExample::GDExample() {
@@ -49,6 +50,7 @@ string get_env_var( std::string const & key ) {
 }
 
 void GDExample::_init() {
+    camera_access = false;
 
     // TODO get .xml from res:// instead of a hardcoded path
     std::string path = "../src/opencv_data/haarcascades/haarcascade_frontalface_default.xml";
@@ -74,6 +76,10 @@ void GDExample::_init() {
 }
 
 void GDExample::_process(float delta) {
+    if (!camera_access && camera.isOpened()) {
+        camera_access = camera.isOpened();
+        emit_signal("cameraaccess_changed", camera.isOpened());
+    }
     if (camera.isOpened()) {
         detector >> frame;
 
