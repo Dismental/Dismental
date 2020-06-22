@@ -83,7 +83,7 @@ func start_timer(timer_node):
 	timer.start()
 
 
-func _set_timer_label(sec):
+func format_time(sec):
 	var minutes = 0
 
 	while sec >= 60:
@@ -99,8 +99,12 @@ func _set_timer_label(sec):
 		sec = "0" + str(sec)
 	else:
 		sec = str(sec)
+	return minutes + ":" + sec
 
-	timer_label.text = minutes + ":" + sec
+
+func _set_timer_label(sec):
+	var curr_time = format_time(sec)
+	timer_label.text = curr_time
 
 
 func load_roadmap():
