@@ -110,9 +110,9 @@ anchor_left = 0.5
 anchor_top = 1.00168
 anchor_right = 0.5
 anchor_bottom = 1.00168
-margin_left = -380.383
+margin_left = -380.0
 margin_top = -219.814
-margin_right = -36.3829
+margin_right = -35.0
 margin_bottom = -151.814
 custom_styles/normal = SubResource( 2 )
 custom_fonts/font = SubResource( 3 )
@@ -121,6 +121,26 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
 text = "VIEW SCOREBOARD"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayAgainButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.00168
+anchor_right = 0.5
+anchor_bottom = 1.00168
+margin_left = 25.0001
+margin_top = -219.814
+margin_right = 370.0
+margin_bottom = -151.814
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "PLAY AGAIN"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -196,3 +216,4 @@ __meta__ = {
 stream = ExtResource( 2 )
 [connection signal="pressed" from="MainMenuButton" to="." method="_on_MainMenuButton_pressed"]
 [connection signal="pressed" from="ScoreBoardButton" to="." method="_on_ScoreBoardButton_pressed"]
+[connection signal="pressed" from="PlayAgainButton" to="." method="_on_PlayAgainButton_pressed"]
