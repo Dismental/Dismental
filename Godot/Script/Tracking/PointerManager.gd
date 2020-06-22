@@ -169,6 +169,9 @@ func _process(_delta):
 		t_a -= 0.1
 		t_a_increase = t_a <= -1;
 	$Pointer/Lbl_warning.add_color_override("font_color", _get_warning_color())
+	$Pointer/Sprite.rotation_degrees += 1
+	if $Pointer/Sprite.rotation_degrees > 17:
+		$Pointer/Sprite.rotation_degrees = 0
 	update()
 
 func _update_loading_interaction():
@@ -277,11 +280,11 @@ func distance_from_origin(point):
 func _draw():
 	# Draw the tracked position
 	if pickup_pointer:
-		draw_circle(_map_tracking_position(tracking_node.position), t_rad, _get_t_color())
+		draw_circle(_map_tracking_position(tracking_node.position), t_rad, Color(1.0, 0.0, 0.0, -1))
 		draw_line(
 			_map_tracking_position(tracking_node.position),
 			tracking_pos,
-			_get_t_color(),
+			Color(1.0, 0.0, 0.0, -0.5),
 			4
 		)
 
@@ -290,10 +293,7 @@ func _draw():
 
 	# Draw the pointer
 	if (p_visible):
-		if pickup_pointer:
-			draw_circle(pointer_node.position , p_rad + abs(cosh(t_a))*10, p_color)
-
-		else:
+		if not pickup_pointer:
 			draw_circle(pointer_node.position , p_rad, p_color)
 
 func set_pointer_radius(rad):
@@ -330,6 +330,7 @@ func _on_pickupointer(value):
 	$VBoxContainer/Lbl_pickup_pointer.visible = value
 	$Pickuppointershadow.visible = value
 	pickup_pointer = value
+	$Pointer/Sprite.visible = value
 
 
 func _on_HeadPos_losttracking_changed(value):

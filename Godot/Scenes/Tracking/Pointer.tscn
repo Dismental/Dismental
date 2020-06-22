@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Fonts/LobbyFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Script/Tracking/PointerManager.gd" type="Script" id=2]
 [ext_resource path="res://bin/gdexample.gdns" type="Script" id=3]
+[ext_resource path="res://Textures/pointer.png" type="Texture" id=4]
 
 [sub_resource type="StyleBoxFlat" id=2]
 content_margin_left = 6.0
@@ -48,12 +49,15 @@ __meta__ = {
 
 [node name="Pointer" type="Position2D" parent="."]
 
+[node name="Sprite" type="Sprite" parent="Pointer"]
+texture = ExtResource( 4 )
+
 [node name="Lbl_warning" type="Label" parent="Pointer"]
-margin_left = -7.32368
-margin_top = -27.6391
-margin_right = 8.67632
-margin_bottom = 3.36089
-rect_scale = Vector2( 2, 2 )
+visible = false
+margin_left = -2.79446
+margin_top = -15.2868
+margin_right = 13.2055
+margin_bottom = 15.7132
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
