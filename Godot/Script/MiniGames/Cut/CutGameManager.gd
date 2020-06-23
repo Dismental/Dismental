@@ -87,7 +87,9 @@ func _draw():
 		var input_pos = _get_input_pos()
 		$LaserPointer.set_position(input_pos - $LaserPointer.get_rect().size / 2)
 		$LaserPointer.show()
-
+		
+		if len($CuttingLine.points) == 0:
+			$CuttingLine.add_point(input_pos)
 		# Add input pos to list of past input position
 		# If the previous input position wasn't close
 		var last_point = $CuttingLine.points[len($CuttingLine.points) - 1]
