@@ -101,7 +101,7 @@ func _update_laser():
 		# Add input pos to list of past input position
 		# If the previous input position wasn't close
 		var last_point = $CuttingLine.points[len($CuttingLine.points) - 1]
-		if  last_point.distance_to(input_pos) > 10:
+		if  last_point.distance_to(input_pos) > 15:
 			$CuttingLine.add_point(input_pos)
 
 
