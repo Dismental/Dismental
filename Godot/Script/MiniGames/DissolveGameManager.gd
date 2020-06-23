@@ -97,13 +97,13 @@ func _ready():
 	var is_defuser = defuser_id == get_tree().get_network_unique_id()
 	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
 
+	_init_matrix()
+	
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
 		# Hide vacuum & soldering iron in GUI
 		vacuum_indicator.visible = false
 		soldering_iron_indicator.visible = false
-		
-		_init_matrix()
 		_generate_colors()
 		_generate_color_scale()
 		heatmap_sprite = _init_heatmap_sprite()
@@ -119,19 +119,21 @@ func _ready():
 		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
 		$red_dot.visible = false
-	
+
 	_generate_components()
 
 
 func _process(delta):
+	if defuse_state == DefuserState.SOLDERING_IRON:
+		_increase_matrix_input(delta)
+
 	if player_role == Role.SUPERVISOR:
-		if defuse_state == DefuserState.SOLDERING_IRON:
-			_increase_matrix_input(delta)
-		elif defuse_state == DefuserState.VACUUM:
-			_check_vacuum()
 		_refresh_heatmap(delta)
 		_check_components_removable()
-	else:
+	
+	if player_role == Role.DEFUSER:
+		if defuse_state == DefuserState.VACUUM:
+			_check_vacuum()
 		_check_input()
 	
 	# Updates the draw function
