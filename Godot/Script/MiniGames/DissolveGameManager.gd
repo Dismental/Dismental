@@ -88,7 +88,7 @@ onready var fire_sign_bg = $FireSignControl/fire_sign_bg
 const fire_sign_color_blink = Color(210.0 / 255, 69.0 / 255, 69.0 / 255)
 const fire_sign_color_def = Color(0.0, 0.0, 0.0)
 const blinking_frames = 3
-
+var running = true
 
 func _ready():
 	_adjust_for_difficulties()
@@ -97,13 +97,13 @@ func _ready():
 	var is_defuser = defuser_id == get_tree().get_network_unique_id()
 	player_role = Role.DEFUSER if is_defuser else Role.SUPERVISOR
 
+	_init_matrix()
+	
 	# Generate the heatmap for the supervisor only
 	if player_role == Role.SUPERVISOR:
 		# Hide vacuum & soldering iron in GUI
 		vacuum_indicator.visible = false
 		soldering_iron_indicator.visible = false
-		
-		_init_matrix()
 		_generate_colors()
 		_generate_color_scale()
 		heatmap_sprite = _init_heatmap_sprite()
@@ -119,19 +119,21 @@ func _ready():
 		pointer_control.set_role(pointer.Role.HEADTHROTTLE)
 		pointer_node = pointer.get_node("Pointer")
 		$red_dot.visible = false
-	
+
 	_generate_components()
 
 
 func _process(delta):
+	if defuse_state == DefuserState.SOLDERING_IRON and running:
+		_increase_matrix_input(delta)
+
 	if player_role == Role.SUPERVISOR:
-		if defuse_state == DefuserState.SOLDERING_IRON:
-			_increase_matrix_input(delta)
-		elif defuse_state == DefuserState.VACUUM:
-			_check_vacuum()
 		_refresh_heatmap(delta)
 		_check_components_removable()
-	else:
+	
+	if player_role == Role.DEFUSER:
+		if defuse_state == DefuserState.VACUUM:
+			_check_vacuum()
 		_check_input()
 	
 	# Updates the draw function
@@ -153,19 +155,22 @@ func _init_matrix():
 
 func _adjust_for_difficulties():
 	if GameState.difficulty == "EASY":
-		blinking_threshold = 70
+		blinking_threshold = 60
 		vacuum_remove_threshold = 40
 		decrease_factor = 2.5
+		increase_factor = 18
 
 	elif GameState.difficulty == "MEDIUM":
-		blinking_threshold = 75
+		blinking_threshold = 65
 		vacuum_remove_threshold = 50
 		decrease_factor = 2.7
+		increase_factor = 20
 
 	elif GameState.difficulty == "HARD":
-		blinking_threshold = 80
+		blinking_threshold = 70
 		vacuum_remove_threshold = 60
 		decrease_factor = 3
+		increase_factor = 22
 
 
 func _generate_colors():
@@ -190,6 +195,7 @@ func _generate_colors():
 
 
 func _blink_light():
+	heat_warning_player.play()
 	fire_sign_bg.modulate = fire_sign_color_blink
 	# Wait five frames
 	for _i in range(blinking_frames):
@@ -199,7 +205,7 @@ func _blink_light():
 	fire_sign_bg.modulate = fire_sign_color_def;
 	for _i in range(blinking_frames):
 		yield(get_tree(), "idle_frame")
-
+	is_blinking = false
 
 func _generate_color_scale():
 	var n = 0
@@ -277,14 +283,15 @@ func _increase_matrix_input(delta):
 						if x >= 0 and x < rows and y >= 0 and y < columns:
 							var ratio = (radius - dis + 1) / (radius + 1)
 							matrix[x][y] += increase_factor * delta * ratio
-
-							if matrix[x][y] > blinking_threshold and not is_blinking:
-								is_blinking = true
-								_blink_light()
+							
+							if player_role == Role.SUPERVISOR:
+								if matrix[x][y] > blinking_threshold and not is_blinking:
+									is_blinking = true
+									_blink_light()
 								
-							if matrix[x][y] > 100:
-								matrix[x][y] = 100
-								_game_over()
+							if matrix[x][y] > 100 and player_role == Role.DEFUSER:
+								rpc("_on_game_over")
+								running = false
 								return
 
 
@@ -304,7 +311,8 @@ func _check_vacuum():
 			if _check_removable(input_row, input_column):
 				rpc("_destroy_component", id)
 				if len(components) == 0:
-					_game_completed()
+					running = false
+					rpc("_on_game_completed")
 					return
 			break
 		id += 1
@@ -416,14 +424,6 @@ func _get_input_pos():
 	else:
 		cursorpos = puppet_mouse
 	return cursorpos
-
-
-func _game_completed():
-	rpc("_on_game_completed")
-
-
-func _game_over():
-	rpc("_on_game_over")
 
 
 remotesync func _soldering_entered():

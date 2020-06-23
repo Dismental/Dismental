@@ -78,7 +78,9 @@ func _process(_delta):
 
 func _draw():
 	if waitForStartingPosition:
-		$Control/StartCuttingHere.set_position(_calc_start_position() - $Control/StartCuttingHere.get_rect().size/2)
+		var start_pos = _calc_start_position()
+		start_pos -= $Control/StartCuttingHere.get_size() / 2
+		$Control/StartCuttingHere.set_position(start_pos)
 		
 	if not waitForStartingPosition and running:
 		var input_pos = _get_input_pos()
@@ -131,20 +133,7 @@ func _unhandled_input(event):
 func _calc_start_position():
 	var center_x = finish_rect.position.x + (finish_rect.size.x / 2.0)
 	var center_y = finish_rect.position.y + (finish_rect.size.y / 2.0)
-	var center_rect = Vector2(center_x, center_y)
-
-	var vp_size = get_viewport().size
-	var vp_real_size = get_viewport_rect().size
-	var ratio = vp_size / vp_real_size
-
-	var offset_x = (OS.get_window_size().x - vp_size.x) / 2.0
-	var offset_y = (OS.get_window_size().y - vp_size.y) / 2.0
-
-	var start_pos = center_rect * ratio
-	start_pos.x += offset_x
-	start_pos.y += offset_y
-
-	return start_pos
+	return Vector2(center_x, center_y)
 
 
 func _calc_finish_line():
@@ -165,15 +154,13 @@ func _calc_finish_line():
 		sp.x += 1
 	var max_x = sp.x
 
-	var rect_height = 80
+	var rect_height = 120
 	finish_rect = Rect2(min_x, sp.y - rect_height/2, max_x - min_x, rect_height)
 
 
 func _update_game_state():
 	if waitForStartingPosition:
-		var start_position_input = _calc_start_position()
-		var distance_from_start = (start_position_input).distance_to(_get_input_pos())
-		if distance_from_start < 10:
+		if finish_rect.has_point(_get_input_pos()):
 			$Control/StartCuttingHere.visible = false
 			$LaserPointer.visible = true
 			waitForStartingPosition = false
@@ -200,14 +187,14 @@ func _check_finish():
 				
 	elif finish_state == 1:
 		if finish_rect.has_point(_get_input_pos()):
-			if dots[len(dots)-1].y > finish_rect.end.y:
+			if dots[len(dots)-3].y > finish_rect.end.y:
 				_game_completed()
 			else:
 				finish_state = 0
 
 	elif finish_state == -1:
 		if finish_rect.has_point(_get_input_pos()):
-			if dots[len(dots)-1].y <= finish_rect.position.y:
+			if dots[len(dots)-3].y <= finish_rect.position.y:
 				_game_completed()
 			else:
 				finish_state = 0

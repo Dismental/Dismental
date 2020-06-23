@@ -82,6 +82,7 @@ margin_top = 778.0
 margin_right = 597.0
 margin_bottom = 1059.0
 grow_vertical = 2
+mouse_filter = 2
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
