@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Script/MiniGames/DissolveGameManager.gd" type="Script" id=1]
 [ext_resource path="res://Fonts/Roboto/Roboto-Black.ttf" type="DynamicFontData" id=2]
@@ -153,8 +153,10 @@ texture = ExtResource( 4 )
 [node name="AudioStreamPlayers" type="Node" parent="."]
 
 [node name="GameCompleted" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 10 )
 
 [node name="HeatWarning" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
+stream = ExtResource( 11 )
 
 [node name="RemoveComponent" type="AudioStreamPlayer" parent="AudioStreamPlayers"]
 stream = ExtResource( 7 )
