@@ -34,6 +34,7 @@ func _on_MainMenuButton_pressed():
 		voice.stop()
 		voice.get_parent().remove_child(voice)
 		voice.queue_free()
+	GameState.reset_gamestate()
 	Network.stop()
 	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)
 
@@ -52,5 +53,5 @@ remotesync func _play_again():
 	var success = Utils.change_screen("res://Scenes/Lobby/Lobby.tscn", self)
 	GameState.reset_gamestate()
 	tree.get_root().find_node("Lobby", true, false).popup(
-			name + "Lobby is closed, no new players can join")
+			"Lobby is closed, no new players can join")
 	return success

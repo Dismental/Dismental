@@ -54,6 +54,7 @@ func stop():
 	player_info.clear()
 	web_rtc.close()
 	close()
+	get_tree().set_network_peer(null)
 	web_rtc = WebRTCMultiplayer.new()
 
 
