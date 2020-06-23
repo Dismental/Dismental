@@ -283,6 +283,9 @@ Example usage: `sudo sh export.sh 10.15`.
 
 We often need to test multiplayer locally, this script will open two instances of the main scene at once. Along with a terminal window for each instance.
 
+# Windows issues
+This game unfortunately does not support Windows, there were issues regarding the imported libraries that are necessary in order for OpenCV to function.
+
 # Developer Team
 - Kevin van der Werff, Producer & Communication
 - Onno Gieling, Lead Playtesting
