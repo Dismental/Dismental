@@ -155,7 +155,7 @@ func _init_matrix():
 
 func _adjust_for_difficulties():
 	if GameState.difficulty == "EASY":
-		blinking_threshold = 70
+		blinking_threshold = 60
 		vacuum_remove_threshold = 40
 		decrease_factor = 2.5
 
@@ -279,12 +279,13 @@ func _increase_matrix_input(delta):
 						if x >= 0 and x < rows and y >= 0 and y < columns:
 							var ratio = (radius - dis + 1) / (radius + 1)
 							matrix[x][y] += increase_factor * delta * ratio
-
-							if matrix[x][y] > blinking_threshold and not is_blinking:
-								is_blinking = true
-								_blink_light()
+							
+							if player_role == Role.SUPERVISOR:
+								if matrix[x][y] > blinking_threshold and not is_blinking:
+									is_blinking = true
+									_blink_light()
 								
-							if matrix[x][y] > 100:
+							if matrix[x][y] > 100 and player_role == Role.DEFUSER:
 								matrix[x][y] = 100
 								_game_over()
 								return
