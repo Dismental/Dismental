@@ -26,6 +26,7 @@ func test_update_game_state_nothing():
 	inst.last_y_coordinate = 0
 	inst.player_role = Role.DEFUSER
 	inst.last_y_coordinate = 1
+	inst.finish_rect = Rect2(0, 0, 2, 2)
 	
 	stub(inst, '_update_game_state').to_call_super()
 	stub(inst, '_calc_start_position').to_return(Vector2(0, 0))
