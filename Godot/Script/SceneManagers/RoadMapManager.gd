@@ -28,9 +28,11 @@ onready var instruction_panels = [
 ]
 
 onready var countdown_timer = $CountDown
+onready var toggle_button_timer = $EnableButtonTimer
 
 onready var instruction_init_pos = self.get_rect().size/2 - $InstructionPanel.get_rect().size / 2
 onready var instruction_move = $InstructionPanel.get_rect().size.x / 2
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -43,6 +45,7 @@ func _ready():
 func init_screen(upcoming_minigame_index):
 	# Start timer
 	countdown_timer.start()
+	toggle_button_timer.start()
 
 	upcoming_minigame = min(upcoming_minigame_index, len(minigame_previews) - 1)
 	for i in range(0, 4):
@@ -55,7 +58,6 @@ func init_screen(upcoming_minigame_index):
 	opening_progress = 0
 	$InstructionPanel.visible = false
 	$Line2D.visible = false
-	$StartNextTask.disabled = true
 
 
 func init_instruction_animation():
@@ -154,6 +156,6 @@ func _process(_delta):
 
 	update_instruction_animation(_delta)
 
-	# Enable next minigame button when the animations are finished
-	if $StartNextTask.disabled and opening_progress >= 3 and instruction_show_progress >= 3:
-		$StartNextTask.disabled = false
+
+func _on_EnableButtonTimer_timeout():
+	$StartNextTask.disabled = false
