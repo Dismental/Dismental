@@ -88,7 +88,7 @@ onready var fire_sign_bg = $FireSignControl/fire_sign_bg
 const fire_sign_color_blink = Color(210.0 / 255, 69.0 / 255, 69.0 / 255)
 const fire_sign_color_def = Color(0.0, 0.0, 0.0)
 const blinking_frames = 3
-
+var running = true
 
 func _ready():
 	_adjust_for_difficulties()
@@ -124,7 +124,7 @@ func _ready():
 
 
 func _process(delta):
-	if defuse_state == DefuserState.SOLDERING_IRON:
+	if defuse_state == DefuserState.SOLDERING_IRON and running:
 		_increase_matrix_input(delta)
 
 	if player_role == Role.SUPERVISOR:
@@ -286,8 +286,8 @@ func _increase_matrix_input(delta):
 									_blink_light()
 								
 							if matrix[x][y] > 100 and player_role == Role.DEFUSER:
-								matrix[x][y] = 100
-								_game_over()
+								rpc("_on_game_over")
+								running = false
 								return
 
 
@@ -307,7 +307,8 @@ func _check_vacuum():
 			if _check_removable(input_row, input_column):
 				rpc("_destroy_component", id)
 				if len(components) == 0:
-					_game_completed()
+					running = false
+					rpc("_on_game_completed")
 					return
 			break
 		id += 1
@@ -419,14 +420,6 @@ func _get_input_pos():
 	else:
 		cursorpos = puppet_mouse
 	return cursorpos
-
-
-func _game_completed():
-	rpc("_on_game_completed")
-
-
-func _game_over():
-	rpc("_on_game_over")
 
 
 remotesync func _soldering_entered():
