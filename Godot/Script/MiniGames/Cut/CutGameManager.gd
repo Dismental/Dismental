@@ -171,9 +171,7 @@ func _calc_finish_line():
 
 func _update_game_state():
 	if waitForStartingPosition:
-		var start_position_input = _calc_start_position()
-		var distance_from_start = (start_position_input).distance_to(_get_input_pos())
-		if distance_from_start < 10:
+		if finish_rect.has_point(_get_input_pos()):
 			$Control/StartCuttingHere.visible = false
 			$LaserPointer.visible = true
 			waitForStartingPosition = false
