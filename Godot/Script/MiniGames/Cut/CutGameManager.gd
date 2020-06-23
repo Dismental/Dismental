@@ -78,7 +78,9 @@ func _process(_delta):
 
 func _draw():
 	if waitForStartingPosition:
-		$Control/StartCuttingHere.set_position(_calc_start_position())
+		var start_pos = _calc_start_position()
+		start_pos -= $Control/StartCuttingHere.get_size() / 2
+		$Control/StartCuttingHere.set_position(start_pos)
 		
 	if not waitForStartingPosition and running:
 		var input_pos = _get_input_pos()
@@ -131,20 +133,7 @@ func _unhandled_input(event):
 func _calc_start_position():
 	var center_x = finish_rect.position.x + (finish_rect.size.x / 2.0)
 	var center_y = finish_rect.position.y + (finish_rect.size.y / 2.0)
-	var center_rect = Vector2(center_x, center_y)
-
-	var vp_size = get_viewport().size
-	var vp_real_size = get_viewport_rect().size
-	var ratio = vp_size / vp_real_size
-
-	var offset_x = (OS.get_window_size().x - vp_size.x) / 2.0
-	var offset_y = (OS.get_window_size().y - vp_size.y) / 2.0
-
-	var start_pos = center_rect * ratio
-	start_pos.x += offset_x
-	start_pos.y += offset_y
-
-	return start_pos
+	return Vector2(center_x, center_y)
 
 
 func _calc_finish_line():
