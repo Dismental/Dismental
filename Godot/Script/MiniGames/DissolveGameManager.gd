@@ -202,6 +202,7 @@ func _blink_light():
 	for _i in range(blinking_frames):
 		yield(get_tree(), "idle_frame")
 
+	is_blinking = false
 
 func _generate_color_scale():
 	var n = 0
