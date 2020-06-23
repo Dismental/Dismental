@@ -78,7 +78,7 @@ func _process(_delta):
 
 func _draw():
 	if waitForStartingPosition:
-		$Control/StartCuttingHere.set_position(_calc_start_position() - $Control/StartCuttingHere.get_rect().size/2)
+		$Control/StartCuttingHere.set_position(_calc_start_position())
 		
 	if not waitForStartingPosition and running:
 		var input_pos = _get_input_pos()
