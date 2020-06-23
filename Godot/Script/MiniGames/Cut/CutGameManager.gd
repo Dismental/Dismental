@@ -74,10 +74,18 @@ func _process(_delta):
 		last_y_coordinate = _get_input_pos().y
 		
 		# Updates the draw function
+		_update_laser()
 		update()
 
 
 func _draw():
+	# Draw current pointer
+	var rad = 12
+	var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(1, 0, 0)
+	draw_circle(_get_input_pos(), rad, col)
+
+
+func _update_laser():
 	if waitForStartingPosition:
 		var start_pos = _calc_start_position()
 		start_pos -= $Control/StartCuttingHere.get_size() / 2
@@ -93,14 +101,8 @@ func _draw():
 		# Add input pos to list of past input position
 		# If the previous input position wasn't close
 		var last_point = $CuttingLine.points[len($CuttingLine.points) - 1]
-		if  last_point.distance_to(input_pos) > 15:
+		if  last_point.distance_to(input_pos) > 10:
 			$CuttingLine.add_point(input_pos)
-
-	# Draw current pointer
-	var rad = 12
-	var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(1, 0, 0)
-	
-	draw_circle(_get_input_pos(), rad, col)
 
 
 func _adjust_for_difficulties():
