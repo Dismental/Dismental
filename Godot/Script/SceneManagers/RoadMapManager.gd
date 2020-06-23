@@ -44,6 +44,7 @@ func _ready():
 
 func init_screen(upcoming_minigame_index):
 	# Start timer
+	$StartNextTask.disabled = true
 	countdown_timer.start()
 	toggle_button_timer.start()
 
