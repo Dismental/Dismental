@@ -154,7 +154,7 @@ func _calc_finish_line():
 		sp.x += 1
 	var max_x = sp.x
 
-	var rect_height = 80
+	var rect_height = 120
 	finish_rect = Rect2(min_x, sp.y - rect_height/2, max_x - min_x, rect_height)
 
 
