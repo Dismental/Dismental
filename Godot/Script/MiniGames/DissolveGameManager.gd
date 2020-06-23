@@ -158,16 +158,19 @@ func _adjust_for_difficulties():
 		blinking_threshold = 60
 		vacuum_remove_threshold = 40
 		decrease_factor = 2.5
+		increase_factor = 20
 
 	elif GameState.difficulty == "MEDIUM":
-		blinking_threshold = 75
+		blinking_threshold = 65
 		vacuum_remove_threshold = 50
 		decrease_factor = 2.7
+		increase_factor = 22
 
 	elif GameState.difficulty == "HARD":
-		blinking_threshold = 80
+		blinking_threshold = 75
 		vacuum_remove_threshold = 60
 		decrease_factor = 3
+		increase_factor = 24
 
 
 func _generate_colors():
@@ -192,6 +195,7 @@ func _generate_colors():
 
 
 func _blink_light():
+	heat_warning_player.play()
 	fire_sign_bg.modulate = fire_sign_color_blink
 	# Wait five frames
 	for _i in range(blinking_frames):
@@ -201,7 +205,6 @@ func _blink_light():
 	fire_sign_bg.modulate = fire_sign_color_def;
 	for _i in range(blinking_frames):
 		yield(get_tree(), "idle_frame")
-
 	is_blinking = false
 
 func _generate_color_scale():
