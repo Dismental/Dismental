@@ -48,6 +48,7 @@ func _on_MainMenuButton_pressed():
 		voice.get_parent().remove_child(voice)
 		voice.queue_free()
 	Network.stop()
+	GameState.reset_gamestate()
 	return Utils.change_screen("res://Scenes/MainMenu.tscn", self)
 
 
