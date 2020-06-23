@@ -158,19 +158,19 @@ func _adjust_for_difficulties():
 		blinking_threshold = 60
 		vacuum_remove_threshold = 40
 		decrease_factor = 2.5
-		increase_factor = 20
+		increase_factor = 18
 
 	elif GameState.difficulty == "MEDIUM":
 		blinking_threshold = 65
 		vacuum_remove_threshold = 50
 		decrease_factor = 2.7
-		increase_factor = 22
+		increase_factor = 20
 
 	elif GameState.difficulty == "HARD":
-		blinking_threshold = 75
+		blinking_threshold = 70
 		vacuum_remove_threshold = 60
 		decrease_factor = 3
-		increase_factor = 24
+		increase_factor = 22
 
 
 func _generate_colors():
