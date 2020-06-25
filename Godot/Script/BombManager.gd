@@ -26,7 +26,6 @@ func _ready():
 
 
 func _on_wait_time_lobby_over():
-	print("TIMER OVER")
 	if get_tree().get_network_unique_id() == Network.host:
 		GameState.start_minigame(bottom_button)
 

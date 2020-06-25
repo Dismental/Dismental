@@ -34,8 +34,6 @@ func _ready():
 	else:
 		Utils.add_scene("res://Scenes/VoiceStream.tscn", get_tree().root)
 		voice = get_tree().root.get_node("VoiceStream")
-		voice.start()
-
 
 
 
@@ -71,6 +69,7 @@ func refresh_lobby():
 
 
 func _on_StartMission_pressed():
+	rpc('GameState.reset_gamestate')
 	button_click_sound.play()
 	if(Network.player_info.empty()):
 		popup("Can't start a game by yourself!")
