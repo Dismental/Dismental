@@ -55,7 +55,7 @@ remotesync func set_defuser_roles(roles):
 	minigame_index = 0
 	defusers = roles
 
-func reset_gamestate():
+remotesync func reset_gamestate():
 	running = false
 	wait_time = 60 * 10
 	minigame_index = 0
