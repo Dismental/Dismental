@@ -558,10 +558,9 @@ __meta__ = {
 
 [node name="MuteBtn" type="CheckButton" parent="."]
 margin_left = 1470.38
-margin_top = 719.198
+margin_top = 715.802
 margin_right = 1546.38
-margin_bottom = 759.198
-pressed = true
+margin_bottom = 755.802
 flat = true
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
