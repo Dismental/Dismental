@@ -83,7 +83,6 @@ func _draw():
 	var rad = 12
 	var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(1, 0, 0)
 	draw_circle(_get_input_pos(), rad, col)
-	draw_rect(finish_rect, Color(0, 1, 0))
 
 
 func _update_laser():
