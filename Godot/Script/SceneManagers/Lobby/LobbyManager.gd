@@ -34,8 +34,6 @@ func _ready():
 	else:
 		Utils.add_scene("res://Scenes/VoiceStream.tscn", get_tree().root)
 		voice = get_tree().root.get_node("VoiceStream")
-		voice.start()
-
 
 
 
