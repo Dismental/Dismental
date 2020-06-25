@@ -6,7 +6,7 @@
 script/source = "extends Node
 
 func start():
-	$Output.recording = true
+	$Output.recording = false
 
 func stop():
 	$Output.recording = false
