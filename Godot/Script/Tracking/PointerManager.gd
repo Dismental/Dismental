@@ -249,7 +249,7 @@ func set_role_and_position(_player_role, start_pos):
 func _map_tracking_position(track_pos):
 	# Add a margin/multiplier so the user's movement is amplified.
 	# The makes it easy for the user to reach the edges of the game screen with the pointer
-	var margin = 0.55
+	var margin = 0.65
 	var windowmarginx = (get_viewport_rect().size.x)*margin
 	var windowmarginy = (get_viewport_rect().size.y)*margin
 
