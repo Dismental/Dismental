@@ -83,6 +83,7 @@ func _draw():
 	var rad = 12
 	var col = Color(1, 0, 0) if not _is_input_on_track() and not waitForStartingPosition else Color(1, 0, 0)
 	draw_circle(_get_input_pos(), rad, col)
+	draw_rect(finish_rect, Color(0, 1, 0))
 
 
 func _update_laser():
@@ -164,22 +165,25 @@ func _calc_finish_line():
 
 
 func _update_game_state():
-	if waitForStartingPosition:
-		if finish_rect.has_point(_get_input_pos()):
-			$Control/StartCuttingHere.visible = false
-			$LaserPointer.visible = true
-			waitForStartingPosition = false
-			go_signal_player.play()
-	else:
-		if player_role == Role.DEFUSER:
+	if player_role == Role.DEFUSER:
+		if waitForStartingPosition:
+			if _calc_start_position().distance_to(_get_input_pos()) < 50:
+				rpc("_start_game")
+		else:
 			if not _is_input_on_track():
 				rpc("_on_game_over")
 			else:
 				_check_finish()
+	else:
 	# Move the 'vision' of the Supervisor
-	if running and not player_role == Role.DEFUSER:
-		_supervisor_vision_update(pointer_node.position)
+		if running:
+			_supervisor_vision_update(pointer_node.position)
 
+remotesync func _start_game():
+	$Control/StartCuttingHere.visible = false
+	$LaserPointer.visible = true
+	waitForStartingPosition = false
+	go_signal_player.play()
 
 func _check_finish():
 	if finish_state == 0:
