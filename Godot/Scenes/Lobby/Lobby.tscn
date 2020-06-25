@@ -198,8 +198,8 @@ __meta__ = {
 }
 
 [node name="OperatorPanel2" type="PanelContainer" parent="."]
-margin_left = 0.615204
-margin_right = 1920.62
+margin_left = 2.6226e-06
+margin_right = 1920.0
 margin_bottom = 1080.0
 rect_pivot_offset = Vector2( 493.364, 382.353 )
 rect_clip_content = true
@@ -557,9 +557,9 @@ __meta__ = {
 }
 
 [node name="MuteBtn" type="CheckButton" parent="."]
-margin_left = 1470.38
+margin_left = 1430.0
 margin_top = 715.802
-margin_right = 1546.38
+margin_right = 1506.0
 margin_bottom = 755.802
 flat = true
 
