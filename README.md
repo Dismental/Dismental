@@ -1,8 +1,5 @@
 # Defuse the bomb
-* Game engine: Godot
-* Object recognition: OpenCV
 
-# Table of contents
 - [Description](#description)
 - [Playing the game](#playing-the-game)
 - [Development](#development)
@@ -32,7 +29,9 @@
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 # Description
-The game is about defusing a bomb. The story is about a professor called Sergio who went crazy due to the social isolation. He became evil and started creating bombs. When he eventually placed and activated these bombs in public places, the FBI’s BITs (Bomb Inter-vention Tactics squads) are called upon. The players of the game are part of such a squad and will work tightly together to defuse the bombs. The FBI provided remote controlled robots and special vision technologies on the locations to allow the members of BITs to work from home safely via their laptops without breaking the social distancing rules. The game is designed for small groups of people who miss their real-life social interaction. It is focused on combining two human factors to increase their social engagement: tension and having fun. Therefore, the theme of the game is to defuse a bomb by tightly working together. 
+The game is about defusing a bomb. The story is about a professor called Sergio who went crazy due to the social isolation. He became evil and started creating bombs. When he eventually placed and activated these bombs in public places, the FBI’s BITs (Bomb Inter-vention Tactics squads) are called upon. The players of the game are part of such a squad and will work tightly together to defuse the bombs. The FBI provided remote controlled robots and special vision technologies on the locations to allow the members of BITs to work from home safely via their laptops without breaking the social distancing rules. The game is designed for small groups of people who miss their real-life social interaction. It is focused on combining two human factors to increase their social engagement: tension and having fun. Therefore, the theme of the game is to defuse a bomb by tightly working together.
+
+Watch the trailer [here](https://www.youtube.com/watch?v=rIsNeuF5104)!
 
 # Playing the game
 The game can be found in our [static directory](/static), pick the right version corresponding to your MacOS installation.
