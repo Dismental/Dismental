@@ -3,9 +3,41 @@
 * Object recognition: OpenCV
 
 # Table of contents
-[[_TOC_]]
+- [Playing the game](#playing-the-game)
+- [Development](#development)
+  * [Prerequisites](#prerequisites)
+    + [Godot](#godot)
+      - [Windows](#windows)
+      - [MacOS](#macos)
+    + [Scons](#scons)
+    + [OpenCV](#opencv)
+      - [MacOS](#macos-1)
+    + [Visual Studio](#visual-studio)
+  * [Cloning](#cloning)
+  * [Submodules](#submodules)
+  * [Building bindings](#building-bindings)
+  * [Building the GDNative plugin](#building-the-gdnative-plugin)
+  * [More information](#more-information)
+- [Linting](#linting)
+  * [Usage](#usage)
+  * [Ignore](#ignore)
+- [Scripts](#scripts)
+- [Exporting to MacOS](#exporting-to-macos)
+  * [Set up export template](#set-up-export-template)
+  * [Exporting the game](#exporting-the-game)
+- [Windows issues](#windows-issues)
+- [Developer Team](#developer-team)
 
-# Getting up and running
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+# Playing the game
+The game can be found in our [static directory](/static), pick the right version corresponding to your MacOS installation.
+
+It might be the case that you cannot open our game because we're not verified by Apple, in such cases please refer to [this guide](https://osxdaily.com/2012/07/27/app-cant-be-opened-because-it-is-from-an-unidentified-developer/#:\~:text=Launch%20System%20Preferences%20from%20the,%3A%E2%80%9D%20and%20choose%20%E2%80%9CAnywhere%E2%80%9D&text=You%20can%20now%20launch%20any%20app%20from%20any%20location%20or%20developer) to be able to enjoy our game.
+
+Once you've downloaded the `dmg`, place the `.app` in `/Applications` or `~/Applications`.
+
+# Development
 This section will cover cloning this repository, as well as the submodules, and how to get up and running with the project.
 
 ## Prerequisites
