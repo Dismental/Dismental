@@ -216,7 +216,7 @@ scons platform=<platform>
 ```
 This should build some libraries into `Godot/bin/<platform>/`.
 These libraries are the result of building the GDNative plugin and you should be able to succefully use them in Godot now.
-The current Godot project already ataches the built script to a node, so you can simply start the Godot project to test out if it's working.
+The current Godot project already attaches the built script to a node, so you can simply start the Godot project to test out if it's working.
 If it's not working, you'll get errors. If you have no errors, it's working. :sunglasses:
 
 ## More information
